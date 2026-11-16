@@ -399,11 +399,12 @@ def render_sensitive_pdf_columns(extracted):
     titles, metadata and descriptions from unrelated films.
     """
     rendered, toc, used = [], [], set()
-    for page_number, raw in enumerate(extracted.replace("\\r\\n", "\\n").replace("\\r", "\\n").split("\\f"), 1):
+    normalized = extracted.replace("\r\n", "\n").replace("\r", "\n")
+    for page_number, raw in enumerate(normalized.split("\f"), 1):
         lines = raw.splitlines()
         gap_positions = []
         for line in lines:
-            match = re.search(r"\\s{3,}", line)
+            match = re.search(r"\s{3,}", line)
             if match and line[:match.start()].strip() and line[match.end():].strip():
                 gap_positions.append(match.start())
 
@@ -418,7 +419,7 @@ def render_sensitive_pdf_columns(extracted):
         boundary = sorted(gap_positions)[len(gap_positions) // 2]
         columns = [[], []]
         for line in lines:
-            match = re.search(r"\\s{3,}", line)
+            match = re.search(r"\s{3,}", line)
             if match and line[:match.start()].strip() and line[match.end():].strip():
                 columns[0].append(line[:match.start()].rstrip())
                 columns[1].append(line[match.end():].strip())
@@ -428,16 +429,15 @@ def render_sensitive_pdf_columns(extracted):
 
         contents = []
         for column_lines in columns:
-            column_html = render_pdf_page("\\n".join(column_lines), page_number, toc, used)
+            column_html = render_pdf_page("\n".join(column_lines), page_number, toc, used)
             if column_html:
-                inner = re.sub(r"^<section class=\\"page\\" id=\\"page-\\d+\\"><div class=\\"page-label\\">SOURCE PAGE \\d+</div>", "", column_html)
+                inner = re.sub(r'^<section class="page" id="page-\d+"><div class="page-label">SOURCE PAGE \d+</div>', "", column_html)
                 inner = re.sub(r"</section>$", "", inner)
                 if inner.strip():
                     contents.append('<div class="rr-source-column">' + inner + '</div>')
         if contents:
             rendered.append('<section class="page rr-source-columns" id="page-' + str(page_number) + '">' + "".join(contents) + '</section>')
     return rendered, toc
-
 
 def render_pdf_blocks(text):
     pages = text.replace("\r\n", "\n").replace("\r", "\n").split("\f")
