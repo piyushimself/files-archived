@@ -9,6 +9,8 @@ on:
       - '**/*.docx'
       - 'tools/convert_documents.py'
       - 'README.md'
+      - '*.html'
+      - 'html/**'
       - '.github/workflows/convert-documents.yml'
 
 permissions:
