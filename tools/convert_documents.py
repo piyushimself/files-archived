@@ -328,8 +328,37 @@ def category_info(title):
     return ("Books & Reference", "mixed", "Use the contents and headings to navigate the source. Follow one theme or section at a time; the original PDF or DOCX remains available for layout-dependent material.")
 
 
+SUMMARY_OVERRIDES = {
+    "the definitive anime encyclopedia": "A broad anime viewing reference covering 100 essential films and 100 essential series across genres and eras. Use it to plan a first watchlist or trace how styles, studios and creators changed from early television to contemporary work.",
+    "manga recommendations": "A compact manga shortlist for readers drawn to romance, mystery and feel-good storytelling, with a simple rating key to help compare recommendations. Treat it as a welcoming starting shelf rather than a comprehensive canon.",
+    "ultimate anime guide": "A time-aware guide to essential anime films and series, organised around genre and viewing commitment. It helps readers choose a manageable route through a large medium rather than browse an undifferentiated catalogue.",
+    "library 3": "A large cross-media reference spanning films, anime, books, albums, poems and artists. Use its contents to move between media and themed sections; the HTML edition is searchable, while the original PDF preserves its visual layout.",
+    "three-year-old reading guide": "A global early-reading guide organised by region and developmental stage, moving from sounds and rhythms toward imagination and bigger ideas. Use it as a flexible shared-reading resource, following the child's attention rather than treating it as a strict curriculum.",
+    "100 essential films": "A 100-film starting canon spanning genres, eras, directors and countries. It is designed to introduce a broad range of cinematic language and human experience, not to prescribe one definitive ranking.",
+    "complete movie encyclopedia": "A reference encyclopedia of 647 unique films, bringing together IMDb and Rotten Tomatoes ratings, viewing availability in India and short descriptions. It also draws together essential cinema, art films, anime and director filmographies.",
+    "complete movie ratings": "A compact film-rating reference covering 218 unique titles, bringing together IMDb and Rotten Tomatoes scores with a simple colour key for comparing ratings.",
+    "complete movie ratings — 647 films": "An expanded ratings reference for 647 films, combining IMDb and Rotten Tomatoes scores with director filmographies and broad genre coverage.",
+    "sensitive cinema": "A film collection centred on emotional sensitivity, empathy and difficult human experiences. Brief context alongside the titles helps viewers choose works for reflection rather than simply follow a ranking.",
+    "cinema 900": "A large mood-led film reference spanning sensual cinema, slow cinema and work from Japan, Korea, China, Iran, the Arab world, Southeast Asia and India. Browse by emotional tone and cinematic approach.",
+    "global kids books — complete guide": "A global children's reading guide bringing together folklore, mythology, fiction, biography, fantasy, graphic novels and poetry from Asia, Africa, Europe, the Americas, the Middle East and Oceania.",
+    "global kids reading guide final": "A cross-cultural guide to children's reading, bringing together folklore, mythology, fiction, biography, fantasy, graphic novels and poetry from multiple world regions. Use it to broaden a child's reading beyond familiar traditions.",
+    "1000 inspirations": "A curiosity atlas of things to read, know, question and explore. Its purpose is to widen the reader's field of interest across different subjects; browse one theme at a time and follow the ideas that invite deeper learning.",
+    "2000 inspirations": "A 2,000-item creative and intellectual compendium organised into ten categories, including reading, writing, painting, sketching, urban art, life skills and broader reflection. Browse one category at a time and choose an idea to try.",
+    "1000 writing prompts": "A practical collection of 835 prompts across fiction, science fiction, fantasy, horror, romance, historical fiction, memoir, journalism, poetry, drama, satire and experimental writing. Use it for timed warm-ups, first drafts, workshops or longer projects; prompts are starting points, not rigid assignments.",
+    "a life worth living — 500 suggestions": "Five hundred suggestions spanning art, literature, music, cinema and thought, curated as possible doorways into a richer and more examined life. Use the sections as invitations to explore, not as tasks to finish.",
+    "masters of art": "A reference to 25 artists from the Renaissance to contemporary practice, bringing together their lives, famous works, working habits and the qualities that made each artist distinctive.",
+    "the grand curiosity atlas — 1,000 search trails": "A curated set of 1,000 exact Google search queries designed to open research trails across knowledge, culture and creative interests. Copy a query, follow the results and use it as a starting point for independent discovery.",
+    "all film collections combined compressed": "A combined film archive that brings multiple uploaded film-related collections into one large reference. Use the contents and within-document search to navigate it; the original PDF remains available for its page layout.",
+    "cybersecurity stories for your teams": "A workplace storytelling guide using films and familiar narratives to explain security risks, technical controls, compliance, remediation and operational decisions. It is designed to support team discussion and make abstract security ideas easier to remember.",
+    "masters of e art cinema": "A filmmaker-centred guide to directors who used desire, the body and intimacy as serious artistic material. It introduces 15 filmmakers and gives readers a route into their distinctive approaches to cinema."
+}
+
+
 def document_summary(title, extracted, fallback):
     """Create a short, source-led description rather than a filename-only catalogue label."""
+    override = SUMMARY_OVERRIDES.get(title.strip().lower())
+    if override:
+        return override
     raw = (extracted or "").replace("\x00", " ").replace("\f", "\n")
     raw = re.sub(r"(?m)^\s*(?:page\s+)?\d{1,4}\s*$", "", raw, flags=re.I)
     raw = re.sub(r"(?m)^\s*[-–—|·•]+\s*$", "", raw)
@@ -342,9 +371,9 @@ def document_summary(title, extracted, fallback):
         key = re.sub(r"[^a-z0-9]+", "", block.lower())
         if title_key and (key.startswith(title_key) or title_key in key[:len(title_key)+24]):
             block = re.sub(re.escape(title), "", block, flags=re.I).strip(" :-–—|")
-        if len(block) < 55:
+        if len(block) < 55 or (block.isupper() and len(block.split()) < 12):
             continue
-        if re.match(r"^(contents|table of contents|index|copyright|all rights reserved)\b", block, re.I):
+        if re.match(r"^(contents|table of contents|index|copyright|all rights reserved|how to use this book)\b", block, re.I):
             continue
         candidates.append(block)
         if len(candidates) == 2:
@@ -352,7 +381,7 @@ def document_summary(title, extracted, fallback):
     if not candidates:
         for line in raw.splitlines():
             line = re.sub(r"\s+", " ", line).strip()
-            if len(line) >= 70 and not re.match(r"^(contents|table of contents|page \d+)\b", line, re.I):
+            if len(line) >= 70 and not line.isupper() and not re.match(r"^(contents|table of contents|page \d+)\b", line, re.I):
                 candidates.append(line)
                 if len(candidates) == 2:
                     break
@@ -361,6 +390,7 @@ def document_summary(title, extracted, fallback):
     if len(summary) > 290:
         summary = summary[:287].rsplit(" ", 1)[0].rstrip(" ,;:-") + "…"
     return summary
+
 
 
 def make_reader(source, title, kind, sections, toc, extraction_method, source_hash, summary):
@@ -514,7 +544,7 @@ def main():
                 blocks, paragraph_count, table_count = extract_docx(source)
                 sections, toc = render_docx_blocks(blocks)
                 extraction_method = "python-docx"
-                extracted = " ".join((b[1].get("text", "") if b[0] == "paragraph" else " ".join(" ".join(row) for row in b[1])) for b in blocks)
+                extracted = "\n\n".join((b[1].get("text", "") if b[0] == "paragraph" else " ".join(" ".join(row) for row in b[1])) for b in blocks)
             if not sections:
                 sections = ['<section class="page"><p>No readable text was extracted. Please open the original source document.</p></section>']
             category, _, guidance = category_info(title)
