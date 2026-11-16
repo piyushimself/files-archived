@@ -780,19 +780,31 @@ function buildSensitiveCinemaReader(body,content,toolbar){
 
     // The source uses a category mark between each film title and its
     // country/year metadata. Use it as a boundary for a readable entry.
-    const marked=raw.match(/^\s*(.*?)\s+■\s*([A-Z]{2,6})\s+([\s\S]+)$/);
+    const marked=raw.match(/^\s*(.*?)\s+■\s*(.*?)\s+·\s+((?:18|19|20)\d{2})\s+·\s+([\s\S]+)$/)
+      || raw.match(/^\s*(.*?)\s+■\s*([A-Z]{2,6})\s+([\s\S]+)$/);
     if(marked){
       const title=cinemaText(marked[1]);
-      const rest=cinemaText(marked[3]);
-      const meta=rest.match(/^(.+?)\s+·\s+((?:18|19|20)\d{2})\s+·\s+([\s\S]+)$/);
+      let categoryText="",metaText="";
+      if(marked.length===5){
+        categoryText=cinemaText(marked[2]);
+        metaText=categoryText+" · "+marked[3];
+        clean=marked[4];
+      }else{
+        categoryText=cinemaText(marked[2]);
+        const rest=cinemaText(marked[3]);
+        const meta=rest.match(/^(.+?)\s+·\s+((?:18|19|20)\d{2})\s+·\s+([\s\S]+)$/);
+        if(meta){metaText=meta[1]+" · "+meta[2];clean=meta[3];}
+        else clean=rest;
+      }
       if(title){
         const h=document.createElement("h3");h.className="rr-sensitive-entry-title";h.textContent=title;card.appendChild(h);
       }
-      const category=document.createElement("span");category.className="rr-sensitive-kind";category.textContent=marked[2];card.appendChild(category);
-      if(meta){
-        const line=document.createElement("p");line.className="rr-sensitive-meta";line.textContent=meta[1]+" · "+meta[2];card.appendChild(line);
-        clean=meta[3];
-      }else clean=rest;
+      if(categoryText){
+        const category=document.createElement("span");category.className="rr-sensitive-kind";category.textContent=categoryText;card.appendChild(category);
+      }
+      if(metaText){
+        const line=document.createElement("p");line.className="rr-sensitive-meta";line.textContent=metaText;card.appendChild(line);
+      }
     }
     const p=document.createElement("p");p.className="rr-sensitive-entry-copy";p.textContent=clean||text;card.appendChild(p);
     if(current){current.section.appendChild(card);current.entries.push(card);}else{ensure("Film notes","").section.appendChild(card);}
