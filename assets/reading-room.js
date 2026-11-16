@@ -780,7 +780,10 @@ function buildSensitiveCinemaReader(body,content,toolbar){
     if(!/■|·|(?:18|19|20)\d{2}/.test(text))lessonMode=false;
   };
   content.querySelectorAll(":scope > .page").forEach(page=>{
-    [...page.children].forEach(node=>{
+    const pageNodes=[...page.children].flatMap(node=>
+      node.classList.contains("rr-source-column")?[...node.children]:[node]
+    );
+    pageNodes.forEach(node=>{
       if(node.classList.contains("page-label"))return;
       const text=cinemaText(node.textContent||"");if(!text)return;
       if(/^H[1-3]$/.test(node.tagName)){
