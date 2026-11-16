@@ -239,7 +239,7 @@ def make_home():
             step_links.append('<a href="'+f+'">'+escape(target)+'</a>')
         paths_html.append('<article class="rr-route-card"><h3>'+escape(title)+'</h3><p>'+escape(desc)+'</p><div class="rr-route-steps">'+' <span>→</span> '.join(step_links)+'</div></article>')
     total=sum(len(g["items"]) for g in GROUPS)
-    return '''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="A personal digital library for cinema, manga, art, books, reflection, writing, family learning and practical tools."><title>The Reading Room — A Library for a Curious Life</title><link rel="stylesheet" href="assets/reading-room.css?v=6"><script src="assets/reading-room-context.js?v=6" defer></script><script src="assets/reading-room.js?v=6" defer></script></head><body class="rr-page rr-home"><div class="rr-home-wrap">'''+header("","") + '''
+    return '''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="A personal digital library for cinema, manga, art, books, reflection, writing, family learning and practical tools."><title>The Reading Room — A Library for a Curious Life</title><link rel="stylesheet" href="assets/reading-room.css?v=7"><script src="assets/reading-room-context.js?v=7" defer></script><script src="assets/reading-room.js?v=7" defer></script></head><body class="rr-page rr-home"><div class="rr-home-wrap">'''+header("","") + '''
 <main><section class="rr-home-hero"><div class="rr-eyebrow">A PERSONAL DIGITAL LIBRARY · STORIES · KNOWLEDGE · PRACTICE</div><h1>Stories, ideas and practices worth returning to.</h1><p>This is a library to explore at your own pace. Follow a reading path, discover a film, learn an art practice, find stories to read together, or use a small tool to keep your work moving. The collections are organised around context and use, not just file names.</p><div class="rr-hero-actions"><a class="rr-action-link primary" href="collections/cinema.html">Explore the collections ↗</a><a class="rr-action-link" href="html/index.html">Browse source-document editions</a></div></section>
 <section><div class="rr-section-head"><div><h2>Choose by curiosity</h2><p>Each area includes an introduction, suggested routes and links to the original interactive pages or the converted reading editions.</p></div></div><div class="rr-collection-grid">'''+''.join(cards)+'''</div></section>
 <section><div class="rr-section-head"><div><h2>Suggested ways in</h2><p>Four short routes for when you know the kind of experience you want, but not where to begin.</p></div></div><div class="rr-route-grid">'''+''.join(paths_html)+'''</div></section>
@@ -257,7 +257,7 @@ def make_collection(g):
             links.append('<a href="'+rel_url(f)+'">'+escape(target)+'</a>')
         path_cards.append('<article class="rr-route-card"><h3>'+escape(title)+'</h3><p>'+escape(desc)+'</p><div class="rr-route-steps">'+' <span>→</span> '.join(links)+'</div></article>')
     cards="".join(resource_card(it) for it in g["items"])
-    return '''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="'''+escape(g["intro"],quote=True)+'''"><title>'''+escape(g["name"])+''' — The Reading Room</title><link rel="stylesheet" href="../assets/reading-room.css?v=6"><script src="../assets/reading-room-context.js?v=6" defer></script><script src="../assets/reading-room.js?v=6" defer></script></head><body class="rr-page rr-hub"><div class="rr-hub-wrap">'''+header("../",g["slug"])+'''
+    return '''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="'''+escape(g["intro"],quote=True)+'''"><title>'''+escape(g["name"])+''' — The Reading Room</title><link rel="stylesheet" href="../assets/reading-room.css?v=7"><script src="../assets/reading-room-context.js?v=7" defer></script><script src="../assets/reading-room.js?v=7" defer></script></head><body class="rr-page rr-hub"><div class="rr-hub-wrap">'''+header("../",g["slug"])+'''
 <main class="rr-collection-page"><section class="rr-hub-hero"><div class="rr-eyebrow">'''+escape(g["eyebrow"])+'''</div><h1>'''+escape(g["name"])+'''</h1><p>'''+escape(g["intro"])+'''</p><div class="rr-collection-note"><strong>A useful way to approach this section</strong><p>'''+escape(g["method"])+'''</p></div></section>
 <section><div class="rr-section-head"><div><h2>Suggested routes</h2><p>Follow one of these small paths instead of trying to browse everything at once.</p></div></div><div class="rr-route-grid">'''+''.join(path_cards)+'''</div></section>
 <section class="rr-library-section"><div class="rr-section-head"><div><h2>Explore the collection</h2><p>Choose a page by purpose. Interactive pages retain their tools; reading editions open a navigable text copy of the source document.</p></div></div>
@@ -269,7 +269,7 @@ def alias_page(path,target,note):
     prefix="../" if path.startswith("html/") else ""
     href=prefix+target
     title=Path(path).stem.replace("_"," ").replace("-"," ")
-    html='''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Archived shortcut — '''+escape(title)+'''</title><link rel="stylesheet" href="'''+prefix+'''assets/reading-room.css?v=6"><script src="'''+prefix+'''assets/reading-room.js?v=6" defer></script></head><body class="rr-page rr--mixed"><main style="max-width:860px;margin:38px auto;padding:20px"><div class="rr-eyebrow">ARCHIVE NOTE</div><h1>'''+escape(title)+'''</h1><p>'''+escape(note)+'''</p><p><a class="rr-action-link primary" href="'''+escape(href)+'''">Open the maintained collection ↗</a></p><p><a href="'''+prefix+'''index.html">Return to the Reading Room</a></p></main></body></html>'''
+    html='''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Archived shortcut — '''+escape(title)+'''</title><link rel="stylesheet" href="'''+prefix+'''assets/reading-room.css?v=7"><script src="'''+prefix+'''assets/reading-room.js?v=7" defer></script></head><body class="rr-page rr--mixed"><main style="max-width:860px;margin:38px auto;padding:20px"><div class="rr-eyebrow">ARCHIVE NOTE</div><h1>'''+escape(title)+'''</h1><p>'''+escape(note)+'''</p><p><a class="rr-action-link primary" href="'''+escape(href)+'''">Open the maintained collection ↗</a></p><p><a href="'''+prefix+'''index.html">Return to the Reading Room</a></p></main></body></html>'''
     ROOT.joinpath(path).write_text(html,encoding="utf-8")
 
 def inject_shared_assets(path):
@@ -279,17 +279,17 @@ def inject_shared_assets(path):
     if not re.search(r"<html\b", text, re.I):
         styles=re.findall(r"<style\b[^>]*>[\s\S]*?</style>", text, re.I)
         text=re.sub(r"<style\b[^>]*>[\s\S]*?</style>", "", text, flags=re.I)
-        tags=('<link rel="stylesheet" href="'+prefix+'assets/reading-room.css?v=6">'
-              '<script src="'+prefix+'assets/reading-room-context.js?v=6" defer></script>'
-              '<script src="'+prefix+'assets/reading-room.js?v=6" defer></script>')
+        tags=('<link rel="stylesheet" href="'+prefix+'assets/reading-room.css?v=7">'
+              '<script src="'+prefix+'assets/reading-room-context.js?v=7" defer></script>'
+              '<script src="'+prefix+'assets/reading-room.js?v=7" defer></script>')
         text='<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'+''.join(styles)+tags+'</head><body class="rr-page rr--mixed">'+text+'</body></html>'
         path.write_text(text,encoding="utf-8")
         return
     text=re.sub(r'<link\b[^>]*reading-room\.css[^>]*>',"",text,flags=re.I)
     text=re.sub(r'<script\b[^>]*reading-room(?:-[a-z-]+)?\.js[^>]*>\s*</script>\s*',"",text,flags=re.I)
-    tags=('<link rel="stylesheet" href="'+prefix+'assets/reading-room.css?v=6">'
-          '<script src="'+prefix+'assets/reading-room-context.js?v=6" defer></script>'
-          '<script src="'+prefix+'assets/reading-room.js?v=6" defer></script>')
+    tags=('<link rel="stylesheet" href="'+prefix+'assets/reading-room.css?v=7">'
+          '<script src="'+prefix+'assets/reading-room-context.js?v=7" defer></script>'
+          '<script src="'+prefix+'assets/reading-room.js?v=7" defer></script>')
     if re.search(r'</head>',text,re.I):
         text=re.sub(r'</head>',tags+'</head>',text,count=1,flags=re.I)
     elif re.search(r'<head\b[^>]*>',text,re.I):
