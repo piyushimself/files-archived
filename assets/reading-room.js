@@ -667,7 +667,8 @@ function cinemaBuildFilmReader(body,content,toolbar,kind){
   content.querySelectorAll(":scope > .page").forEach((page)=>{
     [...page.children].forEach(node=>{
       if(node.classList.contains("page-label"))return;
-      const text=cinemaText(node.textContent||"");if(!text)return;
+      const rawText=node.textContent||"";
+      const text=cinemaText(rawText);if(!text)return;
       if(/^H[1-3]$/.test(node.tagName)){
         if(skipHeading.test(text)){return;}
         if(cinemaGroupHeading(kind,text)){
@@ -824,9 +825,9 @@ function buildSensitiveCinemaReader(body,content,toolbar){
         if(current)addSubheading(text,node.id||"");
         return;
       }
-      if(node.tagName==="P"){addParagraph(text);return;}
+      if(node.tagName==="P"){addParagraph(rawText);return;}
       if(node.tagName==="UL"||node.tagName==="OL"){[...node.children].forEach(li=>addParagraph(li.textContent||""));return;}
-      addParagraph(text);
+      addParagraph(rawText);
     });
   });
   if(!groups.length)ensure("Sensitive cinema","");
