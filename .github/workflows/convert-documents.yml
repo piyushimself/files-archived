@@ -34,10 +34,10 @@ jobs:
         run: python tools/convert_documents.py
       - name: Commit generated HTML
         run: |
-          if [[ -n "$(git status --porcelain html/)" ]]; then
+          if [[ -n "$(git status --porcelain html/ index.html)" ]]; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add html/
+            git add html/ index.html
             git commit -m "Generate HTML reading editions for PDF and DOCX files"
             git pull --rebase origin main
             git push
