@@ -146,20 +146,34 @@ q.addEventListener('input',()=>{const term=q.value.trim().toLowerCase();pages.fo
 
 
 def classify_resource(name):
-    value = name.lower()
-    rules = [
-        (("manga","manhwa","anime","comic"),("Anime & Manga","Illustrated stories and visual worlds","manga anime comics manhwa")),
-        (("film","cinema","movie","filmmak","cinematic","animated"),("Film & Cinema","Filmographies, cinema guides and viewing paths","film cinema movies animation")),
-        (("art","watercol","collage","poetry","bob ross","creative","typewriter"),("Art & Creative Practice","Art resources, making and creative exercises","art drawing painting collage poetry")),
-        (("book","reading","fiction","literature","story","kids","child","curriculum"),("Books, Stories & Learning","Reading lists, stories and learning paths","books reading fiction literature kids education")),
-        (("prompt","inspiration","thinker","meditation","memento","life_worth","emotion","wonder","mind","values"),("Ideas & Reflection","Prompts, philosophy and curiosity","prompts inspiration philosophy reflection thinkers")),
-        (("security","cyber","crypto","trading","pine"),("Technology & Security","Cybersecurity, technical learning and market tools","technology security cybersecurity crypto trading")),
-        (("tracker","generator","app","diary","loom","tasks"),("Interactive Tools","Trackers, generators and browser-based utilities","interactive tools tracker generator app")),
-        (("resource","google_search","links","atlas","reference","guide"),("Reference & Discovery","Resource directories and curated indexes","reference discovery resources links guides atlas")),
-    ]
-    for needles, result in rules:
-        if any(term in value for term in needles):
-            return result
+    value = name.lower().replace("_", " ").replace("-", " ")
+    # Specific collections first: filename meaning takes precedence over broad keywords.
+    if "four arcs" in value:
+        return ("Music & Cross-Media","A multi-medium journey through films, books, albums, manga and poetry","music albums listening records poems films books")
+    if "curator" in value:
+        return ("Cross-Media Discovery","A unified catalogue spanning films, anime, books, poetry and art","film anime books poetry art mixed media")
+    if "asian cinema" in value or "cinematic" in value or "film" in value or "movie" in value or "animated films" in value or "sensual mood" in value:
+        return ("Film & Cinema","Filmographies, world cinema curricula and searchable viewing collections","film cinema movies animation directors countries decades")
+    if any(term in value for term in ("human development","life fiction","living curriculum","political comics","anime manga values")):
+        return ("Home Learning & Education","Structured curricula, reading pathways and guided learning resources","education homeschooling home learning curriculum stages lessons")
+    if "blackout poetry" in value:
+        return ("Poetry & Writing","Poetry lessons, writing exercises and creative language practice","poetry writing words blackout literature")
+    if "marginalia" in value:
+        return ("Personal Journals & Tools","A private notebook for reading notes, memories and observations","journal diary notes reading music film")
+    if "typewriter" in value:
+        return ("Writing Tools","A focused writing surface for drafting and printing","writing typewriter drafting print")
+    if any(term in value for term in ("manga","manhwa","anime","comic")):
+        return ("Anime & Manga","Illustrated stories, manga indexes and comics reading guides","manga anime comics manhwa graphic novels")
+    if any(term in value for term in ("art","watercol","collage","bob ross","creative")):
+        return ("Art & Creative Practice","Art resources, painting guides and hands-on creative exercises","art drawing painting collage watercolor creative")
+    if any(term in value for term in ("prompt","inspiration","thinker","meditation","memento","life worth","emotion","wonder","mind","values")):
+        return ("Ideas & Reflection","Prompts, philosophy and resources for thoughtful living","prompts inspiration philosophy reflection thinkers")
+    if any(term in value for term in ("security","cyber","crypto","trading","pine")):
+        return ("Technology & Security","Cybersecurity, technical learning and market tools","technology security cybersecurity crypto trading")
+    if any(term in value for term in ("tracker","generator","app","loom","tasks")):
+        return ("Interactive Tools","Trackers, generators and browser-based utilities","interactive tools tracker generator app")
+    if any(term in value for term in ("resource","google search","links","atlas","reference","guide")):
+        return ("Reference & Discovery","Resource directories and curated indexes","reference discovery resources links guides atlas")
     return ("Explore & Miscellany","Other collections and useful starting points","miscellaneous collection explore")
 
 
