@@ -144,6 +144,39 @@ async function testPoetryReader(){
   assert.equal(visibleCount(".poem-card",d),1,"Poetry search should isolate the selected poem");
   dom.window.close();
 }
+
+async function testStructuredCinemaReaders(){
+  const cases=[
+    {file:"html/cinema_900 (1).html",kind:"cinema-900",selector:".rr-cinema-entry",minimum:400,term:"Grave of the Fireflies",group:".rr-cinema-group",filter:".rr-cinema-category"},
+    {file:"html/complete_movie_encyclopedia.html",kind:"movie-encyclopedia",selector:".rr-cinema-entry",minimum:350,term:"2001: A Space Odyssey",group:".rr-cinema-group",filter:".rr-cinema-category"},
+    {file:"html/complete_movie_ratings.html",kind:"movie-ratings",selector:".rr-cinema-entry",minimum:200,term:"Shoah",group:".rr-cinema-group",filter:".rr-cinema-category"},
+    {file:"html/sensitive_cinema.html",kind:"sensitive-cinema",selector:".rr-sensitive-entry",minimum:200,term:"Grave of the Fireflies",group:".rr-sensitive-group",filter:".rr-sensitive-category"}
+  ];
+  for(const item of cases){
+    const dom=await boot(item.file),d=dom.window.document;
+    assert.equal(d.body.dataset.readerKind,item.kind,item.file+" should use its dedicated reader");
+    const total=d.querySelectorAll(item.selector).length;
+    assert.ok(total>=item.minimum,item.file+" should preserve its film/reading entries; found "+total);
+    assert.ok(d.querySelectorAll(item.group).length>=4,item.file+" should retain useful thematic sections");
+    assert.ok(d.querySelector(item.filter),item.file+" should expose a collection filter");
+    assert.ok(d.querySelector(".rr-reader-results"),item.file+" should expose a live result count");
+    const search=d.querySelector("#search");
+    setValue(search,item.term);
+    assert.ok(visibleCount(item.selector,d)>=1,item.file+" search should find "+item.term);
+    assert.ok(visibleCount(item.selector,d)<total,item.file+" search should narrow the visible entries");
+    setValue(search,"");
+    assert.equal(visibleCount(item.selector,d),total,item.file+" clearing search should restore all entries");
+    if(item.kind==="sensitive-cinema"){
+      assert.ok(![...d.querySelectorAll(".toc a")].some(a=>/WHAT IT TEACHES/i.test(a.textContent)),"Repeated lesson labels must not pollute the Sensitive Cinema contents");
+      assert.ok(d.querySelectorAll(".rr-sensitive-lesson-label").length>=10,"Sensitive Cinema should retain reflective lesson labels");
+    }else{
+      assert.ok(d.querySelector(".rr-cinema-sort"),item.file+" should expose catalogue sorting");
+    }
+    assert.ok(!d.querySelector("#content .page-label"),item.file+" should not expose raw source-page labels in the reader view");
+    dom.window.close();
+  }
+}
+
 async function testVisibleEscapes(){
   const dom=await boot("The_Curators_Library.html");
   const d=dom.window.document;
@@ -204,6 +237,7 @@ async function testCompleteFilmCollection(){
   await testFilmCatalogue();
   await testOrderedFilmCatalogues();
   await testGenericReader();
+  await testStructuredCinemaReaders();
   await testMangaGuide();
   await testPoliticalComics();
   await testCurricula();
@@ -211,7 +245,7 @@ async function testCompleteFilmCollection(){
   await testCompleteFilmCollection();
   await testVisibleEscapes();
   await testPoetryReader();
-  console.log("PASS: 8 Reading Room runtime smoke-test groups.");
+  console.log("PASS: 9 Reading Room runtime smoke-test groups.");
 })().catch(error => {
   console.error(error);
   process.exitCode = 1;
