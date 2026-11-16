@@ -179,6 +179,9 @@ async function testCompleteFilmCollection(){
   assert.ok(d.querySelectorAll(".mc").length>=20,"Film catalogue should render its records");
   assert.ok(d.querySelector("#searchInput")&&d.querySelector("#countrySel")&&d.querySelector("#genreSel"),"Core catalogue filters must remain available");
   assert.ok(d.querySelector("#progressWrap")&&d.querySelector("#wfWatched")&&d.querySelector("#importFile"),"Watch tracking controls must remain available");
+  assert.equal(d.title,"The Complete Film Collection — 1,629 Films","Browser title must match the actual film dataset size");
+  assert.equal(d.querySelector("#resultCount").textContent,"1,629 films","Initial result count must match the actual film dataset size");
+  assert.match(d.querySelector("#progressLabel").textContent,/1,629 watched/,"Watch progress total must match the actual film dataset size");
   const grid=d.querySelector("#grid");
   assert.ok(grid.querySelector(".tier-sep"),"Rating tier separators should be present");
   const original=d.querySelectorAll(".mc").length;
