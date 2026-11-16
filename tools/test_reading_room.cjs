@@ -18,6 +18,8 @@ async function boot(relativePath) {
     pretendToBeVisual: true
   });
   dom.window.READING_ROOM_CONTEXT = {};
+  dom.window.__rrErrors = [];
+  dom.window.addEventListener("error", event => dom.window.__rrErrors.push(String(event.error || event.message)));
   dom.window.eval(sharedJS);
   dom.window.document.dispatchEvent(new dom.window.Event("DOMContentLoaded", { bubbles: true }));
   await new Promise(resolve => setTimeout(resolve, 0));
@@ -34,6 +36,7 @@ async function testFilmCatalogue() {
   const dom = await boot("html/300_Films_Filmography.html");
   const d = dom.window.document;
   const cards = d.querySelectorAll(".rr-film-card");
+  if (!d.querySelector(".rr-film-country")) console.error("FILM DEBUG", { ready: d.readyState, body: d.body.className, data: d.body.dataset, toolbar: !!d.querySelector(".rr-reader-tools"), search: !!d.querySelector("#search"), headings: d.querySelectorAll("#content h2,#content h3").length, errors: dom.window.__rrErrors });
   assert.ok(cards.length >= 30, "300 Films Filmography should render individual film cards; got " + cards.length);
   for (const selector of [".rr-film-country", ".rr-film-director", ".rr-film-year", ".rr-film-category"]) {
     assert.ok(d.querySelector(selector), "Missing film filter " + selector);
