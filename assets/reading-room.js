@@ -511,12 +511,314 @@ function buildPoetryReader(body,content,toolbar){
   body.classList.add("rr-poetry-enhanced");
 }
 
+
+function cinemaText(value){return (value||"").replace(/[■▪◆]+/g," ").replace(/\s+/g," ").trim();}
+function cinemaGroupHeading(kind,value){
+  const t=cinemaText(value),u=t.toUpperCase();
+  if(!t)return false;
+  if(kind==="cinema-900"){
+    if(/^LIST\s+[123]\s*[—-]/i.test(t))return true;
+    if(/^(?:CINEMA CURATED FILMS|TABLE OF CONTENTS|LIST [123]|100 WORLD CINEMA MASTERPIECES|100 SENSUAL & MOOD CINEMA)$/i.test(t))return false;
+    return t.length<=42&&u===t&&/^[A-Z0-9 /&'’().—-]+$/.test(t);
+  }
+  if(kind==="movie-encyclopedia"){
+    return /^(?:100 ESSENTIAL FILMS|EROTIC ART CINEMA|ANIME MOVIES|MASTERS:\s*.+|SESSION STATISTICS)$/i.test(t);
+  }
+  if(kind==="movie-ratings"){
+    return /^(?:100 ESSENTIAL FILMS|50 EROTIC ART FILMS|100 ANIME MOVIES|RANK FILM TITLE.*|SESSION STATISTICS)$/i.test(t);
+  }
+  return false;
+}
+function cinemaSplitCredit(value){
+  const words=(value||"").trim().split(/\s+/).filter(Boolean);
+  if(words.length<3)return {title:value||"",director:""};
+  let n=2;
+  const last3=words.slice(-3).join(" ");
+  if(/^(?:Alejandro|Carl|Jean-Luc|Jean-Pierre|Abdellatif|Gillo|Mikhail|Mohsen|Lars von|Costa-Gavras|Fernando Meirelles|Bille August|Satyajit Ray|Sanjay Leela)$/i.test(last3))n=3;
+  if(/^(?:von|del|van|de|di)$/i.test(words[words.length-2]))n=3;
+  if(words.length<=n)n=2;
+  return {title:words.slice(0,-n).join(" "),director:words.slice(-n).join(" ")};
+}
+function cinemaParseEntry(segment,kind){
+  const m=(segment||"").match(/^(\d{1,3})[.)]?\s+([\s\S]+)$/);
+  if(!m)return null;
+  const number=m[1],body=m[2].trim();
+  const ym=body.match(/\b(?:18|19|20)\d{2}\b/);
+  if(!ym)return null;
+  const before=body.slice(0,ym.index).trim();
+  const after=body.slice(ym.index+4).trim();
+  if(!before)return null;
+  const entry={number:number,title:before,director:"",year:ym[0],imdb:"",rt:"",genre:"",source:"",details:"",raw:body};
+  if(kind!=="cinema-900"){
+    const credit=cinemaSplitCredit(before);
+    if(credit.title){entry.title=credit.title;entry.director=credit.director;}
+  }
+  if(kind==="cinema-900"){
+    const score=after.match(/^(\d\.\d)\s+([\s\S]*)$/);
+    let rest=after;
+    if(score){entry.imdb=score[1];rest=score[2];}
+    const mark=rest.search(/[■▪◆]{1,3}/);
+    if(mark>=0){
+      entry.director=rest.slice(0,mark).trim();
+      rest=rest.slice(mark).replace(/^[■▪◆]+/,"").trim();
+    }
+    entry.details=rest;
+  }else if(kind==="movie-ratings"){
+    const score=after.match(/^(.*?)\s+(\d\.\d)\/10\s+(\d{1,3})%\s*([\s\S]*)$/);
+    if(score){entry.genre=score[1].trim();entry.imdb=score[2];entry.rt=score[3];entry.details=score[4].trim();}
+    else entry.details=after;
+  }else{
+    const score=after.match(/^(\d\.\d)\s+(\d{1,3})%\s+([\s\S]*)$/);
+    if(score){
+      entry.imdb=score[1];entry.rt=score[2];entry.details=score[3].trim();
+      const source=entry.details.match(/^(Essential|Anime|Erotic|Masters?)(?:\s|$)/i);
+      if(source)entry.source=source[0].trim();
+    }else entry.details=after;
+  }
+  return entry;
+}
+function cinemaSplitNumberedText(value,kind,state){
+  const text=(value||"").replace(/\s+/g," ").trim();
+  if(!text)return {entries:[],prefix:""};
+  const max=kind==="cinema-900"?300:(kind==="movie-ratings"?300:647);
+  const pattern=/(?:^|\s)(\d{1,3})[.)]?\s+(?=[A-Z0-9À-ÖØ-Þ])/g;
+  const accepted=[];
+  let match;
+  while((match=pattern.exec(text))!==null){
+    const pos=match.index+(match[0].charAt(0)===" "?1:0);
+    const number=Number(match[1]);
+    if(number<1||number>max)continue;
+    const start=pos+match[0].trim().length;
+    const tail=text.slice(start);
+    if(/^(?:films?|movies?|titles?|unique films?)\b/i.test(tail))continue;
+    const yearIndex=tail.search(/\b(?:18|19|20)\d{2}\b/);
+    if(yearIndex<0||yearIndex>110)continue;
+    const afterYear=tail.slice(yearIndex+4);
+    const scoreOk=kind==="movie-ratings"?/\d\.\d\/10/.test(afterYear.slice(0,100)):kind==="movie-encyclopedia"?/\d\.\d\s+\d{1,3}%/.test(afterYear.slice(0,100)):/\d\.\d/.test(afterYear.slice(0,80));
+    if(!scoreOk)continue;
+    const last=state.lastNumber||0;
+    if(last&&number!==1&&number!==last&&number!==last+1&&number!==last+2)continue;
+    if(number===1&&last>1)state.lastNumber=0;
+    state.lastNumber=number;
+    accepted.push({pos:pos,number:number});
+  }
+  if(!accepted.length)return {entries:[],prefix:text};
+  const unique=[];
+  accepted.forEach(item=>{if(!unique.length||unique[unique.length-1].pos!==item.pos)unique.push(item);});
+  const prefix=text.slice(0,unique[0].pos).trim();
+  const entries=unique.map((item,index)=>{
+    const end=index+1<unique.length?unique[index+1].pos:text.length;
+    return {number:item.number,text:text.slice(item.pos,end).trim()};
+  }).filter(item=>item.text);
+  return {entries:entries,prefix:prefix};
+}
+function cinemaAddSelectOption(select,value,label){
+  const option=document.createElement("option");option.value=value;option.textContent=label;select.appendChild(option);
+}
+function cinemaBuildFilmReader(body,content,toolbar,kind){
+  const wrapper=document.createElement("div");wrapper.className="rr-cinema-catalogue";
+  const groups=[];let current=null;const state={lastNumber:0};
+  const ensureGroup=(name,id)=>{
+    const group={name:name||"Collection notes",id:id||"",section:document.createElement("section"),grid:document.createElement("div"),notes:document.createElement("div")};
+    group.section.className="rr-cinema-group";group.section.dataset.category=group.name;
+    if(group.id)group.section.id=group.id;
+    const heading=document.createElement("h2");heading.className="rr-cinema-group-title";heading.textContent=group.name;
+    group.section.appendChild(heading);
+    group.grid.className="rr-cinema-grid";group.section.appendChild(group.grid);
+    group.notes.className="rr-cinema-notes";group.section.appendChild(group.notes);
+    wrapper.appendChild(group.section);groups.push(group);current=group;state.lastNumber=0;
+    return group;
+  };
+  const addContext=(text)=>{
+    const value=cinemaText(text);
+    if(!value||/^Page\s+\d+\s*[·|]/i.test(value)||/^(?:The Complete Movie Encyclopedia|Complete Movie Ratings:|Page \d+\s*[·|])/i.test(value))return;
+    const p=document.createElement("p");p.className="rr-cinema-context";p.textContent=value;
+    (current||ensureGroup("Collection notes","")).notes.appendChild(p);
+  };
+  const addEntry=(entry)=>{
+    if(!entry)return;
+    const card=document.createElement("article");card.className="rr-cinema-entry";
+    card.dataset.category=current.name;card.dataset.year=entry.year||"";card.dataset.imdb=entry.imdb||"";
+    const top=document.createElement("div");top.className="rr-cinema-entry-top";
+    const number=document.createElement("span");number.className="rr-cinema-entry-number";number.textContent="ENTRY "+entry.number;top.appendChild(number);
+    const year=document.createElement("span");year.className="rr-cinema-entry-year";year.textContent=entry.year;top.appendChild(year);
+    card.appendChild(top);
+    const title=document.createElement("h3");title.className="rr-cinema-entry-title";title.textContent=entry.title;card.appendChild(title);
+    if(entry.director){const credit=document.createElement("p");credit.className="rr-cinema-credit";credit.textContent="Director · "+entry.director;card.appendChild(credit);}
+    const badges=document.createElement("div");badges.className="rr-cinema-entry-badges";
+    if(entry.imdb){const b=document.createElement("span");b.className="rr-cinema-score";b.textContent="IMDb "+entry.imdb;badges.appendChild(b);}
+    if(entry.rt){const b=document.createElement("span");b.className="rr-cinema-score rr-cinema-score-rt";b.textContent="Rotten Tomatoes "+entry.rt+"%";badges.appendChild(b);}
+    if(entry.genre){const b=document.createElement("span");b.className="rr-cinema-chip";b.textContent=entry.genre;badges.appendChild(b);}
+    if(entry.source){const b=document.createElement("span");b.className="rr-cinema-chip";b.textContent=entry.source;badges.appendChild(b);}
+    if(badges.children.length)card.appendChild(badges);
+    if(entry.details){const detail=document.createElement("p");detail.className="rr-cinema-entry-detail";detail.textContent=entry.details;card.appendChild(detail);}
+    card.dataset.search=[entry.number,entry.title,entry.director,entry.year,entry.imdb,entry.rt,entry.genre,entry.source,entry.details,entry.raw,current.name].join(" ").toLocaleLowerCase();
+    current.grid.appendChild(card);
+  };
+  const skipHeading=/^(?:CINEMA CURATED FILMS|TABLE OF CONTENTS|LIST [123]$|THE COMPLETE MOVIE|ENCYCLOPEDIA|DESCRIPTION|ABOUT THIS ENCYCLOPEDIA|COMPLETE MOVIE RATINGS|IMDB COLOR SCALE RT COLOR SCALE|FILM TITLE DIRECTOR YEAR.*|RANK FILM TITLE DIRECTOR YEAR.*|SENSITIVE CINEMA|A CURATED GUIDE TO FILMS THAT MOVE YOU)$/i;
+  content.querySelectorAll(":scope > .page").forEach((page)=>{
+    [...page.children].forEach(node=>{
+      if(node.classList.contains("page-label"))return;
+      const text=cinemaText(node.textContent||"");if(!text)return;
+      if(/^H[1-3]$/.test(node.tagName)){
+        if(skipHeading.test(text)){return;}
+        if(cinemaGroupHeading(kind,text)){
+          ensureGroup(text,node.id||"");return;
+        }
+        if(kind==="cinema-900"&&/^(?:100 World Cinema Masterpieces|100 Sensual & Mood Cinema|World Cinema Masterpieces|Sensual & Mood Cinema|Explicit Erotic Art Cinema)$/i.test(text)){
+          if(!current)ensureGroup("Cinema collections","");
+          const sub=document.createElement("h3");sub.className="rr-cinema-subheading";sub.textContent=text;current.section.insertBefore(sub,current.grid);return;
+        }
+        if(current){
+          const sub=document.createElement("h3");sub.className="rr-cinema-subheading";sub.textContent=text;
+          if(node.id)sub.id=node.id;current.section.insertBefore(sub,current.grid);
+        }else{
+          ensureGroup("About this edition","");addContext(text);
+        }
+        return;
+      }
+      if(node.tagName==="P"){
+        const split=cinemaSplitNumberedText(text,kind,state);
+        if(split.prefix&&!/^(?:#\s*)?(?:FILM|TITLE|RANK|100 films|Page \d+)/i.test(split.prefix))addContext(split.prefix);
+        if(split.entries.length){
+          split.entries.forEach(item=>addEntry(cinemaParseEntry(item.text,kind)));
+        }else addContext(text);
+        return;
+      }
+      if(node.tagName==="UL"||node.tagName==="OL"){
+        [...node.children].forEach(li=>addContext(li.textContent||""));return;
+      }
+      addContext(text);
+    });
+  });
+  if(!groups.length)ensureGroup("Film collection","");
+  const categories=[...new Set(groups.map(g=>g.name))];
+  const years=[...new Set([...wrapper.querySelectorAll(".rr-cinema-entry")].map(c=>c.dataset.year).filter(Boolean))].sort();
+  const categorySelect=addSelect(toolbar.tools,"rr-reader-filter rr-cinema-category","collection",categories);
+  const yearSelect=addSelect(toolbar.tools,"rr-reader-filter rr-cinema-year","year",years);
+  const scoreSelect=document.createElement("select");scoreSelect.className="rr-reader-filter rr-cinema-score-filter";scoreSelect.setAttribute("aria-label","Minimum IMDb rating");
+  [["all","Any IMDb rating"],["8","IMDb 8.0+"],["7","IMDb 7.0+"],["6","IMDb 6.0+"]].forEach(v=>cinemaAddSelectOption(scoreSelect,v[0],v[1]));
+  toolbar.tools.appendChild(scoreSelect);
+  const sortSelect=document.createElement("select");sortSelect.className="rr-reader-filter rr-cinema-sort";sortSelect.setAttribute("aria-label","Sort film entries");
+  [["original","Original order"],["title","Title A–Z"],["year","Newest year"],["rating","Highest IMDb"]].forEach(v=>cinemaAddSelectOption(sortSelect,v[0],v[1]));
+  toolbar.tools.appendChild(sortSelect);
+  const allCards=[...wrapper.querySelectorAll(".rr-cinema-entry")];
+  const empty=document.createElement("div");empty.className="rr-cinema-empty";empty.textContent="No film entries match these filters. Clear a filter or try another search.";wrapper.appendChild(empty);
+  const validIds=new Set(groups.map(g=>g.id).filter(Boolean));
+  document.querySelectorAll(".toc a[href^='#']").forEach(a=>{const id=a.getAttribute("href").slice(1);a.hidden=!validIds.has(id);});
+  const summary=document.querySelector(".toc summary");if(summary)summary.textContent="EXPLORE "+validIds.size+" COLLECTIONS";
+  const originalOrder=new Map(allCards.map((card,i)=>[card,i]));
+  const update=()=>{
+    const q=toolbar.input.value.trim().toLocaleLowerCase(),category=categorySelect.value,year=yearSelect.value,minimum=Number(scoreSelect.value)||0;
+    let visible=0;
+    allCards.forEach(card=>{
+      const score=Number(card.dataset.imdb)||0;
+      const show=(!q||card.dataset.search.includes(q))&&(category==="all"||card.dataset.category===category)&&(year==="all"||card.dataset.year===year)&&(!minimum||score>=minimum);
+      card.hidden=!show;if(show)visible++;
+    });
+    groups.forEach(group=>{
+      group.section.hidden=!group.section.querySelector(".rr-cinema-entry:not([hidden])")&&!group.notes.children.length;
+      const cards=[...group.grid.children];
+      if(sortSelect.value!=="original"){
+        cards.sort((a,b)=>{
+          if(sortSelect.value==="title")return a.querySelector(".rr-cinema-entry-title").textContent.localeCompare(b.querySelector(".rr-cinema-entry-title").textContent);
+          if(sortSelect.value==="year")return (Number(b.dataset.year)||0)-(Number(a.dataset.year)||0);
+          if(sortSelect.value==="rating")return (Number(b.dataset.imdb)||0)-(Number(a.dataset.imdb)||0);
+          return originalOrder.get(a)-originalOrder.get(b);
+        }).forEach(card=>group.grid.appendChild(card));
+      }
+    });
+    empty.hidden=visible>0;
+    toolbar.result.textContent=visible.toLocaleString()+" film listings";
+  };
+  [toolbar.input,categorySelect,yearSelect,scoreSelect,sortSelect].forEach(control=>control.addEventListener(control===toolbar.input?"input":"change",update));
+  content.replaceChildren(wrapper);body.classList.add("rr-cinema-structured");update();
+  return true;
+}
+function buildSensitiveCinemaReader(body,content,toolbar){
+  const wrapper=document.createElement("div");wrapper.className="rr-sensitive-catalogue";
+  const groups=[];let current=null,lessonMode=false;
+  const ensure=(name,id)=>{
+    const group={name:name, id:id||"",section:document.createElement("section"),entries:[]};
+    group.section.className="rr-sensitive-group";group.section.dataset.category=name;
+    if(group.id)group.section.id=group.id;
+    const h=document.createElement("h2");h.className="rr-sensitive-group-title";h.textContent=name;group.section.appendChild(h);
+    wrapper.appendChild(group.section);groups.push(group);current=group;lessonMode=false;return group;
+  };
+  const addSubheading=(text,id)=>{
+    if(!current)ensure("Film notes","");
+    const h=document.createElement("h3");h.className="rr-sensitive-subheading";h.textContent=text;if(id)h.id=id;current.section.appendChild(h);
+  };
+  const addParagraph=(value)=>{
+    let text=cinemaText(value);
+    text=text.replace(/\s*(?:The Complete Movie Encyclopedia|Complete Movie Ratings:)[\s\S]*?Page\s+\d+\s*$/i,"").trim();
+    text=text.replace(/\s+Page\s+\d+\s*[·|][\s\S]*$/i,"").trim();
+    if(!text)return;
+    const ratingMatches=[...text.matchAll(/★\s*(\d(?:\.\d)?)/g)].map(m=>m[1]);
+    const clean=text.replace(/\s*★\s*\d(?:\.\d)?/g,"").trim();
+    const card=document.createElement("article");card.className="rr-sensitive-entry"+(lessonMode?" is-lesson":"");
+    card.dataset.search=text.toLocaleLowerCase();card.dataset.category=current?current.name:"Film notes";
+    if(ratingMatches.length){
+      const ratings=document.createElement("div");ratings.className="rr-sensitive-ratings";
+      ratingMatches.forEach(value=>{const badge=document.createElement("span");badge.textContent="IMDb "+value;ratings.appendChild(badge);});
+      card.appendChild(ratings);
+    }
+    const p=document.createElement("p");p.textContent=clean||text;card.appendChild(p);
+    if(current){current.section.appendChild(card);current.entries.push(card);}else{ensure("Film notes","").section.appendChild(card);}
+    if(!/■|·|(?:18|19|20)\d{2}/.test(text))lessonMode=false;
+  };
+  content.querySelectorAll(":scope > .page").forEach(page=>{
+    [...page.children].forEach(node=>{
+      if(node.classList.contains("page-label"))return;
+      const text=cinemaText(node.textContent||"");if(!text)return;
+      if(/^H[1-3]$/.test(node.tagName)){
+        const upper=text.toUpperCase();
+        if(/WHAT IT TEACHES/.test(upper)){
+          if(!current)ensure("Film notes","");
+          const label=document.createElement("div");label.className="rr-sensitive-lesson-label";label.textContent="What it teaches";current.section.appendChild(label);lessonMode=true;return;
+        }
+        if(/^(?:SENSITIVE CINEMA|A CURATED GUIDE TO FILMS THAT MOVE YOU)$/i.test(text))return;
+        if(text===upper&&text.length<70){
+          ensure(text,node.id||"");return;
+        }
+        if(current)addSubheading(text,node.id||"");
+        return;
+      }
+      if(node.tagName==="P"){addParagraph(text);return;}
+      if(node.tagName==="UL"||node.tagName==="OL"){[...node.children].forEach(li=>addParagraph(li.textContent||""));return;}
+      addParagraph(text);
+    });
+  });
+  if(!groups.length)ensure("Sensitive cinema","");
+  const categories=[...new Set(groups.map(g=>g.name))];
+  const categorySelect=addSelect(toolbar.tools,"rr-reader-filter rr-sensitive-category","category",categories);
+  const allCards=[...wrapper.querySelectorAll(".rr-sensitive-entry")];
+  const empty=document.createElement("div");empty.className="rr-cinema-empty";empty.textContent="No reading notes match. Clear the filters or try another search.";wrapper.appendChild(empty);
+  const validIds=new Set(groups.map(g=>g.id).filter(Boolean));
+  document.querySelectorAll(".toc a[href^='#']").forEach(a=>{const id=a.getAttribute("href").slice(1);a.hidden=!validIds.has(id);});
+  const summary=document.querySelector(".toc summary");if(summary)summary.textContent="EXPLORE "+validIds.size+" THEMES";
+  const update=()=>{
+    const q=toolbar.input.value.trim().toLocaleLowerCase(),cat=categorySelect.value;let visible=0;
+    allCards.forEach(card=>{const show=(!q||card.dataset.search.includes(q))&&(cat==="all"||card.dataset.category===cat);card.hidden=!show;if(show)visible++;});
+    groups.forEach(group=>{group.section.hidden=!group.section.querySelector(".rr-sensitive-entry:not([hidden])");});
+    empty.hidden=visible>0;toolbar.result.textContent=visible.toLocaleString()+" reading notes";
+  };
+  [toolbar.input,categorySelect].forEach(control=>control.addEventListener(control===toolbar.input?"input":"change",update));
+  content.replaceChildren(wrapper);body.classList.add("rr-sensitive-structured");update();
+  return true;
+}
+
 function initReaderControls(){
   document.querySelectorAll("body.rr-reader").forEach(body=>{
     if(body.dataset.rrReaderEnhanced==="1")return;
     const content=body.querySelector("#content"),toolbar=readerToolbar(body);
     if(!content||!toolbar)return;
     body.dataset.rrReaderEnhanced="1";
+    const kind=body.dataset.readerKind||"";
+    if(kind==="sensitive-cinema"){buildSensitiveCinemaReader(body,content,toolbar);return;}
+    if(kind==="cinema-900"||kind==="movie-encyclopedia"||kind==="movie-ratings"){
+      buildFilmEntryReader(body,content,toolbar,kind);return;
+    }
     const title=(body.querySelector(".hero h1")||body.querySelector("h1")||{}).textContent||"";
     if(body.classList.contains("rr--poetry")){buildPoetryReader(body,content,toolbar);return;}
     const headings=[...content.querySelectorAll("h2,h3")];
@@ -531,7 +833,6 @@ function initReaderControls(){
     buildGenericReader(body,content,toolbar);
   });
 }
-
 function initLearningCurriculum(){
   const body=document.querySelector("body.rr--learning");
   if(!body||body.dataset.rrLearningEnhanced==="1")return;
