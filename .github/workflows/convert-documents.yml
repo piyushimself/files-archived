@@ -162,7 +162,10 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: _site
+          name: \${{ github.run_attempt }}
 
       - name: Deploy the verified Reading Room
         id: deployment
         uses: actions/deploy-pages@v4
+        with:
+          artifact_name: \${{ github.run_attempt }}
