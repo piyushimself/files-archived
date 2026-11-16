@@ -655,7 +655,7 @@ function cinemaBuildFilmReader(body,content,toolbar,kind){
     card.dataset.search=[entry.number,entry.title,entry.director,entry.year,entry.imdb,entry.rt,entry.genre,entry.source,entry.details,entry.raw,current.name].join(" ").toLocaleLowerCase();
     current.grid.appendChild(card);
   };
-  const skipHeading=/^(?:CINEMA CURATED FILMS|TABLE OF CONTENTS|LIST [123]$|THE COMPLETE MOVIE|ENCYCLOPEDIA|DESCRIPTION|ABOUT THIS ENCYCLOPEDIA|COMPLETE MOVIE RATINGS|IMDB COLOR SCALE RT COLOR SCALE|FILM TITLE DIRECTOR YEAR.*|RANK FILM TITLE DIRECTOR YEAR.*|SENSITIVE CINEMA|A CURATED GUIDE TO FILMS THAT MOVE YOU)$/i;
+  const skipHeading=/^(?:CINEMA CURATED FILMS|TABLE OF CONTENTS|LIST [123]$|THE COMPLETE MOVIE|ENCYCLOPEDIA|DESCRIPTION|ABOUT THIS ENCYCLOPEDIA|COMPLETE MOVIE RATINGS|IMDB COLOR SCALE RT COLOR SCALE|FILM (?:TITLE )?DIRECTOR YEAR.*|SENSITIVE CINEMA|A CURATED GUIDE TO FILMS THAT MOVE YOU)$/i;
   content.querySelectorAll(":scope > .page").forEach((page)=>{
     [...page.children].forEach(node=>{
       if(node.classList.contains("page-label"))return;
@@ -817,7 +817,7 @@ function initReaderControls(){
     const kind=body.dataset.readerKind||"";
     if(kind==="sensitive-cinema"){buildSensitiveCinemaReader(body,content,toolbar);return;}
     if(kind==="cinema-900"||kind==="movie-encyclopedia"||kind==="movie-ratings"){
-      buildFilmEntryReader(body,content,toolbar,kind);return;
+      cinemaBuildFilmReader(body,content,toolbar,kind);return;
     }
     const title=(body.querySelector(".hero h1")||body.querySelector("h1")||{}).textContent||"";
     if(body.classList.contains("rr--poetry")){buildPoetryReader(body,content,toolbar);return;}
