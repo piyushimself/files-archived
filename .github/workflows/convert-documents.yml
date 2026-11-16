@@ -46,6 +46,8 @@ jobs:
       - name: Validate Python build scripts
         run: |
           python -m py_compile tools/convert_documents.py tools/build_site.py
+          node --check assets/reading-room.js
+          rm -rf tools/__pycache__
 
       - name: Convert every source PDF and DOCX
         run: python tools/convert_documents.py
