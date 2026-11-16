@@ -45,7 +45,7 @@ jobs:
 
       - name: Validate Python build scripts
         run: |
-          python -m py_compile tools/convert_documents.py tools/build_site.py
+          python -m py_compile tools/convert_documents.py tools/build_site.py tools/audit_site.py
           node --check assets/reading-room.js
           rm -rf tools/__pycache__
 
@@ -54,6 +54,9 @@ jobs:
 
       - name: Build the themed multi-page Reading Room
         run: python tools/build_site.py
+
+      - name: Audit every HTML page
+        run: python tools/audit_site.py
 
       - name: Verify source coverage and generated pages
         run: |
@@ -92,7 +95,13 @@ jobs:
                   assert 'rr-no-toc' in reader, f'Missing wide layout for no-TOC reader: {item["output"]}'
               assert '../' + item['source'] in reader, f'Missing original source link: {item["output"]}'
               assert 'rr-reader-summary' in reader, f'Missing source-led context: {item["output"]}'
-          print(f'PASS: {len(sources)} source documents; {report["reader_count"]} reading editions; {len(list((root/"collections").glob("*.html")))} subject pages; {len(html_pages)} HTML files checked.')
+          audit = json.loads((root/'html/page-audit.json').read_text())
+          assert audit['page_count'] == len(html_pages), (audit['page_count'], len(html_pages))
+          assert audit['hard_error_count'] == 0, audit['hard_errors']
+          filmography = (root/'html/300_Films_Filmography.html').read_text(encoding='utf-8')
+          assert 'rr-reader-tools' in filmography and 'id="search"' in filmography
+          assert 'buildFilmCatalogue' in (root/'assets/reading-room.js').read_text(encoding='utf-8')
+          print(f'PASS: {len(sources)} sources; {report["reader_count"]} reading editions; {len(list((root/"collections").glob("*.html")))} subject pages; {len(html_pages)} HTML files audited.')
           print('Extraction statuses:', {s: sum(1 for x in report['sources'] if x['status']==s) for s in sorted({x['status'] for x in report['sources']})})
           PY
 
