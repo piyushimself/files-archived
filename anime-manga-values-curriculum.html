@@ -1,0 +1,2812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>200 Works — Anime & Manga for a Life of Reflection</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&family=Shippori+Mincho:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1410;
+    --paper: #f5f0e8;
+    --cream: #ede6d6;
+    --sienna: #8b4513;
+    --gold: #c9a84c;
+    --rust: #a0522d;
+    --sage: #5a6e4a;
+    --slate: #3d4a5c;
+    --muted: #8a7a68;
+    --border: rgba(139,69,19,0.2);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* NOISE TEXTURE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.6;
+  }
+
+  /* HEADER */
+  .masthead {
+    padding: 80px 60px 60px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .masthead-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+
+  .masthead h1 {
+    font-family: 'Shippori Mincho', serif;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    max-width: 700px;
+  }
+
+  .masthead h1 em {
+    font-style: italic;
+    color: var(--sienna);
+    font-weight: 400;
+  }
+
+  .masthead-sub {
+    margin-top: 24px;
+    font-size: 1.05rem;
+    color: var(--muted);
+    max-width: 540px;
+    font-style: italic;
+    line-height: 1.8;
+  }
+
+  .masthead-counts {
+    display: flex;
+    gap: 48px;
+    margin-top: 40px;
+  }
+
+  .count-item {
+    text-align: left;
+  }
+
+  .count-number {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--sienna);
+    line-height: 1;
+  }
+
+  .count-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  /* JAPANESE DECORATIVE CHARACTER */
+  .masthead-kanji {
+    position: absolute;
+    right: 60px;
+    top: 60px;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 8rem;
+    color: var(--border);
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  /* NAVIGATION */
+  .nav-bar {
+    position: sticky;
+    top: 0;
+    background: rgba(245,240,232,0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+    z-index: 100;
+    padding: 0 60px;
+  }
+
+  .nav-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .nav-inner::-webkit-scrollbar { display: none; }
+
+  .nav-tab {
+    padding: 14px 20px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    color: var(--muted);
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .nav-tab:hover { color: var(--ink); }
+  .nav-tab.active { color: var(--sienna); border-bottom-color: var(--sienna); }
+
+  .nav-tab-all {
+    color: var(--sienna);
+    font-weight: 500;
+  }
+
+  /* FILTER BAR */
+  .filter-bar {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 24px 60px 0;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .filter-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .filter-btn {
+    padding: 5px 14px;
+    border: 1px solid var(--border);
+    background: none;
+    cursor: pointer;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    border-radius: 2px;
+    transition: all 0.15s ease;
+  }
+
+  .filter-btn:hover, .filter-btn.active {
+    background: var(--sienna);
+    color: var(--paper);
+    border-color: var(--sienna);
+  }
+
+  /* SECTION */
+  .section {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 60px 60px 0;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+    margin-bottom: 8px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  .section-count {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+  }
+
+  .section-theme {
+    font-size: 0.95rem;
+    color: var(--muted);
+    font-style: italic;
+    margin-bottom: 32px;
+    max-width: 600px;
+  }
+
+  /* CARDS GRID */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-bottom: 0;
+  }
+
+  .card {
+    background: var(--paper);
+    padding: 24px 28px;
+    transition: background 0.2s ease;
+    cursor: default;
+    position: relative;
+  }
+
+  .card:hover {
+    background: var(--cream);
+  }
+
+  .card-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  .card-type {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border: 1px solid currentColor;
+    border-radius: 1px;
+  }
+
+  .card-type.anime { color: var(--slate); }
+  .card-type.manga { color: var(--sage); }
+
+  .card-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: var(--muted);
+    margin-left: auto;
+  }
+
+  .card-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 2px;
+    color: var(--ink);
+  }
+
+  .card-subtitle {
+    font-size: 0.8rem;
+    color: var(--muted);
+    font-style: italic;
+    margin-bottom: 10px;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.05em;
+  }
+
+  .card-theme-tag {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+
+  .card-reflection {
+    font-size: 0.88rem;
+    color: #4a3f35;
+    line-height: 1.65;
+    font-style: italic;
+  }
+
+  .card-reflection strong {
+    font-style: normal;
+    color: var(--sienna);
+    font-weight: 600;
+  }
+
+  /* HIDDEN STATE */
+  .card.hidden, .section.hidden { display: none; }
+
+  /* INTRO ESSAY */
+  .intro-essay {
+    max-width: 680px;
+    margin: 48px auto;
+    padding: 0 60px;
+    font-size: 1.05rem;
+    color: var(--muted);
+    font-style: italic;
+    text-align: center;
+    line-height: 2;
+    border-top: 1px solid var(--border);
+    padding-top: 48px;
+  }
+
+  /* FOOTER */
+  .footer {
+    max-width: 1400px;
+    margin: 80px auto 0;
+    padding: 40px 60px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  .footer-left {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    text-transform: uppercase;
+    line-height: 2;
+  }
+
+  .footer-kanji {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 2rem;
+    color: var(--border);
+    line-height: 1;
+  }
+
+  /* SCROLL ANIMATIONS */
+  .section { opacity: 0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease; }
+  .section.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 768px) {
+    .masthead, .nav-bar, .section, .filter-bar { padding-left: 24px; padding-right: 24px; }
+    .masthead-kanji { display: none; }
+    .masthead-counts { gap: 28px; }
+    .cards-grid { grid-template-columns: 1fr; }
+    .footer { flex-direction: column; gap: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-kanji">省</div>
+  <div class="masthead-label">A Curated Curriculum · 200 Works</div>
+  <h1>Anime & Manga<br>for a Life of <em>Reflection</em></h1>
+  <p class="masthead-sub">One hundred anime. One hundred manga. Each chosen for what it teaches about ethics, sensitivity, integrity, and the textures of being human.</p>
+  <div class="masthead-counts">
+    <div class="count-item">
+      <div class="count-number">100</div>
+      <div class="count-label">Anime</div>
+    </div>
+    <div class="count-item">
+      <div class="count-number">100</div>
+      <div class="count-label">Manga</div>
+    </div>
+    <div class="count-item">
+      <div class="count-number">8</div>
+      <div class="count-label">Themes</div>
+    </div>
+  </div>
+</header>
+
+<nav class="nav-bar">
+  <div class="nav-inner">
+    <button class="nav-tab nav-tab-all active" onclick="filterAll()">All</button>
+    <button class="nav-tab" onclick="filterType('anime')">Anime Only</button>
+    <button class="nav-tab" onclick="filterType('manga')">Manga Only</button>
+    <button class="nav-tab" onclick="scrollTo('dignity')">I · Dignity</button>
+    <button class="nav-tab" onclick="scrollTo('integrity')">II · Integrity</button>
+    <button class="nav-tab" onclick="scrollTo('grief')">III · Grief</button>
+    <button class="nav-tab" onclick="scrollTo('justice')">IV · Justice</button>
+    <button class="nav-tab" onclick="scrollTo('belonging')">V · Belonging</button>
+    <button class="nav-tab" onclick="scrollTo('care')">VI · Care</button>
+    <button class="nav-tab" onclick="scrollTo('inner')">VII · Inner Life</button>
+    <button class="nav-tab" onclick="scrollTo('culture')">VIII · Culture</button>
+  </div>
+</nav>
+
+<div class="filter-bar">
+  <span class="filter-label">Filter by type →</span>
+  <button class="filter-btn active" id="fb-all" onclick="filterAll()">All 200</button>
+  <button class="filter-btn" id="fb-anime" onclick="filterType('anime')">Anime</button>
+  <button class="filter-btn" id="fb-manga" onclick="filterType('manga')">Manga</button>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- SECTION I: DIGNITY & EMPATHY -->
+<!-- ═══════════════════════════════════════════════ -->
+<section class="section" id="dignity">
+  <div class="section-header">
+    <span class="section-title">I — Dignity & Empathy</span>
+    <span class="section-count">25 works</span>
+  </div>
+  <p class="section-theme">"What does it mean to truly see another person?" These works ask you to hold strangers with tenderness — the disabled, the poor, the grieving, the despised.</p>
+  <div class="cards-grid" id="grid-dignity">
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">I·01</span>
+      </div>
+      <div class="card-title">A Silent Voice</div>
+      <div class="card-subtitle">Koe no Katachi · Film · 2016</div>
+      <div class="card-theme-tag">▸ Disability · Bullying · Redemption</div>
+      <p class="card-reflection">A bully seeks forgiveness from the deaf girl he tormented. <strong>Reflect:</strong> How do I treat those who cannot defend themselves? Can I hold both guilt and the possibility of growth?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">I·02</span>
+      </div>
+      <div class="card-title">A Silent Voice</div>
+      <div class="card-subtitle">Yoshitoki Ōima · 7 vols</div>
+      <div class="card-theme-tag">▸ Disability · Communication · Self-worth</div>
+      <p class="card-reflection">The manga goes deeper into the inner lives of every side character. <strong>Reflect:</strong> Every person around me has an interior world as complex as mine — am I curious about it?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">I·03</span>
+      </div>
+      <div class="card-title">Violet Evergarden</div>
+      <div class="card-subtitle">Series + Film · 2018–2020</div>
+      <div class="card-theme-tag">▸ Emotional Literacy · Trauma · Service</div>
+      <p class="card-reflection">A war soldier learns to write letters for people who cannot express love. <strong>Reflect:</strong> What words do the people around me need to hear but never say?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">I·04</span>
+      </div>
+      <div class="card-title">Vinland Saga</div>
+      <div class="card-subtitle">Makoto Yukimura · ongoing</div>
+      <div class="card-theme-tag">▸ Vengeance vs. Compassion · War</div>
+      <p class="card-reflection">A Viking warrior chooses farming over violence. <strong>Reflect:</strong> The strength to not retaliate — is this weakness or the deepest courage?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">I·05</span>
+      </div>
+      <div class="card-title">Mushishi</div>
+      <div class="card-subtitle">Series · 2005</div>
+      <div class="card-theme-tag">▸ Compassion · Non-judgment · Naturalism</div>
+      <p class="card-reflection">A healer meets people afflicted by mysterious spirits, never judging, only helping. <strong>Reflect:</strong> Can I approach human suffering with the same calm, non-judgmental presence?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">I·06</span>
+      </div>
+      <div class="card-title">Mushishi</div>
+      <div class="card-subtitle">Yuki Urushibara · 10 vols</div>
+      <div class="card-theme-tag">▸ Stillness · Patience · Wonder</div>
+      <p class="card-reflection">The manga's quieter pace deepens Ginko's acceptance of all living things. <strong>Reflect:</strong> What do I dismiss as "unimportant" that deserves more of my presence?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">I·07</span>
+      </div>
+      <div class="card-title">Grave of the Fireflies</div>
+      <div class="card-subtitle">Isao Takahata · Film · 1988</div>
+      <div class="card-theme-tag">▸ Civilian Suffering · War's Indifference</div>
+      <p class="card-reflection">Two children survive — and don't — in post-war Japan. <strong>Reflect:</strong> Who suffers invisibly in large events that I consider history, not humanity?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">I·08</span>
+      </div>
+      <div class="card-title">Barefoot Gen</div>
+      <div class="card-subtitle">Keiji Nakazawa · 10 vols</div>
+      <div class="card-theme-tag">▸ Hiroshima · Survival · Human Cost of War</div>
+      <p class="card-reflection">Autobiographical manga about surviving the atomic bomb. <strong>Reflect:</strong> What does it do to me to sit with historical horror through the eyes of a child?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">I·09</span>
+      </div>
+      <div class="card-title">Natsume's Book of Friends</div>
+      <div class="card-subtitle">Series · 2008–ongoing</div>
+      <div class="card-theme-tag">▸ Loneliness · Belonging · Kindness to Outsiders</div>
+      <p class="card-reflection">A boy who sees spirits returns their names, freeing them from bondage. <strong>Reflect:</strong> Who around me is carrying something unspoken that a small act of recognition might release?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">I·10</span>
+      </div>
+      <div class="card-title">Natsume's Book of Friends</div>
+      <div class="card-subtitle">Yuki Midorikawa · ongoing</div>
+      <div class="card-theme-tag">▸ Inherited Burdens · Healing</div>
+      <p class="card-reflection">The manga's slower rhythm shows how past wounds live in the body. <strong>Reflect:</strong> What did I inherit from my family that I carry without knowing?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">I·11</span>
+      </div>
+      <div class="card-title">March Comes in Like a Lion</div>
+      <div class="card-subtitle">Sangatsu no Lion · Series · 2016</div>
+      <div class="card-theme-tag">▸ Depression · Community · Being Seen</div>
+      <p class="card-reflection">A lonely shogi prodigy is slowly drawn back into warmth by a family who simply includes him. <strong>Reflect:</strong> What does it mean to include someone, not fix them?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">I·12</span>
+      </div>
+      <div class="card-title">March Comes in Like a Lion</div>
+      <div class="card-subtitle">Chica Umino · ongoing</div>
+      <div class="card-theme-tag">▸ School Bullying · Caretaking Burden</div>
+      <p class="card-reflection">A deeply honest arc about a girl being bullied, and the teacher who fails her first. <strong>Reflect:</strong> What is the cost of institutional silence in the face of cruelty?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">I·13</span>
+      </div>
+      <div class="card-title">The Wind Rises</div>
+      <div class="card-subtitle">Miyazaki · Film · 2013</div>
+      <div class="card-theme-tag">▸ Craft · Complicity · Beauty and Destruction</div>
+      <p class="card-reflection">An engineer designs beautiful airplanes used for war. <strong>Reflect:</strong> Can talent be innocent of how it's used?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">I·14</span>
+      </div>
+      <div class="card-title">I Am a Hero</div>
+      <div class="card-subtitle">Kengo Hanazawa · 22 vols</div>
+      <div class="card-theme-tag">▸ Cowardice vs. Courage · Self-deception</div>
+      <p class="card-reflection">A failed manga artist confronts a zombie apocalypse — and his own mediocrity. <strong>Reflect:</strong> Where in my life do I tell myself flattering stories that aren't true?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">I·15</span>
+      </div>
+      <div class="card-title">Haibane Renmei</div>
+      <div class="card-subtitle">Series · 2002</div>
+      <div class="card-theme-tag">▸ Guilt · Self-forgiveness · Community</div>
+      <p class="card-reflection">Angel-like beings in a walled town carry unnamed sins. <strong>Reflect:</strong> What unresolved guilt do I carry that prevents me from being fully present?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">I·16</span>
+      </div>
+      <div class="card-title">Real</div>
+      <div class="card-subtitle">Takehiko Inoue · ongoing</div>
+      <div class="card-theme-tag">▸ Disability · Masculinity · Resilience</div>
+      <p class="card-reflection">Three young men navigate basketball, disability, and broken pride. <strong>Reflect:</strong> How does my culture teach men to handle vulnerability — and is that healthy?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">I·17</span>
+      </div>
+      <div class="card-title">Wolf Children</div>
+      <div class="card-subtitle">Mamoru Hosoda · Film · 2012</div>
+      <div class="card-theme-tag">▸ Parental Sacrifice · Identity · Nature vs. Society</div>
+      <p class="card-reflection">A mother raises two half-wolf children alone, letting them choose who to be. <strong>Reflect:</strong> What does truly unconditional love require of the one who gives it?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">I·18</span>
+      </div>
+      <div class="card-title">Yotsuba&!</div>
+      <div class="card-subtitle">Kiyohiko Azuma · ongoing</div>
+      <div class="card-theme-tag">▸ Wonder · Presence · Joy in the Ordinary</div>
+      <p class="card-reflection">A small girl experiences the world with pure delight. <strong>Reflect:</strong> What would I notice today if I allowed myself Yotsuba's sense of wonder?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">I·19</span>
+      </div>
+      <div class="card-title">My Neighbor Totoro</div>
+      <div class="card-subtitle">Miyazaki · Film · 1988</div>
+      <div class="card-theme-tag">▸ Childhood Coping · Nature · Wonder</div>
+      <p class="card-reflection">Two girls face their mother's illness through the language of imagination. <strong>Reflect:</strong> How do children cope with things too large to name? How do adults forget how?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">I·20</span>
+      </div>
+      <div class="card-title">The Way of the Househusband</div>
+      <div class="card-subtitle">Kousuke Oono · ongoing</div>
+      <div class="card-theme-tag">▸ Gender Roles · Domesticity · Kindness</div>
+      <p class="card-reflection">A fierce yakuza becomes a devoted househusband. <strong>Reflect:</strong> What "masculine" roles do I treat as lesser? What care work do I overlook?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">I·21</span>
+      </div>
+      <div class="card-title">Clannad: After Story</div>
+      <div class="card-subtitle">Series · 2008</div>
+      <div class="card-theme-tag">▸ Family · Loss · Growing Up</div>
+      <p class="card-reflection">A delinquent becomes a father and faces the hardest kind of love. <strong>Reflect:</strong> What did fatherhood or adulthood ask of the people who raised me that I never acknowledged?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">I·22</span>
+      </div>
+      <div class="card-title">A Man and His Cat</div>
+      <div class="card-subtitle">Umi Sakurai · ongoing</div>
+      <div class="card-theme-tag">▸ Loneliness · Simple Love · Elderly Care</div>
+      <p class="card-reflection">An elderly widower adopts an unloved cat. <strong>Reflect:</strong> What unloved things — and people — in my world are waiting simply to be chosen?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">I·23</span>
+      </div>
+      <div class="card-title">Spirited Away</div>
+      <div class="card-subtitle">Miyazaki · Film · 2001</div>
+      <div class="card-theme-tag">▸ Labor · Greed · Keeping One's Name</div>
+      <p class="card-reflection">A girl fights to remember her name in a world designed to make her forget. <strong>Reflect:</strong> What social and economic systems try to erase who I am? What name do I hold onto?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">I·24</span>
+      </div>
+      <div class="card-title">Golden Kamuy</div>
+      <div class="card-subtitle">Satoru Noda · 31 vols</div>
+      <div class="card-theme-tag">▸ Indigenous Culture · Colonialism · Survival</div>
+      <p class="card-reflection">A Meiji-era adventure that lovingly documents Ainu culture. <strong>Reflect:</strong> What do I know of the cultures that existed before the ones I consider "normal"?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">I·25</span>
+      </div>
+      <div class="card-title">Miss Hokusai</div>
+      <div class="card-subtitle">Film · 2015</div>
+      <div class="card-theme-tag">▸ Women Artists · Family · Being Overlooked</div>
+      <p class="card-reflection">The daughter of Hokusai, a brilliant artist herself, lives in her father's shadow. <strong>Reflect:</strong> Whose contributions are invisible in the stories we tell? Who taught whom?</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- SECTION II: INTEGRITY UNDER PRESSURE -->
+<!-- ═══════════════════════════════════════════════ -->
+<section class="section" id="integrity">
+  <div class="section-header">
+    <span class="section-title">II — Integrity Under Pressure</span>
+    <span class="section-count">25 works</span>
+  </div>
+  <p class="section-theme">"Who are you when no one is watching — or when everyone is?" These works explore moral courage, complicity, and what we sacrifice to belong.</p>
+  <div class="cards-grid" id="grid-integrity">
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">II·01</span>
+      </div>
+      <div class="card-title">Fullmetal Alchemist: Brotherhood</div>
+      <div class="card-subtitle">Series · 2009</div>
+      <div class="card-theme-tag">▸ Equivalent Exchange · State Power · Genocide</div>
+      <p class="card-reflection">Two brothers uncover a genocide hidden beneath their nation's founding. <strong>Reflect:</strong> What comforts in my life rest on hidden violence or injustice I don't look at?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">II·02</span>
+      </div>
+      <div class="card-title">Fullmetal Alchemist</div>
+      <div class="card-subtitle">Hiromu Arakawa · 27 vols</div>
+      <div class="card-theme-tag">▸ Accountability · State Violence · Forgiveness</div>
+      <p class="card-reflection">A manga with one of the most moral conclusions in all of fiction. <strong>Reflect:</strong> Is it possible to atone for structural violence? What does that even look like?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">II·03</span>
+      </div>
+      <div class="card-title">Monster</div>
+      <div class="card-subtitle">Series · 2004</div>
+      <div class="card-theme-tag">▸ Moral Absolutism · Evil's Origins · Compassion for Killers</div>
+      <p class="card-reflection">A doctor saves a boy who becomes a serial killer and hunts him across Europe. <strong>Reflect:</strong> What made a person monstrous — and what is our duty to that story?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">II·04</span>
+      </div>
+      <div class="card-title">Monster</div>
+      <div class="card-subtitle">Naoki Urasawa · 18 vols</div>
+      <div class="card-theme-tag">▸ Nazi Psychology · Childhood Trauma · Conscience</div>
+      <p class="card-reflection">The manga explores how a soul can be systematically destroyed. <strong>Reflect:</strong> What environments are destroying people's souls around me — and am I complicit?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">II·05</span>
+      </div>
+      <div class="card-title">Death Note</div>
+      <div class="card-subtitle">Series · 2006</div>
+      <div class="card-theme-tag">▸ Justice vs. Power · Self-righteousness · God Complex</div>
+      <p class="card-reflection">A student with the power to kill anyone becomes the very thing he despised. <strong>Reflect:</strong> What do I do when I believe I am right? Where does righteousness become violence?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">II·06</span>
+      </div>
+      <div class="card-title">Vagabond</div>
+      <div class="card-subtitle">Takehiko Inoue · 37 vols</div>
+      <div class="card-theme-tag">▸ Ego · Mastery · The Violence of Ambition</div>
+      <p class="card-reflection">Miyamoto Musashi chases invincibility and discovers it means nothing. <strong>Reflect:</strong> What am I trying to prove — and to whom?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">II·07</span>
+      </div>
+      <div class="card-title">Vinland Saga</div>
+      <div class="card-subtitle">Series · 2019</div>
+      <div class="card-theme-tag">▸ Revenge · Pacifism · True Strength</div>
+      <p class="card-reflection">A warrior discovers that the path he chose destroyed him. <strong>Reflect:</strong> What have I sacrificed in pursuit of something that, if I got it, would not satisfy me?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">II·08</span>
+      </div>
+      <div class="card-title">Berserk</div>
+      <div class="card-subtitle">Kentaro Miura · ongoing</div>
+      <div class="card-theme-tag">▸ Betrayal · Dark Ambition · Survival of the Self</div>
+      <p class="card-reflection">A warrior survives impossible cruelty and chooses to keep living. <strong>Reflect:</strong> What is the relationship between trauma and who I've become?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">II·09</span>
+      </div>
+      <div class="card-title">Legend of the Galactic Heroes</div>
+      <div class="card-subtitle">Series · 1988</div>
+      <div class="card-theme-tag">▸ Democracy · Autocracy · Political Ethics</div>
+      <p class="card-reflection">Two military geniuses on opposite sides of a galactic civil war ask what governance is for. <strong>Reflect:</strong> Is order without freedom worth its price? Is freedom without order possible?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">II·10</span>
+      </div>
+      <div class="card-title">20th Century Boys</div>
+      <div class="card-subtitle">Naoki Urasawa · 22 vols</div>
+      <div class="card-theme-tag">▸ Cult Politics · Collective Memory · Resistance</div>
+      <p class="card-reflection">A group of childhood friends fight a cult that's taken over the world. <strong>Reflect:</strong> How do charismatic figures build movements? When do I follow without thinking?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">II·11</span>
+      </div>
+      <div class="card-title">Psycho-Pass</div>
+      <div class="card-subtitle">Series · 2012</div>
+      <div class="card-theme-tag">▸ Surveillance · Preemptive Justice · Free Will</div>
+      <p class="card-reflection">A society arrests people before they commit crimes. <strong>Reflect:</strong> When is safety used to justify control? Do I consent to being watched?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">II·12</span>
+      </div>
+      <div class="card-title">Pluto</div>
+      <div class="card-subtitle">Naoki Urasawa · 8 vols</div>
+      <div class="card-theme-tag">▸ War Crimes · Robot Ethics · Hatred's Origins</div>
+      <p class="card-reflection">A reimagining of Astro Boy asks: what makes a human capable of genocide? <strong>Reflect:</strong> What is the seed of hatred — and when did it grow in me toward anyone?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">II·13</span>
+      </div>
+      <div class="card-title">Barakamon</div>
+      <div class="card-subtitle">Series · 2014</div>
+      <div class="card-theme-tag">▸ Humility · Creativity · Learning from Children</div>
+      <p class="card-reflection">A calligrapher punishes a critic and is exiled to a rural island where children teach him what art is. <strong>Reflect:</strong> When did pride cost me something important? Who have I dismissed that I should have listened to?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">II·14</span>
+      </div>
+      <div class="card-title">Blue Period</div>
+      <div class="card-subtitle">Tsubasa Yamaguchi · ongoing</div>
+      <div class="card-theme-tag">▸ Passion vs. Practicality · Art · Honesty</div>
+      <p class="card-reflection">A high-achieving student gives up everything to pursue painting. <strong>Reflect:</strong> What have I suppressed to appear "sensible"? What would I pursue if I stopped performing?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">II·15</span>
+      </div>
+      <div class="card-title">Moriarty the Patriot</div>
+      <div class="card-subtitle">Series · 2020</div>
+      <div class="card-theme-tag">▸ Class · Reform vs. Radicalism · The Price of Ideals</div>
+      <p class="card-reflection">A noble dedicates his life to destroying Britain's class system — even if it costs him his soul. <strong>Reflect:</strong> Is it ethical to use wrong means for right ends?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">II·16</span>
+      </div>
+      <div class="card-title">Dungeon Meshi (Delicious in Dungeon)</div>
+      <div class="card-subtitle">Ryoko Kui · 14 vols</div>
+      <div class="card-theme-tag">▸ Resourcefulness · Ecological Ethics · Food</div>
+      <p class="card-reflection">Adventurers eat the monsters they kill to survive. <strong>Reflect:</strong> What is my relationship to the food chain? To resourcefulness?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">II·17</span>
+      </div>
+      <div class="card-title">Princess Mononoke</div>
+      <div class="card-subtitle">Miyazaki · Film · 1997</div>
+      <div class="card-theme-tag">▸ Progress vs. Nature · No True Villain · Industrial Ethics</div>
+      <p class="card-reflection">Neither the humans nor the forest gods are wrong — only the system. <strong>Reflect:</strong> Where do I participate in "development" that destroys something irreplaceable?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">II·18</span>
+      </div>
+      <div class="card-title">Oishinbo</div>
+      <div class="card-subtitle">Tetsu Kariya · 111 vols</div>
+      <div class="card-theme-tag">▸ Cultural Integrity · Authenticity · Craft</div>
+      <p class="card-reflection">A food journalist argues for authentic Japanese cuisine against commercialization. <strong>Reflect:</strong> What cultural practices am I watching become commodified — and what is lost?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">II·19</span>
+      </div>
+      <div class="card-title">Ghost in the Shell</div>
+      <div class="card-subtitle">Oshii · Film · 1995</div>
+      <div class="card-theme-tag">▸ Identity · Consciousness · What Makes a Self</div>
+      <p class="card-reflection">A cyborg policewoman asks if she has a soul. <strong>Reflect:</strong> What do I consider the essential core of "me"? What would survive the loss of my body?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">II·20</span>
+      </div>
+      <div class="card-title">Biomega</div>
+      <div class="card-subtitle">Tsutomu Nihei · 6 vols</div>
+      <div class="card-theme-tag">▸ Post-human Ethics · Loyalty · Survival</div>
+      <p class="card-reflection">A posthuman agent and a synthetic bear navigate a collapsed world. <strong>Reflect:</strong> What loyalties would I keep if society completely collapsed?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">II·21</span>
+      </div>
+      <div class="card-title">Dororo</div>
+      <div class="card-subtitle">Series · 2019</div>
+      <div class="card-theme-tag">▸ Sacrifice · Agency · Parental Sin</div>
+      <p class="card-reflection">A lord trades his son's body parts to demons for land. The son reclaims them one by one. <strong>Reflect:</strong> What have others sacrificed without my knowledge to give me what I have?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">II·22</span>
+      </div>
+      <div class="card-title">Liar Game</div>
+      <div class="card-subtitle">Shinobu Kaitani · 19 vols</div>
+      <div class="card-theme-tag">▸ Trust · Betrayal · Collective Action Problems</div>
+      <p class="card-reflection">Players compete in psychological games designed to make them betray each other. <strong>Reflect:</strong> Under what conditions do I stop trusting people — and how do I rebuild?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">II·23</span>
+      </div>
+      <div class="card-title">Akira</div>
+      <div class="card-subtitle">Otomo · Film · 1988</div>
+      <div class="card-theme-tag">▸ Power Corruption · Youth Rage · Urban Collapse</div>
+      <p class="card-reflection">Unchecked psychic power destroys a city and a friendship. <strong>Reflect:</strong> What happens when someone without wisdom is given enormous power?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">II·24</span>
+      </div>
+      <div class="card-title">Akira</div>
+      <div class="card-subtitle">Katsuhiro Otomo · 6 vols</div>
+      <div class="card-theme-tag">▸ Government Secrecy · Human Experimentation · Rebellion</div>
+      <p class="card-reflection">The manga expands on the state's role in creating — and hiding — its monsters. <strong>Reflect:</strong> What does my government hide from me in the name of security?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">II·25</span>
+      </div>
+      <div class="card-title">Neon Genesis Evangelion</div>
+      <div class="card-subtitle">Series · 1995</div>
+      <div class="card-theme-tag">▸ Trauma · Self-worth · Instrumentalizing Others</div>
+      <p class="card-reflection">A boy is asked to save the world but cannot even connect with the people next to him. <strong>Reflect:</strong> Have I ever used someone as a tool for my own salvation?</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- SECTION III: GRIEF & IMPERMANENCE -->
+<!-- ═══════════════════════════════════════════════ -->
+<section class="section" id="grief">
+  <div class="section-header">
+    <span class="section-title">III — Grief & Impermanence</span>
+    <span class="section-count">25 works</span>
+  </div>
+  <p class="section-theme">"Nothing lasts. What do we do with that?" Works on loss, death, memory, and the strange grace that grief sometimes brings.</p>
+  <div class="cards-grid" id="grid-grief">
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">III·01</span>
+      </div>
+      <div class="card-title">Your Lie in April</div>
+      <div class="card-subtitle">Shigatsu wa Kimi no Uso · Series · 2014</div>
+      <div class="card-theme-tag">▸ Grief · Music · Letting Go</div>
+      <p class="card-reflection">A pianist who stopped hearing music meets a violinist who is dying. <strong>Reflect:</strong> What grief have I been avoiding through numbness? What music am I not allowing myself to hear?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">III·02</span>
+      </div>
+      <div class="card-title">Your Lie in April</div>
+      <div class="card-subtitle">Naoshi Arakawa · 11 vols</div>
+      <div class="card-theme-tag">▸ Living with Terminal Illness · Gift-giving</div>
+      <p class="card-reflection">The manga lingers on what a dying person chooses to leave behind. <strong>Reflect:</strong> What would I want to leave? What do I want to make sure someone knows before it's too late?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">III·03</span>
+      </div>
+      <div class="card-title">Anohana: The Flower We Saw That Day</div>
+      <div class="card-subtitle">Series · 2011</div>
+      <div class="card-theme-tag">▸ Unresolved Grief · Friendship · Guilt Survival</div>
+      <p class="card-reflection">A group of childhood friends scattered by a friend's death reunite to fulfill her wish. <strong>Reflect:</strong> Is there an unfinished grief I've been avoiding by staying away from something?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">III·04</span>
+      </div>
+      <div class="card-title">Goodnight Punpun</div>
+      <div class="card-subtitle">Inio Asano · 13 vols</div>
+      <div class="card-theme-tag">▸ Depression · Trauma · Coming of Age</div>
+      <p class="card-reflection">An unflinching portrait of a boy's psychological disintegration from childhood to adulthood. <strong>Reflect:</strong> What childhood wounds did I normalize that I've been carrying into adult behavior?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">III·05</span>
+      </div>
+      <div class="card-title">Hotarubi no Mori e</div>
+      <div class="card-subtitle">Film · 2011</div>
+      <div class="card-theme-tag">▸ Longing · Ephemeral Love · Beauty of Limits</div>
+      <p class="card-reflection">A girl loves a forest spirit who will disappear if touched. <strong>Reflect:</strong> What relationships in my life am I loving poorly because I'm afraid of their ending?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">III·06</span>
+      </div>
+      <div class="card-title">Solanin</div>
+      <div class="card-subtitle">Inio Asano · 2 vols</div>
+      <div class="card-theme-tag">▸ Sudden Loss · Meaning · Young Adulthood</div>
+      <p class="card-reflection">A young couple navigate listlessness until death forces a reckoning with what matters. <strong>Reflect:</strong> Am I waiting for a crisis to clarify what I actually value?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">III·07</span>
+      </div>
+      <div class="card-title">The Tale of Princess Kaguya</div>
+      <div class="card-subtitle">Isao Takahata · Film · 2013</div>
+      <div class="card-theme-tag">▸ Mortality · Nature · Desire and Loss</div>
+      <p class="card-reflection">A celestial being lives a full human life she never asked for, then must leave it. <strong>Reflect:</strong> What is the relationship between desire and suffering? Would I choose mortality?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">III·08</span>
+      </div>
+      <div class="card-title">Ikigami: The Ultimate Limit</div>
+      <div class="card-subtitle">Motoro Mase · 10 vols</div>
+      <div class="card-theme-tag">▸ State Death · Meaning · Last Hours</div>
+      <p class="card-reflection">Citizens are randomly selected at birth to die between 18–24; a civil servant delivers the notices. <strong>Reflect:</strong> If I had 24 hours left, what would I do? What does that reveal about how I'm living now?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">III·09</span>
+      </div>
+      <div class="card-title">Death Parade</div>
+      <div class="card-subtitle">Series · 2015</div>
+      <div class="card-theme-tag">▸ Judgment · What Lives Reveal · Fairness</div>
+      <p class="card-reflection">Dead souls are judged through bar games that reveal their true character. <strong>Reflect:</strong> How would I be judged? What does my behavior reveal about who I really am?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">III·10</span>
+      </div>
+      <div class="card-title">A Walk to Remember (Manga Adaptation)</div>
+      <div class="card-subtitle">Various · single vol</div>
+      <div class="card-theme-tag">▸ Terminal Illness · First Love · Faith</div>
+      <p class="card-reflection">A teenager falls in love with a dying girl whose faith he doesn't share. <strong>Reflect:</strong> Can love transform who I am without requiring me to share the other's beliefs?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">III·11</span>
+      </div>
+      <div class="card-title">Angel Beats!</div>
+      <div class="card-subtitle">Series · 2010</div>
+      <div class="card-theme-tag">▸ Unresolved Life · Acceptance · Moving On</div>
+      <p class="card-reflection">Dead teenagers in a purgatory school rebel against disappearing. <strong>Reflect:</strong> What am I refusing to let go of? What would it mean to complete something?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">III·12</span>
+      </div>
+      <div class="card-title">Children of the Sea</div>
+      <div class="card-subtitle">Daisuke Igarashi · 5 vols</div>
+      <div class="card-theme-tag">▸ Ocean · Time · Cosmic Scale of Life</div>
+      <p class="card-reflection">A girl meets boys who were raised by the sea and may return to it. <strong>Reflect:</strong> How does thinking at planetary or oceanic scale change how I relate to my own existence?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">III·13</span>
+      </div>
+      <div class="card-title">Millennium Actress</div>
+      <div class="card-subtitle">Satoshi Kon · Film · 2001</div>
+      <div class="card-theme-tag">▸ Longing · Memory · A Life Defined by Pursuit</div>
+      <p class="card-reflection">An actress spent her entire life chasing a man she met once. <strong>Reflect:</strong> What have I organized my entire life around that I've never questioned?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">III·14</span>
+      </div>
+      <div class="card-title">The Flowers of Evil</div>
+      <div class="card-subtitle">Shuzo Oshimi · 11 vols</div>
+      <div class="card-theme-tag">▸ Shame · Desire · Adolescent Alienation</div>
+      <p class="card-reflection">A bookish teenager is blackmailed by the class outcast into increasingly transgressive acts. <strong>Reflect:</strong> What shameful part of myself have I never looked at directly?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">III·15</span>
+      </div>
+      <div class="card-title">Colorful</div>
+      <div class="card-subtitle">Film · 2010</div>
+      <div class="card-theme-tag">▸ Suicide · Family · Being Seen</div>
+      <p class="card-reflection">A soul inhabits the body of a boy who attempted suicide and slowly learns what he missed. <strong>Reflect:</strong> What about the life I have do I take for granted that others would treasure?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">III·16</span>
+      </div>
+      <div class="card-title">Oyasumi Punpun (alternate reading)</div>
+      <div class="card-subtitle">See Goodnight Punpun above</div>
+      <div class="card-theme-tag">▸ (Cross-reference)</div>
+      <p class="card-reflection">Paired best with Colorful as a contrast: what destroys vs. what heals the same kind of wound.</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">III·17</span>
+      </div>
+      <div class="card-title">Paranoia Agent</div>
+      <div class="card-subtitle">Satoshi Kon · Series · 2004</div>
+      <div class="card-theme-tag">▸ Collective Anxiety · Escapism · Social Pressure</div>
+      <p class="card-reflection">A mysterious attacker becomes the unconscious wish-fulfillment of a stressed society. <strong>Reflect:</strong> What social pressures have I let become my identity?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">III·18</span>
+      </div>
+      <div class="card-title">Biomega</div>
+      <div class="card-subtitle">(see Section II cross-reference)</div>
+      <div class="card-theme-tag">▸ (Cross-reference)</div>
+      <p class="card-reflection">Its themes of loyalty amid total collapse speak to both integrity and grief simultaneously.</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">III·19</span>
+      </div>
+      <div class="card-title">5 Centimeters Per Second</div>
+      <div class="card-subtitle">Makoto Shinkai · Film · 2007</div>
+      <div class="card-theme-tag">▸ Drift · Unfinished Love · Time</div>
+      <p class="card-reflection">Two people slowly drift apart through life. <strong>Reflect:</strong> What connections have I let drift that mattered? What did I fail to say before the distance became permanent?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">III·20</span>
+      </div>
+      <div class="card-title">A Bride's Story</div>
+      <div class="card-subtitle">Kaoru Mori · ongoing</div>
+      <div class="card-theme-tag">▸ Marriage · Central Asian Culture · Textile as Memory</div>
+      <p class="card-reflection">A young woman in 19th century Central Asia is married to a younger man and adapts beautifully. <strong>Reflect:</strong> What cultural practices encode love and memory that my generation is losing?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">III·21</span>
+      </div>
+      <div class="card-title">Onoda: 10,000 Hours in the Jungle</div>
+      <div class="card-subtitle">Film (French) · 2021 — note non-anime, landmark</div>
+      <div class="card-theme-tag">▸ Loyalty · Delusion · Ideology Outlasting Reality</div>
+      <p class="card-reflection">A Japanese soldier kept fighting for 30 years because no one told him the war ended. <strong>Reflect:</strong> What battles am I still fighting that ended long ago?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">III·22</span>
+      </div>
+      <div class="card-title">Kokou no Hito (The Loner)</div>
+      <div class="card-subtitle">Shinichi Sakamoto · 17 vols</div>
+      <div class="card-theme-tag">▸ Solitude · Obsession · The Mountain as Self</div>
+      <p class="card-reflection">A withdrawn boy becomes a solo climber seeking something he can't name. <strong>Reflect:</strong> What solitary pursuits give me a clarity that company cannot?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">III·23</span>
+      </div>
+      <div class="card-title">Into the Forest of Fireflies' Light</div>
+      <div class="card-subtitle">Hotarubi no Mori e · Film · 2011</div>
+      <div class="card-theme-tag">▸ (see III·05 anime)</div>
+      <p class="card-reflection">The same film — revisit it two years after the first viewing and see what changed.</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">III·24</span>
+      </div>
+      <div class="card-title">No Longer Human (Manga Adaptation)</div>
+      <div class="card-subtitle">Junji Ito adapts Osamu Dazai · 1 vol</div>
+      <div class="card-theme-tag">▸ Alienation · Self-destruction · Performing Humanity</div>
+      <p class="card-reflection">Based on Dazai's autobiographical novel about a man who cannot connect with other humans. <strong>Reflect:</strong> How much of my social behavior is performance? What would I be without the mask?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">III·25</span>
+      </div>
+      <div class="card-title">Nausicaä of the Valley of the Wind</div>
+      <div class="card-subtitle">Miyazaki · Film · 1984</div>
+      <div class="card-theme-tag">▸ Ecological Grief · Radical Empathy · Death as Transformation</div>
+      <p class="card-reflection">A princess who can feel the pain of insects grieves for a dying world. <strong>Reflect:</strong> What would I do differently if I could feel the suffering I cause?</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- SECTION IV: JUSTICE & POWER -->
+<!-- ═══════════════════════════════════════════════ -->
+<section class="section" id="justice">
+  <div class="section-header">
+    <span class="section-title">IV — Justice & Power</span>
+    <span class="section-count">25 works</span>
+  </div>
+  <p class="section-theme">"Who has power — and who pays the price?" Works on class, caste, colonial history, political systems, and resistance.</p>
+  <div class="cards-grid" id="grid-justice">
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">IV·01</span>
+      </div>
+      <div class="card-title">Attack on Titan</div>
+      <div class="card-subtitle">Series · 2013–2023</div>
+      <div class="card-theme-tag">▸ Cycles of Violence · Nationalism · Historical Truth</div>
+      <p class="card-reflection">A genocide survivor's descendants become perpetrators. <strong>Reflect:</strong> How do cycles of historical violence trap both oppressor and oppressed? What breaks the cycle?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">IV·02</span>
+      </div>
+      <div class="card-title">Attack on Titan</div>
+      <div class="card-subtitle">Hajime Isayama · 34 vols</div>
+      <div class="card-theme-tag">▸ Colonialism · Island Nation Allegory · Complicity</div>
+      <p class="card-reflection">The manga's full moral complexity surpasses the anime. <strong>Reflect:</strong> How does propaganda shape a population's willingness to commit atrocity?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">IV·03</span>
+      </div>
+      <div class="card-title">Mushi-shi</div>
+      <div class="card-subtitle">(see Section I cross-reference)</div>
+      <div class="card-theme-tag">▸ (Cross-reference: non-judgmental justice)</div>
+      <p class="card-reflection">Ginko practices a justice without punishment — only observation, understanding, and gentle intervention.</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">IV·04</span>
+      </div>
+      <div class="card-title">Vagabond</div>
+      <div class="card-subtitle">(see Section II cross-reference)</div>
+      <div class="card-theme-tag">▸ (Cross-reference: power and ego)</div>
+      <p class="card-reflection">Pair with FMA Brotherhood for a combined study of power and its costs.</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">IV·05</span>
+      </div>
+      <div class="card-title">Dororo</div>
+      <div class="card-subtitle">(see Section II — cross-reading)</div>
+      <div class="card-theme-tag">▸ (Cross-reference: political sacrifice)</div>
+      <p class="card-reflection">Specifically: what political leaders sacrifice of the powerless in deals for "the greater good."</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">IV·06</span>
+      </div>
+      <div class="card-title">Thermae Romae</div>
+      <div class="card-subtitle">Mari Yamazaki · 6 vols</div>
+      <div class="card-theme-tag">▸ Cultural Exchange · Humility · Civilization</div>
+      <p class="card-reflection">A Roman architect travels to modern Japan through bathhouses. <strong>Reflect:</strong> What practices from other cultures do I use without attribution or acknowledgment?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">IV·07</span>
+      </div>
+      <div class="card-title">Spice and Wolf</div>
+      <div class="card-subtitle">Series · 2008</div>
+      <div class="card-theme-tag">▸ Medieval Economics · Trade Ethics · Trust</div>
+      <p class="card-reflection">A travelling merchant and a wolf goddess navigate trade and economic manipulation. <strong>Reflect:</strong> What is the ethics of trade? What does a fair transaction actually require?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">IV·08</span>
+      </div>
+      <div class="card-title">Vinland Saga</div>
+      <div class="card-subtitle">(see Section II — cross-reading)</div>
+      <div class="card-theme-tag">▸ (Cross-reference: slavery arc)</div>
+      <p class="card-reflection">The slavery arc is one of the most honest treatments of the institution in any medium. Essential.</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">IV·09</span>
+      </div>
+      <div class="card-title">The Rose of Versailles</div>
+      <div class="card-subtitle">Versailles no Bara · Series · 1979</div>
+      <div class="card-theme-tag">▸ French Revolution · Gender · Aristocracy's Blindness</div>
+      <p class="card-reflection">A female knight guards Marie Antoinette while revolution builds outside the palace walls. <strong>Reflect:</strong> What revolutions are building outside the walls of my comfort that I'm not looking at?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">IV·10</span>
+      </div>
+      <div class="card-title">Nausicaä of the Valley of the Wind</div>
+      <div class="card-subtitle">Miyazaki · 7 vols</div>
+      <div class="card-theme-tag">▸ Environmental Justice · Militarism · Ecology</div>
+      <p class="card-reflection">Far darker than the film: Nausicaä discovers that even the "good" plan for humanity is a violation. <strong>Reflect:</strong> Is it ever ethical to decide for all of humanity what its future should be?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">IV·11</span>
+      </div>
+      <div class="card-title">Samurai Champloo</div>
+      <div class="card-subtitle">Series · 2004</div>
+      <div class="card-theme-tag">▸ Edo Period Underclass · Identity · Freedom</div>
+      <p class="card-reflection">Three misfits travel Japan's margins, encountering its forgotten people. <strong>Reflect:</strong> Who lives on the margins of the society I move comfortably through?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">IV·12</span>
+      </div>
+      <div class="card-title">Planetes</div>
+      <div class="card-subtitle">Makoto Yukimura · 4 vols</div>
+      <div class="card-theme-tag">▸ Labor Rights · Space Debris · Worker Dignity</div>
+      <p class="card-reflection">Space janitors clean up humanity's debris while being treated as disposable. <strong>Reflect:</strong> What invisible labor makes my life possible? How do I treat those who do it?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">IV·13</span>
+      </div>
+      <div class="card-title">Planetes</div>
+      <div class="card-subtitle">Series · 2003</div>
+      <div class="card-theme-tag">▸ Dreams vs. Duty · Ambition's Cost to Others</div>
+      <p class="card-reflection">An astronaut's ambition for deep space travel costs him his relationship. <strong>Reflect:</strong> What does my ambition cost the people who love me?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">IV·14</span>
+      </div>
+      <div class="card-title">Shimauma</div>
+      <div class="card-subtitle">Hideo Yamamoto · 10 vols</div>
+      <div class="card-theme-tag">▸ Debt Collection · Economic Violence · Class</div>
+      <p class="card-reflection">A debt collector uses psychological terror against defaulters. <strong>Reflect:</strong> What systems exist to extract suffering from the vulnerable — and who benefits?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">IV·15</span>
+      </div>
+      <div class="card-title">Made in Abyss</div>
+      <div class="card-subtitle">Series · 2017</div>
+      <div class="card-theme-tag">▸ Exploitation of the Curious · Children in Danger · Descent</div>
+      <p class="card-reflection">Children descend into an abyss that makes ascent increasingly deadly. <strong>Reflect:</strong> What systems romanticize sacrifice in a way that disproportionately harms the powerless?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">IV·16</span>
+      </div>
+      <div class="card-title">Kaguya-sama: Love is War</div>
+      <div class="card-subtitle">Aka Akasaka · 28 vols</div>
+      <div class="card-theme-tag">▸ Elite School Pressure · Pride · Vulnerability</div>
+      <p class="card-reflection">Two elite students too proud to confess compete manipulatively. <strong>Reflect:</strong> Where does my pride prevent me from being honest about what I feel or need?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">IV·17</span>
+      </div>
+      <div class="card-title">Now and Then, Here and There</div>
+      <div class="card-subtitle">Series · 1999</div>
+      <div class="card-theme-tag">▸ Child Soldiers · Torture · Hope Under Horror</div>
+      <p class="card-reflection">One of anime's most brutal treatments of child warfare. <strong>Reflect:</strong> What does it mean to maintain hope inside a system designed to destroy it?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">IV·18</span>
+      </div>
+      <div class="card-title">Shigurui: Death Frenzy</div>
+      <div class="card-subtitle">Norio Nanajo · 15 vols</div>
+      <div class="card-theme-tag">▸ Honor Culture · Feudal Violence · Samurai Ethics</div>
+      <p class="card-reflection">The samurai honor code destroys everyone who follows it. <strong>Reflect:</strong> What "honor codes" in my culture are really systems for controlling behavior through shame?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">IV·19</span>
+      </div>
+      <div class="card-title">Sword of the Stranger</div>
+      <div class="card-subtitle">Film · 2007</div>
+      <div class="card-theme-tag">▸ Loyalty without Belonging · Statelessness</div>
+      <p class="card-reflection">A ronin with no name and no cause protects a boy he has no reason to protect. <strong>Reflect:</strong> Can goodness exist without ideology? What is the minimum required to be good?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">IV·20</span>
+      </div>
+      <div class="card-title">Historie</div>
+      <div class="card-subtitle">Hitoshi Iwaaki · ongoing</div>
+      <div class="card-theme-tag">▸ Ancient Greece · Slavery · Intellectual Life Under Empire</div>
+      <p class="card-reflection">The life of Eumenes of Cardia, Alexander the Great's secretary, raised as a slave. <strong>Reflect:</strong> How does one maintain intellectual integrity within an empire?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">IV·21</span>
+      </div>
+      <div class="card-title">Magi: The Labyrinth of Magic</div>
+      <div class="card-subtitle">Series · 2012</div>
+      <div class="card-theme-tag">▸ Fate · Slavery · Revolutionary Politics</div>
+      <p class="card-reflection">A cheerful adventure that gradually reveals itself to be about slavery and revolution. <strong>Reflect:</strong> What cheerful systems in my life are built on something I'd rather not look at?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">IV·22</span>
+      </div>
+      <div class="card-title">Biomega · Blame!</div>
+      <div class="card-subtitle">Tsutomu Nihei · 6 vols each</div>
+      <div class="card-theme-tag">▸ Post-human City · Scale of Power</div>
+      <p class="card-reflection">Cities that grow without human intention, consuming their inhabitants. <strong>Reflect:</strong> What institutions have grown beyond human scale in ways that now govern us?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">IV·23</span>
+      </div>
+      <div class="card-title">Kaiba</div>
+      <div class="card-subtitle">Masaaki Yuasa · Series · 2008</div>
+      <div class="card-theme-tag">▸ Memory as Property · Class · Love Across Bodies</div>
+      <p class="card-reflection">In a world where memories can be bought, stolen, and traded, the rich buy immortality. <strong>Reflect:</strong> What would it mean for memory — and thus identity — to become a commodity?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">IV·24</span>
+      </div>
+      <div class="card-title">Cesare: Il Creatore che ha Distrutto</div>
+      <div class="card-subtitle">Fuyumi Soryo · 12 vols</div>
+      <div class="card-theme-tag">▸ Renaissance Politics · Machiavelli · Power and Friendship</div>
+      <p class="card-reflection">A fictional account of Cesare Borgia at university. <strong>Reflect:</strong> Can political genius coexist with genuine friendship?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">IV·25</span>
+      </div>
+      <div class="card-title">Patlabor: The Movie 2</div>
+      <div class="card-subtitle">Mamoru Oshii · Film · 1993</div>
+      <div class="card-theme-tag">▸ Military Ethics · Peace as Illusion · Urban Warfare</div>
+      <p class="card-reflection">A police unit confronts a military conspiracy questioning whether Japan is truly at peace. <strong>Reflect:</strong> What does it take to maintain peace? Is what I call "peace" actually just suppressed conflict?</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- SECTION V: BELONGING & IDENTITY -->
+<!-- ═══════════════════════════════════════════════ -->
+<section class="section" id="belonging">
+  <div class="section-header">
+    <span class="section-title">V — Belonging & Identity</span>
+    <span class="section-count">25 works</span>
+  </div>
+  <p class="section-theme">"Who am I among others?" Works on gender, community, the in-between, the outsider, and the many selves we carry.</p>
+  <div class="cards-grid" id="grid-belonging">
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">V·01</span>
+      </div>
+      <div class="card-title">Revolutionary Girl Utena</div>
+      <div class="card-subtitle">Series · 1997</div>
+      <div class="card-theme-tag">▸ Gender Performance · Power in Relationships · Myth</div>
+      <p class="card-reflection">A girl who wants to be a prince destabilizes every gender assumption in her academy. <strong>Reflect:</strong> What roles have I accepted without choosing them? Which would I keep if I could choose freely?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">V·02</span>
+      </div>
+      <div class="card-title">Wandering Son (Hourou Musuko)</div>
+      <div class="card-subtitle">Shimura Takako · 8 vols</div>
+      <div class="card-theme-tag">▸ Gender Identity · Adolescence · Vulnerability</div>
+      <p class="card-reflection">Two children — one born male who wants to be a girl, one born female who wants to be a boy — navigate adolescence with uncommon tenderness. <strong>Reflect:</strong> What do I not understand about gender identity — and what would understanding cost me?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">V·03</span>
+      </div>
+      <div class="card-title">Wandering Son</div>
+      <div class="card-subtitle">Series · 2011</div>
+      <div class="card-theme-tag">▸ Peer Cruelty · Identity Formation</div>
+      <p class="card-reflection">The adaptation is visually exquisite — a watercolor world for a tender story. <strong>Reflect:</strong> How did I react to children who were "different" when I was young? How do I react now?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">V·04</span>
+      </div>
+      <div class="card-title">Dungeon Meshi</div>
+      <div class="card-subtitle">(see Section II cross-reference)</div>
+      <div class="card-theme-tag">▸ Cultural Identity through Food</div>
+      <p class="card-reflection">Different species with different food cultures must learn to cook for each other. A parable for multicultural respect.</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">V·05</span>
+      </div>
+      <div class="card-title">The Ancient Magus' Bride</div>
+      <div class="card-subtitle">Series · 2017</div>
+      <div class="card-theme-tag">▸ Self-worth · Belonging · Chosen Family</div>
+      <p class="card-reflection">A girl who has been sold finds herself in a world of magic and slowly learns she has value. <strong>Reflect:</strong> What early messages about my own worth do I still believe without questioning?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">V·06</span>
+      </div>
+      <div class="card-title">The Ancient Magus' Bride</div>
+      <div class="card-subtitle">Kore Yamazaki · ongoing</div>
+      <div class="card-theme-tag">▸ Folklore Identity · Self-construction</div>
+      <p class="card-reflection">The manga is richer in British folklore — each creature is a way of being human. <strong>Reflect:</strong> What myths does my culture use to explain human types? Are those myths limiting?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">V·07</span>
+      </div>
+      <div class="card-title">Shirobako</div>
+      <div class="card-subtitle">Series · 2014</div>
+      <div class="card-theme-tag">▸ Creative Work · Vocation · Workplace Community</div>
+      <p class="card-reflection">Five friends pursue careers in anime production and discover the gap between dreams and labor. <strong>Reflect:</strong> Is what I work toward actually what I want — or a younger self's dream I haven't revisited?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">V·08</span>
+      </div>
+      <div class="card-title">Genshiken</div>
+      <div class="card-subtitle">Shimoku Kio · 9 vols</div>
+      <div class="card-theme-tag">▸ Subculture Identity · Belonging · Authenticity</div>
+      <p class="card-reflection">An otaku club navigates identity, outsider culture, and what it means to belong somewhere. <strong>Reflect:</strong> What communities do I belong to that others dismiss? What does that community give me that mainstream culture doesn't?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">V·09</span>
+      </div>
+      <div class="card-title">Banana Fish</div>
+      <div class="card-subtitle">Series · 2018</div>
+      <div class="card-theme-tag">▸ Abuse · Chosen Family · Love without Labels</div>
+      <p class="card-reflection">A gang leader and a Japanese photographer forge one of fiction's most intense bonds. <strong>Reflect:</strong> What does profound love look like when it resists easy labeling?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">V·10</span>
+      </div>
+      <div class="card-title">Banana Fish</div>
+      <div class="card-subtitle">Akimi Yoshida · 19 vols</div>
+      <div class="card-theme-tag">▸ Childhood Trauma · Street Survival · Drug Politics</div>
+      <p class="card-reflection">The 1980s NYC setting is a character unto itself — a world that devours the vulnerable. <strong>Reflect:</strong> What cities or communities are currently devouring their young people?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">V·11</span>
+      </div>
+      <div class="card-title">Odd Taxi</div>
+      <div class="card-subtitle">Series · 2021</div>
+      <div class="card-theme-tag">▸ Urban Alienation · Social Media · Loneliness</div>
+      <p class="card-reflection">A walrus taxi driver solves a mystery while navigating a city of lonely, disconnected people. <strong>Reflect:</strong> How does social media both promise and prevent real connection?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">V·12</span>
+      </div>
+      <div class="card-title">Emma: A Victorian Romance</div>
+      <div class="card-subtitle">Kaoru Mori · 10 vols</div>
+      <div class="card-theme-tag">▸ Class · Propriety · Love Across Stations</div>
+      <p class="card-reflection">A maid and a gentleman's son fall in love in Victorian England. <strong>Reflect:</strong> What class assumptions do I carry about who is suitable — for friendship, for love, for respect?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">V·13</span>
+      </div>
+      <div class="card-title">Tatami Galaxy</div>
+      <div class="card-subtitle">Yojouhan Shinwa Taikei · Series · 2010</div>
+      <div class="card-theme-tag">▸ Regret · Parallel Lives · Grass is Always Greener</div>
+      <p class="card-reflection">A student relives his college years through different club choices but makes the same mistakes each time. <strong>Reflect:</strong> What do I keep blaming circumstance for that is actually a pattern in me?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">V·14</span>
+      </div>
+      <div class="card-title">Bride of the Water God</div>
+      <div class="card-subtitle">Mi-Kyung Yun · Korean manhwa · 23 vols</div>
+      <div class="card-theme-tag">▸ Sacrifice · Power Imbalance · Cultural Mythology</div>
+      <p class="card-reflection">A girl is offered to a water god as a bride, and discovers the gods are as trapped as she is. <strong>Reflect:</strong> What traditions demand sacrifice from those with the least power?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">V·15</span>
+      </div>
+      <div class="card-title">Keep Your Hands Off Eizouken!</div>
+      <div class="card-subtitle">Series · 2020</div>
+      <div class="card-theme-tag">▸ Creative Drive · Friendship · Making Something</div>
+      <p class="card-reflection">Three girls pursue anime-making with ferocious energy against institutional obstacles. <strong>Reflect:</strong> What are the obstacles — internal and external — between me and making the thing I want to make?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">V·16</span>
+      </div>
+      <div class="card-title">Kakukaku Shikajika</div>
+      <div class="card-subtitle">Akiko Higashimura · 5 vols</div>
+      <div class="card-theme-tag">▸ Mentorship · Regret · Art as Tribute</div>
+      <p class="card-reflection">A manga artist reflects on her relationship with a demanding art teacher who died before she could thank him. <strong>Reflect:</strong> Who shaped me that I've never properly acknowledged?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">V·17</span>
+      </div>
+      <div class="card-title">Fruits Basket (2019)</div>
+      <div class="card-subtitle">Series · 2019–2021</div>
+      <div class="card-theme-tag">▸ Generational Trauma · Acceptance · Chosen Family</div>
+      <p class="card-reflection">A family cursed to transform into animals is released by a girl who accepts them unconditionally. <strong>Reflect:</strong> What would it feel like to be accepted completely — including the parts I hide?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">V·18</span>
+      </div>
+      <div class="card-title">Fruits Basket</div>
+      <div class="card-subtitle">Natsuki Takaya · 23 vols</div>
+      <div class="card-theme-tag">▸ Toxic Matriarchy · Breaking Curses · Healing</div>
+      <p class="card-reflection">The manga shows what a family system looks like when it systematically crushes love. <strong>Reflect:</strong> What patterns in my family of origin am I still enacting without questioning?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">V·19</span>
+      </div>
+      <div class="card-title">Ouran High School Host Club</div>
+      <div class="card-subtitle">Series · 2006</div>
+      <div class="card-theme-tag">▸ Class · Gender · Performing Social Roles</div>
+      <p class="card-reflection">A gender-ambiguous student on scholarship parodies elite society's gender performances. <strong>Reflect:</strong> What performances does my social class expect of me?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">V·20</span>
+      </div>
+      <div class="card-title">Princess Jellyfish (Kuragehime)</div>
+      <div class="card-subtitle">Akiko Higashimura · 17 vols</div>
+      <div class="card-theme-tag">▸ Otaku Identity · Class · Cross-dressing · Belonging</div>
+      <p class="card-reflection">A group of socially anxious women befriend a cross-dressing rich boy. <strong>Reflect:</strong> What would I be capable of if I stopped being ashamed of my "weird" interests?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">V·21</span>
+      </div>
+      <div class="card-title">Link Click (Chinese donghua)</div>
+      <div class="card-subtitle">Series · 2021</div>
+      <div class="card-theme-tag">▸ Memory · Consequences · Moral Responsibility</div>
+      <p class="card-reflection">A man can enter photos to change the past, but every change has consequences. <strong>Reflect:</strong> If I could change one thing from my past, what would its consequences ripple into?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">V·22</span>
+      </div>
+      <div class="card-title">Skip and Loafer</div>
+      <div class="card-subtitle">Misaki Takamatsu · ongoing</div>
+      <div class="card-theme-tag">▸ Rural vs. Urban · Earnestness · Community Building</div>
+      <p class="card-reflection">A girl from rural Japan navigates Tokyo's social hierarchies with disarming sincerity. <strong>Reflect:</strong> What cynicism have I accumulated that prevents me from being genuinely enthusiastic?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">V·23</span>
+      </div>
+      <div class="card-title">Aggretsuko</div>
+      <div class="card-subtitle">Series · 2018</div>
+      <div class="card-theme-tag">▸ Workplace Oppression · Anger · Gendered Labor</div>
+      <p class="card-reflection">An office worker releases her rage through death metal karaoke. <strong>Reflect:</strong> Where do I suppress legitimate anger — and what does it cost me?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">V·24</span>
+      </div>
+      <div class="card-title">My Hero Academia</div>
+      <div class="card-subtitle">Kohei Horikoshi · ongoing</div>
+      <div class="card-theme-tag">▸ Heroism · Social Stratification by Ability · Quirkless</div>
+      <p class="card-reflection">A boy born without powers in a world that worships them still chooses to become a hero. <strong>Reflect:</strong> What kind of stratification does "merit" create — and who falls through?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">V·25</span>
+      </div>
+      <div class="card-title">Haikyuu!!</div>
+      <div class="card-subtitle">Series · 2014</div>
+      <div class="card-theme-tag">▸ Teamwork · Rivalry · Growth Mindset</div>
+      <p class="card-reflection">Two rivals push each other to become the best versions of themselves. <strong>Reflect:</strong> Who is my rival — and am I using that relationship for growth or for ego?</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- SECTION VI: CARE & RELATIONSHIPS -->
+<!-- ═══════════════════════════════════════════════ -->
+<section class="section" id="care">
+  <div class="section-header">
+    <span class="section-title">VI — Care & Relationships</span>
+    <span class="section-count">25 works</span>
+  </div>
+  <p class="section-theme">"How do we love well?" Works on romantic love, friendship, caregiving, and the daily labor of maintaining human bonds.</p>
+  <div class="cards-grid" id="grid-care">
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">VI·01</span>
+      </div>
+      <div class="card-title">Nana</div>
+      <div class="card-subtitle">Series · 2006</div>
+      <div class="card-theme-tag">▸ Friendship · Love · Dreams vs. Stability</div>
+      <p class="card-reflection">Two women named Nana push and pull each other through adult life. <strong>Reflect:</strong> What do my most important friendships ask of me that I haven't fully given?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">VI·02</span>
+      </div>
+      <div class="card-title">Nana</div>
+      <div class="card-subtitle">Ai Yazawa · 21 vols (ongoing)</div>
+      <div class="card-theme-tag">▸ Codependency · Music · Urban Loneliness</div>
+      <p class="card-reflection">One of the most honest treatments of women's friendships in any medium. <strong>Reflect:</strong> Is there a codependent dynamic in any of my relationships that I call love?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">VI·03</span>
+      </div>
+      <div class="card-title">Honey and Clover</div>
+      <div class="card-subtitle">Series · 2005</div>
+      <div class="card-theme-tag">▸ Unrequited Love · Art School · Time</div>
+      <p class="card-reflection">Five art school students love each other in the wrong directions and grow up. <strong>Reflect:</strong> What did unrequited love teach me about myself that reciprocated love couldn't have?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">VI·04</span>
+      </div>
+      <div class="card-title">Honey and Clover</div>
+      <div class="card-subtitle">Chica Umino · 10 vols</div>
+      <div class="card-theme-tag">▸ Artistic Identity · Letting Go</div>
+      <p class="card-reflection">Hagu's journey from prodigy to her own reckoning is one of manga's most poignant arcs. <strong>Reflect:</strong> What would I do if I lost the thing I built my identity around?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">VI·05</span>
+      </div>
+      <div class="card-title">Toradora!</div>
+      <div class="card-subtitle">Series · 2008</div>
+      <div class="card-theme-tag">▸ Self-deception in Love · Helping vs. Fixing</div>
+      <p class="card-reflection">Two teens who believe they love different people slowly recognize what they've been avoiding. <strong>Reflect:</strong> Have I ever used helping someone else as a way to avoid my own feelings?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">VI·06</span>
+      </div>
+      <div class="card-title">Takane and Hana</div>
+      <div class="card-subtitle">Yuki Shiwasu · 18 vols</div>
+      <div class="card-theme-tag">▸ Age Gap · Power · Mutual Growth</div>
+      <p class="card-reflection">A rich older man is constantly outwitted by a high school girl. <strong>Reflect:</strong> What does it mean for both people in an unequal relationship to grow?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">VI·07</span>
+      </div>
+      <div class="card-title">Usagi Drop (Bunny Drop)</div>
+      <div class="card-subtitle">Series · 2011</div>
+      <div class="card-theme-tag">▸ Unexpected Caregiving · Single Parenting · Growth</div>
+      <p class="card-reflection">A bachelor unexpectedly adopts a 6-year-old and becomes a better person. <strong>Reflect:</strong> What responsibilities have I accepted that changed who I am in ways I didn't expect?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">VI·08</span>
+      </div>
+      <div class="card-title">What Did You Eat Yesterday? (Kinou Nani Tabeta?)</div>
+      <div class="card-subtitle">Fumi Yoshinaga · ongoing</div>
+      <div class="card-theme-tag">▸ Domestic Love · Aging · Queer Everyday Life</div>
+      <p class="card-reflection">A gay couple's life together told through cooking. <strong>Reflect:</strong> What acts of care in my daily life do I underestimate as expressions of love?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">VI·09</span>
+      </div>
+      <div class="card-title">Wotakoi: Love is Hard for Otaku</div>
+      <div class="card-subtitle">Series · 2018</div>
+      <div class="card-theme-tag">▸ Adult Love · Shared Interests · Vulnerability</div>
+      <p class="card-reflection">Office workers with nerdy hobbies fall into adult romance. <strong>Reflect:</strong> How does loving someone who shares your passions differ from loving someone who doesn't?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">VI·10</span>
+      </div>
+      <div class="card-title">My Love Story!! (Ore Monogatari!!)</div>
+      <div class="card-subtitle">Kazune Kawahara · 13 vols</div>
+      <div class="card-theme-tag">▸ Unconventional Attractiveness · Kindness · Pure Love</div>
+      <p class="card-reflection">A giant, intimidating boy meets a girl who loves him for exactly who he is. <strong>Reflect:</strong> What assumptions do I make about who "deserves" love based on appearances?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">VI·11</span>
+      </div>
+      <div class="card-title">Kokoro Connect</div>
+      <div class="card-subtitle">Series · 2012</div>
+      <div class="card-theme-tag">▸ Forced Vulnerability · Secrets · Friendship</div>
+      <p class="card-reflection">Five friends randomly swap bodies, exposing their innermost secrets. <strong>Reflect:</strong> What would my closest friends think if they could be me for a week?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">VI·12</span>
+      </div>
+      <div class="card-title">Chihayafuru</div>
+      <div class="card-subtitle">Yuki Suetsugu · ongoing</div>
+      <div class="card-theme-tag">▸ Passion · Love Triangle · Dedication</div>
+      <p class="card-reflection">A girl pursues competitive card reading (karuta) and the love woven through it. <strong>Reflect:</strong> What is it like to love someone through their passion rather than despite it?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">VI·13</span>
+      </div>
+      <div class="card-title">Chihayafuru</div>
+      <div class="card-subtitle">Series · 2011</div>
+      <div class="card-theme-tag">▸ Traditional Culture · Sport as Love Language</div>
+      <p class="card-reflection">Karuta is simultaneously a sport, a poetry tradition, and a love letter. <strong>Reflect:</strong> What traditional practices in my culture carry emotional meaning I might be dismissing?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">VI·14</span>
+      </div>
+      <div class="card-title">Kimi ni Todoke (From Me to You)</div>
+      <div class="card-subtitle">Karuho Shiina · 30 vols</div>
+      <div class="card-theme-tag">▸ Misunderstanding · Patience · Gentle Love</div>
+      <p class="card-reflection">A girl who frightens people without meaning to is slowly reached by a boy who sees her truly. <strong>Reflect:</strong> Who in my life might be misread by everyone — including me?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">VI·15</span>
+      </div>
+      <div class="card-title">Snow White with the Red Hair</div>
+      <div class="card-subtitle">Series · 2015</div>
+      <div class="card-theme-tag">▸ Agency · Equality in Love · Self-respect</div>
+      <p class="card-reflection">A girl refuses to be a prince's concubine and builds her own path as a herbalist. <strong>Reflect:</strong> What conditions would I refuse, even at personal cost, to maintain my dignity?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">VI·16</span>
+      </div>
+      <div class="card-title">Midnight Secretary</div>
+      <div class="card-subtitle">Tomu Ohmi · 7 vols</div>
+      <div class="card-theme-tag">▸ Professional Boundaries · Power · Trust</div>
+      <p class="card-reflection">A secretary maintains her professional dignity in a relationship with her vampire boss. <strong>Reflect:</strong> How do professional and personal power dynamics interact?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">VI·17</span>
+      </div>
+      <div class="card-title">Iroduku: The World in Colors</div>
+      <div class="card-subtitle">Series · 2018</div>
+      <div class="card-theme-tag">▸ Emotional Numbness · Color · Being Opened</div>
+      <p class="card-reflection">A girl who cannot see color travels to the past and slowly learns to feel again. <strong>Reflect:</strong> What has made me emotionally numb? What would it take to see color again?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">VI·18</span>
+      </div>
+      <div class="card-title">Dengeki Daisy</div>
+      <div class="card-subtitle">Kyousuke Motomi · 16 vols</div>
+      <div class="card-theme-tag">▸ Hidden Care · Grief for a Guardian · Trust</div>
+      <p class="card-reflection">A girl is secretly looked after by the mysterious person her late brother assigned to protect her. <strong>Reflect:</strong> Who has been quietly caring for me that I haven't properly seen?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">VI·19</span>
+      </div>
+      <div class="card-title">Bloom Into You (Yagate Kimi ni Naru)</div>
+      <div class="card-subtitle">Series · 2018</div>
+      <div class="card-theme-tag">▸ Romantic Asexuality · Love as Performance · Authenticity</div>
+      <p class="card-reflection">A girl who cannot fall in love is loved by someone who loves her precisely because she feels nothing. <strong>Reflect:</strong> What does it mean to love someone in a way that serves your need rather than theirs?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">VI·20</span>
+      </div>
+      <div class="card-title">Bloom Into You</div>
+      <div class="card-subtitle">Nakatani Nio · 8 vols</div>
+      <div class="card-theme-tag">▸ Performance vs. Authentic Self</div>
+      <p class="card-reflection">One of the most psychologically sophisticated romances in manga. <strong>Reflect:</strong> Who do I perform being, and for whom?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">VI·21</span>
+      </div>
+      <div class="card-title">Given</div>
+      <div class="card-subtitle">Series · 2019</div>
+      <div class="card-theme-tag">▸ Grief · Music · First Love</div>
+      <p class="card-reflection">A musician falls for a boy who is still grieving a lost love. <strong>Reflect:</strong> Can we love someone who is still carrying someone else?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">VI·22</span>
+      </div>
+      <div class="card-title">I Want to Be a Wall</div>
+      <div class="card-subtitle">Honami Shirono · 4 vols</div>
+      <div class="card-theme-tag">▸ Asexuality · Companionate Marriage · Mutual Care</div>
+      <p class="card-reflection">An asexual woman and a gay man marry for mutual protection and build something genuine. <strong>Reflect:</strong> What forms of love fall outside the scripts my culture gives me?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">VI·23</span>
+      </div>
+      <div class="card-title">Monthly Girls' Nozaki-kun</div>
+      <div class="card-subtitle">Series · 2014</div>
+      <div class="card-theme-tag">▸ Romantic Obliviousness · Gender Roles in Romance</div>
+      <p class="card-reflection">A girl confesses to a boy who mistakes it for a fan letter. The comedy is a quiet critique of how we romanticize romantic scripts. <strong>Reflect:</strong> What romantic scripts am I following that don't actually fit me?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">VI·24</span>
+      </div>
+      <div class="card-title">Married to the Demon Prince</div>
+      <div class="card-subtitle">Kuu Sasane · 4 vols</div>
+      <div class="card-theme-tag">▸ Loneliness · Unexpected Intimacy</div>
+      <p class="card-reflection">A shy woman marries a demon prince who is also desperately lonely. <strong>Reflect:</strong> What fearsome things might I be misjudging as dangerous when they are only lonely?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">VI·25</span>
+      </div>
+      <div class="card-title">A Place Further Than the Universe</div>
+      <div class="card-subtitle">Sora yori mo Tooi Basho · Series · 2018</div>
+      <div class="card-theme-tag">▸ Courage · Grief · Doing the Thing</div>
+      <p class="card-reflection">Four girls travel to Antarctica to grieve and to live more fully. <strong>Reflect:</strong> What journey am I postponing that would require real courage to begin?</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- SECTION VII: INNER LIFE -->
+<!-- ═══════════════════════════════════════════════ -->
+<section class="section" id="inner">
+  <div class="section-header">
+    <span class="section-title">VII — Inner Life</span>
+    <span class="section-count">25 works</span>
+  </div>
+  <p class="section-theme">"What happens inside us?" Works on mental health, consciousness, dreams, and the struggle to understand one's own mind.</p>
+  <div class="cards-grid" id="grid-inner">
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">VII·01</span>
+      </div>
+      <div class="card-title">Paprika</div>
+      <div class="card-subtitle">Satoshi Kon · Film · 2006</div>
+      <div class="card-theme-tag">▸ Dreams · Unconscious · Technology and Mind</div>
+      <p class="card-reflection">A therapist enters patients' dreams to treat trauma. <strong>Reflect:</strong> What does my unconscious process that my waking mind refuses to look at?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">VII·02</span>
+      </div>
+      <div class="card-title">Inside Mari (Boku wa Mari no Naka)</div>
+      <div class="card-subtitle">Shuzo Oshimi · 8 vols</div>
+      <div class="card-theme-tag">▸ Identity Dissociation · Gender · Isolation</div>
+      <p class="card-reflection">A hikikomori wakes up in a high school girl's body. <strong>Reflect:</strong> What aspects of others do I project my own unmet needs onto?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">VII·03</span>
+      </div>
+      <div class="card-title">Perfect Blue</div>
+      <div class="card-subtitle">Satoshi Kon · Film · 1997</div>
+      <div class="card-theme-tag">▸ Identity Fracture · Stalking · Media Violence</div>
+      <p class="card-reflection">A pop idol's identity disintegrates as her image is exploited and consumed. <strong>Reflect:</strong> What parts of myself have I given to others' consumption — and what did that cost me?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">VII·04</span>
+      </div>
+      <div class="card-title">Uzumaki</div>
+      <div class="card-subtitle">Junji Ito · 3 vols</div>
+      <div class="card-theme-tag">▸ Obsession · Spiraling Madness · Cosmic Horror</div>
+      <p class="card-reflection">An entire town becomes obsessed with spirals. <strong>Reflect:</strong> What obsession is consuming me — individually or as part of a community — that I haven't named?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">VII·05</span>
+      </div>
+      <div class="card-title">Welcome to the NHK</div>
+      <div class="card-subtitle">Series · 2006</div>
+      <div class="card-theme-tag">▸ Hikikomori · Conspiracy Thinking · Dependency</div>
+      <p class="card-reflection">A shut-in invents elaborate conspiracy theories to explain his isolation. <strong>Reflect:</strong> What stories do I tell myself to avoid facing the real reason I'm stuck?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">VII·06</span>
+      </div>
+      <div class="card-title">Welcome to the NHK</div>
+      <div class="card-subtitle">Tatsuhiko Takimoto · 8 vols</div>
+      <div class="card-theme-tag">▸ Social Anxiety · Enabling · Recovery</div>
+      <p class="card-reflection">The manga's darker ending is more honest about recovery's difficulty. <strong>Reflect:</strong> Who am I enabling in their avoidance by making their withdrawal comfortable?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">VII·07</span>
+      </div>
+      <div class="card-title">Serial Experiments Lain</div>
+      <div class="card-subtitle">Series · 1998</div>
+      <div class="card-theme-tag">▸ Digital Self · Network Consciousness · Identity</div>
+      <p class="card-reflection">A girl dissolves into the internet. <strong>Reflect:</strong> How has my online presence changed who I am? Is there a version of me that only exists online — and is it more or less true?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">VII·08</span>
+      </div>
+      <div class="card-title">Ichi the Killer</div>
+      <div class="card-subtitle">Hideo Yamamoto · 10 vols</div>
+      <div class="card-theme-tag">▸ Violence · Trauma Psychology · Masochism</div>
+      <p class="card-reflection">Disturbing but serious study of how trauma creates violence. <strong>Reflect:</strong> Warning — mature only. What does this reveal about the psychology of perpetrators of violence?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">VII·09</span>
+      </div>
+      <div class="card-title">The Disastrous Life of Saiki K.</div>
+      <div class="card-subtitle">Series · 2016</div>
+      <div class="card-theme-tag">▸ Omnipotence Burden · Desire for Normalcy</div>
+      <p class="card-reflection">The most powerful person alive only wants to eat coffee jelly in peace. <strong>Reflect:</strong> What gift or ability of mine have I been hiding to avoid others' expectations?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">VII·10</span>
+      </div>
+      <div class="card-title">I Am a Hero</div>
+      <div class="card-subtitle">(see Section I cross-reference)</div>
+      <div class="card-theme-tag">▸ (Cross-reference: self-deception)</div>
+      <p class="card-reflection">Specifically relevant here: the detailed psychology of someone who tells themselves they're the protagonist when they're not.</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">VII·11</span>
+      </div>
+      <div class="card-title">Evangelion 3.0+1.0: Thrice Upon a Time</div>
+      <div class="card-subtitle">Film · 2021</div>
+      <div class="card-theme-tag">▸ Healing · Choosing Life · Letting Go of Trauma</div>
+      <p class="card-reflection">Shinji finally chooses to exist. <strong>Reflect:</strong> What would it mean to actively choose the life I have, rather than simply enduring it?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">VII·12</span>
+      </div>
+      <div class="card-title">Freesia</div>
+      <div class="card-subtitle">Jiro Matsumoto · 10 vols</div>
+      <div class="card-theme-tag">▸ PTSD · Legal Vengeance · Dissociation</div>
+      <p class="card-reflection">In a world where revenge is legal, a traumatized soldier works as a hitman for bereaved families. <strong>Reflect:</strong> What does institutionalized revenge do to those who carry it out?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">VII·13</span>
+      </div>
+      <div class="card-title">Mob Psycho 100</div>
+      <div class="card-subtitle">Series · 2016</div>
+      <div class="card-theme-tag">▸ Emotional Suppression · Strength ≠ Power · Authenticity</div>
+      <p class="card-reflection">The most powerful esper in the world cannot handle his own emotions. <strong>Reflect:</strong> What would happen if I stopped suppressing what I feel?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">VII·14</span>
+      </div>
+      <div class="card-title">Mob Psycho 100</div>
+      <div class="card-subtitle">ONE · 16 vols</div>
+      <div class="card-theme-tag">▸ Mentorship · Self-worth without Power</div>
+      <p class="card-reflection">ONE's thesis: being kind and genuine matters more than any special ability. <strong>Reflect:</strong> What would I be worth to others if I lost the thing I'm currently valued for?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">VII·15</span>
+      </div>
+      <div class="card-title">Koe de Oshigoto! (Nakaimo)</div>
+      <div class="card-subtitle">Avoid — replace with: Penguin Highway</div>
+      <div class="card-theme-tag">▸ Childhood Curiosity · Scientific Mind</div>
+      <p class="card-reflection"><em>Penguin Highway</em> (2018): A boy applies rigorous scientific thinking to an impossible mystery. <strong>Reflect:</strong> What questions do I take as given that I should be interrogating?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">VII·16</span>
+      </div>
+      <div class="card-title">Shadow House</div>
+      <div class="card-subtitle">So-ma-to · ongoing</div>
+      <div class="card-theme-tag">▸ Performance Identity · Class · Social Conditioning</div>
+      <p class="card-reflection">Shadow beings use human "faces" to pass in society. <strong>Reflect:</strong> What face am I wearing for society — and do I remember what's underneath?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">VII·17</span>
+      </div>
+      <div class="card-title">Kokoro ga Sakebitagatterunda (The Anthem of the Heart)</div>
+      <div class="card-subtitle">Film · 2015</div>
+      <div class="card-theme-tag">▸ Voice · Suppression · Speaking Truth</div>
+      <p class="card-reflection">A girl is cursed to lose her voice whenever she tries to speak from the heart. <strong>Reflect:</strong> What truths have I been unable to speak — and what is the cost of their silence?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">VII·18</span>
+      </div>
+      <div class="card-title">Oyasumi Punpun</div>
+      <div class="card-subtitle">(Goodnight Punpun — full re-read recommendation)</div>
+      <div class="card-theme-tag">▸ (Cross-reference with new eyes)</div>
+      <p class="card-reflection">After completing this curriculum, re-read Punpun. It will mean something different.</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">VII·19</span>
+      </div>
+      <div class="card-title">Carole & Tuesday</div>
+      <div class="card-subtitle">Series · 2019</div>
+      <div class="card-theme-tag">▸ Music · Authenticity in AI Age · Marginalized Voices</div>
+      <p class="card-reflection">Two girls make music by hand in a world where AI creates all pop music. <strong>Reflect:</strong> What does human expression mean when machines can replicate it?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">VII·20</span>
+      </div>
+      <div class="card-title">Chi's Sweet Home</div>
+      <div class="card-subtitle">Konami Kanata · 12 vols</div>
+      <div class="card-theme-tag">▸ Childlike Wonder · Present Moment · Pure Need</div>
+      <p class="card-reflection">A kitten lives entirely in the present. <strong>Reflect:</strong> What would my life look like if I only worried about what was in front of me right now?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">VII·21</span>
+      </div>
+      <div class="card-title">Terror in Resonance (Zankyou no Terror)</div>
+      <div class="card-subtitle">Series · 2014</div>
+      <div class="card-theme-tag">▸ Abandoned Children · State Neglect · Rage</div>
+      <p class="card-reflection">Children experimented on by the state become terrorists seeking to be heard. <strong>Reflect:</strong> What does it mean when the only language the powerful will hear is violence?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">VII·22</span>
+      </div>
+      <div class="card-title">Battle Angel Alita (Gunnm)</div>
+      <div class="card-subtitle">Yukito Kishiro · 9 vols</div>
+      <div class="card-theme-tag">▸ Cyborg Identity · Memory · Class Stratification</div>
+      <p class="card-reflection">A cyborg warrior pieces together an identity from fragments of memory. <strong>Reflect:</strong> If my memories were wiped, what would remain of "me"?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">VII·23</span>
+      </div>
+      <div class="card-title">Texhnolyze</div>
+      <div class="card-subtitle">Series · 2003</div>
+      <div class="card-theme-tag">▸ Will to Live · Underground Society · Nihilism</div>
+      <p class="card-reflection">One of anime's most bleak meditations on whether civilization is worth preserving. <strong>Reflect:</strong> What, if anything, do I believe gives life meaning beyond survival?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">VII·24</span>
+      </div>
+      <div class="card-title">Tokyo Ghoul</div>
+      <div class="card-subtitle">Sui Ishida · 14 vols</div>
+      <div class="card-theme-tag">▸ Otherness · Forced Transformation · Discrimination</div>
+      <p class="card-reflection">A boy becomes half-ghoul and must inhabit both worlds while belonging to neither. <strong>Reflect:</strong> What is it like to be considered monstrous by a society you were born into?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">VII·25</span>
+      </div>
+      <div class="card-title">Sonny Boy</div>
+      <div class="card-subtitle">Series · 2021</div>
+      <div class="card-theme-tag">▸ Freedom · Rules · What Holds a Community Together</div>
+      <p class="card-reflection">Students drift into a parallel world with no rules and must decide what order means. <strong>Reflect:</strong> What rules would I keep if no one was enforcing them?</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- SECTION VIII: CULTURE & HISTORY -->
+<!-- ═══════════════════════════════════════════════ -->
+<section class="section" id="culture">
+  <div class="section-header">
+    <span class="section-title">VIII — Culture & History</span>
+    <span class="section-count">25 works</span>
+  </div>
+  <p class="section-theme">"Where do we come from, and how does that shape us?" Works that use Japanese, Asian, and global history to illuminate present-day questions of identity, memory, and belonging.</p>
+  <div class="cards-grid" id="grid-culture">
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">VIII·01</span>
+      </div>
+      <div class="card-title">In This Corner of the World</div>
+      <div class="card-subtitle">Kono Sekai no Katasumi ni · Film · 2016</div>
+      <div class="card-theme-tag">▸ Wartime Domestic Life · Women's Labor · Memory</div>
+      <p class="card-reflection">A young woman's daily life during WWII Hiroshima — small, beautiful, devastating. <strong>Reflect:</strong> What does "ordinary life" look like inside history that later generations call catastrophic?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">VIII·02</span>
+      </div>
+      <div class="card-title">In This Corner of the World</div>
+      <div class="card-subtitle">Fumiyo Kouno · 3 vols</div>
+      <div class="card-theme-tag">▸ Women's Perspective on War · Survival · Art</div>
+      <p class="card-reflection">Suzu's watercolor daydreams against the backdrop of war show how the imagination resists destruction. <strong>Reflect:</strong> What is the relationship between art-making and survival?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">VIII·03</span>
+      </div>
+      <div class="card-title">Showa Genroku Rakugo Shinju</div>
+      <div class="card-subtitle">Series · 2016</div>
+      <div class="card-theme-tag">▸ Traditional Arts · Dying Cultures · Dedication</div>
+      <p class="card-reflection">The history of rakugo (Japanese storytelling) across the postwar Showa era. <strong>Reflect:</strong> What traditional art forms in my culture are dying, and what is lost with them?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">VIII·04</span>
+      </div>
+      <div class="card-title">Showa Genroku Rakugo Shinju</div>
+      <div class="card-subtitle">Haruko Kumota · 10 vols</div>
+      <div class="card-theme-tag">▸ Artistic Legacy · Love · Mortality of Craft</div>
+      <p class="card-reflection">A master performer refuses to pass on his art, choosing to die with it. <strong>Reflect:</strong> What do I have that I'm refusing to pass on — and why?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">VIII·05</span>
+      </div>
+      <div class="card-title">Dororo (2019)</div>
+      <div class="card-subtitle">(see Section II — cross-reference for Edo history)</div>
+      <div class="card-theme-tag">▸ (Cross-reference: Sengoku period)</div>
+      <p class="card-reflection">Read alongside the Vinland Saga for a dual study of medieval Japan and medieval Scandinavia.</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">VIII·06</span>
+      </div>
+      <div class="card-title">Otoyomegatari (A Bride's Story)</div>
+      <div class="card-subtitle">(see Section III cross-reference)</div>
+      <div class="card-theme-tag">▸ (Cross-reference: Central Asian history)</div>
+      <p class="card-reflection">Kaoru Mori's meticulous historical research makes this a genuine cultural document of 19th century Silk Road life.</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">VIII·07</span>
+      </div>
+      <div class="card-title">Heike Monogatari (The Heike Story)</div>
+      <div class="card-subtitle">Series · 2021</div>
+      <div class="card-theme-tag">▸ Classical Japanese Literature · Impermanence · Clan War</div>
+      <p class="card-reflection">A retelling of the 12th century civil war that gave Japan the word "mono no aware" — the pathos of things. <strong>Reflect:</strong> What ancient texts from my own culture would I understand differently if I read them now?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">VIII·08</span>
+      </div>
+      <div class="card-title">Vagabond</div>
+      <div class="card-subtitle">(see Section II — re-reading for historical context)</div>
+      <div class="card-theme-tag">▸ (Cross-reference: Edo Period Samurai Society)</div>
+      <p class="card-reflection">Read with the Musashi biography by Eiji Yoshikawa for historical depth.</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">VIII·09</span>
+      </div>
+      <div class="card-title">Jin-Roh: The Wolf Brigade</div>
+      <div class="card-subtitle">Film · 1999</div>
+      <div class="card-theme-tag">▸ Postwar Japan · State Violence · Political Allegory</div>
+      <p class="card-reflection">An alternate postwar Japan in which Germany won, examined through Little Red Riding Hood. <strong>Reflect:</strong> What fairy tales encode the power structures of my culture?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">VIII·10</span>
+      </div>
+      <div class="card-title">Ran to Haiiro no Sekai (Ran and the Gray World)</div>
+      <div class="card-subtitle">Aki Irie · 8 vols</div>
+      <div class="card-theme-tag">▸ Folklore · Family Power · Growing Up</div>
+      <p class="card-reflection">A young girl inherits magical power in a world of Japanese folk spirits. <strong>Reflect:</strong> What power am I inheriting from my family — and how do I choose to use it?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">VIII·11</span>
+      </div>
+      <div class="card-title">Princess Mononoke</div>
+      <div class="card-subtitle">(see Section II — re-read for ecological history)</div>
+      <div class="card-theme-tag">▸ (Cross-reference: Muromachi Period)</div>
+      <p class="card-reflection">Read alongside Japanese Shinto ecology and the history of ironmaking for full resonance.</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">VIII·12</span>
+      </div>
+      <div class="card-title">Yokohama Kaidashi Kikou (Record of a Yokohama Shopping Trip)</div>
+      <div class="card-subtitle">Hitoshi Ashinano · 14 vols</div>
+      <div class="card-theme-tag">▸ Post-civilization Gentleness · Decline without Despair</div>
+      <p class="card-reflection">Humanity is quietly declining; a robot runs a small café and cycles through beautiful countryside. <strong>Reflect:</strong> Is it possible to face decline with equanimity rather than panic?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">VIII·13</span>
+      </div>
+      <div class="card-title">Aria the Animation</div>
+      <div class="card-subtitle">Series · 2005</div>
+      <div class="card-theme-tag">▸ Slow Life · Future Venice · Gratitude</div>
+      <p class="card-reflection">Gondoliers on a terraformed Mars find wonder in everyday work. <strong>Reflect:</strong> What would my daily life feel like if I approached each part of it with this quality of attention?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">VIII·14</span>
+      </div>
+      <div class="card-title">Aria</div>
+      <div class="card-subtitle">Kozue Amano · 12 vols</div>
+      <div class="card-theme-tag">▸ Attention · Seasonal Awareness · Gratitude</div>
+      <p class="card-reflection">The manga offers one of the most sustained meditations on appreciating the present moment in the medium. <strong>Reflect:</strong> Read one chapter and sit with its feeling for a whole day.</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">VIII·15</span>
+      </div>
+      <div class="card-title">Japan Sinks 2020</div>
+      <div class="card-subtitle">Masaaki Yuasa · Series · 2020</div>
+      <div class="card-theme-tag">▸ Diaspora · National Identity · Survival</div>
+      <p class="card-reflection">Japan is literally sinking; a multicultural family tries to reach safety. <strong>Reflect:</strong> What does national identity mean when the nation no longer exists?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">VIII·16</span>
+      </div>
+      <div class="card-title">Shigurui (Death Frenzy)</div>
+      <div class="card-subtitle">(see Section IV cross-reference)</div>
+      <div class="card-theme-tag">▸ (Cross-reference: Edo period samurai history)</div>
+      <p class="card-reflection">Pair with Vagabond for a comprehensive picture of samurai culture from two very different angles.</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">VIII·17</span>
+      </div>
+      <div class="card-title">Rurouni Kenshin: Trust and Betrayal</div>
+      <div class="card-subtitle">OVA · 1999</div>
+      <div class="card-theme-tag">▸ Meiji Restoration · Revolutionary Violence · Atonement</div>
+      <p class="card-reflection">A revolution's assassin tries to become its protector. <strong>Reflect:</strong> Can someone who built a new world on blood ever truly atone for it?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">VIII·18</span>
+      </div>
+      <div class="card-title">Thermae Romae</div>
+      <div class="card-subtitle">(see Section IV cross-reference)</div>
+      <div class="card-theme-tag">▸ (Cross-reference: cultural exchange and humility)</div>
+      <p class="card-reflection">A Roman architect learns from Japanese bathhouse culture — a model of respectful curiosity.</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">VIII·19</span>
+      </div>
+      <div class="card-title">Mononoke</div>
+      <div class="card-subtitle">Series · 2007</div>
+      <div class="card-theme-tag">▸ Japanese Folklore · Repressed Truth · Visual Art</div>
+      <p class="card-reflection">A wandering medicine seller exorcises spirits by uncovering their repressed truths. <strong>Reflect:</strong> What repressed truth in my community is "haunting" it without being named?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">VIII·20</span>
+      </div>
+      <div class="card-title">Dungeon Meshi (final volumes)</div>
+      <div class="card-subtitle">(Re-read for cultural thesis)</div>
+      <div class="card-theme-tag">▸ (Cross-reference: food as intercultural bridge)</div>
+      <p class="card-reflection">The manga's central argument: that sharing food is the foundation of understanding another culture.</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">VIII·21</span>
+      </div>
+      <div class="card-title">Yasuke</div>
+      <div class="card-subtitle">Series · 2021</div>
+      <div class="card-theme-tag">▸ African Samurai · Identity · Japan's Forgotten History</div>
+      <p class="card-reflection">A fictionalized account of Yasuke, the first African samurai in Japan. <strong>Reflect:</strong> What parts of Japanese history — and Indian history — involve African and other non-European actors that I don't know about?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">VIII·22</span>
+      </div>
+      <div class="card-title">Historie</div>
+      <div class="card-subtitle">(see Section IV cross-reference)</div>
+      <div class="card-theme-tag">▸ (Cross-reference: ancient world and intellectual life)</div>
+      <p class="card-reflection">Pair with the philosophical dialogues of Plato for a dual view of ancient Greek intellectual culture.</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">VIII·23</span>
+      </div>
+      <div class="card-title">The Garden of Words</div>
+      <div class="card-subtitle">Makoto Shinkai · Film · 2013</div>
+      <div class="card-theme-tag">▸ Rain · Solitude · Unspoken Longing</div>
+      <p class="card-reflection">A high school student and a government worker meet in a garden on rainy days. <strong>Reflect:</strong> What connections do I retreat into during the "rain" of my life — and what makes them feel safer than ordinary relationships?</p>
+    </div>
+
+    <div class="card" data-type="manga">
+      <div class="card-meta">
+        <span class="card-type manga">Manga</span>
+        <span class="card-num">VIII·24</span>
+      </div>
+      <div class="card-title">Dunno What, but It Seems Like We're Waiting (Nani ka Suru)</div>
+      <div class="card-subtitle">Inio Asano · single vol</div>
+      <div class="card-theme-tag">▸ Modern Japanese Aimlessness · Waiting · Meaning</div>
+      <p class="card-reflection">A one-shot about young people waiting for their real lives to begin. <strong>Reflect:</strong> What am I waiting for before I start living the way I want to?</p>
+    </div>
+
+    <div class="card" data-type="anime">
+      <div class="card-meta">
+        <span class="card-type anime">Anime</span>
+        <span class="card-num">VIII·25</span>
+      </div>
+      <div class="card-title">Dr. Stone</div>
+      <div class="card-subtitle">Series · 2019</div>
+      <div class="card-theme-tag">▸ Scientific Humanism · Rebuilding Civilization · Knowledge</div>
+      <p class="card-reflection">Humanity is petrified; a scientist rebuilds civilization using only knowledge. <strong>Reflect:</strong> What knowledge is foundational enough that it should be preserved and shared regardless of circumstances?</p>
+    </div>
+
+  </div>
+</section>
+
+<p class="intro-essay">
+  These 200 works are a curriculum, not a checklist. Read slowly. Watch with a journal nearby. The question matters more than the answer: <em>what does this reveal about how I live?</em>
+</p>
+
+<footer class="footer">
+  <div class="footer-left">
+    200 Works · 8 Themes · Anime & Manga<br>
+    A Curriculum for Reflection<br>
+    Compiled 2026
+  </div>
+  <div class="footer-kanji">学</div>
+</footer>
+
+<script>
+  // Intersection Observer for scroll animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('visible');
+    });
+  }, { threshold: 0.05 });
+
+  document.querySelectorAll('.section').forEach(s => observer.observe(s));
+
+  function scrollTo(id) {
+    document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function filterAll() {
+    document.querySelectorAll('.card').forEach(c => c.classList.remove('hidden'));
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('hidden'));
+    setActiveFB('fb-all');
+    setActiveNav('all');
+  }
+
+  function filterType(type) {
+    document.querySelectorAll('.card').forEach(c => {
+      c.classList.toggle('hidden', c.dataset.type !== type);
+    });
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('hidden'));
+    setActiveFB('fb-' + type);
+    setActiveNav(type);
+  }
+
+  function setActiveFB(id) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(id)?.classList.add('active');
+  }
+
+  function setActiveNav(type) {
+    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+    if (type === 'all') document.querySelector('.nav-tab-all')?.classList.add('active');
+  }
+</script>
+</body>
+</html>

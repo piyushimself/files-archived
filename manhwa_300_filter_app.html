@@ -1,0 +1,453 @@
+
+<h2 class="sr-only">300 Adult Het Romance Manhwa — interactive filter and search list with ratings</h2>
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-sans); }
+.header { padding: 1.5rem 0 1rem; }
+.header h1 { font-size: 22px; font-weight: 500; color: var(--color-text-primary); }
+.header p { font-size: 14px; color: var(--color-text-secondary); margin-top: 4px; }
+.controls { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 1rem; align-items: center; }
+.search-wrap { flex: 1; min-width: 200px; position: relative; }
+.search-wrap input { width: 100%; padding: 8px 12px 8px 36px; font-size: 14px; border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); background: var(--color-background-primary); color: var(--color-text-primary); }
+.search-wrap .si { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 16px; color: var(--color-text-secondary); pointer-events: none; }
+.filter-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 0.75rem; }
+.pill { font-size: 12px; padding: 5px 12px; border: 0.5px solid var(--color-border-secondary); border-radius: 20px; cursor: pointer; background: var(--color-background-secondary); color: var(--color-text-secondary); transition: all .15s; white-space: nowrap; }
+.pill:hover { border-color: var(--color-border-primary); color: var(--color-text-primary); }
+.pill.active { background: var(--color-background-primary); border: 1.5px solid var(--color-border-primary); color: var(--color-text-primary); font-weight: 500; }
+.sort-sel { font-size: 13px; padding: 6px 10px; border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); background: var(--color-background-secondary); color: var(--color-text-primary); cursor: pointer; }
+.stats-bar { font-size: 13px; color: var(--color-text-secondary); margin-bottom: 0.75rem; padding: 8px 12px; background: var(--color-background-secondary); border-radius: var(--border-radius-md); display: flex; justify-content: space-between; align-items: center; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 10px; }
+.card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 14px 16px; cursor: pointer; transition: border-color .15s; }
+.card:hover { border-color: var(--color-border-secondary); }
+.card.expanded { border-color: var(--color-border-primary); }
+.card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+.card-title { font-size: 14px; font-weight: 500; color: var(--color-text-primary); line-height: 1.4; }
+.card-num { font-size: 11px; color: var(--color-text-tertiary); min-width: 24px; }
+.card-meta { display: flex; align-items: center; gap: 8px; margin-top: 6px; flex-wrap: wrap; }
+.rating { font-size: 12px; font-weight: 500; padding: 2px 8px; border-radius: 20px; }
+.r-s { background: #EAF3DE; color: #3B6D11; }
+.r-a { background: #E6F1FB; color: #185FA5; }
+.r-b { background: #FAEEDA; color: #854F0B; }
+.r-c { background: #FAECE7; color: #993C1D; }
+.cat-badge { font-size: 11px; padding: 2px 8px; border-radius: 20px; background: var(--color-background-secondary); color: var(--color-text-secondary); border: 0.5px solid var(--color-border-tertiary); }
+.expand-body { margin-top: 10px; padding-top: 10px; border-top: 0.5px solid var(--color-border-tertiary); font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; display: none; }
+.card.expanded .expand-body { display: block; }
+.expand-detail { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+.tag { font-size: 11px; padding: 2px 8px; border-radius: 20px; background: var(--color-background-tertiary); color: var(--color-text-tertiary); }
+.platform-row { margin-top: 8px; font-size: 12px; color: var(--color-text-tertiary); }
+.no-results { text-align: center; padding: 3rem; color: var(--color-text-secondary); font-size: 14px; }
+.chevron { font-size: 14px; color: var(--color-text-tertiary); transition: transform .2s; margin-left: auto; }
+.card.expanded .chevron { transform: rotate(180deg); }
+@media (prefers-color-scheme: dark) {
+  .r-s { background: #27500A; color: #C0DD97; }
+  .r-a { background: #0C447C; color: #B5D4F4; }
+  .r-b { background: #633806; color: #FAC775; }
+  .r-c { background: #712B13; color: #F0997B; }
+}
+</style>
+
+<div class="header">
+  <h1>🔞 300 Adult Het Romance Manhwa</h1>
+  <p>Smut-heavy with story · Heterosexual (M/F) only · No BL/GL · All 18+</p>
+</div>
+
+<div class="controls">
+  <div class="search-wrap">
+    <i class="ti ti-search si" aria-hidden="true"></i>
+    <input type="text" id="searchInput" placeholder="Search title or description..." oninput="renderCards()">
+  </div>
+  <select class="sort-sel" id="sortSel" onchange="renderCards()">
+    <option value="rank">Sort by rank</option>
+    <option value="rating-desc">Rating: high to low</option>
+    <option value="rating-asc">Rating: low to high</option>
+    <option value="alpha">A–Z</option>
+  </select>
+</div>
+
+<div class="filter-row" id="catFilters"></div>
+<div class="filter-row" id="ratingFilters"></div>
+
+<div class="stats-bar">
+  <span id="statsText">Loading...</span>
+  <span id="avgRating" style="font-weight:500;color:var(--color-text-primary)"></span>
+</div>
+
+<div class="grid" id="cardsGrid"></div>
+<div class="no-results" id="noResults" style="display:none">No titles match your filters. Try clearing some filters.</div>
+
+<script>
+const DATA = [
+  {id:1,title:"What's Wrong with Secretary Kim?",cat:"Modern",rating:8.9,desc:"Cold CEO falls for his long-time secretary in this wildly popular office romance.",tags:["Office","CEO","Slow burn"],platform:"Kakao"},
+  {id:2,title:"A Business Proposal",cat:"Modern",rating:8.7,desc:"A girl stands in for her friend on a blind date — only to discover her date is her company's CEO.",tags:["Office","CEO","Comedy"],platform:"Naver Webtoon"},
+  {id:3,title:"Cheese in the Trap",cat:"Modern",rating:8.6,desc:"Obsessive campus romance with deep psychological undertones and a dangerously charming ML.",tags:["Campus","Psychological","Slow burn"],platform:"Naver Webtoon"},
+  {id:4,title:"Positively Yours",cat:"Modern",rating:8.5,desc:"A one-night stand leads to an unexpected pregnancy and the beginning of a real romance.",tags:["Pregnancy","Slice of life","Mature"],platform:"Naver Webtoon"},
+  {id:5,title:"My Suha",cat:"Modern",rating:8.4,desc:"A dominant CEO becomes obsessed with his employee in this heavily smutty office romance.",tags:["Office","Possessive","Smut-heavy"],platform:"Lezhin"},
+  {id:6,title:"An Hour of Romance",cat:"Modern",rating:8.3,desc:"A married couple rediscovers passion and intimacy through explicit scenes and emotional connection.",tags:["Married life","Steamy","Adult"],platform:"Lezhin"},
+  {id:7,title:"Iseop's Romance",cat:"Modern",rating:8.2,desc:"Office colleagues navigate a secret relationship filled with tension and explicit scenes.",tags:["Office","Secret relationship"],platform:"Tappytoon"},
+  {id:8,title:"The New Employee",cat:"Modern",rating:8.2,desc:"A new hire becomes entangled with her cold boss in this steamy workplace romance.",tags:["Office","Boss x employee"],platform:"Lezhin"},
+  {id:9,title:"Kiss Me, Liar",cat:"Modern",rating:8.1,desc:"A fake relationship turns very real and increasingly steamy as feelings develop.",tags:["Fake dating","Modern","Steamy"],platform:"Tappytoon"},
+  {id:10,title:"No Office Romance!",cat:"Modern",rating:8.0,desc:"A strict no-dating policy at the office gets broken with delicious consequences.",tags:["Office","Forbidden","Comedy"],platform:"Naver Webtoon"},
+  {id:11,title:"My Secret Roommate",cat:"Modern",rating:8.0,desc:"A celebrity hides in a regular girl's apartment, leading to steamy cohabitation romance.",tags:["Celebrity","Cohabitation","Modern"],platform:"Tappytoon"},
+  {id:12,title:"A Pervert's Daily Life",cat:"Modern",rating:7.9,desc:"A surprisingly charming comedy smut manhwa with likable leads and explicit scenes.",tags:["Comedy","Smut-heavy","Funny"],platform:"Lezhin"},
+  {id:13,title:"Warehouse",cat:"Modern",rating:7.9,desc:"Cold CEO x employee slow burn that rapidly heats up into explicit scenes.",tags:["CEO","Slow burn","Office"],platform:"Lezhin"},
+  {id:14,title:"Body Appreciation",cat:"Modern",rating:7.9,desc:"Two adults reconnect physically and emotionally with mature, heartfelt scenes.",tags:["Adult","Mature","Emotional"],platform:"Lezhin"},
+  {id:15,title:"Romance Comedy Level 6",cat:"Modern",rating:7.8,desc:"Office romance packed with hilarious misunderstandings and steamy payoffs.",tags:["Comedy","Office","Steamy"],platform:"Toomics"},
+  {id:16,title:"Stranger Than Friends",cat:"Modern",rating:7.8,desc:"Friends-to-lovers that goes explicitly adult very quickly with genuine feelings.",tags:["Friends to lovers","Explicit","Modern"],platform:"Lezhin"},
+  {id:17,title:"Do It One More Time",cat:"Modern",rating:7.7,desc:"A second-chance romance with plenty of steam and emotional depth.",tags:["Second chance","Steamy","Adult"],platform:"Toomics"},
+  {id:18,title:"Night by Night",cat:"Modern",rating:7.7,desc:"An arrangement between two adults slowly evolves into genuine love.",tags:["Arrangement","Slow burn","Mature"],platform:"Lezhin"},
+  {id:19,title:"Selfish Love",cat:"Modern",rating:7.7,desc:"A modern possessive romance with intense scenes and character development.",tags:["Possessive","Modern","Steamy"],platform:"Lezhin"},
+  {id:20,title:"The Sex Therapist Next Door",cat:"Modern",rating:7.6,desc:"Exactly what it says — a funny and spicy romance with the therapist next door.",tags:["Comedy","Spicy","Modern"],platform:"Toomics"},
+  {id:21,title:"Desire Realization App",cat:"Modern",rating:7.6,desc:"A wish-fulfillment app leads to explicit adult situations and real romance.",tags:["Comedy","Explicit","Supernatural"],platform:"Toomics"},
+  {id:22,title:"Antistalker",cat:"Modern",rating:7.6,desc:"Modern adult comedy romance with great chemistry between leads.",tags:["Comedy","Modern","Chemistry"],platform:"Lezhin"},
+  {id:23,title:"The Perfect Contract",cat:"Modern",rating:7.6,desc:"A fake-dating contract turns real and increasingly steamy.",tags:["Fake dating","Contract","Steamy"],platform:"Webtoon"},
+  {id:24,title:"Ooh La La",cat:"Modern",rating:7.5,desc:"Modern adult comedy romance with vibrant art and fun characters.",tags:["Comedy","Modern","Steamy"],platform:"Toomics"},
+  {id:25,title:"Act Like You Love Me!",cat:"Modern",rating:7.5,desc:"A fake romance that grows genuine with explicit scenes along the way.",tags:["Fake romance","Steamy","Modern"],platform:"Tappytoon"},
+  {id:26,title:"Private Lessons",cat:"Modern",rating:7.5,desc:"An adult tutor-student romance with explicit scenes and good chemistry.",tags:["Age gap","Tutor","Explicit"],platform:"Toomics"},
+  {id:27,title:"Never Understand",cat:"Modern",rating:7.5,desc:"An emotionally complicated adult relationship with real character depth.",tags:["Emotional","Complicated","Mature"],platform:"Lezhin"},
+  {id:28,title:"A Week",cat:"Modern",rating:7.4,desc:"A one-week fling that becomes something much more meaningful.",tags:["Short fling","Modern","Sweet"],platform:"Lezhin"},
+  {id:29,title:"Rules for Dating Trash",cat:"Modern",rating:7.4,desc:"Modern romcom with messy but lovable leads and steamy moments.",tags:["Comedy","Modern","Messy romance"],platform:"Toomics"},
+  {id:30,title:"Swolemates",cat:"Modern",rating:7.4,desc:"Gym romance turning very steamy with fun banter between leads.",tags:["Gym","Comedy","Steamy"],platform:"Lezhin"},
+  {id:31,title:"Between Us",cat:"Modern",rating:7.4,desc:"Complicated feelings and explicit adult scenes in a mature modern story.",tags:["Complicated","Explicit","Modern"],platform:"Lezhin"},
+  {id:32,title:"Red Candy",cat:"Modern",rating:7.4,desc:"Short but unforgettable adult romance with intense chemistry.",tags:["Short","Intense","Steamy"],platform:"Lezhin"},
+  {id:33,title:"Muted",cat:"Modern",rating:7.3,desc:"A trauma and healing romance with mature, explicit scenes.",tags:["Healing","Trauma","Mature"],platform:"Lezhin"},
+  {id:34,title:"Hold Me Tight",cat:"Modern",rating:7.3,desc:"An emotional backstory paired with very explicit scenes.",tags:["Emotional","Explicit","Adult"],platform:"Lezhin"},
+  {id:35,title:"Wet Sand",cat:"Modern",rating:7.3,desc:"A dark mature romance that is emotionally heavy and explicitly steamy.",tags:["Dark","Mature","Explicit"],platform:"Lezhin"},
+  {id:36,title:"Obsessive CEO",cat:"Modern",rating:7.3,desc:"An adult office possession fantasy with a dominant powerful ML.",tags:["Possessive","CEO","Office"],platform:"Toomics"},
+  {id:37,title:"A Friendship So Impure",cat:"Modern",rating:7.3,desc:"Friends crossing lines with explicit content and real emotional stakes.",tags:["Friends","Explicit","Emotional"],platform:"Lezhin"},
+  {id:38,title:"How Far Can We Go?",cat:"Modern",rating:7.2,desc:"A couple testing physical and emotional boundaries in their relationship.",tags:["Modern","Boundaries","Mature"],platform:"Webtoon"},
+  {id:39,title:"We Are Not Dating!!",cat:"Modern",rating:7.2,desc:"Denial-to-romance with genuine chemistry and steamy tension.",tags:["Denial","Chemistry","Comedy"],platform:"Tappytoon"},
+  {id:40,title:"Two Birds in Spring",cat:"Modern",rating:7.2,desc:"A mature adult romance that is both emotional and explicitly steamy.",tags:["Mature","Emotional","Steamy"],platform:"Lezhin"},
+  {id:41,title:"Quiet in the Office!",cat:"Modern",rating:7.2,desc:"Strictly professional between two colleagues... until it very much isn't.",tags:["Office","Forbidden","Comedy"],platform:"Naver Webtoon"},
+  {id:42,title:"Bestie's Big Secret",cat:"Modern",rating:7.2,desc:"Best friends crossing into territory they can't come back from.",tags:["Friends","Modern","Steamy"],platform:"Naver Webtoon"},
+  {id:43,title:"Fling or Thing",cat:"Modern",rating:7.2,desc:"A casual hookup that slowly evolves into real complicated feelings.",tags:["Fling","Modern","Adult"],platform:"Tappytoon"},
+  {id:44,title:"Don't XXXX Where You Work",cat:"Modern",rating:7.1,desc:"A workplace taboo romance with explicit scenes and great tension.",tags:["Office","Taboo","Explicit"],platform:"Lezhin"},
+  {id:45,title:"Campus Truth Game",cat:"Modern",rating:7.1,desc:"A college dare game that escalates into explicit romance.",tags:["Campus","Game","Explicit"],platform:"Webtoon"},
+  {id:46,title:"A Whirlwind Campus Affair",cat:"Modern",rating:7.1,desc:"Passionate college romance with genuine chemistry and heat.",tags:["Campus","Passionate","Adult"],platform:"Lezhin"},
+  {id:47,title:"Childhood Friend Complex",cat:"Modern",rating:7.1,desc:"Rekindled feelings with a childhood sweetheart going very adult.",tags:["Childhood friends","Reconnecting","Steamy"],platform:"Webtoon"},
+  {id:48,title:"The Absolute Threshold",cat:"Modern",rating:7.1,desc:"A modern forbidden romance with intense scenes.",tags:["Forbidden","Modern","Intense"],platform:"Tappytoon"},
+  {id:49,title:"Leave Me Speechless",cat:"Modern",rating:7.0,desc:"Intense modern romance with great tension and explicit payoff.",tags:["Modern","Intense","Explicit"],platform:"Lezhin"},
+  {id:50,title:"Childhood is a Mistake",cat:"Modern",rating:7.0,desc:"Reconnecting with someone from the past leads to steamy adult romance.",tags:["Second chance","Modern","Steamy"],platform:"Lezhin"},
+  {id:51,title:"Freshman Yulmmoo's Club Life",cat:"Modern",rating:7.0,desc:"College clubroom romance with explicit scenes and fun characters.",tags:["Campus","Club","Explicit"],platform:"Naver Webtoon"},
+  {id:52,title:"My Fantasies Are Cumming to Life?!",cat:"Modern",rating:7.0,desc:"Fantasy wish-fulfillment modern romance with explicit content.",tags:["Fantasy","Wish","Explicit"],platform:"Webtoon"},
+  {id:53,title:"Scripted Love",cat:"Modern",rating:7.0,desc:"Actor-actress lines blurring into steamy real love.",tags:["Celebrity","Actor","Steamy"],platform:"Tappytoon"},
+  {id:54,title:"Take Two",cat:"Modern",rating:6.9,desc:"Second-chance adult romance with mature explicit scenes.",tags:["Second chance","Adult","Mature"],platform:"Lezhin"},
+  {id:55,title:"Hardcore Vanilla",cat:"Modern",rating:7.1,desc:"Noona (older FL, younger ML) romance with explicit content and age-gap charm.",tags:["Age gap","Noona","Explicit"],platform:"Lezhin"},
+  {id:56,title:"Summer Solstice Point",cat:"Modern",rating:7.0,desc:"An age-gap summer romance with steamy scenes.",tags:["Age gap","Summer","Steamy"],platform:"Lezhin"},
+  {id:57,title:"How Far Is Too Far?",cat:"Modern",rating:6.9,desc:"Adults navigating emotional and physical limits with explicit scenes.",tags:["Mature","Limits","Explicit"],platform:"Lezhin"},
+  {id:58,title:"Sexual Exploits",cat:"Modern",rating:6.8,desc:"An anthology of adult encounters with real story depth and explicit content.",tags:["Anthology","Explicit","Adult"],platform:"Lezhin"},
+  {id:59,title:"Operation Water Ghost",cat:"Modern",rating:6.8,desc:"Fun premise with steamy adult romance and comedic moments.",tags:["Comedy","Steamy","Fun"],platform:"Lezhin"},
+  {id:60,title:"Greedy",cat:"Modern",rating:6.8,desc:"Modern adult romance with a possessive ML.",tags:["Possessive","Modern","Adult"],platform:"Lezhin"},
+  {id:61,title:"The Remarried Empress",cat:"Historical",rating:8.8,desc:"An empress outplays her cheating emperor and marries up in this stunning historical romance.",tags:["Royalty","Strong FL","Epic"],platform:"Webtoon"},
+  {id:62,title:"Why Raeliana Ended Up at the Duke's Mansion",cat:"Historical",rating:8.5,desc:"Contract marriage with a duke to survive in an isekai novel world.",tags:["Isekai","Contract","Fantasy"],platform:"Webtoon"},
+  {id:63,title:"Villainess Turns the Hourglass",cat:"Historical",rating:8.4,desc:"A villainess turns back time to exact sweet revenge and find love.",tags:["Time reversal","Revenge","Fantasy"],platform:"Tappytoon"},
+  {id:64,title:"The Beast Must Die",cat:"Historical",rating:8.4,desc:"Historical political intrigue paired with a passionate adult romance.",tags:["Historical","Political","Passionate"],platform:"Tappytoon"},
+  {id:65,title:"Marriage of Convenience",cat:"Historical",rating:8.2,desc:"A time-travel contract marriage that slowly becomes the real thing.",tags:["Time travel","Contract","Historical"],platform:"Tappytoon"},
+  {id:66,title:"Light and Shadow",cat:"Historical",rating:8.1,desc:"A low-born girl marries a powerful duke in this beautifully drawn historical romance.",tags:["Class difference","Historical","Steamy"],platform:"Tappytoon"},
+  {id:67,title:"Legs That Won't Walk",cat:"Dark",rating:8.0,desc:"A revenge plot with obsessive, dark adult romance and explicit scenes.",tags:["Revenge","Dark","Obsessive"],platform:"Lezhin"},
+  {id:68,title:"Opium",cat:"Historical",rating:8.0,desc:"Historical Korea setting with a forbidden doctor romance and stunning art.",tags:["Historical","Forbidden","Doctor"],platform:"Tappytoon"},
+  {id:69,title:"How to Get My Husband on My Side",cat:"Historical",rating:7.9,desc:"Political historical manhwa with a steamy married romance at its core.",tags:["Married","Political","Historical"],platform:"Tappytoon"},
+  {id:70,title:"Roxana",cat:"Historical",rating:7.9,desc:"A dark villainess survival story with a possessive ML.",tags:["Villainess","Dark","Possessive"],platform:"Tappytoon"},
+  {id:71,title:"The Lady and the Beast",cat:"Historical",rating:7.9,desc:"Fantasy historical with passionate leads and explicit scenes.",tags:["Fantasy","Historical","Passionate"],platform:"Tappytoon"},
+  {id:72,title:"His Majesty's Proposal",cat:"Historical",rating:7.8,desc:"Royal historical romance with elegant and explicit scenes.",tags:["Royalty","Historical","Elegant"],platform:"Tappytoon"},
+  {id:73,title:"Royal Servant",cat:"Historical",rating:7.8,desc:"A forbidden romance between royalty and a servant.",tags:["Royalty","Servant","Forbidden"],platform:"Tappytoon"},
+  {id:74,title:"Happily Ever Afterwards",cat:"Historical",rating:7.8,desc:"Historical comedy with a satisfying steamy payoff.",tags:["Comedy","Historical","Sweet"],platform:"Webtoon"},
+  {id:75,title:"The Problematic Prince",cat:"Historical",rating:7.7,desc:"A strong FL navigates the court and the toxic but charming prince ML.",tags:["Strong FL","Royalty","Comedy"],platform:"Tappytoon"},
+  {id:76,title:"Flirting with the Villain's Dad",cat:"Historical",rating:7.7,desc:"An isekai FL decides to pursue the villain's father instead.",tags:["Isekai","Age gap","Comedy"],platform:"Tappytoon"},
+  {id:77,title:"The Crown Princess Scandal",cat:"Historical",rating:7.7,desc:"Historical political romance with heat and intrigue.",tags:["Royalty","Political","Intrigue"],platform:"Tappytoon"},
+  {id:78,title:"The First Night with the Duke",cat:"Historical",rating:7.7,desc:"An isekai fantasy premise centered on an explicit first-night scenario.",tags:["Isekai","Explicit","Fantasy"],platform:"Tappytoon"},
+  {id:79,title:"Beware the Villainess",cat:"Historical",rating:7.7,desc:"A parody FL who takes no nonsense from standard ML tropes.",tags:["Parody","Comedy","Strong FL"],platform:"Webtoon"},
+  {id:80,title:"I Married the Male Lead's Dad",cat:"Historical",rating:7.6,desc:"An isekai FL ignores the male lead and pursues his father instead.",tags:["Isekai","Age gap","Comedy"],platform:"Tappytoon"},
+  {id:81,title:"This Villainess Wants a Divorce!",cat:"Historical",rating:7.6,desc:"Comedy historical romance where the FL weaponizes divorce.",tags:["Villainess","Comedy","Divorce"],platform:"Tappytoon"},
+  {id:82,title:"The Attractive Villain",cat:"Historical",rating:7.6,desc:"FL falls for the villain — hot, funny and surprisingly wholesome.",tags:["Villain","Comedy","Steamy"],platform:"Tappytoon"},
+  {id:83,title:"Totally Captivated",cat:"Dark",rating:7.6,desc:"An obsessive classic Lezhin title with dark romance and explicit scenes.",tags:["Obsessive","Dark","Classic"],platform:"Lezhin"},
+  {id:84,title:"Sadistic Beauty",cat:"Dark",rating:7.6,desc:"BDSM-adjacent romance with surprisingly complex emotional layers.",tags:["BDSM","Dark","Emotional"],platform:"Lezhin"},
+  {id:85,title:"Not-Sew-Wicked Stepmom",cat:"Historical",rating:7.6,desc:"A reincarnated FL becomes the 'evil stepmother' and changes her fate.",tags:["Reincarnation","Villainess","Family"],platform:"Tappytoon"},
+  {id:86,title:"Wicked Ladies in Waiting",cat:"Historical",rating:7.5,desc:"A historical time-loop romance with strong female characters.",tags:["Time loop","Historical","Strong FL"],platform:"Tappytoon"},
+  {id:87,title:"50 Tea Recipes from the Duchess",cat:"Historical",rating:7.5,desc:"Cozy historical romance with steamy undertones and a charming FL.",tags:["Cozy","Historical","Cute"],platform:"Tappytoon"},
+  {id:88,title:"From a Knight to a Lady",cat:"Historical",rating:7.5,desc:"Fantasy gender-swap romance with a fun premise.",tags:["Gender swap","Fantasy","Comedy"],platform:"Tappytoon"},
+  {id:89,title:"Turning the Mad Dog into a Genteel Lord",cat:"Historical",rating:7.5,desc:"FL tames the feral ML in a historical setting.",tags:["Historical","Taming","Strong FL"],platform:"Tappytoon"},
+  {id:90,title:"I Will Become the Villain's Poison Taster",cat:"Historical",rating:7.5,desc:"FL survives by staying close to the villain.",tags:["Villain","Isekai","Comedy"],platform:"Tappytoon"},
+  {id:91,title:"Obsidian Bride",cat:"Dark",rating:7.4,desc:"A dark fantasy forced marriage romance with explicit scenes.",tags:["Dark","Fantasy","Forced marriage"],platform:"Webtoon"},
+  {id:92,title:"My Gently Raised Beast",cat:"Historical",rating:7.4,desc:"FL raises a beast who grows into her love interest.",tags:["Fantasy","Historical","Cute"],platform:"Tappytoon"},
+  {id:93,title:"The Pawn's Revenge",cat:"Dark",rating:7.4,desc:"A dark revenge romance with heavy mature and explicit scenes.",tags:["Revenge","Dark","Explicit"],platform:"Lezhin"},
+  {id:94,title:"What's Wrong with You, Duke?",cat:"Historical",rating:7.4,desc:"Fantasy comedy romance with a strange and hilarious ML.",tags:["Comedy","Fantasy","Silly"],platform:"Tappytoon"},
+  {id:95,title:"Duchess in Ruins",cat:"Historical",rating:7.3,desc:"A FL rebuilds her life and finds love again.",tags:["Rebuilding","Historical","Mature"],platform:"Webtoon"},
+  {id:96,title:"I Grabbed the Leash of the Blind Beast",cat:"Dark",rating:7.3,desc:"FL holds power over a volatile but powerful ML.",tags:["Power dynamic","Dark","Historical"],platform:"Tappytoon"},
+  {id:97,title:"Shall We Bathe, Your Grace?",cat:"Historical",rating:7.3,desc:"A historical bathing attendant romance with steamy scenes.",tags:["Historical","Comedy","Steamy"],platform:"Tappytoon"},
+  {id:98,title:"A Demon's Wish",cat:"Supernatural",rating:7.3,desc:"Fantasy demon x human romance with passionate scenes.",tags:["Demon","Fantasy","Passionate"],platform:"Webtoon"},
+  {id:99,title:"His Majesty's Secret Heroine",cat:"Historical",rating:7.3,desc:"A royal secret identity romance with explicit scenes.",tags:["Royalty","Secret","Historical"],platform:"Tappytoon"},
+  {id:100,title:"I Thought My Time Was Up!",cat:"Historical",rating:7.3,desc:"FL makes the most of her limited time with the male lead.",tags:["Fantasy","Emotional","Romance"],platform:"Webtoon"},
+  {id:101,title:"Dragon King's Bride",cat:"Supernatural",rating:7.2,desc:"A fantasy dragon king demands a human bride with passionate scenes.",tags:["Dragon","Fantasy","Forced"],platform:"Webtoon"},
+  {id:102,title:"My Husband Hides His Beauty",cat:"Historical",rating:7.2,desc:"Historical FL discovers her husband's hidden appearance.",tags:["Hidden beauty","Historical","Comedy"],platform:"Tappytoon"},
+  {id:103,title:"Wolf in the House",cat:"Supernatural",rating:7.2,desc:"Supernatural dominant ML with spicy and passionate scenes.",tags:["Werewolf","Dominant","Supernatural"],platform:"Toomics"},
+  {id:104,title:"For Better or for Worse",cat:"Historical",rating:7.2,desc:"A contract marriage that slowly becomes genuine love.",tags:["Contract","Historical","Slow burn"],platform:"Tappytoon"},
+  {id:105,title:"The Villainess Just Wants to Live in Peace!",cat:"Historical",rating:7.2,desc:"FL avoids the novel plot but the ML won't cooperate.",tags:["Villainess","Comedy","Isekai"],platform:"Webtoon"},
+  {id:106,title:"Villain with a Crush",cat:"Historical",rating:7.2,desc:"The villain has a soft spot for the FL with explicit scenes.",tags:["Villain","Crush","Fantasy"],platform:"Webtoon"},
+  {id:107,title:"Empress of Another World",cat:"Historical",rating:7.2,desc:"An isekai historical romance with political intrigue.",tags:["Isekai","Historical","Political"],platform:"Tappytoon"},
+  {id:108,title:"Adeline's Darkest Night",cat:"Historical",rating:7.1,desc:"A forbidden historical romance with dark and steamy scenes.",tags:["Forbidden","Dark","Historical"],platform:"Tappytoon"},
+  {id:109,title:"Taming the Marquess",cat:"Historical",rating:7.1,desc:"FL softens a cold noble ML in this historical romance.",tags:["Taming","Historical","Slow burn"],platform:"Tappytoon"},
+  {id:110,title:"A Love Letter for the Tyrant",cat:"Historical",rating:7.1,desc:"FL writes letters to the feared ruler, slowly winning his heart.",tags:["Historical","Tyrant","Sweet"],platform:"Tappytoon"},
+  {id:111,title:"Lethal Romance",cat:"Dark",rating:7.1,desc:"A dangerous historical romance with dark themes.",tags:["Dangerous","Dark","Historical"],platform:"Tappytoon"},
+  {id:112,title:"The Villainess Flips the Script",cat:"Historical",rating:7.1,desc:"FL changes her fate through clever strategy.",tags:["Villainess","Comedy","Strategy"],platform:"Tappytoon"},
+  {id:113,title:"Sica Wolf",cat:"Historical",rating:7.0,desc:"A flirtatious FL in a fantasy historical setting.",tags:["Flirtatious FL","Fantasy","Historical"],platform:"Tappytoon"},
+  {id:114,title:"Devoted to Diamond",cat:"Historical",rating:7.0,desc:"FL serves a cold ML who secretly adores her.",tags:["Historical","Tsundere","Sweet"],platform:"Tappytoon"},
+  {id:115,title:"Catching Up to Luke Vischel",cat:"Historical",rating:7.0,desc:"A persistent FL chasing a cold ML in a fantasy setting.",tags:["Fantasy","Persistent FL","Historical"],platform:"Tappytoon"},
+  {id:116,title:"Our Secret Alliance",cat:"Historical",rating:7.0,desc:"Two enemies in secret alliance slowly become lovers.",tags:["Enemies","Alliance","Historical"],platform:"Webtoon"},
+  {id:117,title:"Kill the Villainess",cat:"Historical",rating:7.0,desc:"A dark FL who wants out of her scripted fate.",tags:["Dark","Villainess","Isekai"],platform:"Tappytoon"},
+  {id:118,title:"A Kiss Is Not Enough",cat:"Historical",rating:7.0,desc:"A historical romance where FL demands more than just a kiss.",tags:["Historical","Bold FL","Steamy"],platform:"Tappytoon"},
+  {id:119,title:"From Maid to Queen",cat:"Historical",rating:6.9,desc:"A low-born woman rises through the ranks via romance.",tags:["Class","Maid","Historical"],platform:"Tappytoon"},
+  {id:120,title:"Perfect Marriage Revenge",cat:"Historical",rating:6.9,desc:"FL uses her second chance to get revenge and find real love.",tags:["Revenge","Second chance","Historical"],platform:"Tappytoon"},
+  {id:121,title:"Duchess with an Empty Soul",cat:"Historical",rating:6.9,desc:"A hollow FL unexpectedly discovers love.",tags:["Historical","Emotional","Slow burn"],platform:"Tappytoon"},
+  {id:122,title:"I Stan the Prince",cat:"Historical",rating:6.9,desc:"A fangirl gets isekai'd right next to her favorite prince.",tags:["Fangirl","Isekai","Comedy"],platform:"Tappytoon"},
+  {id:123,title:"Angel or Villainess",cat:"Historical",rating:6.9,desc:"FL walks a fine line in noble society.",tags:["Noble","Historical","Strategy"],platform:"Tappytoon"},
+  {id:124,title:"The Hidden Saintess",cat:"Historical",rating:6.8,desc:"A saintess hides her power while falling in love.",tags:["Saintess","Hidden power","Historical"],platform:"Tappytoon"},
+  {id:125,title:"Marriage Substitute",cat:"Historical",rating:6.8,desc:"FL is forced to take her sister's place at the altar.",tags:["Substitute","Historical","Drama"],platform:"Tappytoon"},
+  {id:126,title:"He's Just My Brother, Your Grace!",cat:"Historical",rating:6.8,desc:"A comedy misunderstanding romance in a historical setting.",tags:["Comedy","Misunderstanding","Historical"],platform:"Tappytoon"},
+  {id:127,title:"A Husband I Didn't Expect",cat:"Historical",rating:6.8,desc:"A surprise husband situation becomes genuine love.",tags:["Unexpected","Historical","Sweet"],platform:"Tappytoon"},
+  {id:128,title:"Silver Devil King",cat:"Dark",rating:6.8,desc:"A dark king demands FL as his consort.",tags:["Dark","Royalty","Dominant"],platform:"Tappytoon"},
+  {id:129,title:"The Tyrant's Secret Secretary",cat:"Historical",rating:6.7,desc:"FL secretary tames a fearsome ruler.",tags:["Tyrant","Secretary","Historical"],platform:"Tappytoon"},
+  {id:130,title:"Lips Upon a Sword's Edge",cat:"Historical",rating:6.7,desc:"Historical action romance with passionate scenes.",tags:["Action","Historical","Passionate"],platform:"Tappytoon"},
+  {id:131,title:"Stigma",cat:"Supernatural",rating:8.2,desc:"A forbidden contract with a supernatural being leads to intense romance.",tags:["Supernatural","Contract","Forbidden"],platform:"Lezhin"},
+  {id:132,title:"My Pet Bat",cat:"Supernatural",rating:8.0,desc:"A vampire romance with very mature side stories.",tags:["Vampire","Supernatural","Mature"],platform:"Lezhin"},
+  {id:133,title:"A Good Day to Be a Dog",cat:"Supernatural",rating:7.9,desc:"FL is cursed to turn into a dog and only the ML can break it.",tags:["Curse","Comedy","Supernatural"],platform:"Webtoon"},
+  {id:134,title:"Moonstruck",cat:"Supernatural",rating:7.8,desc:"A werewolf x human passionate romance.",tags:["Werewolf","Supernatural","Passionate"],platform:"Webtoon"},
+  {id:135,title:"My Boyfriends are Cats",cat:"Supernatural",rating:7.5,desc:"A supernatural harem with cat-men and explicit scenes.",tags:["Harem","Cat men","Supernatural"],platform:"Toomics"},
+  {id:136,title:"A Guy Like You",cat:"Supernatural",rating:7.5,desc:"Supernatural slice-of-life romance with very likable leads.",tags:["Slice of life","Supernatural","Sweet"],platform:"Lezhin"},
+  {id:137,title:"Mystical",cat:"Supernatural",rating:7.4,desc:"A sea creature x artist romance with emotional and steamy scenes.",tags:["Sea creature","Fantasy","Emotional"],platform:"Webtoon"},
+  {id:138,title:"Beast's Flower",cat:"Supernatural",rating:7.2,desc:"A beast ML slowly warms up to the FL.",tags:["Beast","Slow burn","Fantasy"],platform:"Tappytoon"},
+  {id:139,title:"What the Evil Dragon Lives For",cat:"Supernatural",rating:7.2,desc:"A dragon falls for his human captive.",tags:["Dragon","Captive","Fantasy"],platform:"Webtoon"},
+  {id:140,title:"Little Rabbit and the Big Bad Leopard",cat:"Supernatural",rating:7.2,desc:"Fantasy predator-prey romance comedy.",tags:["Beastman","Comedy","Fantasy"],platform:"Tappytoon"},
+  {id:141,title:"Unholy Blood",cat:"Supernatural",rating:7.2,desc:"A vampire FL falls for a human detective.",tags:["Vampire","FL", "Action"],platform:"Webtoon"},
+  {id:142,title:"You Can't Kill Me: The Secret Bride",cat:"Supernatural",rating:7.1,desc:"FL is married to a dangerous supernatural being.",tags:["Dangerous","Supernatural","Marriage"],platform:"Webtoon"},
+  {id:143,title:"The Maid and the Vampire",cat:"Supernatural",rating:7.1,desc:"Classic forbidden vampire x maid romance.",tags:["Vampire","Maid","Forbidden"],platform:"Tappytoon"},
+  {id:144,title:"Winter Woods",cat:"Supernatural",rating:7.1,desc:"An android-like being learning to love a human.",tags:["Android","Philosophical","Romance"],platform:"Webtoon"},
+  {id:145,title:"A Man of Virtue",cat:"Supernatural",rating:7.1,desc:"A cold man warming up to FL with great chemistry.",tags:["Cold ML","Chemistry","Slow burn"],platform:"Lezhin"},
+  {id:146,title:"Witch of Mine",cat:"Supernatural",rating:7.0,desc:"A witch x knight forbidden romance.",tags:["Witch","Knight","Forbidden"],platform:"Webtoon"},
+  {id:147,title:"There's a Mouse in My House",cat:"Supernatural",rating:7.0,desc:"Supernatural cohabitation romance with steamy scenes.",tags:["Cohabitation","Supernatural","Comedy"],platform:"Tappytoon"},
+  {id:148,title:"Alien to Love",cat:"Supernatural",rating:6.9,desc:"An alien x human comedic romance.",tags:["Alien","Comedy","Modern"],platform:"Webtoon"},
+  {id:149,title:"Boo-tiful Nightmare",cat:"Supernatural",rating:6.9,desc:"Ghost romance with comedic and steamy scenes.",tags:["Ghost","Comedy","Steamy"],platform:"Webtoon"},
+  {id:150,title:"Outbride: Beauty and the Beasts",cat:"Supernatural",rating:6.8,desc:"FL surrounded by beastman love interests.",tags:["Beastman","Reverse harem","Fantasy"],platform:"Multiple"},
+  {id:151,title:"Orange Marmalade",cat:"Supernatural",rating:6.8,desc:"A vampire x human romance in a modern school setting.",tags:["Vampire","School","Modern"],platform:"Webtoon"},
+  {id:152,title:"Oh! Holy",cat:"Supernatural",rating:6.7,desc:"An angel x human romance with comedic spice.",tags:["Angel","Comedy","Modern"],platform:"Tappytoon"},
+  {id:153,title:"Spirit Fingers",cat:"Supernatural",rating:6.7,desc:"Art club romance with supernatural undertones.",tags:["Art","Club","Supernatural"],platform:"Webtoon"},
+  {id:154,title:"Can't See Can't Hear But Love",cat:"Supernatural",rating:6.7,desc:"Disability romance with supernatural elements.",tags:["Disability","Emotional","Supernatural"],platform:"Webtoon"},
+  {id:155,title:"Naeng Sowol: The Cold Moon",cat:"Supernatural",rating:6.7,desc:"Historical supernatural romance.",tags:["Historical","Supernatural","Mysterious"],platform:"Lezhin"},
+  {id:181,title:"See You in My 19th Life",cat:"Isekai",rating:9.0,desc:"FL remembers all her past lives and finds her ML across reincarnations.",tags:["Reincarnation","Emotional","Popular"],platform:"Kakao"},
+  {id:182,title:"Not Your Typical Reincarnation Story",cat:"Isekai",rating:8.2,desc:"FL reborn in a fantasy world subverts typical romance tropes.",tags:["Reincarnation","Comedy","Subversive"],platform:"Webtoon"},
+  {id:183,title:"For My Derelict Favorite",cat:"Isekai",rating:8.0,desc:"FL enters her favorite novel to protect her favorite character.",tags:["Isekai","Protective FL","Fantasy"],platform:"Tappytoon"},
+  {id:184,title:"Father, I Don't Want This Marriage",cat:"Isekai",rating:7.9,desc:"Reincarnated FL navigates politics and love in a new world.",tags:["Reincarnation","Political","Fantasy"],platform:"Tappytoon"},
+  {id:185,title:"Who Made Me a Princess?",cat:"Isekai",rating:7.9,desc:"FL reborn as a princess destined to be killed by her own father.",tags:["Reincarnation","Survival","Family"],platform:"Tappytoon"},
+  {id:186,title:"My In-Laws are Obsessed with Me",cat:"Isekai",rating:7.9,desc:"The most realistic slow-burn contract marriage in isekai romance.",tags:["Contract","Slow burn","Realistic"],platform:"Tappytoon"},
+  {id:187,title:"The Villainess Turns the Hourglass",cat:"Isekai",rating:7.8,desc:"FL rewinds time, exacts revenge, and finds love.",tags:["Time reversal","Revenge","Villainess"],platform:"Tappytoon"},
+  {id:188,title:"I Became the Tyrant's Dishonest Adviser",cat:"Isekai",rating:7.7,desc:"FL manipulates from the shadows while falling for the tyrant.",tags:["Isekai","Political","Scheming FL"],platform:"Tappytoon"},
+  {id:189,title:"Caught by the Villain",cat:"Isekai",rating:7.6,desc:"FL tries to escape the villain repeatedly but keeps getting caught.",tags:["Villain","Comedy","Isekai"],platform:"Tappytoon"},
+  {id:190,title:"Not-Sew-Wicked Stepmom",cat:"Isekai",rating:7.6,desc:"Reincarnated as the 'evil stepmom', FL changes her fate.",tags:["Reincarnation","Family","Comedy"],platform:"Tappytoon"},
+  {id:191,title:"I Stan the Prince",cat:"Isekai",rating:7.5,desc:"A fangirl reincarnates right next to her fantasy prince.",tags:["Fangirl","Comedy","Isekai"],platform:"Tappytoon"},
+  {id:192,title:"I Will Become the Villain's Poison Taster",cat:"Isekai",rating:7.5,desc:"FL survives by staying close to the villain as his taster.",tags:["Villain","Survival","Comedy"],platform:"Tappytoon"},
+  {id:193,title:"The Daughter of Duke Doesn't Want to Be Spoiled",cat:"Isekai",rating:7.4,desc:"FL refuses noble pampering while the ML chases her.",tags:["Noble","Isekai","Independent FL"],platform:"Tappytoon"},
+  {id:194,title:"For Better or for Worse",cat:"Isekai",rating:7.4,desc:"Contract marriage in isekai slowly becomes genuine love.",tags:["Contract","Isekai","Slow burn"],platform:"Tappytoon"},
+  {id:195,title:"Flirting with the Villain's Dad",cat:"Isekai",rating:7.4,desc:"FL pursues the villain's father in an isekai world.",tags:["Age gap","Comedy","Isekai"],platform:"Tappytoon"},
+  {id:196,title:"I Married the Male Lead's Dad",cat:"Isekai",rating:7.3,desc:"FL ignores the main ML and goes for his father.",tags:["Age gap","Isekai","Comedy"],platform:"Tappytoon"},
+  {id:197,title:"Changing the Genre from Angst to Heartwarming",cat:"Isekai",rating:7.3,desc:"A meta isekai romance parody.",tags:["Meta","Parody","Comedy"],platform:"Tappytoon"},
+  {id:198,title:"I Became the Male Lead's Adopted Daughter",cat:"Isekai",rating:7.2,desc:"Comedy with growing romantic tension.",tags:["Comedy","Isekai","Family"],platform:"Tappytoon"},
+  {id:199,title:"Rewriting My Third Life",cat:"Isekai",rating:7.2,desc:"Third reincarnation and FL finally gets her romance right.",tags:["Reincarnation","Isekai","Emotional"],platform:"Tappytoon"},
+  {id:200,title:"The Taming of the Prince",cat:"Isekai",rating:7.2,desc:"FL tames a wild royal ML in an isekai fantasy world.",tags:["Royalty","Taming","Isekai"],platform:"Tappytoon"},
+  {id:201,title:"The Carefree Life of an SSS-Class Knight",cat:"Isekai",rating:7.1,desc:"Overpowered FL lives leisurely with an admiring ML.",tags:["Strong FL","Slice of life","Isekai"],platform:"Tappytoon"},
+  {id:202,title:"Beloved by the Male Lead's Nephew",cat:"Isekai",rating:7.1,desc:"FL captures the attention of the ML's nephew instead.",tags:["Isekai","Comedy","Alternative love"],platform:"Tappytoon"},
+  {id:203,title:"The Lovable Maid",cat:"Isekai",rating:7.1,desc:"An isekai maid catches the lord's eye.",tags:["Maid","Isekai","Sweet"],platform:"Tappytoon"},
+  {id:204,title:"I Didn't Mean to Seduce the Male Lead!",cat:"Isekai",rating:7.0,desc:"Accidental seduction in an isekai setting.",tags:["Comedy","Accidental","Isekai"],platform:"Tappytoon"},
+  {id:205,title:"A Dream Escape",cat:"Isekai",rating:7.0,desc:"FL escapes nightmares into an isekai romance.",tags:["Nightmares","Isekai","Emotional"],platform:"Tappytoon"},
+  {id:206,title:"Daisy: How to Become the Duke's Fiancée",cat:"Isekai",rating:7.0,desc:"FL strategically becomes a duke's fiancée.",tags:["Strategy","Isekai","Noble"],platform:"Tappytoon"},
+  {id:207,title:"The Villainess Wants to Go Home",cat:"Isekai",rating:6.9,desc:"FL just wants to escape the novel she's been isekai'd into.",tags:["Villainess","Comedy","Isekai"],platform:"Tappytoon"},
+  {id:208,title:"I Tamed the Male Lead's Father",cat:"Isekai",rating:6.9,desc:"Isekai age-gap romance with a twist.",tags:["Age gap","Isekai","Comedy"],platform:"Tappytoon"},
+  {id:209,title:"Reporting for Duty, Duchess!",cat:"Isekai",rating:6.9,desc:"A military FL in a noble romance setting.",tags:["Military","Isekai","Noble"],platform:"Tappytoon"},
+  {id:210,title:"Swept Up by the Wind Spirit",cat:"Isekai",rating:6.8,desc:"A spirit world isekai romance with steamy scenes.",tags:["Spirit","Isekai","Fantasy"],platform:"Tappytoon"},
+  {id:211,title:"The Savior's Bucket List",cat:"Isekai",rating:6.8,desc:"FL fulfills her romance checklist before time runs out.",tags:["Emotional","Isekai","Bittersweet"],platform:"Tappytoon"},
+  {id:212,title:"The Last Golden Child",cat:"Isekai",rating:6.8,desc:"Isekai FL with special abilities finds love.",tags:["Special power","Isekai","Fantasy"],platform:"Tappytoon"},
+  {id:213,title:"Finally, the Dawn Came",cat:"Isekai",rating:6.7,desc:"A historical isekai love story.",tags:["Historical","Isekai","Emotional"],platform:"Tappytoon"},
+  {id:214,title:"The Sweet Life of a Reincarnation Pro",cat:"Isekai",rating:6.7,desc:"FL masters her second life including romance.",tags:["Reincarnation","Cozy","Comedy"],platform:"Tappytoon"},
+  {id:215,title:"Writing My Male Lead's Happily Ever After",cat:"Isekai",rating:6.7,desc:"FL writes the novel she's living in.",tags:["Meta","Isekai","Writing"],platform:"Tappytoon"},
+  {id:216,title:"The Rebirth of a Tyrannical Empress",cat:"Isekai",rating:6.7,desc:"Dark empress storyline with romance in an isekai setting.",tags:["Dark","Empress","Isekai"],platform:"Tappytoon"},
+  {id:221,title:"Legs That Won't Walk",cat:"Dark",rating:8.3,desc:"Revenge plot with obsessive adult romance and explicit dark scenes.",tags:["Revenge","Dark","Obsessive"],platform:"Lezhin"},
+  {id:222,title:"The Pawn's Revenge",cat:"Dark",rating:7.8,desc:"Dark revenge with heavy mature and explicit scenes.",tags:["Revenge","Dark","Explicit"],platform:"Lezhin"},
+  {id:223,title:"Yours to Claim",cat:"Dark",rating:7.7,desc:"A possessive alpha romance that is heavy on smut.",tags:["Possessive","Alpha","Smut-heavy"],platform:"Lezhin"},
+  {id:224,title:"Stigma (Dark)",cat:"Dark",rating:7.7,desc:"Forbidden contract with intense dark scenes.",tags:["Forbidden","Dark","Intense"],platform:"Lezhin"},
+  {id:225,title:"Sadistic Beauty",cat:"Dark",rating:7.6,desc:"BDSM-adjacent romance with surprisingly real depth.",tags:["BDSM","Dark","Emotional"],platform:"Lezhin"},
+  {id:226,title:"Roxana (Dark)",cat:"Dark",rating:7.6,desc:"Dark historical villainess with a possessive ML.",tags:["Villainess","Dark","Historical"],platform:"Tappytoon"},
+  {id:227,title:"Wet Sand",cat:"Dark",rating:7.5,desc:"Emotionally heavy dark adult romance.",tags:["Dark","Heavy","Adult"],platform:"Lezhin"},
+  {id:228,title:"Hold Me Tight",cat:"Dark",rating:7.4,desc:"Trauma + explicit emotional romance.",tags:["Trauma","Dark","Emotional"],platform:"Lezhin"},
+  {id:229,title:"I Spy a Married Life",cat:"Dark",rating:7.1,desc:"Affairs, secrets, and steamy revelations.",tags:["Affairs","Secrets","Mature"],platform:"Lezhin"},
+  {id:230,title:"Betrayal of Dignity",cat:"Dark",rating:7.1,desc:"Dark romance with morally complex leads.",tags:["Dark","Moral complexity","Mature"],platform:"Lezhin"},
+  {id:231,title:"Knife in Her Heart",cat:"Dark",rating:7.1,desc:"Dark psychological + explicit romance.",tags:["Psychological","Dark","Explicit"],platform:"Lezhin"},
+  {id:232,title:"Seventeenth Son",cat:"Dark",rating:7.2,desc:"A harem premise with mature adult storylines.",tags:["Harem","Mature","Explicit"],platform:"Lezhin"},
+  {id:233,title:"You're Under My Skin!",cat:"Dark",rating:7.2,desc:"Obsessive love turning real with explicit scenes.",tags:["Obsessive","Dark","Steamy"],platform:"Lezhin"},
+  {id:234,title:"Tears on a Withered Flower",cat:"Dark",rating:7.0,desc:"Emotional dark romance with mature scenes.",tags:["Dark","Emotional","Mature"],platform:"Lezhin"},
+  {id:235,title:"Despite the Risk",cat:"Dark",rating:7.0,desc:"Dangerous relationship with explicit scenes.",tags:["Dangerous","Dark","Explicit"],platform:"Lezhin"},
+  {id:236,title:"Hunks, Harems, and Hardcore Habits",cat:"Dark",rating:6.9,desc:"Reverse harem with adult content.",tags:["Harem","Adult","Explicit"],platform:"Toomics"},
+  {id:237,title:"A Maid's Playful Duties",cat:"Dark",rating:6.9,desc:"Maid x master explicit romantic comedy.",tags:["Maid","Comedy","Explicit"],platform:"Toomics"},
+  {id:238,title:"The Proxy Bride",cat:"Dark",rating:6.8,desc:"Forced bride situation turns steamy.",tags:["Forced","Dark","Steamy"],platform:"Toomics"},
+  {id:239,title:"Special Service",cat:"Dark",rating:6.8,desc:"A service-based premise with adult content.",tags:["Adult","Service","Explicit"],platform:"Toomics"},
+  {id:240,title:"Yes Ma'am",cat:"Dark",rating:6.8,desc:"Power-flip romance where the FL is in control.",tags:["Power flip","FL dominant","Steamy"],platform:"Lezhin"},
+  {id:241,title:"The Golden Wife-In-Law",cat:"Dark",rating:6.7,desc:"Marriage politics with a spicy explicit subplot.",tags:["Marriage","Politics","Explicit"],platform:"Toomics"},
+  {id:242,title:"Rusty Quadrilateral",cat:"Dark",rating:6.5,desc:"Dark toxic romance — read trigger warnings first.",tags:["Toxic","Dark","Warning"],platform:"Lezhin"},
+  {id:246,title:"True Beauty",cat:"RomCom",rating:8.5,desc:"Makeup-obsessed girl navigates a hot love triangle.",tags:["Love triangle","Idol","Popular"],platform:"Webtoon"},
+  {id:247,title:"Romance 101",cat:"RomCom",rating:8.3,desc:"College romance with a charming professor x student forbidden dynamic.",tags:["Campus","Forbidden","College"],platform:"Webtoon"},
+  {id:248,title:"Yumi's Cells",cat:"RomCom",rating:8.2,desc:"Quirky adult romance told from the perspective of brain cells.",tags:["Quirky","Adult","Comedy"],platform:"Webtoon"},
+  {id:249,title:"Seasons of Blossom",cat:"RomCom",rating:8.1,desc:"Multi-couple school romance anthology with emotional depth.",tags:["Anthology","School","Emotional"],platform:"Webtoon"},
+  {id:250,title:"Daytime Star",cat:"RomCom",rating:8.0,desc:"A celebrity x stylist romance with heat and charm.",tags:["Celebrity","Modern","Steamy"],platform:"Webtoon"},
+  {id:251,title:"The Makeup Remover",cat:"RomCom",rating:8.0,desc:"Idol industry romance with heat and realistic drama.",tags:["Idol","Industry","Steamy"],platform:"Webtoon"},
+  {id:252,title:"Maybe Meant to Be",cat:"RomCom",rating:7.9,desc:"Accidental contract marriage turns genuine with great comedy.",tags:["Contract","Comedy","Modern"],platform:"Webtoon"},
+  {id:253,title:"My Life as an Internet Novel",cat:"RomCom",rating:7.9,desc:"FL realizes she is living inside a romance novel.",tags:["Meta","Comedy","Modern"],platform:"Webtoon"},
+  {id:254,title:"Selfish Romance",cat:"RomCom",rating:7.9,desc:"Modern enemies-to-lovers with explosive chemistry.",tags:["Enemies","Modern","Chemistry"],platform:"Webtoon"},
+  {id:255,title:"Boyfriend's Rule",cat:"RomCom",rating:7.8,desc:"A fake boyfriend situation that goes very real.",tags:["Fake dating","Comedy","Modern"],platform:"Tappytoon"},
+  {id:256,title:"Something About Us",cat:"RomCom",rating:7.7,desc:"Slice-of-life college romance with real emotional texture.",tags:["Slice of life","College","Sweet"],platform:"Webtoon"},
+  {id:257,title:"Mystic Prince",cat:"RomCom",rating:7.7,desc:"Historical fantasy prince romance with comedy and steam.",tags:["Prince","Historical","Comedy"],platform:"Tappytoon"},
+  {id:258,title:"The Red Knight Seeks No Reward",cat:"RomCom",rating:7.6,desc:"A knight FL + noble ML forbidden romance.",tags:["Knight","Noble","Forbidden"],platform:"Tappytoon"},
+  {id:259,title:"Our Secret Alliance",cat:"RomCom",rating:7.5,desc:"Enemies forced into a secret partnership becoming lovers.",tags:["Enemies","Alliance","Romance"],platform:"Webtoon"},
+  {id:260,title:"Guardians of the Lamb",cat:"RomCom",rating:7.5,desc:"Protector romance with slow burn and emotional depth.",tags:["Protector","Slow burn","Fantasy"],platform:"Tappytoon"},
+  {id:261,title:"What It Means to Be You",cat:"RomCom",rating:7.4,desc:"A heartfelt identity-driven romance.",tags:["Identity","Emotional","Modern"],platform:"Tappytoon"},
+  {id:262,title:"Bring the Love",cat:"RomCom",rating:7.4,desc:"Historical romance with unconventional leads.",tags:["Historical","Unconventional","Emotional"],platform:"Lezhin"},
+  {id:263,title:"Long After the Ending",cat:"RomCom",rating:7.4,desc:"Post-novel romance that picks up where the story ended.",tags:["Post-story","Meta","Sweet"],platform:"Tappytoon"},
+  {id:264,title:"I Found Somebody to Love",cat:"RomCom",rating:7.3,desc:"Slice-of-life adult romance.",tags:["Slice of life","Adult","Modern"],platform:"Lezhin"},
+  {id:265,title:"The Great Wish",cat:"RomCom",rating:7.3,desc:"FL with flirtatious energy in a fantasy setting.",tags:["Flirtatious FL","Fantasy","Comedy"],platform:"Tappytoon"},
+  {id:266,title:"Side Characters Deserve Love Too",cat:"RomCom",rating:7.3,desc:"A supporting character FL finally gets her own romance.",tags:["Side character","Comedy","Sweet"],platform:"Webtoon"},
+  {id:267,title:"100-Day Romance",cat:"RomCom",rating:7.2,desc:"A timed love story with real emotional stakes.",tags:["Timed","Emotional","Modern"],platform:"Tappytoon"},
+  {id:268,title:"Marry My Husband",cat:"RomCom",rating:7.2,desc:"FL goes back in time to let her cheating husband marry someone else.",tags:["Time travel","Revenge","Comedy"],platform:"Kakao"},
+  {id:269,title:"Perfect Marriage Revenge",cat:"RomCom",rating:7.2,desc:"FL uses her second chance for love and sweet revenge.",tags:["Revenge","Second chance","Historical"],platform:"Tappytoon"},
+  {id:270,title:"Hourly Love",cat:"RomCom",rating:7.1,desc:"Love billed by the hour — turns real.",tags:["Comedy","Quirky","Modern"],platform:"Tappytoon"},
+  {id:271,title:"Ideal Match Delivery Service",cat:"RomCom",rating:7.1,desc:"A matchmaking service leads to unexpected love.",tags:["Matchmaking","Comedy","Modern"],platform:"Tappytoon"},
+  {id:272,title:"A Knight with a Time Limit",cat:"RomCom",rating:7.1,desc:"A knight with an expiration date falls for FL.",tags:["Bittersweet","Knight","Fantasy"],platform:"Tappytoon"},
+  {id:273,title:"The Second Chance Convenience Store",cat:"RomCom",rating:7.1,desc:"A magical store gives FL a second shot at life and love.",tags:["Second chance","Magical","Sweet"],platform:"Tappytoon"},
+  {id:274,title:"My Favorite Savior Girl",cat:"RomCom",rating:7.0,desc:"A reserved ML is saved by an energetic FL.",tags:["Role reversal","Comedy","Sweet"],platform:"Tappytoon"},
+  {id:275,title:"Dear Hongrang",cat:"RomCom",rating:7.0,desc:"Historical romance with tender heat.",tags:["Historical","Tender","Steamy"],platform:"Tappytoon"},
+  {id:276,title:"Salt and Pepper",cat:"RomCom",rating:7.0,desc:"An age-gap adult romance.",tags:["Age gap","Modern","Adult"],platform:"Lezhin"},
+  {id:277,title:"A Marriage Contract with My Two Husbands",cat:"RomCom",rating:6.9,desc:"A polyamorous romance with two male leads.",tags:["Polyamory","Two MLs","Fantasy"],platform:"Tappytoon"},
+  {id:278,title:"Taming the Prince",cat:"RomCom",rating:6.9,desc:"FL tames an arrogant prince.",tags:["Prince","Taming","Comedy"],platform:"Tappytoon"},
+  {id:279,title:"Two Names of Night",cat:"RomCom",rating:6.9,desc:"Dual identity romance with mystery.",tags:["Dual identity","Mystery","Historical"],platform:"Tappytoon"},
+  {id:280,title:"Cinderella's Brother",cat:"RomCom",rating:6.9,desc:"FL's brother is the rival male lead.",tags:["Rivalry","Historical","Comedy"],platform:"Tappytoon"},
+  {id:281,title:"The Duke's Fake Sister",cat:"RomCom",rating:6.8,desc:"FL pretends to be a duke's sibling.",tags:["Fake identity","Historical","Comedy"],platform:"Tappytoon"},
+  {id:282,title:"You Mustn't, Your Majesty!",cat:"RomCom",rating:6.8,desc:"A king pursuing FL who keeps refusing him.",tags:["King","Persistent ML","Comedy"],platform:"Tappytoon"},
+  {id:283,title:"The Fish I Loved",cat:"RomCom",rating:6.8,desc:"An emotional romance with hidden depth.",tags:["Emotional","Mysterious","Romance"],platform:"Tappytoon"},
+  {id:284,title:"Foam of the Sea",cat:"RomCom",rating:6.7,desc:"Water spirit romance.",tags:["Spirit","Fantasy","Sweet"],platform:"Tappytoon"},
+  {id:285,title:"Brawling Go",cat:"RomCom",rating:6.7,desc:"A comedy + accidental arousal premise.",tags:["Comedy","Accidental","Smut"],platform:"Lezhin"},
+  {id:286,title:"Secret Class",cat:"RomCom",rating:6.7,desc:"Controversial taboo adult comedy manhwa.",tags:["Taboo","Comedy","Explicit"],platform:"Lezhin"},
+  {id:287,title:"My Girlfriend",cat:"RomCom",rating:6.7,desc:"Wholesome but steamy slice-of-life romance.",tags:["Slice of life","Modern","Sweet"],platform:"Tappytoon"},
+  {id:288,title:"Momfluencer",cat:"RomCom",rating:6.6,desc:"Adult life comedy romance.",tags:["Adult life","Comedy","Modern"],platform:"Webtoon"},
+  {id:289,title:"A Child Who Looks Like Me",cat:"RomCom",rating:6.6,desc:"Single parent romance, emotional and warm.",tags:["Single parent","Emotional","Modern"],platform:"Webtoon"},
+  {id:290,title:"Reforming My Regretful Husband",cat:"RomCom",rating:6.5,desc:"FL gets a second chance with her ex.",tags:["Second chance","Modern","Redemption"],platform:"Tappytoon"},
+  {id:291,title:"Princess in the Rough",cat:"RomCom",rating:6.5,desc:"Rough-around-the-edges FL wins a noble ML.",tags:["Rough FL","Noble","Comedy"],platform:"Tappytoon"},
+  {id:292,title:"The Guy with Pretty Lips",cat:"RomCom",rating:6.5,desc:"A looks-based premise turned into genuine romance.",tags:["Modern","Looks","Chemistry"],platform:"Tappytoon"},
+  {id:293,title:"Run, Meil",cat:"RomCom",rating:6.4,desc:"A chase-based romance with comedy.",tags:["Comedy","Chase","Historical"],platform:"Tappytoon"},
+  {id:294,title:"Charming You",cat:"RomCom",rating:6.3,desc:"Charm-based power romance.",tags:["Charm","Fantasy","Comedy"],platform:"Tappytoon"},
+  {id:295,title:"Elaine's Unique Situation",cat:"RomCom",rating:6.2,desc:"A quirky FL in an oddball romance situation.",tags:["Quirky","Comedy","Historical"],platform:"Tappytoon"},
+];
+
+const CATS = ["All","Modern","Historical","Supernatural","Isekai","Dark","RomCom"];
+const RTIERS = ["All","9.0+","8.0-8.9","7.0-7.9","Below 7.0"];
+let activeCat = "All", activeRating = "All", expanded = null;
+
+function getRatioClass(r){
+  if(r>=9) return "r-s";
+  if(r>=8) return "r-a";
+  if(r>=7) return "r-b";
+  return "r-c";
+}
+function matchesRating(r,tier){
+  if(tier==="All") return true;
+  if(tier==="9.0+") return r>=9;
+  if(tier==="8.0-8.9") return r>=8 && r<9;
+  if(tier==="7.0-7.9") return r>=7 && r<8;
+  if(tier==="Below 7.0") return r<7;
+  return true;
+}
+
+function buildFilters(){
+  const cf = document.getElementById("catFilters");
+  CATS.forEach(c=>{
+    const p=document.createElement("span");
+    p.className="pill"+(c===activeCat?" active":"");
+    p.textContent=c;
+    p.onclick=()=>{activeCat=c;renderFilters();renderCards();};
+    cf.appendChild(p);
+  });
+  const rf = document.getElementById("ratingFilters");
+  RTIERS.forEach(t=>{
+    const p=document.createElement("span");
+    p.className="pill"+(t===activeRating?" active":"");
+    p.textContent=t;
+    p.onclick=()=>{activeRating=t;renderFilters();renderCards();};
+    rf.appendChild(p);
+  });
+}
+
+function renderFilters(){
+  document.querySelectorAll("#catFilters .pill").forEach((p,i)=>{p.className="pill"+(CATS[i]===activeCat?" active":"");});
+  document.querySelectorAll("#ratingFilters .pill").forEach((p,i)=>{p.className="pill"+(RTIERS[i]===activeRating?" active":"");});
+}
+
+function getFiltered(){
+  const q = document.getElementById("searchInput").value.toLowerCase().trim();
+  const sort = document.getElementById("sortSel").value;
+  let items = DATA.filter(d=>{
+    if(activeCat!=="All" && d.cat!==activeCat) return false;
+    if(!matchesRating(d.rating,activeRating)) return false;
+    if(q && !d.title.toLowerCase().includes(q) && !d.desc.toLowerCase().includes(q) && !d.tags.some(t=>t.toLowerCase().includes(q))) return false;
+    return true;
+  });
+  if(sort==="rating-desc") items.sort((a,b)=>b.rating-a.rating);
+  else if(sort==="rating-asc") items.sort((a,b)=>a.rating-b.rating);
+  else if(sort==="alpha") items.sort((a,b)=>a.title.localeCompare(b.title));
+  else items.sort((a,b)=>a.id-b.id);
+  return items;
+}
+
+function renderCards(){
+  const items = getFiltered();
+  const grid = document.getElementById("cardsGrid");
+  const noR = document.getElementById("noResults");
+  const stats = document.getElementById("statsText");
+  const avg = document.getElementById("avgRating");
+
+  if(items.length===0){
+    grid.innerHTML="";
+    noR.style.display="block";
+    stats.textContent="0 titles found";
+    avg.textContent="";
+    return;
+  }
+  noR.style.display="none";
+  const avgVal = (items.reduce((s,d)=>s+d.rating,0)/items.length).toFixed(1);
+  stats.textContent=`${items.length} of ${DATA.length} titles shown`;
+  avg.textContent=`Avg rating: ${avgVal}`;
+
+  grid.innerHTML = items.map(d=>{
+    const isExp = expanded===d.id;
+    const rc = getRatioClass(d.rating);
+    return `<div class="card${isExp?" expanded":""}" onclick="toggleCard(${d.id})">
+      <div class="card-header">
+        <span class="card-title">${d.title}</span>
+        <span class="card-num">#${d.id}</span>
+        <i class="ti ti-chevron-down chevron" aria-hidden="true"></i>
+      </div>
+      <div class="card-meta">
+        <span class="rating ${rc}">⭐ ${d.rating}/10</span>
+        <span class="cat-badge">${d.cat}</span>
+      </div>
+      <div class="expand-body">
+        <p>${d.desc}</p>
+        <div class="expand-detail">${d.tags.map(t=>`<span class="tag">${t}</span>`).join("")}</div>
+        <p class="platform-row"><i class="ti ti-device-mobile" aria-hidden="true" style="font-size:13px;margin-right:4px"></i>Platform: <strong>${d.platform}</strong></p>
+      </div>
+    </div>`;
+  }).join("");
+}
+
+function toggleCard(id){
+  expanded = expanded===id ? null : id;
+  renderCards();
+}
+
+buildFilters();
+renderCards();
+</script>

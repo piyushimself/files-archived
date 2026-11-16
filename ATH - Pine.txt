@@ -1,0 +1,686 @@
+//@version=5
+indicator("ATH Watchlist Dashboard - Siddharth Bhanushali Method v7 (Confirmed Trigger Entry)", overlay=true, max_labels_count=500)
+
+// ============================================================
+// v7 = v6 + CONFIRMATION-TRIGGER ENTRY (no more entry on the wick itself)
+//
+// Changed from v6:
+//   - A month that makes a fresh ATH wick + green close (renamed
+//     athSignal, was "monthlyBreakout") no longer enters a trade
+//     by itself. It only ARMS a trigger level = that wick high
+//     plus a small buffer ("just above the wick").
+//   - Entry (BUY / ADD) only fires later, on the first CONFIRMED
+//     month whose high trades above that armed trigger level.
+//     Entry price, SL, and both targets are all built off that
+//     trigger level - not the original signal candle's wick, and
+//     not the confirming candle's close.
+//   - The armed level (fuchsia) and the signal candle marker are
+//     now plotted on the chart so you can see what's pending.
+//   - Everything else (weekly exit, WATCH/READY, scoring,
+//     pyramiding, capital sizing engine, dashboard layout) is
+//     unchanged from v6.
+// ============================================================
+
+// ============================================================
+// INPUTS
+// ============================================================
+gEntry    = "Entry Settings"
+gPyramid  = "Pyramiding"
+gCapital  = "Capital & Position Sizing (P&L Focus)"
+gQuality  = "Breakout Quality Filter"
+gExit     = "Exit Settings (unchanged)"
+gRisk     = "Risk Settings (unchanged)"
+gWR       = "Watch / Ready Settings"
+gVol      = "Volume Settings"
+gTrendG   = "Trend Score Settings"
+gScore    = "Score Thresholds"
+
+weeklySmaLen  = input.int(30, "Weekly SMA Length (Exit)", group=gExit)
+rr1           = input.float(2.0, "Target 1 R:R (min)", group=gExit)
+rr2           = input.float(3.0, "Target 2 R:R (stretch, longer consolidation)", group=gExit)
+
+tightPct      = input.float(20.0, "Tight base threshold (% range, lower = stricter)", group=gEntry)
+fallbackMed   = input.int(2, "Fallback: months for Medium (before enough history)", group=gEntry)
+fallbackHigh  = input.int(3, "Fallback: months for High (before enough history)", group=gEntry)
+tooLongMonths = input.int(9, "Stale-base penalty threshold (months)", group=gEntry)
+confirmBufferPct = input.float(0.5, "Confirmation Buffer Above Wick (%)", minval=0.0, step=0.1, group=gEntry,
+     tooltip="Entry does NOT fire on the breakout wick. A signal month arms a trigger level = that month's high + this %. Entry only fires once a LATER confirmed month's high trades above that level.")
+
+maxPyramidLegs = input.int(3, "Max Concurrent Pyramid Legs", minval=1, maxval=20, group=gPyramid,
+     tooltip="Caps how many open legs a single symbol can carry at once. Lowered from 5 to 3 by default — better suited to limited capital.")
+
+accountCapital       = input.float(30000, "Account Capital (your currency)", minval=1, group=gCapital,
+     tooltip="Total trading capital available. Used to size every leg. Update this as your capital changes.")
+riskPerLegPct         = input.float(1.0, "Risk % of Capital Per Leg", minval=0.1, maxval=10.0, step=0.1, group=gCapital,
+     tooltip="How much of total capital you're willing to lose if a single leg hits its stop. 1% is conservative, 2% moderate. Keep this low with limited capital.")
+maxCapitalDeployPct   = input.float(80.0, "Max Total Capital Deployed (%)", minval=10.0, maxval=100.0, step=5.0, group=gCapital,
+     tooltip="Hard ceiling on how much of total capital can be tied up across all open legs at once. Blocks new legs (even valid breakouts) beyond this.")
+
+breakoutMode  = input.string("Strict: Close > Open", "Monthly Bullish Confirmation",
+     options=["Strict: Close > Open", "Relaxed: Close in Top X% of Range", "Relaxed: Close > Prior Month Close"],
+     group=gQuality,
+     tooltip="Strict = original behavior. Relaxed modes catch gap-up breakouts that hold but close red intramonth. Applies to the SIGNAL month only.")
+closeRangePct = input.float(50.0, "Relaxed Mode: Min Close Position in Monthly Range (%)", minval=1.0, maxval=99.0, step=1.0,
+     group=gQuality, tooltip="e.g. 50 = close must be in top half of the month's high-low range.")
+
+volAvgLen      = input.int(6, "Volume Average Length (months)", group=gVol)
+volMultiplier  = input.float(1.3, "Volume Multiplier (vs average)", minval=0.1, step=0.1, group=gVol)
+dryUpLookback  = input.int(3, "Volume Dry-Up Lookback (months)", group=gVol)
+
+smaFastLen    = input.int(50, "Trend Fast SMA Length (months)", group=gTrendG)
+smaSlowLen    = input.int(200, "Trend Slow SMA Length (months)", group=gTrendG)
+
+watchZonePct  = input.float(5.0, "Watch Zone % (below ATH)", minval=0.0, group=gWR)
+readyZonePct  = input.float(2.0, "Ready Zone % (below ATH)", minval=0.0, group=gWR)
+enableWatch   = input.bool(true, "Enable WATCH Signal", group=gWR)
+enableReady   = input.bool(true, "Enable READY Signal", group=gWR)
+
+scoreThreshold = input.float(60.0, "Composite Score Threshold (gates READY)", minval=0.0, maxval=100.0, group=gScore)
+
+stopTypeInput = input.string("Current Candle Low", "Stop Type", options=["Current Candle Low", "ATR"], group=gRisk)
+atrLen        = input.int(14, "ATR Length", group=gRisk)
+atrMult       = input.float(2.0, "ATR Multiplier", group=gRisk)
+
+// ============================================================
+// ENTRY LOGIC — athSignal only ARMS a trigger, it does not enter
+// ============================================================
+monthRangeQuality = high - low
+closePositionPct  = monthRangeQuality > 0 ? (close - low) / monthRangeQuality * 100.0 : 100.0
+
+monthlyIsBullish = breakoutMode == "Strict: Close > Open" ? close > open :
+     breakoutMode == "Relaxed: Close in Top X% of Range" ? closePositionPct >= (100.0 - closeRangePct) :
+     close > close[1]
+
+var float runningATH   = na
+var int   consolMonths = 0
+var float priorATH     = na
+var float consolHigh   = na
+var float consolLow    = na
+
+priorATH := runningATH
+
+if barstate.isconfirmed
+    if na(runningATH)
+        runningATH := high
+    else
+        runningATH := math.max(runningATH, high)
+
+// athSignal = a confirmed month whose wick breaks the prior ATH and
+// which closes green. This is the old entry condition - now it only
+// arms a confirmation trigger (see below), it does not buy anything.
+athSignal = barstate.isconfirmed and not na(priorATH) and high > priorATH and monthlyIsBullish
+
+if barstate.isconfirmed
+    if athSignal
+        consolMonths := 0
+        consolHigh   := na
+        consolLow    := na
+    else if not na(priorATH)
+        consolMonths := consolMonths + 1
+        consolHigh   := na(consolHigh) ? high : math.max(consolHigh, high)
+        consolLow    := na(consolLow) ? low : math.min(consolLow, low)
+
+monthsSinceATH = consolMonths
+
+// ============================================================
+// CONFIRMATION TRIGGER — the actual entry mechanism.
+// athSignal arms pendingLevel = signal wick high + buffer.
+// Entry fires on the first LATER confirmed month whose high
+// trades above pendingLevel. Entry price = pendingLevel itself
+// (i.e. "just above the wick"), not the confirming candle's high
+// or close.
+// ============================================================
+var float pendingLevel = na
+
+confirmEntryTrigger = barstate.isconfirmed and not na(pendingLevel) and high > pendingLevel
+triggerLevel = pendingLevel   // snapshot before this bar's arm/clear below
+
+if barstate.isconfirmed
+    if confirmEntryTrigger
+        pendingLevel := na
+    if athSignal
+        pendingLevel := high * (1 + confirmBufferPct / 100.0)
+
+// ============================================================
+// VOLUME
+// ============================================================
+volAvg       = ta.sma(volume, volAvgLen)
+volLooksGood = volume > volAvg[1] * volMultiplier
+
+tightnessPct = (not na(consolHigh) and not na(consolLow) and consolHigh > 0) ? (consolHigh - consolLow) / consolHigh * 100 : na
+isTightBase  = not na(tightnessPct) and tightnessPct <= tightPct
+
+distanceFromATH = (not na(runningATH) and runningATH > 0) ? (runningATH - close) / runningATH * 100.0 : na
+
+atrValue = ta.atr(atrLen)
+
+// ============================================================
+// TREND / BASE / VOLUME
+// ============================================================
+smaFast = ta.sma(close, smaFastLen)
+smaSlow = ta.sma(close, smaSlowLen)
+
+higherHigh = high > high[1]
+higherLow  = low > low[1]
+
+risingLowsInBase = not athSignal and low > low[1]
+
+volRecentAvg = ta.sma(volume, dryUpLookback)
+volDryingUp  = volRecentAvg < volAvg
+
+var float[] consolHistoryArr = array.new_float(0)
+
+f_clamp01(x) =>
+    math.max(0.0, math.min(1.0, x))
+
+f_trendScore(c, smaF, smaS, hh, hl) =>
+    float score = 0.0
+    score += c > smaF ? 20.0 : 0.0
+    score += smaF > smaS ? 20.0 : 0.0
+    score += c > smaS ? 20.0 : 0.0
+    score += hh ? 20.0 : 0.0
+    score += hl ? 20.0 : 0.0
+    score
+
+f_consolLengthScore(months, historyArr, fbMed, fbHigh, staleMonths) =>
+    float score = 0.0
+    if array.size(historyArr) >= 2
+        avgPast = array.sum(historyArr) / array.size(historyArr)
+        ratio = avgPast > 0 ? months / avgPast : (months > 0 ? 2.0 : 0.0)
+        if ratio >= 1.2
+            score := 30.0
+        else if ratio >= 0.7
+            score := 20.0
+        else if ratio >= 0.3
+            score := 10.0
+        else
+            score := 0.0
+    else
+        if months >= fbHigh
+            score := 30.0
+        else if months >= fbMed
+            score := 20.0
+        else if months >= 1
+            score := 10.0
+        else
+            score := 0.0
+    if months >= staleMonths
+        score := math.min(score, 20.0)
+    score
+
+f_baseScore(tightPctVal, tightThreshold, months, historyArr, fbMed, fbHigh, staleMonths, risingLows, dryUp) =>
+    lengthScore = f_consolLengthScore(months, historyArr, fbMed, fbHigh, staleMonths)
+    tightnessScore = na(tightPctVal) ? 0.0 : 30.0 * (1.0 - f_clamp01((tightPctVal - tightThreshold) / tightThreshold))
+    risingScore = risingLows ? 20.0 : 0.0
+    dryUpScore  = dryUp ? 20.0 : 0.0
+    math.min(lengthScore + tightnessScore + risingScore + dryUpScore, 100.0)
+
+f_volumeScore(volCur, volAvgVal, volMult, dryUp) =>
+    expansionScore = volCur > volAvgVal * volMult ? 40.0 : (volCur > volAvgVal ? 20.0 : 0.0)
+    aboveAvgScore  = volCur > volAvgVal ? 30.0 : 0.0
+    dryUpScore     = dryUp ? 30.0 : 0.0
+    math.min(expansionScore + aboveAvgScore + dryUpScore, 100.0)
+
+getScoreColor(score) =>
+    color result = color.orange
+    if score >= 80
+        result := color.lime
+    else if score >= 60
+        result := color.teal
+    else if score >= 35
+        result := color.yellow
+    result
+
+trendScoreLive = f_trendScore(close, smaFast, smaSlow, higherHigh, higherLow)
+baseScoreLive  = f_baseScore(tightnessPct, tightPct, consolMonths, consolHistoryArr, fallbackMed, fallbackHigh, tooLongMonths, risingLowsInBase, volDryingUp)
+volScoreLive   = f_volumeScore(volume, volAvg, volMultiplier, volDryingUp)
+compositeScoreLive = (trendScoreLive + baseScoreLive + volScoreLive) / 3.0
+
+// ============================================================
+// EXIT LOGIC — unchanged. Applies to ALL open legs at once.
+// ============================================================
+weeklyOpen     = request.security(syminfo.tickerid, "W", open, lookahead=barmerge.lookahead_off)
+weeklyClose    = request.security(syminfo.tickerid, "W", close, lookahead=barmerge.lookahead_off)
+weeklySMA      = request.security(syminfo.tickerid, "W", ta.sma(close, weeklySmaLen), lookahead=barmerge.lookahead_off)
+weeklyBarClose = request.security(syminfo.tickerid, "W", barstate.isconfirmed, lookahead=barmerge.lookahead_off)
+
+weeklyIsRed = weeklyClose < weeklyOpen
+exitTrigger = weeklyBarClose and weeklyClose < weeklySMA and weeklyIsRed
+
+// ============================================================
+// TRADE STATE — MULTIPLE OPEN LEGS (quantity + capital)
+// ============================================================
+var float[] legEntry     = array.new_float(0)
+var float[] legSL        = array.new_float(0)
+var float[] legT1        = array.new_float(0)
+var float[] legT2        = array.new_float(0)
+var int[]   legEntryBar  = array.new_int(0)
+var float[] legEntryTime = array.new_float(0)
+var float[] legRisk      = array.new_float(0)
+var float[] legTrend     = array.new_float(0)
+var float[] legBase      = array.new_float(0)
+var float[] legVol       = array.new_float(0)
+var int[]   legConsol    = array.new_int(0)
+var float[] legQty       = array.new_float(0)   // sized quantity for this leg
+var float[] legCapital   = array.new_float(0)   // capital committed to this leg
+
+var float  firstEntryTimeGlobal    = na
+var float  lastExitTimeGlobal      = na
+var float  totalCapitalDeployed    = 0.0        // running capital in use across open legs
+
+wasInTrade = array.size(legEntry) > 0
+inTrade    = wasInTrade
+
+watchCondition = enableWatch and not inTrade and not athSignal and not na(distanceFromATH) and
+                 distanceFromATH >= 0 and distanceFromATH <= watchZonePct and consolMonths >= 2
+
+readyCondition = enableReady and not inTrade and not athSignal and not na(distanceFromATH) and
+                 distanceFromATH >= 0 and distanceFromATH <= readyZonePct and
+                 isTightBase and volLooksGood and consolMonths >= 3 and compositeScoreLive >= scoreThreshold
+
+watchTriggered = watchCondition and not watchCondition[1]
+readyTriggered = readyCondition and not readyCondition[1]
+
+// ============================================================
+// POSITION SIZING — only meaningful on a confirmEntryTrigger bar.
+// Entry price = triggerLevel (the armed level, "just above the
+// wick"), not the confirming candle's high or close.
+// ============================================================
+potentialEntryP  = triggerLevel
+potentialSL      = stopTypeInput == "ATR" ? potentialEntryP - atrValue * atrMult : low
+potentialRisk    = potentialEntryP - potentialSL
+riskAmountCcy    = accountCapital * riskPerLegPct / 100.0
+potentialQty     = (confirmEntryTrigger and potentialRisk > 0) ? math.floor(riskAmountCcy / potentialRisk) : 0.0
+potentialCapital = potentialQty * potentialEntryP
+capitalCeiling   = accountCapital * maxCapitalDeployPct / 100.0
+capitalRoomLeft  = math.max(capitalCeiling - totalCapitalDeployed, 0.0)
+
+// ============================================================
+// BUY (new leg) — fires when a later month confirms above the
+// armed trigger level, gated by BOTH leg count cap AND capital cap.
+// ============================================================
+canAddLeg      = array.size(legEntry) < maxPyramidLegs and potentialQty > 0 and
+                 (totalCapitalDeployed + potentialCapital) <= capitalCeiling
+buySignal      = confirmEntryTrigger and canAddLeg
+firstEntrySignal = buySignal and not wasInTrade
+addSignal      = buySignal and wasInTrade
+legCapBlocked  = confirmEntryTrigger and array.size(legEntry) < maxPyramidLegs and not canAddLeg   // capital blocked it specifically
+legCapReached  = confirmEntryTrigger and not canAddLeg      // confirmed trigger occurred but something blocked a new leg (count OR capital)
+
+if buySignal
+    trendScoreV = f_trendScore(close, smaFast, smaSlow, higherHigh, higherLow)
+    baseScoreV  = f_baseScore(tightnessPct, tightPct, consolMonths, consolHistoryArr, fallbackMed, fallbackHigh, tooLongMonths, risingLowsInBase, volDryingUp)
+    volScoreV   = f_volumeScore(volume, volAvg, volMultiplier, volDryingUp)
+
+    entryP = potentialEntryP
+    slL    = potentialSL
+    riskA  = potentialRisk
+    t1     = entryP + riskA * rr1
+    t2     = entryP + riskA * rr2
+    qtyV   = potentialQty
+    capV   = potentialCapital
+
+    array.push(legEntry, entryP)
+    array.push(legSL, slL)
+    array.push(legT1, t1)
+    array.push(legT2, t2)
+    array.push(legEntryBar, bar_index)
+    array.push(legEntryTime, time)
+    array.push(legRisk, riskA)
+    array.push(legTrend, trendScoreV)
+    array.push(legBase, baseScoreV)
+    array.push(legVol, volScoreV)
+    array.push(legConsol, consolMonths)
+    array.push(legQty, qtyV)
+    array.push(legCapital, capV)
+
+    totalCapitalDeployed := totalCapitalDeployed + capV
+
+    array.push(consolHistoryArr, float(consolMonths))
+    if na(firstEntryTimeGlobal)
+        firstEntryTimeGlobal := time
+
+sellSignal = wasInTrade and exitTrigger   // closes ALL open legs together
+
+// ============================================================
+// STATS ENGINE — per-leg records, currency P&L
+// ============================================================
+var float[] tradePnlPct          = array.new_float(0)
+var float[] tradePnlCcy          = array.new_float(0)
+var float[] tradeCloseBarIdxArr  = array.new_float(0)
+var float[] tradeRMultipleArr    = array.new_float(0)
+var float[] tradeDurationBarsArr = array.new_float(0)
+var float[] tradeDurationDaysArr = array.new_float(0)
+var float   lastBatchAvgPnl      = na
+var float   lastBatchPnlCcy      = na
+var int     lastBatchLegCount    = 0
+var float   cumPnlCcy            = 0.0   // running net P&L in currency across all closed legs
+
+if sellSignal
+    lastBatchLegCount := array.size(legEntry)
+    float batchPnlSum    = 0.0
+    float batchPnlCcySum = 0.0
+    for i = 0 to array.size(legEntry) - 1
+        entryP = array.get(legEntry, i)
+        qtyI   = array.get(legQty, i)
+        pnl    = (close - entryP) / entryP * 100
+        pnlCcy = (close - entryP) * qtyI
+        array.push(tradePnlPct, pnl)
+        array.push(tradePnlCcy, pnlCcy)
+        array.push(tradeCloseBarIdxArr, float(bar_index))
+
+        durationBars = bar_index - array.get(legEntryBar, i)
+        array.push(tradeDurationBarsArr, float(durationBars))
+
+        durationDays = (time - array.get(legEntryTime, i)) / 86400000.0
+        array.push(tradeDurationDaysArr, durationDays)
+
+        riskA = array.get(legRisk, i)
+        rMultiple = riskA != 0 ? (close - entryP) / riskA : na
+        array.push(tradeRMultipleArr, rMultiple)
+
+        batchPnlSum    += pnl
+        batchPnlCcySum += pnlCcy
+
+    lastBatchAvgPnl := batchPnlSum / array.size(legEntry)
+    lastBatchPnlCcy := batchPnlCcySum
+    cumPnlCcy       := cumPnlCcy + batchPnlCcySum
+    lastExitTimeGlobal := time
+    totalCapitalDeployed := 0.0   // all legs closed together, so capital fully freed
+
+    array.clear(legEntry)
+    array.clear(legSL)
+    array.clear(legT1)
+    array.clear(legT2)
+    array.clear(legEntryBar)
+    array.clear(legEntryTime)
+    array.clear(legRisk)
+    array.clear(legTrend)
+    array.clear(legBase)
+    array.clear(legVol)
+    array.clear(legConsol)
+    array.clear(legQty)
+    array.clear(legCapital)
+
+totalTrades = array.size(tradePnlPct)   // = total closed LEGS across all positions
+
+var float winCount           = 0.0
+var float sumPnl             = 0.0
+var float bestTrade          = na
+var float worstTrade         = na
+var float sumWinPnl          = 0.0
+var float sumLossPnl         = 0.0
+var float winCountForAvg     = 0.0
+var float lossCountForAvg    = 0.0
+var float avgWin             = na
+var float avgLoss            = na
+var float profitFactor       = na
+var float maxDD              = 0.0
+var float maxDDDurationBars  = 0.0
+var int   maxWinStreak       = 0
+var int   maxLossStreak      = 0
+var float sumRMultiple       = 0.0
+var int   rCount             = 0
+var float avgRMultiple       = na
+var float sumDurationBars    = 0.0
+var float sumDurationDays    = 0.0
+var float avgHoldingBars     = na
+var float avgDurationDays    = na
+var float cumEquityMult      = 1.0
+var float totalReturnPct     = na
+var float cagrPct            = na
+var float expectancyPct      = na
+var float avgPnl             = na
+
+if barstate.islast and totalTrades > 0
+    winCount         := 0.0
+    sumPnl           := 0.0
+    bestTrade        := array.get(tradePnlPct, 0)
+    worstTrade       := array.get(tradePnlPct, 0)
+    sumWinPnl        := 0.0
+    sumLossPnl       := 0.0
+    winCountForAvg   := 0.0
+    lossCountForAvg  := 0.0
+    maxWinStreak     := 0
+    maxLossStreak    := 0
+    sumRMultiple     := 0.0
+    rCount           := 0
+    sumDurationBars  := 0.0
+    sumDurationDays  := 0.0
+    cumEquityMult    := 1.0
+
+    int curWinStreak  = 0
+    int curLossStreak = 0
+    cumEquity  = 0.0
+    peakEquity = 0.0
+    peakBarIdx = array.get(tradeCloseBarIdxArr, 0)
+    maxDD             := 0.0
+    maxDDDurationBars := 0.0
+
+    for i = 0 to totalTrades - 1
+        p      = array.get(tradePnlPct, i)
+        barIdx = array.get(tradeCloseBarIdxArr, i)
+        sumPnl += p
+        cumEquityMult := cumEquityMult * (1.0 + p / 100.0)
+
+        if p > 0
+            winCount       += 1
+            sumWinPnl      += p
+            winCountForAvg += 1
+            curWinStreak   += 1
+            curLossStreak  := 0
+            maxWinStreak   := math.max(maxWinStreak, curWinStreak)
+        else if p < 0
+            sumLossPnl      += p
+            lossCountForAvg += 1
+            curLossStreak   += 1
+            curWinStreak    := 0
+            maxLossStreak   := math.max(maxLossStreak, curLossStreak)
+        else
+            curWinStreak  := 0
+            curLossStreak := 0
+
+        if p > bestTrade
+            bestTrade := p
+        if p < worstTrade
+            worstTrade := p
+
+        rVal = array.get(tradeRMultipleArr, i)
+        if not na(rVal)
+            sumRMultiple += rVal
+            rCount += 1
+
+        sumDurationBars += array.get(tradeDurationBarsArr, i)
+        sumDurationDays += array.get(tradeDurationDaysArr, i)
+
+        cumEquity += p
+        if cumEquity > peakEquity
+            peakEquity := cumEquity
+            peakBarIdx := barIdx
+        dd = peakEquity - cumEquity
+        if dd > maxDD
+            maxDD             := dd
+            maxDDDurationBars := barIdx - peakBarIdx
+
+    if cumEquity < peakEquity
+        currentDDBars = bar_index - peakBarIdx
+        if currentDDBars > maxDDDurationBars
+            maxDDDurationBars := currentDDBars
+
+    avgWin          := winCountForAvg  > 0 ? sumWinPnl / winCountForAvg   : na
+    avgLoss         := lossCountForAvg > 0 ? sumLossPnl / lossCountForAvg : na
+    profitFactor    := (lossCountForAvg > 0 and sumLossPnl != 0) ? sumWinPnl / math.abs(sumLossPnl) : na
+    avgRMultiple    := rCount > 0 ? sumRMultiple / rCount : na
+    avgHoldingBars  := sumDurationBars / totalTrades
+    avgDurationDays := sumDurationDays / totalTrades
+    totalReturnPct  := (cumEquityMult - 1.0) * 100.0
+    avgPnl          := sumPnl / totalTrades
+    expectancyPct   := avgPnl
+
+    yearsSpan = (not na(firstEntryTimeGlobal) and not na(lastExitTimeGlobal)) ? (lastExitTimeGlobal - firstEntryTimeGlobal) / (365.25 * 86400000.0) : na
+    cagrPct := (not na(yearsSpan) and yearsSpan > 0) ? (math.pow(cumEquityMult, 1.0 / yearsSpan) - 1.0) * 100.0 : na
+
+winRate = totalTrades > 0 ? winCount / totalTrades * 100 : na
+
+// ============================================================
+// STATUS MODEL
+// ============================================================
+openLegCount = array.size(legEntry)
+
+statusText  = sellSignal ? "SELL (all legs)" : firstEntrySignal ? "BUY" : addSignal ? "ADD (leg " + str.tostring(openLegCount) + ")" : legCapBlocked ? "TRIGGER HIT (capital cap)" : legCapReached ? "TRIGGER HIT (cap reached)" : wasInTrade ? "IN TRADE (" + str.tostring(openLegCount) + " legs)" : readyCondition ? "READY" : watchCondition ? "WATCH" : not na(pendingLevel) ? "ARMED (awaiting confirmation)" : "IGNORE"
+statusColor = sellSignal ? color.red : firstEntrySignal ? color.lime : addSignal ? color.aqua : legCapBlocked ? color.orange : legCapReached ? color.orange : wasInTrade ? color.green : readyCondition ? color.aqua : watchCondition ? color.yellow : not na(pendingLevel) ? color.fuchsia : color.silver
+
+recCategory = firstEntrySignal ? "BUY" : addSignal ? "ADD" : legCapReached ? "IGNORE" : readyCondition ? "READY" : watchCondition ? "WATCH" : "IGNORE"
+
+f_recommendationReason(cat, tight, volGood, capHit, capBlocked, armed) =>
+    string txt = ""
+    if cat == "BUY"
+        txt := "Confirmed above trigger level - first entry"
+    else if cat == "ADD"
+        txt := "New confirmed trigger - pyramid leg added"
+    else if capBlocked
+        txt := "Trigger confirmed but capital cap reached - can't size a new leg"
+    else if capHit
+        txt := "Trigger confirmed but max legs reached"
+    else if cat == "READY"
+        txt := "Near ATH, tight base, good volume"
+    else if cat == "WATCH"
+        txt := tight ? "Near ATH, base tightening" : "Near ATH, needs more consolidation"
+    else if armed
+        txt := "ATH wick made - waiting for a later month to confirm above " + str.tostring(pendingLevel, "#.##")
+    else
+        txt := "Not near ATH / weak setup"
+    txt
+
+recReason = f_recommendationReason(recCategory, isTightBase, volLooksGood, legCapReached, legCapBlocked, not na(pendingLevel))
+
+mostRecentIdx   = openLegCount - 1
+displayTrend    = openLegCount > 0 ? array.get(legTrend, mostRecentIdx) : trendScoreLive
+displayBase     = openLegCount > 0 ? array.get(legBase, mostRecentIdx)  : baseScoreLive
+displayVol      = openLegCount > 0 ? array.get(legVol, mostRecentIdx)   : volScoreLive
+
+// ============================================================
+// VISUALS — most recent leg only (Pine can't plot a dynamic series count)
+// ============================================================
+mostRecentSL = openLegCount > 0 ? array.get(legSL, mostRecentIdx) : na
+mostRecentT1 = openLegCount > 0 ? array.get(legT1, mostRecentIdx) : na
+mostRecentT2 = openLegCount > 0 ? array.get(legT2, mostRecentIdx) : na
+
+bgcolor(openLegCount > 0 ? color.new(color.green, 92) : na, title="Active Trade Zone")
+
+plot(runningATH, "All-Time High", color=color.new(color.orange, 0), linewidth=2)
+plot(pendingLevel, "Confirmation Trigger Level (armed)", color=color.new(color.fuchsia, 0), style=plot.style_circles, linewidth=1)
+plot(openLegCount > 0 ? weeklySMA : na, "30-Week SMA (exit line)", color=color.new(color.blue, 20), linewidth=2)
+plot(mostRecentSL, "Stop-Loss (most recent leg)", color=color.new(color.red, 30), style=plot.style_circles, linewidth=1)
+plot(mostRecentT1, "Target 1 (most recent leg)", color=color.new(color.teal, 40), style=plot.style_circles, linewidth=1)
+plot(mostRecentT2, "Target 2 (most recent leg)", color=color.new(color.purple, 40), style=plot.style_circles, linewidth=1)
+
+plotshape(barstate.isconfirmed and athSignal, title="ATH Signal (armed)", style=shape.xcross, location=location.abovebar,
+     color=color.new(color.fuchsia, 0), size=size.tiny)
+plotshape(firstEntrySignal, title="BUY (1st leg)", style=shape.triangleup, location=location.belowbar,
+     color=color.new(color.lime, 0), size=size.tiny)
+plotshape(addSignal, title="ADD (new leg)", style=shape.diamond, location=location.abovebar,
+     color=color.new(color.aqua, 0), size=size.tiny)
+plotshape(sellSignal, title="SELL (all legs)", style=shape.triangledown, location=location.abovebar,
+     color=color.new(color.red, 0), size=size.tiny)
+
+if barstate.isconfirmed and athSignal
+    label.new(bar_index, high, "SIGNAL\narmed @ " + str.tostring(pendingLevel, "#.##"),
+         style=label.style_label_down, color=color.new(color.fuchsia, 0),
+         textcolor=color.white, size=size.tiny)
+
+if firstEntrySignal
+    label.new(bar_index, low, "BUY " + str.tostring(array.get(legEntry, mostRecentIdx), "#.##") +
+         " x" + str.tostring(array.get(legQty, mostRecentIdx), "#") +
+         "\nT" + str.tostring(array.get(legTrend, mostRecentIdx), "#") +
+         " B" + str.tostring(array.get(legBase, mostRecentIdx), "#") +
+         " V" + str.tostring(array.get(legVol, mostRecentIdx), "#"),
+         style=label.style_label_up, color=color.new(color.lime, 0),
+         textcolor=color.black, size=size.tiny)
+
+if addSignal
+    label.new(bar_index, high, "ADD leg " + str.tostring(openLegCount) + "\n@" + str.tostring(array.get(legEntry, mostRecentIdx), "#.##") +
+         " x" + str.tostring(array.get(legQty, mostRecentIdx), "#"),
+         style=label.style_label_down, color=color.new(color.aqua, 0),
+         textcolor=color.black, size=size.tiny)
+
+if sellSignal
+    pnlText = (lastBatchAvgPnl >= 0 ? "+" : "") + str.tostring(lastBatchAvgPnl, "#.#") + "% avg\n" +
+         (lastBatchPnlCcy >= 0 ? "+" : "") + str.tostring(lastBatchPnlCcy, "#.##")
+    label.new(bar_index, high, "SELL " + str.tostring(close, "#.##") + " (" + str.tostring(lastBatchLegCount) + " legs)\n" + pnlText,
+         style=label.style_label_down,
+         color=color.new(lastBatchAvgPnl >= 0 ? color.green : color.red, 0),
+         textcolor=color.white, size=size.tiny)
+
+if barstate.isconfirmed and watchTriggered
+    label.new(bar_index, high, "WATCH\n" + str.tostring(distanceFromATH, "#.#") + "% from ATH",
+         style=label.style_label_down, color=color.new(color.yellow, 0),
+         textcolor=color.black, size=size.tiny)
+
+if barstate.isconfirmed and readyTriggered
+    label.new(bar_index, high, "READY\nT" + str.tostring(trendScoreLive, "#") +
+         " B" + str.tostring(baseScoreLive, "#") +
+         " V" + str.tostring(volScoreLive, "#"),
+         style=label.style_label_down, color=color.new(color.aqua, 0),
+         textcolor=color.black, size=size.tiny)
+
+// ============================================================
+// DASHBOARD
+// ============================================================
+f_row(t, rowIdx, label, value, valColor) =>
+    table.cell(t, 0, rowIdx, label, text_color=color.gray, text_size=size.small)
+    table.cell(t, 1, rowIdx, value, text_color=valColor, text_size=size.small)
+
+f_header(t, rowIdx, label, value, valColor) =>
+    table.cell(t, 0, rowIdx, label, text_color=color.white, bgcolor=color.new(color.gray, 40), text_size=size.small)
+    table.cell(t, 1, rowIdx, value, text_color=valColor, bgcolor=color.new(color.gray, 40), text_size=size.small)
+
+var table infoTable = table.new(position.top_right, 2, 45, bgcolor=color.new(color.black, 70), border_width=1)
+
+if barstate.islast
+    f_header(infoTable, 0, "ATH DASHBOARD", statusText, statusColor)
+    f_row(infoTable, 1, "Trend Score", str.tostring(displayTrend, "#.#") + " / 100", getScoreColor(displayTrend))
+    f_row(infoTable, 2, "Base Score", str.tostring(displayBase, "#.#") + " / 100", getScoreColor(displayBase))
+    f_row(infoTable, 3, "Volume Score", str.tostring(displayVol, "#.#") + " / 100", getScoreColor(displayVol))
+    f_row(infoTable, 4, "ATH Distance", na(distanceFromATH) ? "-" : str.tostring(distanceFromATH, "#.#") + "%", color.white)
+    f_row(infoTable, 5, "Months Since ATH", str.tostring(monthsSinceATH), color.white)
+    f_row(infoTable, 6, "Base Tightness", isTightBase ? "TIGHT" : "LOOSE", isTightBase ? color.lime : color.gray)
+    f_row(infoTable, 7, "Recommendation", recCategory + " - " + recReason, statusColor)
+
+    f_header(infoTable, 8, "OPEN LEGS", str.tostring(openLegCount) + " / " + str.tostring(maxPyramidLegs), openLegCount > 0 ? color.lime : color.silver)
+
+    for i = 0 to maxPyramidLegs - 1
+        rowIdx = 9 + i
+        if i < openLegCount
+            legText = "#" + str.tostring(i + 1) + ": " + str.tostring(array.get(legEntry, i), "#.##") +
+                 " x" + str.tostring(array.get(legQty, i), "#") +
+                 " | SL " + str.tostring(array.get(legSL, i), "#.##") +
+                 " | T1 " + str.tostring(array.get(legT1, i), "#.##")
+            f_row(infoTable, rowIdx, "Leg " + str.tostring(i + 1), legText, color.white)
+        else
+            f_row(infoTable, rowIdx, "Leg " + str.tostring(i + 1), "-", color.gray)
+
+    statsHeaderRow = 9 + maxPyramidLegs
+    f_header(infoTable, statsHeaderRow, "HISTORY", "(" + str.tostring(totalTrades) + " legs closed)", color.silver)
+    f_row(infoTable, statsHeaderRow + 1, "Net P&L (currency)", totalTrades > 0 ? (cumPnlCcy >= 0 ? "+" : "") + str.tostring(cumPnlCcy, "#.##") : "-", totalTrades > 0 and cumPnlCcy >= 0 ? color.lime : color.red)
+    f_row(infoTable, statsHeaderRow + 2, "Win Rate (per leg)", totalTrades > 0 ? str.tostring(winRate, "#.#") + "%" : "-", color.white)
+    f_row(infoTable, statsHeaderRow + 3, "Avg P&L / Expectancy", totalTrades > 0 ? (avgPnl >= 0 ? "+" : "") + str.tostring(avgPnl, "#.#") + "%" : "-", totalTrades > 0 and avgPnl >= 0 ? color.lime : color.red)
+    f_row(infoTable, statsHeaderRow + 4, "Avg Win", totalTrades > 0 and not na(avgWin) ? "+" + str.tostring(avgWin, "#.#") + "%" : "-", color.lime)
+    f_row(infoTable, statsHeaderRow + 5, "Avg Loss", totalTrades > 0 and not na(avgLoss) ? str.tostring(avgLoss, "#.#") + "%" : "-", color.red)
+    f_row(infoTable, statsHeaderRow + 6, "Profit Factor", totalTrades > 0 ? (na(profitFactor) ? "∞" : str.tostring(profitFactor, "#.##")) : "-", (na(profitFactor) or profitFactor >= 1) ? color.lime : color.red)
+    f_row(infoTable, statsHeaderRow + 7, "Max Drawdown", totalTrades > 0 ? "-" + str.tostring(maxDD, "#.#") + "%" : "-", color.red)
+    f_row(infoTable, statsHeaderRow + 8, "Best / Worst Leg", totalTrades > 0 ? "+" + str.tostring(bestTrade, "#.#") + "% / " + str.tostring(worstTrade, "#.#") + "%" : "-", color.white)
+    f_row(infoTable, statsHeaderRow + 9, "Avg R Multiple", totalTrades > 0 and not na(avgRMultiple) ? str.tostring(avgRMultiple, "#.##") + "R" : "-", (not na(avgRMultiple) and avgRMultiple >= 0) ? color.lime : color.red)
+    f_row(infoTable, statsHeaderRow + 10, "Avg Holding (mo)", totalTrades > 0 ? str.tostring(avgHoldingBars, "#.#") : "-", color.white)
+    f_row(infoTable, statsHeaderRow + 11, "Total Return / CAGR", totalTrades > 0 and not na(totalReturnPct) ? (totalReturnPct >= 0 ? "+" : "") + str.tostring(totalReturnPct, "#.#") + "% / " + (na(cagrPct) ? "-" : str.tostring(cagrPct, "#.#") + "%") : "-", (not na(totalReturnPct) and totalReturnPct >= 0) ? color.lime : color.red)
+
+// ============================================================
+// ALERTS
+// ============================================================
+alertcondition(watchTriggered, title="ATH WATCH Zone", message="{{ticker}}: Entered WATCH zone near all-time high")
+alertcondition(readyTriggered, title="ATH READY Signal", message="{{ticker}}: READY - tight base, good volume, near all-time high")
+alertcondition(athSignal, title="ATH Signal - Trigger Armed", message="{{ticker}}: Fresh ATH wick + green close - confirmation trigger armed just above this month's high")
+alertcondition(firstEntrySignal, title="ATH Confirmed Entry - BUY (1st leg)", message="{{ticker}}: A later month confirmed above the armed trigger level - first entry, sized to risk %")
+alertcondition(addSignal, title="ATH Confirmed Entry - Pyramid Leg Added", message="{{ticker}}: A later month confirmed above the armed trigger level - pyramid leg added, sized to risk %")
+alertcondition(legCapReached, title="ATH Trigger Confirmed - Cap Reached", message="{{ticker}}: Trigger confirmed but leg count or capital cap blocked a new leg")
+alertcondition(sellSignal, title="Weekly 30SMA Exit - SELL ALL LEGS", message="{{ticker}}: Red weekly close below 30-week SMA, exiting all open legs")

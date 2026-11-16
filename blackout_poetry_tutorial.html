@@ -1,0 +1,1711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Blackout Poetry — A Tutorial</title>
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=IM+Fell+English:ital@0;1&family=Special+Elite&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #1a1008;
+    --paper: #f5f0e8;
+    --paper-dark: #e8e0cc;
+    --paper-mid: #ede6d4;
+    --red: #8b1a1a;
+    --gold: #b8860b;
+    --blacked: #1a1008;
+    --selected-bg: #ffd700;
+    --selected-text: #1a1008;
+  }
+
+  body {
+    background: #2a2318;
+    font-family: 'Special Elite', monospace;
+    color: var(--ink);
+    min-height: 100vh;
+    padding: 0;
+    overflow-x: hidden;
+  }
+
+  /* NEWSPAPER HEADER */
+  .masthead {
+    background: var(--paper);
+    border-bottom: 4px double var(--ink);
+    padding: 1.5rem 1rem 1rem;
+    text-align: center;
+    position: relative;
+  }
+
+  .masthead::before {
+    content: '★ ★ ★';
+    display: block;
+    font-size: 10px;
+    letter-spacing: 8px;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+
+  .masthead-date {
+    font-size: 10px;
+    font-family: 'Courier Prime', monospace;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+    padding: 3px 0;
+    margin-bottom: 8px;
+  }
+
+  .masthead h1 {
+    font-family: 'UnifrakturMaguntia', serif;
+    font-size: clamp(2.2rem, 8vw, 4rem);
+    line-height: 1;
+    color: var(--ink);
+    letter-spacing: -1px;
+  }
+
+  .masthead-sub {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: var(--ink);
+    margin-top: 4px;
+    letter-spacing: 1px;
+  }
+
+  .masthead-rule {
+    border: none;
+    border-top: 3px solid var(--ink);
+    margin: 8px 0 0;
+  }
+
+  /* NAV TABS */
+  .nav-bar {
+    background: var(--ink);
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    border-bottom: 2px solid var(--gold);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .nav-bar::-webkit-scrollbar { display: none; }
+
+  .nav-tab {
+    flex: 0 0 auto;
+    padding: 10px 14px;
+    color: #b8a880;
+    font-family: 'Courier Prime', monospace;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    white-space: nowrap;
+    border-right: 1px solid #3a3020;
+    transition: all 0.2s;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+  }
+  .nav-tab.active {
+    background: var(--gold);
+    color: var(--ink);
+    font-weight: 700;
+  }
+  .nav-tab:hover:not(.active) { background: #3a3020; }
+
+  /* SECTIONS */
+  .section {
+    display: none;
+    background: var(--paper);
+    min-height: calc(100vh - 140px);
+    padding: 1.5rem 1rem 3rem;
+    animation: fadeIn 0.3s ease;
+  }
+  .section.active { display: block; }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* TYPOGRAPHY */
+  .section-eyebrow {
+    font-family: 'Courier Prime', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--red);
+    border-top: 2px solid var(--red);
+    border-bottom: 1px solid var(--red);
+    padding: 3px 0;
+    margin-bottom: 12px;
+    display: inline-block;
+  }
+
+  .drop-cap-intro {
+    font-family: 'IM Fell English', serif;
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--ink);
+    column-count: 1;
+  }
+
+  .drop-cap-intro::first-letter {
+    font-family: 'Playfair Display', serif;
+    font-size: 4em;
+    font-weight: 900;
+    float: left;
+    line-height: 0.75;
+    margin: 4px 6px 0 0;
+    color: var(--ink);
+  }
+
+  h2.column-head {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 900;
+    border-bottom: 3px double var(--ink);
+    padding-bottom: 6px;
+    margin-bottom: 12px;
+    line-height: 1.2;
+  }
+
+  h3.sub-head {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    font-style: italic;
+    margin: 1.2rem 0 6px;
+    border-left: 3px solid var(--red);
+    padding-left: 8px;
+    color: var(--red);
+  }
+
+  p.body-text {
+    font-family: 'IM Fell English', serif;
+    font-size: 14px;
+    line-height: 1.9;
+    margin-bottom: 12px;
+    text-align: justify;
+  }
+
+  .pull-quote {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-style: italic;
+    font-weight: 700;
+    text-align: center;
+    border-top: 2px solid var(--ink);
+    border-bottom: 2px solid var(--ink);
+    padding: 12px 8px;
+    margin: 1.5rem 0;
+    line-height: 1.4;
+    color: var(--ink);
+  }
+
+  /* RULE DIVIDERS */
+  .rule-stars {
+    text-align: center;
+    font-size: 12px;
+    letter-spacing: 8px;
+    margin: 1.5rem 0;
+    color: var(--ink);
+    opacity: 0.4;
+  }
+
+  /* LEVEL BADGES */
+  .level-badge {
+    display: inline-block;
+    padding: 2px 10px;
+    font-family: 'Courier Prime', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border: 1px solid;
+    margin-bottom: 12px;
+  }
+  .badge-beginner { color: #2a6000; border-color: #2a6000; background: #f0f7e6; }
+  .badge-intermediate { color: #6b4500; border-color: #6b4500; background: #fff8e6; }
+  .badge-advanced { color: var(--red); border-color: var(--red); background: #fdf0f0; }
+
+  /* NEWSPAPER ARTICLE DEMO */
+  .newspaper-demo {
+    background: var(--paper);
+    border: 1px solid #c8c0a8;
+    padding: 1rem;
+    font-family: 'IM Fell English', serif;
+    font-size: 13px;
+    line-height: 1.8;
+    position: relative;
+    margin: 1rem 0;
+    box-shadow: 2px 2px 0 #c8c0a8;
+  }
+
+  .newspaper-demo .demo-headline {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: 1.1rem;
+    margin-bottom: 6px;
+    border-bottom: 1px solid var(--ink);
+    padding-bottom: 4px;
+  }
+
+  /* BLACKED OUT WORDS - static demo */
+  .blacked {
+    background: var(--blacked);
+    color: transparent;
+    border-radius: 2px;
+    padding: 0 2px;
+    display: inline;
+  }
+
+  .kept {
+    font-family: 'Courier Prime', monospace;
+    font-weight: 700;
+    font-size: 0.95em;
+    background: var(--selected-bg);
+    color: var(--selected-text);
+    padding: 0 3px;
+    border-radius: 2px;
+    display: inline;
+  }
+
+  /* INTERACTIVE EXERCISE */
+  .exercise-wrapper {
+    margin: 1.5rem 0;
+  }
+
+  .exercise-label {
+    font-family: 'Courier Prime', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .exercise-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--red);
+    opacity: 0.4;
+  }
+
+  .article-text {
+    background: var(--paper);
+    border: 1px solid #c0b898;
+    padding: 1.2rem;
+    font-family: 'IM Fell English', serif;
+    font-size: 15px;
+    line-height: 2.1;
+    position: relative;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.03);
+    cursor: default;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  .article-text .art-headline {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: 1.05rem;
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 6px;
+    margin-bottom: 10px;
+    display: block;
+    cursor: default;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  .word {
+    display: inline-block;
+    padding: 2px 3px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    position: relative;
+    line-height: 1.6;
+  }
+
+  .word:hover { background: rgba(184, 134, 11, 0.2); }
+
+  .word.selected {
+    background: var(--selected-bg);
+    color: var(--selected-text);
+    font-weight: 700;
+    font-family: 'Courier Prime', monospace;
+  }
+
+  .word.blacked-out {
+    background: var(--blacked);
+    color: transparent;
+    cursor: default;
+    border-radius: 2px;
+  }
+
+  /* PREVIEW POEM */
+  .poem-preview {
+    background: var(--paper-dark);
+    border: 1px solid #b0a888;
+    padding: 1.2rem;
+    margin-top: 12px;
+    min-height: 80px;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.1rem;
+    line-height: 2;
+    color: var(--ink);
+    letter-spacing: 0.5px;
+  }
+
+  .poem-preview-label {
+    font-family: 'Courier Prime', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--ink);
+    opacity: 0.6;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .poem-preview-empty {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: var(--ink);
+    opacity: 0.4;
+    text-align: center;
+    padding: 12px 0;
+  }
+
+  /* TOOLBAR */
+  .toolbar {
+    display: flex;
+    gap: 8px;
+    margin: 10px 0;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    font-family: 'Courier Prime', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 7px 14px;
+    border: 1.5px solid var(--ink);
+    background: transparent;
+    color: var(--ink);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    transition: all 0.15s;
+  }
+  .btn:hover, .btn:active { background: var(--ink); color: var(--paper); }
+
+  .btn-blackout {
+    border-color: var(--blacked);
+    color: var(--blacked);
+  }
+  .btn-blackout:hover, .btn-blackout:active {
+    background: var(--blacked);
+    color: var(--paper);
+  }
+
+  .btn-keep {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+  .btn-keep:hover, .btn-keep:active {
+    background: var(--gold);
+    color: var(--ink);
+  }
+
+  .btn-reset {
+    border-color: var(--red);
+    color: var(--red);
+    font-size: 10px;
+  }
+  .btn-reset:hover, .btn-reset:active {
+    background: var(--red);
+    color: var(--paper);
+  }
+
+  .btn-blackout-all {
+    border-color: var(--blacked);
+    color: var(--blacked);
+    background: transparent;
+    flex: 1;
+    text-align: center;
+  }
+
+  /* MODE INDICATOR */
+  .mode-indicator {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Courier Prime', monospace;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--ink);
+    padding: 5px 0;
+  }
+
+  .mode-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--gold);
+    flex-shrink: 0;
+  }
+  .mode-dot.blackout-mode { background: var(--blacked); }
+
+  /* INSTRUCTION BOX */
+  .instruction-box {
+    border: 1px solid var(--gold);
+    padding: 10px 12px;
+    margin: 10px 0;
+    background: linear-gradient(135deg, #fffef0 0%, #fdf8e4 100%);
+    font-family: 'IM Fell English', serif;
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  .instruction-box strong {
+    font-family: 'Courier Prime', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 4px;
+    color: var(--gold);
+  }
+
+  /* REVEAL ANSWER BTN */
+  .reveal-btn {
+    font-family: 'Courier Prime', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border: 1px dashed var(--ink);
+    background: transparent;
+    color: var(--ink);
+    cursor: pointer;
+    opacity: 0.6;
+    margin-top: 8px;
+    -webkit-tap-highlight-color: transparent;
+    width: 100%;
+  }
+  .reveal-btn:hover { opacity: 1; background: var(--paper-dark); }
+
+  .answer-reveal {
+    display: none;
+    margin-top: 10px;
+    border-left: 3px solid var(--gold);
+    padding: 8px 12px;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.05rem;
+    line-height: 1.9;
+    color: var(--ink);
+    background: var(--paper-mid);
+  }
+  .answer-reveal.shown { display: block; }
+
+  .answer-title {
+    font-family: 'Courier Prime', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--ink);
+    opacity: 0.6;
+    display: block;
+    margin-bottom: 6px;
+    font-style: normal;
+  }
+
+  /* RULES & TIPS */
+  .tip-box {
+    background: var(--paper-dark);
+    border-top: 3px solid var(--ink);
+    border-bottom: 3px double var(--ink);
+    padding: 12px;
+    margin: 1rem 0;
+  }
+
+  .tip-box h4 {
+    font-family: 'Courier Prime', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    color: var(--red);
+  }
+
+  .tip-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .tip-list li {
+    font-family: 'IM Fell English', serif;
+    font-size: 13px;
+    line-height: 1.7;
+    padding: 4px 0;
+    border-bottom: 1px dashed rgba(0,0,0,0.15);
+    padding-left: 16px;
+    position: relative;
+  }
+  .tip-list li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--red);
+    font-weight: bold;
+  }
+
+  /* LEVEL PROGRESS */
+  .level-progress {
+    display: flex;
+    gap: 6px;
+    margin: 1rem 0;
+    flex-wrap: wrap;
+  }
+
+  .level-pip {
+    flex: 1;
+    min-width: 60px;
+    padding: 8px 4px;
+    text-align: center;
+    border: 1px solid #c0b898;
+    font-family: 'Courier Prime', monospace;
+    font-size: 9px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    background: var(--paper-dark);
+    color: var(--ink);
+    opacity: 0.5;
+    transition: all 0.2s;
+  }
+  .level-pip.unlocked { opacity: 1; }
+  .level-pip.current { background: var(--ink); color: var(--paper); opacity: 1; border-color: var(--ink); }
+  .level-pip.done { background: var(--gold); color: var(--ink); opacity: 1; border-color: var(--gold); }
+
+  /* PHOTO / VISUAL ASIDE */
+  .aside-box {
+    border: 1px solid #c0b898;
+    padding: 10px;
+    margin: 1rem 0;
+    text-align: center;
+    background: var(--paper-mid);
+  }
+
+  .aside-box .aside-caption {
+    font-family: 'Courier Prime', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.5;
+    margin-top: 6px;
+    display: block;
+  }
+
+  /* BLACKOUT ART DEMO STATIC */
+  .static-poem-display {
+    background: var(--paper);
+    border: 1px solid #c0b898;
+    padding: 1rem;
+    font-family: 'IM Fell English', serif;
+    font-size: 14px;
+    line-height: 2.2;
+    box-shadow: 2px 2px 0 #c0b898;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* TECHNIQUE TAGS */
+  .tech-tag {
+    display: inline-block;
+    border: 1px solid var(--ink);
+    padding: 2px 8px;
+    font-family: 'Courier Prime', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin: 2px 3px 2px 0;
+    background: var(--paper-dark);
+  }
+
+  /* HORIZONTAL RULE */
+  .deco-rule {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 1.5rem 0;
+    opacity: 0.3;
+    font-size: 10px;
+    letter-spacing: 4px;
+  }
+  .deco-rule::before, .deco-rule::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--ink);
+  }
+
+  /* SCORE / FEEDBACK */
+  .feedback-box {
+    padding: 10px 12px;
+    margin: 8px 0;
+    font-family: 'IM Fell English', serif;
+    font-size: 14px;
+    line-height: 1.7;
+    display: none;
+    border-left: 4px solid;
+  }
+  .feedback-box.show { display: block; }
+  .feedback-box.good { border-color: #2a6000; background: #f0f7e6; color: #1a4000; }
+  .feedback-box.ok { border-color: var(--gold); background: #fff8e6; color: #5a3500; }
+  .feedback-box.tip { border-color: var(--red); background: #fdf0f0; color: var(--red); }
+
+  /* COUNTER */
+  .word-counter {
+    font-family: 'Courier Prime', monospace;
+    font-size: 10px;
+    color: var(--ink);
+    opacity: 0.6;
+    text-align: right;
+    margin-top: 4px;
+  }
+
+  /* PUNCTUATION / not-selectable */
+  .punct {
+    pointer-events: none;
+    font-family: 'IM Fell English', serif;
+  }
+
+  /* ADV techniques */
+  .technique-card {
+    border: 1px solid #c0b898;
+    padding: 12px;
+    margin: 12px 0;
+    background: var(--paper);
+    box-shadow: 2px 2px 0 #c0b898;
+  }
+  .technique-card h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+    border-bottom: 1px solid var(--ink);
+    padding-bottom: 4px;
+  }
+
+  /* Sticky toolbar on mobile */
+  .sticky-tools {
+    position: sticky;
+    bottom: 0;
+    background: var(--paper);
+    border-top: 2px solid var(--ink);
+    padding: 8px;
+    margin: 0 -1rem -3rem;
+    z-index: 50;
+  }
+
+  /* Kolkata-style column rules */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .col-divider {
+    border-top: 1px solid var(--ink);
+    margin: 1rem 0;
+    opacity: 0.3;
+  }
+
+  /* Mode toggle */
+  .mode-toggle {
+    display: flex;
+    border: 1.5px solid var(--ink);
+    overflow: hidden;
+    margin-bottom: 10px;
+  }
+  .mode-toggle button {
+    flex: 1;
+    padding: 8px 6px;
+    font-family: 'Courier Prime', monospace;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: all 0.15s;
+    color: var(--ink);
+  }
+  .mode-toggle button.active {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .mode-toggle button:first-child {
+    border-right: 1px solid var(--ink);
+  }
+
+  /* Page number footer */
+  .section-footer {
+    text-align: center;
+    font-family: 'Courier Prime', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    opacity: 0.3;
+    margin-top: 2rem;
+    border-top: 1px solid var(--ink);
+    padding-top: 8px;
+    text-transform: uppercase;
+  }
+
+  /* Toast notification */
+  .toast {
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--ink);
+    color: var(--paper);
+    padding: 8px 20px;
+    font-family: 'Courier Prime', monospace;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    opacity: 0;
+    transition: all 0.3s;
+    pointer-events: none;
+    z-index: 999;
+    white-space: nowrap;
+  }
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 4px; height: 4px; }
+  ::-webkit-scrollbar-track { background: var(--paper-dark); }
+  ::-webkit-scrollbar-thumb { background: var(--ink); opacity: 0.3; }
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-date">A Complete Self-Study Course · Austin Kleon Method · For Mobile & Stylus</div>
+  <h1>The Blackout</h1>
+  <div class="masthead-sub">Poetry from the everyday newspaper — an illustrated tutorial</div>
+  <hr class="masthead-rule">
+</div>
+
+<nav class="nav-bar">
+  <div class="nav-tab active" onclick="showSection('intro')">What Is It</div>
+  <div class="nav-tab" onclick="showSection('howto')">How to Read</div>
+  <div class="nav-tab" onclick="showSection('l1')">Level 1</div>
+  <div class="nav-tab" onclick="showSection('l2')">Level 2</div>
+  <div class="nav-tab" onclick="showSection('l3')">Level 3</div>
+  <div class="nav-tab" onclick="showSection('advanced')">Advanced</div>
+  <div class="nav-tab" onclick="showSection('stylus')">Stylus Tips</div>
+</nav>
+
+<div id="toast" class="toast"></div>
+
+<!-- ==================== INTRO ==================== -->
+<section id="intro" class="section active">
+  <div class="section-eyebrow">Lesson Zero</div>
+  <h2 class="column-head">What Is Blackout Poetry?</h2>
+
+  <p class="body-text drop-cap-intro">
+    You take a page from a newspaper. You read it not to understand the news, but to find a secret poem hiding inside it. Then you black out every word that isn't part of your poem — and what remains is art.
+  </p>
+
+  <p class="body-text">
+    This is the art Austin Kleon calls <em>Newspaper Blackout</em>. He took a marker to newspaper columns and found that beneath every mundane article, a stranger, truer thing was waiting. The newspaper gives you the words. You give them new meaning.
+  </p>
+
+  <div class="pull-quote">
+    "I use other people's words to say what I have to say."<br>
+    <span style="font-size: 0.7rem; font-family: 'Courier Prime', monospace; letter-spacing: 2px; font-style: normal;">— Austin Kleon</span>
+  </div>
+
+  <h3 class="sub-head">The Three Gestures</h3>
+  <p class="body-text">Every blackout poem involves exactly three things:</p>
+
+  <div class="tip-box">
+    <h4>The Fundamental Practice</h4>
+    <ul class="tip-list">
+      <li><strong>Read</strong> — Scan the text loosely. Don't try to understand it as news. Let your eye drift to unusual words, beautiful words, unexpected phrases.</li>
+      <li><strong>Circle</strong> — Mark the words you want to keep. They don't have to be consecutive. They just need to make emotional or poetic sense together.</li>
+      <li><strong>Black out</strong> — Everything else disappears under your marker. What remains is your poem.</li>
+    </ul>
+  </div>
+
+  <div class="rule-stars">· · · · ·</div>
+
+  <h3 class="sub-head">A Simple Example</h3>
+  <p class="body-text">Here is a real newspaper sentence, and how a blackout poem can emerge from it:</p>
+
+  <div class="newspaper-demo">
+    <div class="demo-headline">City council approves new budget plan</div>
+    <p style="font-family:'IM Fell English',serif; font-size:14px; line-height:2.2;">
+      The <span class="blacked">council voted</span> <span class="kept">Tuesday</span> <span class="blacked">to approve a</span> <span class="kept">new</span> <span class="blacked">fiscal</span> <span class="kept">plan</span> <span class="blacked">that will affect nearly all</span> <span class="kept">residents</span><span class="blacked">, pending final approval from the</span> <span class="blacked">state</span> <span class="blacked">department of</span> <span class="kept">finance</span><span class="blacked">. Officials say the</span> <span class="blacked">changes are necessary to maintain</span> <span class="kept">balance</span><span class="blacked">. The</span> <span class="blacked">proposal</span> <span class="blacked">was met with</span> <span class="kept">quiet</span> <span class="kept">approval</span><span class="blacked">.</span>
+    </p>
+  </div>
+
+  <div class="poem-preview">
+    <span class="poem-preview-label">The poem found within:</span>
+    Tuesday —<br>
+    new plan,<br>
+    residents seek balance.<br>
+    Quiet approval.
+  </div>
+
+  <div class="rule-stars">✦</div>
+
+  <h3 class="sub-head">Why This Art Form?</h3>
+  <p class="body-text">
+    Blackout poetry removes the pressure to invent from nothing. The words already exist. Your only job is to <em>discover</em> what's already there. This makes it perfect for moments of stillness — a commute, a lunch break, a quiet ten minutes with a stylus.
+  </p>
+
+  <p class="body-text">
+    It is also, secretly, a practice in attention. The newspaper becomes a meditation object. You learn to see language as material, not just meaning.
+  </p>
+
+  <div class="aside-box">
+    <div style="font-family:'Playfair Display',serif; font-size:0.95rem; font-style:italic; line-height:1.6; color:var(--ink);">
+      "Every newspaper is a poem waiting to be written,<br>a painting waiting to be painted."
+    </div>
+    <span class="aside-caption">The Core Philosophy of Blackout Poetry</span>
+  </div>
+
+  <button class="btn" style="width:100%; margin-top:1rem;" onclick="showSection('howto')">Continue → How to Read a Page</button>
+
+  <div class="section-footer">Page 1 of 7 · The Blackout Poetry Tutorial</div>
+</section>
+
+<!-- ==================== HOW TO READ ==================== -->
+<section id="howto" class="section">
+  <div class="section-eyebrow">Before You Begin</div>
+  <h2 class="column-head">How to Read a Page for Poetry</h2>
+
+  <p class="body-text drop-cap-intro">
+    The single biggest mistake beginners make is reading the article. Don't. Reading for meaning activates the logical mind. You want the dreaming mind.
+  </p>
+
+  <h3 class="sub-head">The Four Reading Passes</h3>
+
+  <div class="technique-card">
+    <h4>Pass 1 · The Drift</h4>
+    <p style="font-family:'IM Fell English',serif; font-size:14px; line-height:1.8;">Let your eyes move freely across the page. Don't follow sentences. Notice which words call to you — visually, emotionally, phonetically. Words that feel heavy. Words that feel strange.</p>
+  </div>
+
+  <div class="technique-card">
+    <h4>Pass 2 · The Circle</h4>
+    <p style="font-family:'IM Fell English',serif; font-size:14px; line-height:1.8;">Lightly circle or underline words that caught your eye. Do not think about whether they connect. Just collect. Aim for 8–15 words from a paragraph.</p>
+  </div>
+
+  <div class="technique-card">
+    <h4>Pass 3 · The Bridge</h4>
+    <p style="font-family:'IM Fell English',serif; font-size:14px; line-height:1.8;">Look at your collected words. Which ones want to be in the same poem? Is there a relationship — an emotion, an image, a tension? This is the editorial pass. Narrow your selection to 4–8 words that feel like they belong together.</p>
+  </div>
+
+  <div class="technique-card">
+    <h4>Pass 4 · The Black</h4>
+    <p style="font-family:'IM Fell English',serif; font-size:14px; line-height:1.8;">Everything else goes dark. You don't have to be perfect. The blacking out is part of the artwork. The physical act of erasure is the poem's other half.</p>
+  </div>
+
+  <div class="rule-stars">· · ·</div>
+
+  <h3 class="sub-head">What Makes a Good Blackout Poem?</h3>
+
+  <div class="tip-box">
+    <h4>The Unwritten Rules</h4>
+    <ul class="tip-list">
+      <li>Words must stay in their <strong>original order</strong> from left to right, top to bottom</li>
+      <li>You cannot add new words — only subtract</li>
+      <li>The remaining words should create an image, emotion, or idea that the article never intended</li>
+      <li>Tension between the poem's meaning and the article's meaning is a bonus, not a problem</li>
+      <li>Short is almost always better. 3–8 words often makes a stronger poem than 20</li>
+    </ul>
+  </div>
+
+  <div class="pull-quote">
+    The best blackout poems feel like something that was always there,<br>waiting to be uncovered.
+  </div>
+
+  <h3 class="sub-head">What to Look For</h3>
+
+  <p class="body-text">Train your eye to find these word types in any newspaper text:</p>
+
+  <div style="display:flex; flex-wrap:wrap; gap:6px; margin: 8px 0 16px;">
+    <span class="tech-tag">verbs of motion</span>
+    <span class="tech-tag">colour words</span>
+    <span class="tech-tag">body words</span>
+    <span class="tech-tag">time words</span>
+    <span class="tech-tag">nature words</span>
+    <span class="tech-tag">silence / quiet</span>
+    <span class="tech-tag">unexpected adjectives</span>
+    <span class="tech-tag">names of places</span>
+  </div>
+
+  <p class="body-text">These word-types carry emotional weight even when removed from context. A verb like <em>vanish</em> or a noun like <em>dusk</em> does its own work even alone.</p>
+
+  <button class="btn" style="width:100%; margin-top:1rem;" onclick="showSection('l1')">Begin Level 1 →</button>
+
+  <div class="section-footer">Page 2 of 7 · The Blackout Poetry Tutorial</div>
+</section>
+
+<!-- ==================== LEVEL 1 ==================== -->
+<section id="l1" class="section">
+  <div class="section-eyebrow">Exercise</div>
+  <span class="level-badge badge-beginner">Level 1 · Beginner</span>
+  <h2 class="column-head">Finding the Poem Inside</h2>
+
+  <p class="body-text">
+    In this first exercise, the <strong>kept words are already highlighted</strong> for you. Your only task is to <strong>black out everything else</strong>. Tap or click on non-highlighted words to black them out.
+  </p>
+  <p class="body-text" style="margin-bottom:4px;">
+    This trains your hand to do the blackout gesture and lets you feel how a poem emerges from the surrounding darkness.
+  </p>
+
+  <div class="instruction-box">
+    <strong>Your Task</strong>
+    The gold words are your poem. Black out everything else. When you've blacked out all the remaining words, your poem will be revealed.
+  </div>
+
+  <div class="exercise-wrapper">
+    <div class="exercise-label">Article excerpt · tap non-gold words to black them out</div>
+
+    <div class="article-text" id="l1-text">
+      <span class="art-headline" id="l1-hl">Morning commuters face delays on Western line</span>
+    </div>
+
+    <div class="mode-indicator">
+      <div class="mode-dot" id="l1-dot"></div>
+      <span id="l1-mode-label">Tap any non-gold word to black it out</span>
+    </div>
+
+    <div class="word-counter" id="l1-counter">Words remaining to black out: <span id="l1-remaining">0</span></div>
+
+    <div class="toolbar">
+      <button class="btn btn-blackout-all" onclick="blackoutAllRemaining('l1')">Black Out All Remaining</button>
+      <button class="btn btn-reset" onclick="resetExercise('l1')">Reset</button>
+    </div>
+
+    <div class="poem-preview" id="l1-poem">
+      <span class="poem-preview-label">Your poem:</span>
+      <div id="l1-poem-text" class="poem-preview-empty">Black out the surrounding words to reveal the poem...</div>
+    </div>
+
+    <div class="feedback-box" id="l1-feedback"></div>
+  </div>
+
+  <div class="deco-rule">✦</div>
+
+  <h3 class="sub-head">What You're Learning</h3>
+  <p class="body-text">
+    Notice how the meaning shifts. The article was about train delays — frustration, infrastructure, bureaucracy. The poem that emerges from it is something entirely different. The blacking-out is an act of <em>translation</em>.
+  </p>
+
+  <div class="tip-box">
+    <h4>Beginner Insight</h4>
+    <ul class="tip-list">
+      <li>The poem doesn't have to relate to the article's subject at all</li>
+      <li>In fact, the best poems often <em>contradict</em> the article's emotional register</li>
+      <li>An article about war can yield a poem about tenderness</li>
+      <li>An article about economics can yield a poem about rain</li>
+    </ul>
+  </div>
+
+  <button class="btn" style="width:100%; margin-top:1rem;" onclick="showSection('l2')">Continue to Level 2 →</button>
+  <div class="section-footer">Page 3 of 7 · The Blackout Poetry Tutorial</div>
+</section>
+
+<!-- ==================== LEVEL 2 ==================== -->
+<section id="l2" class="section">
+  <div class="section-eyebrow">Exercise</div>
+  <span class="level-badge badge-intermediate">Level 2 · Intermediate</span>
+  <h2 class="column-head">Choose Your Own Words</h2>
+
+  <p class="body-text">
+    Now you make the selections. Read the excerpt below and <strong>tap the words you want to keep</strong> for your poem. Then black out everything else. There's no single right answer — the poem you find will be yours alone.
+  </p>
+
+  <div class="instruction-box">
+    <strong>Your Task</strong>
+    <strong style="color:var(--gold);">Step 1:</strong> Read the text loosely. Don't think too hard.<br>
+    <strong style="color:var(--gold);">Step 2:</strong> Switch to Keep Mode and tap 4–8 words that call to you.<br>
+    <strong style="color:var(--gold);">Step 3:</strong> Switch to Black Mode and erase everything else.<br>
+    <strong style="color:var(--gold);">Step 4:</strong> Read your poem aloud.
+  </div>
+
+  <div class="exercise-wrapper">
+    <div class="exercise-label">Article excerpt · Level 2</div>
+
+    <div class="mode-toggle">
+      <button id="l2-keep-btn" class="active" onclick="setMode('l2','keep')">✦ Keep Words</button>
+      <button id="l2-black-btn" onclick="setMode('l2','black')">■ Black Out</button>
+    </div>
+
+    <div class="article-text" id="l2-text">
+      <span class="art-headline" id="l2-hl">Fishermen report strange catch off coastal waters</span>
+    </div>
+
+    <div class="mode-indicator">
+      <div class="mode-dot" id="l2-dot"></div>
+      <span id="l2-mode-label">Keep Mode active — tap words to keep them</span>
+    </div>
+
+    <div class="word-counter" id="l2-counter">Words kept: <span id="l2-kept-count">0</span> · Words blacked: <span id="l2-blacked-count">0</span></div>
+
+    <div class="toolbar">
+      <button class="btn btn-reset" onclick="resetExercise('l2')">Reset All</button>
+      <button class="btn btn-blackout-all" onclick="blackoutAllRemaining('l2')">Black Out Rest</button>
+    </div>
+
+    <div class="poem-preview" id="l2-poem">
+      <span class="poem-preview-label">Your poem in progress:</span>
+      <div id="l2-poem-text" class="poem-preview-empty">Select words to keep, then black out the rest...</div>
+    </div>
+
+    <div class="feedback-box" id="l2-feedback"></div>
+  </div>
+
+  <div class="deco-rule">✦</div>
+
+  <h3 class="sub-head">Example Poem from This Text</h3>
+  <button class="reveal-btn" onclick="toggleReveal('l2-reveal')">See one possible poem →</button>
+  <div class="answer-reveal" id="l2-reveal">
+    <span class="answer-title">One possible reading:</span>
+    strange<br>waters —<br>the light<br>was rising<br>slowly.
+    <div style="font-family:'Courier Prime',monospace; font-size:10px; letter-spacing:2px; margin-top:8px; opacity:0.6; font-style:normal;">Your poem may be entirely different. Both are correct.</div>
+  </div>
+
+  <button class="btn" style="width:100%; margin-top:1.5rem;" onclick="showSection('l3')">Continue to Level 3 →</button>
+  <div class="section-footer">Page 4 of 7 · The Blackout Poetry Tutorial</div>
+</section>
+
+<!-- ==================== LEVEL 3 ==================== -->
+<section id="l3" class="section">
+  <div class="section-eyebrow">Exercise</div>
+  <span class="level-badge badge-intermediate">Level 3 · Intermediate+</span>
+  <h2 class="column-head">The Intentional Poem</h2>
+
+  <p class="body-text">
+    In Levels 1 and 2, you found whatever was there. Now you set an <em>intention</em> before you read. You will write a poem about a specific emotion or image — and then hunt for it inside the text.
+  </p>
+
+  <div class="instruction-box">
+    <strong>Your Intent for This Exercise</strong>
+    Write a poem about <strong>waiting</strong>. Look for words that evoke stillness, time passing, anticipation, absence. Ignore everything else in the text, no matter how interesting it seems.
+  </div>
+
+  <div class="exercise-wrapper">
+    <div class="exercise-label">Article excerpt · Level 3 · Theme: Waiting</div>
+
+    <div class="mode-toggle">
+      <button id="l3-keep-btn" class="active" onclick="setMode('l3','keep')">✦ Keep</button>
+      <button id="l3-black-btn" onclick="setMode('l3','black')">■ Black Out</button>
+    </div>
+
+    <div class="article-text" id="l3-text">
+      <span class="art-headline" id="l3-hl">Hospital corridor sees longest queue in three years</span>
+    </div>
+
+    <div class="mode-indicator">
+      <div class="mode-dot" id="l3-dot"></div>
+      <span id="l3-mode-label">Keep Mode — hunt for words about waiting</span>
+    </div>
+
+    <div class="word-counter">Words kept: <span id="l3-kept-count">0</span> · Blacked: <span id="l3-blacked-count">0</span></div>
+
+    <div class="toolbar">
+      <button class="btn btn-reset" onclick="resetExercise('l3')">Reset</button>
+      <button class="btn btn-blackout-all" onclick="blackoutAllRemaining('l3')">Black Out Rest</button>
+    </div>
+
+    <div class="poem-preview" id="l3-poem">
+      <span class="poem-preview-label">Your waiting poem:</span>
+      <div id="l3-poem-text" class="poem-preview-empty">Find words that speak of waiting...</div>
+    </div>
+  </div>
+
+  <div class="deco-rule">✦</div>
+
+  <h3 class="sub-head">Why Intention Matters</h3>
+  <p class="body-text">
+    Setting an intention before reading is a discipline borrowed from meditation. You are not passively receiving the text — you are actively hunting. This creates poems with a stronger internal coherence, because every word was chosen in service of a single feeling.
+  </p>
+
+  <button class="reveal-btn" onclick="toggleReveal('l3-reveal')">See an example waiting poem →</button>
+  <div class="answer-reveal" id="l3-reveal">
+    <span class="answer-title">Example intentional poem:</span>
+    a long corridor —<br>
+    hours pass,<br>
+    names unspoken.<br>
+    Everyone waiting<br>
+    for something.
+    <div style="font-family:'Courier Prime',monospace; font-size:10px; letter-spacing:2px; margin-top:8px; opacity:0.6; font-style:normal;">Notice how the poem contradicts the clinical tone of the article.</div>
+  </div>
+
+  <button class="btn" style="width:100%; margin-top:1.5rem;" onclick="showSection('advanced')">Continue to Advanced →</button>
+  <div class="section-footer">Page 5 of 7 · The Blackout Poetry Tutorial</div>
+</section>
+
+<!-- ==================== ADVANCED ==================== -->
+<section id="advanced" class="section">
+  <div class="section-eyebrow">Mastery</div>
+  <span class="level-badge badge-advanced">Level 4 · Advanced</span>
+  <h2 class="column-head">Advanced Techniques</h2>
+
+  <p class="body-text">
+    The basics are mastered. Now you learn to push the form — to make poems that are more surprising, more resonant, more complex.
+  </p>
+
+  <div class="technique-card">
+    <h4>1 · The Negative Space Poem</h4>
+    <p style="font-family:'IM Fell English',serif; font-size:14px; line-height:1.8;">
+      Instead of thinking about which words to keep, think about the <em>shape of the blacking out</em>. The black areas can form images — a tree, a figure, a window. The white words float inside a black landscape. This is the visual art dimension of blackout poetry.
+    </p>
+    <div style="margin-top:8px;">
+      <span class="tech-tag">visual poetry</span>
+      <span class="tech-tag">shape as meaning</span>
+    </div>
+  </div>
+
+  <div class="technique-card">
+    <h4>2 · The Contradiction Poem</h4>
+    <p style="font-family:'IM Fell English',serif; font-size:14px; line-height:1.8;">
+      Deliberately find words that contradict the article's emotional tone. A war report yields a love poem. An obituary yields a birth poem. A financial report yields a nature poem. The tension between article and poem creates irony without you having to write a single word of irony.
+    </p>
+    <div style="margin-top:8px;">
+      <span class="tech-tag">irony</span>
+      <span class="tech-tag">juxtaposition</span>
+    </div>
+  </div>
+
+  <div class="technique-card">
+    <h4>3 · The Found Title</h4>
+    <p style="font-family:'IM Fell English',serif; font-size:14px; line-height:1.8;">
+      Don't black out the headline. Use it, or part of it, as the title of your poem. This creates a second layer of meaning — the poem exists in dialogue with the headline above it.
+    </p>
+    <div style="margin-top:8px;">
+      <span class="tech-tag">dialogue</span>
+      <span class="tech-tag">layered meaning</span>
+    </div>
+  </div>
+
+  <div class="technique-card">
+    <h4>4 · The Serial Poem</h4>
+    <p style="font-family:'IM Fell English',serif; font-size:14px; line-height:1.8;">
+      Work the same article three times with three different intentions. You will get three entirely different poems. This teaches you that the poem is not <em>in</em> the text — it is in the relationship between the text and your attention.
+    </p>
+    <div style="margin-top:8px;">
+      <span class="tech-tag">variation</span>
+      <span class="tech-tag">subjectivity</span>
+    </div>
+  </div>
+
+  <div class="technique-card">
+    <h4>5 · The One-Word Poem</h4>
+    <p style="font-family:'IM Fell English',serif; font-size:14px; line-height:1.8;">
+      Find the single word in the entire article that carries the most weight when surrounded by complete blackout. A single word floating in a sea of black can be the most devastating poem. Try it — it's harder than it sounds.
+    </p>
+    <div style="margin-top:8px;">
+      <span class="tech-tag">minimalism</span>
+      <span class="tech-tag">weight of single words</span>
+    </div>
+  </div>
+
+  <div class="rule-stars">✦ ✦ ✦</div>
+
+  <h3 class="sub-head">Advanced Exercise · Free Form</h3>
+  <p class="body-text">This is a longer article. No guidance. Find your poem by your own method now.</p>
+
+  <div class="exercise-wrapper">
+    <div class="exercise-label">Advanced exercise · no instructions</div>
+
+    <div class="mode-toggle">
+      <button id="adv-keep-btn" class="active" onclick="setMode('adv','keep')">✦ Keep</button>
+      <button id="adv-black-btn" onclick="setMode('adv','black')">■ Black Out</button>
+    </div>
+
+    <div class="article-text" id="adv-text">
+      <span class="art-headline" id="adv-hl">Scientists discover new species deep in old forest</span>
+    </div>
+
+    <div class="mode-indicator">
+      <div class="mode-dot" id="adv-dot"></div>
+      <span id="adv-mode-label">Your choice</span>
+    </div>
+
+    <div class="word-counter">Kept: <span id="adv-kept-count">0</span> · Blacked: <span id="adv-blacked-count">0</span></div>
+
+    <div class="toolbar">
+      <button class="btn btn-reset" onclick="resetExercise('adv')">Reset</button>
+      <button class="btn btn-blackout-all" onclick="blackoutAllRemaining('adv')">Black Out Rest</button>
+    </div>
+
+    <div class="poem-preview" id="adv-poem">
+      <span class="poem-preview-label">Your poem:</span>
+      <div id="adv-poem-text" class="poem-preview-empty">No rules. Find your poem.</div>
+    </div>
+  </div>
+
+  <div class="section-footer">Page 6 of 7 · The Blackout Poetry Tutorial</div>
+</section>
+
+<!-- ==================== STYLUS TIPS ==================== -->
+<section id="stylus" class="section">
+  <div class="section-eyebrow">For Mobile & Stylus Users</div>
+  <h2 class="column-head">The Stylus Practice</h2>
+
+  <p class="body-text drop-cap-intro">
+    The physical act of blacking out — the hand moving across the page — is part of what makes this art form meditative. On mobile with a stylus, you can recreate this feeling precisely.
+  </p>
+
+  <h3 class="sub-head">Recommended Workflow on Mobile</h3>
+
+  <div class="tip-box">
+    <h4>The Three-App Method</h4>
+    <ul class="tip-list">
+      <li><strong>Source:</strong> Screenshot a newspaper page, or use a newspaper PDF app. Mumbai Mirror, The Hindu, Times of India — any broadsheet works.</li>
+      <li><strong>Markup:</strong> Open the screenshot in your phone's native markup tool or an app like Noteshelf, GoodNotes, or even Samsung Notes. Use a thick black brush.</li>
+      <li><strong>Preserve:</strong> Save the finished image. The poem lives in the artifact — the physical mark.</li>
+    </ul>
+  </div>
+
+  <h3 class="sub-head">Stylus Settings That Work</h3>
+
+  <div class="technique-card">
+    <h4>Brush Type</h4>
+    <p style="font-family:'IM Fell English',serif; font-size:14px; line-height:1.8;">Use a flat/chisel brush rather than a round pen. The flat brush mimics a real marker and creates the characteristic newspaper-blackout texture — thick horizontal strokes that feel like real ink on newsprint.</p>
+  </div>
+
+  <div class="technique-card">
+    <h4>Colour</h4>
+    <p style="font-family:'IM Fell English',serif; font-size:14px; line-height:1.8;">Pure black (#000000) is the classic. But try very dark navy (#0a0a2a) or dark brown-black (#1a1008) for a slightly warmer look that photographs better. Austin Kleon uses a black Sharpie — go for full opacity.</p>
+  </div>
+
+  <div class="technique-card">
+    <h4>Size</h4>
+    <p style="font-family:'IM Fell English',serif; font-size:14px; line-height:1.8;">Match your brush size to roughly 1.2× the line height of the newspaper text. This lets you black out an entire line in a single pass without accidentally covering the lines above and below.</p>
+  </div>
+
+  <div class="technique-card">
+    <h4>Pressure Sensitivity</h4>
+    <p style="font-family:'IM Fell English',serif; font-size:14px; line-height:1.8;">Turn it off for blacking out. You want consistent coverage. Save pressure sensitivity for the circling/underlining phase where you're just marking words lightly before committing.</p>
+  </div>
+
+  <div class="rule-stars">· · ·</div>
+
+  <h3 class="sub-head">The Daily Practice</h3>
+  <p class="body-text">
+    Austin Kleon's original practice was simple: every day, one newspaper page. Not a poem a day — just one attempt. Most days nothing remarkable happens. But the practice builds a muscle for seeing language as material.
+  </p>
+
+  <div class="pull-quote">
+    Five minutes a day.<br>One page.<br>No pressure for it to be good.
+  </div>
+
+  <h3 class="sub-head">Where to Find Text</h3>
+
+  <div class="tip-box">
+    <h4>Sources for Mumbai-Based Practice</h4>
+    <ul class="tip-list">
+      <li>The Hindu e-paper (PDF) — excellent long-form writing with poetic vocabulary</li>
+      <li>Mumbai Mirror or Mid-Day — shorter, punchy sentences ideal for beginners</li>
+      <li>Old issues from Archive.org — historical newspapers give unusual, dated language</li>
+      <li>English translations of Marathi newspapers — the slightly formal translation voice creates interesting found language</li>
+      <li>Annual reports and corporate press releases — deliberately dull, which makes discovered poems funnier and stranger</li>
+    </ul>
+  </div>
+
+  <h3 class="sub-head">Taking It Further</h3>
+  <p class="body-text">
+    If you begin sharing your work: don't caption the poem with the article's subject. Let the poem stand alone. The viewer doesn't need to know it came from a budget report or a cricket score. The origin is yours to keep.
+  </p>
+
+  <div class="aside-box">
+    <div style="font-family:'Playfair Display',serif; font-size:0.95rem; font-style:italic; line-height:1.7; color:var(--ink); text-align:left; padding:4px 0;">
+      Recommended reading:<br>
+      <span style="font-style:normal; font-family:'Courier Prime',monospace; font-size:12px;">Austin Kleon · <em>Newspaper Blackout</em> (2010)</span><br>
+      <span style="font-style:normal; font-family:'Courier Prime',monospace; font-size:12px;">Austin Kleon · <em>Steal Like an Artist</em> (2012)</span><br>
+      <span style="font-style:normal; font-family:'Courier Prime',monospace; font-size:12px;">Tom Phillips · <em>A Humument</em> (1973–2016)</span>
+    </div>
+    <span class="aside-caption">Further Reading</span>
+  </div>
+
+  <div class="deco-rule">✦</div>
+
+  <div style="text-align:center; padding:1rem 0;">
+    <div style="font-family:'UnifrakturMaguntia',serif; font-size:2rem; margin-bottom:6px;">The Blackout</div>
+    <div style="font-family:'Courier Prime',monospace; font-size:9px; letter-spacing:3px; text-transform:uppercase; opacity:0.5;">End of Tutorial · Begin Your Practice</div>
+  </div>
+
+  <button class="btn" style="width:100%; margin-top:1rem;" onclick="showSection('l1')">← Return to Level 1</button>
+  <div class="section-footer">Page 7 of 7 · The Blackout Poetry Tutorial</div>
+</section>
+
+<script>
+const exercises = {
+  l1: {
+    mode: 'black',
+    article: [
+      { text: 'Thousands', kept: false, initial: false },
+      { text: 'of', kept: false, initial: false },
+      { text: 'commuters', kept: false, initial: false },
+      { text: 'found', kept: true, initial: true },
+      { text: 'themselves', kept: false, initial: false },
+      { text: 'standing', kept: true, initial: true },
+      { text: 'in', kept: false, initial: false },
+      { text: 'silence', kept: true, initial: true },
+      { text: 'on', kept: false, initial: false },
+      { text: 'rain-soaked', kept: true, initial: true },
+      { text: 'platforms', kept: false, initial: false },
+      { text: 'this', kept: false, initial: false },
+      { text: 'Tuesday', kept: false, initial: false },
+      { text: 'morning', kept: true, initial: true },
+      { text: 'after', kept: false, initial: false },
+      { text: 'signal', kept: false, initial: false },
+      { text: 'failures', kept: false, initial: false },
+      { text: 'caused', kept: false, initial: false },
+      { text: 'delays', kept: false, initial: false },
+      { text: 'across', kept: false, initial: false },
+      { text: 'all', kept: false, initial: false },
+      { text: 'major', kept: false, initial: false },
+      { text: 'lines.', kept: false, initial: false },
+      { text: 'Passengers', kept: false, initial: false },
+      { text: 'waited', kept: true, initial: true },
+      { text: 'without', kept: false, initial: false },
+      { text: 'announcement,', kept: false, initial: false },
+      { text: 'watching', kept: true, initial: true },
+      { text: 'the', kept: false, initial: false },
+      { text: 'dark', kept: true, initial: true },
+      { text: 'water', kept: false, initial: false },
+      { text: 'collect', kept: false, initial: false },
+      { text: 'on', kept: false, initial: false },
+      { text: 'the', kept: false, initial: false },
+      { text: 'tracks.', kept: false, initial: false },
+      { text: 'No', kept: false, initial: false },
+      { text: 'train', kept: false, initial: false },
+      { text: 'was', kept: false, initial: false },
+      { text: 'expected', kept: false, initial: false },
+      { text: 'for', kept: false, initial: false },
+      { text: 'another', kept: false, initial: false },
+      { text: 'hour.', kept: false, initial: false }
+    ],
+    poem: ['found', 'standing', 'silence', 'rain-soaked', 'morning', 'waited', 'watching', 'dark']
+  },
+
+  l2: {
+    mode: 'keep',
+    article: [
+      { text: 'An', kept: null }, { text: 'unusual', kept: null }, { text: 'catch', kept: null },
+      { text: 'of', kept: null }, { text: 'pale', kept: null }, { text: 'fish', kept: null },
+      { text: 'was', kept: null }, { text: 'reported', kept: null }, { text: 'by', kept: null },
+      { text: 'local', kept: null }, { text: 'fishermen', kept: null }, { text: 'off', kept: null },
+      { text: 'the', kept: null }, { text: 'coast', kept: null }, { text: 'early', kept: null },
+      { text: 'Friday,', kept: null }, { text: 'the', kept: null }, { text: 'light', kept: null },
+      { text: 'still', kept: null }, { text: 'grey', kept: null }, { text: 'and', kept: null },
+      { text: 'the', kept: null }, { text: 'water', kept: null }, { text: 'cold.', kept: null },
+      { text: 'The', kept: null }, { text: 'creatures', kept: null }, { text: 'were', kept: null },
+      { text: 'unknown', kept: null }, { text: 'to', kept: null }, { text: 'the', kept: null },
+      { text: 'men', kept: null }, { text: 'who', kept: null }, { text: 'pulled', kept: null },
+      { text: 'them', kept: null }, { text: 'up,', kept: null }, { text: 'rising', kept: null },
+      { text: 'slowly', kept: null }, { text: 'from', kept: null }, { text: 'somewhere', kept: null },
+      { text: 'deep', kept: null }, { text: 'and', kept: null }, { text: 'dark.', kept: null },
+      { text: 'Scientists', kept: null }, { text: 'have', kept: null }, { text: 'been', kept: null },
+      { text: 'called', kept: null }, { text: 'to', kept: null }, { text: 'study', kept: null },
+      { text: 'the', kept: null }, { text: 'find.', kept: null }
+    ],
+    poem: []
+  },
+
+  l3: {
+    mode: 'keep',
+    article: [
+      { text: 'The', kept: null }, { text: 'corridor', kept: null }, { text: 'outside', kept: null },
+      { text: 'Ward', kept: null }, { text: 'Seven', kept: null }, { text: 'stretched', kept: null },
+      { text: 'long', kept: null }, { text: 'and', kept: null }, { text: 'white', kept: null },
+      { text: 'under', kept: null }, { text: 'fluorescent', kept: null }, { text: 'light.', kept: null },
+      { text: 'Families', kept: null }, { text: 'had', kept: null }, { text: 'been', kept: null },
+      { text: 'waiting', kept: null }, { text: 'for', kept: null }, { text: 'hours,', kept: null },
+      { text: 'some', kept: null }, { text: 'seated,', kept: null }, { text: 'some', kept: null },
+      { text: 'pacing.', kept: null }, { text: 'A', kept: null }, { text: 'child', kept: null },
+      { text: 'slept', kept: null }, { text: 'on', kept: null }, { text: 'a', kept: null },
+      { text: 'bench,', kept: null }, { text: 'her', kept: null }, { text: 'breath', kept: null },
+      { text: 'steady', kept: null }, { text: 'and', kept: null }, { text: 'even.', kept: null },
+      { text: 'Nobody', kept: null }, { text: 'spoke.', kept: null }, { text: 'The', kept: null },
+      { text: 'clock', kept: null }, { text: 'moved', kept: null }, { text: 'slowly.', kept: null },
+      { text: 'Somewhere', kept: null }, { text: 'a', kept: null }, { text: 'door', kept: null },
+      { text: 'opened', kept: null }, { text: 'and', kept: null }, { text: 'closed', kept: null },
+      { text: 'without', kept: null }, { text: 'explanation.', kept: null }
+    ],
+    poem: []
+  },
+
+  adv: {
+    mode: 'keep',
+    article: [
+      { text: 'Deep', kept: null }, { text: 'in', kept: null }, { text: 'the', kept: null },
+      { text: 'oldest', kept: null }, { text: 'section', kept: null }, { text: 'of', kept: null },
+      { text: 'the', kept: null }, { text: 'forest,', kept: null }, { text: 'where', kept: null },
+      { text: 'the', kept: null }, { text: 'canopy', kept: null }, { text: 'closes', kept: null },
+      { text: 'out', kept: null }, { text: 'the', kept: null }, { text: 'light,', kept: null },
+      { text: 'a', kept: null }, { text: 'team', kept: null }, { text: 'of', kept: null },
+      { text: 'researchers', kept: null }, { text: 'stumbled', kept: null }, { text: 'upon', kept: null },
+      { text: 'something', kept: null }, { text: 'they', kept: null }, { text: 'could', kept: null },
+      { text: 'not', kept: null }, { text: 'immediately', kept: null }, { text: 'name.', kept: null },
+      { text: 'A', kept: null }, { text: 'small', kept: null }, { text: 'creature,', kept: null },
+      { text: 'translucent', kept: null }, { text: 'and', kept: null }, { text: 'still,', kept: null },
+      { text: 'rested', kept: null }, { text: 'on', kept: null }, { text: 'a', kept: null },
+      { text: 'leaf', kept: null }, { text: 'the', kept: null }, { text: 'size', kept: null },
+      { text: 'of', kept: null }, { text: 'a', kept: null }, { text: 'hand.', kept: null },
+      { text: 'Its', kept: null }, { text: 'eyes', kept: null }, { text: 'were', kept: null },
+      { text: 'open,', kept: null }, { text: 'watching', kept: null }, { text: 'them', kept: null },
+      { text: 'without', kept: null }, { text: 'fear.', kept: null }, { text: 'They', kept: null },
+      { text: 'photographed', kept: null }, { text: 'it', kept: null }, { text: 'in', kept: null },
+      { text: 'silence', kept: null }, { text: 'and', kept: null }, { text: 'walked', kept: null },
+      { text: 'back', kept: null }, { text: 'into', kept: null }, { text: 'the', kept: null },
+      { text: 'dark.', kept: null }
+    ],
+    poem: []
+  }
+};
+
+function buildExercise(id) {
+  const ex = exercises[id];
+  const container = document.getElementById(id + '-text');
+  const headline = document.getElementById(id + '-hl');
+
+  // Remove all words except headline
+  const children = Array.from(container.children);
+  children.forEach(c => { if(c !== headline) container.removeChild(c); });
+
+  // Add space
+  container.appendChild(document.createTextNode(' '));
+
+  ex.article.forEach((wordObj, i) => {
+    const span = document.createElement('span');
+    span.className = 'word';
+    span.textContent = wordObj.text;
+    span.dataset.index = i;
+    span.dataset.exid = id;
+
+    if(id === 'l1') {
+      if(wordObj.initial) {
+        span.classList.add('selected');
+      }
+      span.onclick = () => l1WordClick(span, wordObj, id);
+    } else {
+      span.onclick = () => wordClick(span, wordObj, id);
+    }
+    container.appendChild(span);
+    if(i < ex.article.length - 1) container.appendChild(document.createTextNode(' '));
+  });
+  updatePoem(id);
+  updateCounter(id);
+}
+
+function l1WordClick(span, wordObj, id) {
+  if(wordObj.initial) { showToast('Gold words are your poem — black out the rest!'); return; }
+  if(!span.classList.contains('blacked-out')) {
+    span.classList.add('blacked-out');
+    wordObj.blacked = true;
+    updatePoem(id);
+    updateCounter(id);
+    checkL1Complete();
+  }
+}
+
+function checkL1Complete() {
+  const ex = exercises.l1;
+  const remaining = ex.article.filter(w => !w.initial && !w.blacked).length;
+  if(remaining === 0) {
+    const fb = document.getElementById('l1-feedback');
+    fb.className = 'feedback-box good show';
+    fb.innerHTML = '✦ &nbsp;You have found the poem. Read the gold words aloud — that is your blackout poem. Notice how the article was about frustration, but the poem is about something quieter.';
+  }
+}
+
+function wordClick(span, wordObj, id) {
+  const ex = exercises[id];
+  if(ex.mode === 'keep') {
+    if(span.classList.contains('blacked-out')) return;
+    if(span.classList.contains('selected')) {
+      span.classList.remove('selected');
+      wordObj.kept = false;
+    } else {
+      span.classList.add('selected');
+      wordObj.kept = true;
+    }
+  } else {
+    if(span.classList.contains('selected')) {
+      showToast('Kept words cannot be blacked out');
+      return;
+    }
+    if(span.classList.contains('blacked-out')) {
+      span.classList.remove('blacked-out');
+      wordObj.blacked = false;
+    } else {
+      span.classList.add('blacked-out');
+      wordObj.blacked = true;
+    }
+  }
+  updatePoem(id);
+  updateCounter(id);
+}
+
+function setMode(id, mode) {
+  const ex = exercises[id];
+  ex.mode = mode;
+  const keepBtn = document.getElementById(id+'-keep-btn');
+  const blackBtn = document.getElementById(id+'-black-btn');
+  const dot = document.getElementById(id+'-dot');
+  const label = document.getElementById(id+'-mode-label');
+  if(mode === 'keep') {
+    keepBtn.classList.add('active'); blackBtn.classList.remove('active');
+    if(dot) dot.classList.remove('blackout-mode');
+    if(label) label.textContent = 'Keep Mode — tap words to keep them';
+  } else {
+    blackBtn.classList.add('active'); keepBtn.classList.remove('active');
+    if(dot) { dot.classList.add('blackout-mode'); }
+    if(label) label.textContent = 'Black Out Mode — tap words to erase them';
+  }
+}
+
+function updatePoem(id) {
+  const ex = exercises[id];
+  const poemEl = document.getElementById(id+'-poem-text');
+  let words = [];
+  if(id === 'l1') {
+    words = ex.article.filter(w => w.initial).map(w => w.text.replace(/[.,!?;:]/g,''));
+  } else {
+    words = ex.article.filter(w => w.kept === true).map(w => w.text.replace(/[.,!?;:]/g,''));
+  }
+  if(words.length === 0) {
+    poemEl.className = 'poem-preview-empty';
+    if(id==='l1') poemEl.textContent = 'Black out the surrounding words to reveal the poem...';
+    else if(id==='l3') poemEl.textContent = 'Find words that speak of waiting...';
+    else poemEl.textContent = 'Select words to keep, then black out the rest...';
+  } else {
+    poemEl.className = '';
+    // Format as poem with line breaks every 2-3 words
+    let lines = [];
+    let current = [];
+    words.forEach((w,i) => {
+      current.push(w);
+      if(current.length >= 2 + (i%2) || i === words.length-1) {
+        lines.push(current.join(' '));
+        current = [];
+      }
+    });
+    poemEl.innerHTML = lines.join('<br>');
+  }
+}
+
+function updateCounter(id) {
+  const ex = exercises[id];
+  if(id === 'l1') {
+    const rem = ex.article.filter(w => !w.initial && !w.blacked).length;
+    const el = document.getElementById('l1-remaining');
+    if(el) el.textContent = rem;
+  } else {
+    const kept = ex.article.filter(w => w.kept === true).length;
+    const blacked = ex.article.filter(w => w.blacked === true || w.kept === false && w.kept !== null).length;
+    const kEl = document.getElementById(id+'-kept-count');
+    const bEl = document.getElementById(id+'-blacked-count');
+    if(kEl) kEl.textContent = kept;
+    if(bEl) bEl.textContent = ex.article.filter(w => w.blacked === true).length;
+  }
+}
+
+function blackoutAllRemaining(id) {
+  const ex = exercises[id];
+  const container = document.getElementById(id+'-text');
+  const spans = container.querySelectorAll('.word');
+  spans.forEach(span => {
+    const i = parseInt(span.dataset.index);
+    const w = ex.article[i];
+    if(id === 'l1') {
+      if(!w.initial && !span.classList.contains('blacked-out')) {
+        span.classList.add('blacked-out');
+        w.blacked = true;
+      }
+    } else {
+      if(!span.classList.contains('selected') && !span.classList.contains('blacked-out')) {
+        span.classList.add('blacked-out');
+        w.blacked = true;
+      }
+    }
+  });
+  updatePoem(id);
+  updateCounter(id);
+  if(id === 'l1') checkL1Complete();
+  showToast('All remaining words blacked out');
+}
+
+function resetExercise(id) {
+  const ex = exercises[id];
+  if(id === 'l1') {
+    ex.article.forEach(w => { w.blacked = false; });
+  } else {
+    ex.article.forEach(w => { w.kept = null; w.blacked = false; });
+  }
+  const fb = document.getElementById(id+'-feedback');
+  if(fb) { fb.className = 'feedback-box'; fb.innerHTML = ''; }
+  buildExercise(id);
+  if(id !== 'l1') setMode(id, 'keep');
+  showToast('Reset');
+}
+
+function toggleReveal(id) {
+  const el = document.getElementById(id);
+  el.classList.toggle('shown');
+}
+
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const tabs = document.querySelectorAll('.nav-tab');
+  const sectionOrder = ['intro','howto','l1','l2','l3','advanced','stylus'];
+  const idx = sectionOrder.indexOf(id);
+  if(tabs[idx]) tabs[idx].classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+// Init all exercises on load
+window.addEventListener('load', () => {
+  ['l1','l2','l3','adv'].forEach(id => buildExercise(id));
+});
+</script>
+</body>
+</html>

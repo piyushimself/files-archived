@@ -1,0 +1,1871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Human Development Curriculum — Anime & Manga</title>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;800&family=DM+Mono:ital,wght@0,300;0,400;1,300&family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300;1,600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1410;
+    --paper: #f5f0e8;
+    --paper2: #ede7d9;
+    --red: #c0392b;
+    --gold: #b8860b;
+    --steel: #4a5568;
+    --muted: #7a6e62;
+    --accent1: #7b3f20;
+    --accent2: #2c4a6e;
+    --accent3: #3d5a2a;
+    --accent4: #5b2d7a;
+    --accent5: #8b4513;
+    --line: rgba(26,20,16,0.15);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 17px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ---- HERO ---- */
+  .hero {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 80px 40px 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: 
+      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(245,240,232,0.04) 39px, rgba(245,240,232,0.04) 40px),
+      repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(245,240,232,0.04) 39px, rgba(245,240,232,0.04) 40px);
+  }
+
+  .hero-kana {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    color: rgba(245,240,232,0.4);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    animation: fadeUp 1s ease both;
+  }
+
+  .hero h1 {
+    font-family: 'Shippori Mincho', serif;
+    font-size: clamp(36px, 7vw, 72px);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    margin-bottom: 20px;
+    animation: fadeUp 1s ease 0.1s both;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: #c9a96e;
+    display: block;
+    font-weight: 300;
+    font-size: 0.55em;
+    letter-spacing: 0.05em;
+  }
+
+  .hero-sub {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    color: rgba(245,240,232,0.5);
+    margin-top: 28px;
+    animation: fadeUp 1s ease 0.25s both;
+  }
+
+  .hero-divider {
+    width: 60px;
+    height: 1px;
+    background: #c9a96e;
+    margin: 28px auto;
+    animation: expandW 1s ease 0.4s both;
+  }
+
+  /* ---- PREAMBLE ---- */
+  .preamble {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 64px 40px 48px;
+    text-align: center;
+  }
+
+  .preamble p {
+    font-size: 1.2em;
+    font-style: italic;
+    color: var(--steel);
+    line-height: 1.9;
+    font-weight: 300;
+  }
+
+  .preamble strong {
+    color: var(--ink);
+    font-style: normal;
+    font-weight: 600;
+  }
+
+  /* ---- PHASE HEADER ---- */
+  .phase-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    background: var(--ink);
+    border-top: 1px solid rgba(245,240,232,0.1);
+  }
+
+  .phase-nav-item {
+    flex: 1;
+    min-width: 120px;
+    padding: 14px 12px;
+    text-align: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.4);
+    cursor: pointer;
+    border-right: 1px solid rgba(245,240,232,0.08);
+    transition: all 0.2s;
+  }
+  .phase-nav-item:hover { color: #c9a96e; background: rgba(201,169,110,0.08); }
+
+  /* ---- PHASE ---- */
+  .phase {
+    padding: 80px 0 40px;
+    position: relative;
+  }
+
+  .phase:nth-child(odd) { background: var(--paper); }
+  .phase:nth-child(even) { background: var(--paper2); }
+
+  .phase-header {
+    max-width: 1100px;
+    margin: 0 auto 48px;
+    padding: 0 40px;
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+
+  .phase-number {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 80px;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--line);
+    user-select: none;
+  }
+
+  .phase-title {
+    padding-top: 8px;
+  }
+
+  .phase-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .phase-title h2 {
+    font-family: 'Shippori Mincho', serif;
+    font-size: clamp(24px, 4vw, 38px);
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+
+  .phase-title p {
+    font-size: 1em;
+    color: var(--steel);
+    font-style: italic;
+    font-weight: 300;
+    max-width: 600px;
+    line-height: 1.7;
+  }
+
+  .phase-accent {
+    display: inline-block;
+    width: 40px;
+    height: 3px;
+    margin-bottom: 14px;
+    border-radius: 2px;
+  }
+
+  /* ---- TWO COLUMNS ---- */
+  .columns {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+
+  @media (max-width: 760px) {
+    .columns { grid-template-columns: 1fr; gap: 24px; }
+    .phase-header { grid-template-columns: 1fr; }
+    .phase-number { font-size: 48px; }
+  }
+
+  /* ---- COLUMN HEADER ---- */
+  .col-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1.5px solid var(--line);
+  }
+
+  .col-icon {
+    font-size: 20px;
+    line-height: 1;
+  }
+
+  .col-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* ---- ENTRY CARD ---- */
+  .entry {
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    gap: 10px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--line);
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .entry-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    padding-top: 4px;
+    text-align: right;
+  }
+
+  .entry-body {}
+
+  .entry-title {
+    font-family: 'Shippori Mincho', serif;
+    font-weight: 600;
+    font-size: 1em;
+    color: var(--ink);
+    line-height: 1.3;
+    margin-bottom: 3px;
+  }
+
+  .entry-meta {
+    font-family: 'DM Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin-bottom: 5px;
+  }
+
+  .entry-lesson {
+    font-size: 0.88em;
+    color: var(--steel);
+    font-style: italic;
+    line-height: 1.5;
+  }
+
+  .tag {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 8.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 2px;
+    margin-right: 4px;
+    margin-top: 4px;
+    font-style: normal;
+  }
+
+  /* ---- PHASE COLORS ---- */
+  .p1 .phase-accent, .p1 .tag.core { background: var(--accent1); color: #fff; }
+  .p2 .phase-accent, .p2 .tag.core { background: var(--accent2); color: #fff; }
+  .p3 .phase-accent, .p3 .tag.core { background: var(--accent3); color: #fff; }
+  .p4 .phase-accent, .p4 .tag.core { background: var(--accent4); color: #fff; }
+  .p5 .phase-accent, .p5 .tag.core { background: var(--accent5); color: #fff; }
+
+  .tag.shadow { background: rgba(26,20,16,0.08); color: var(--steel); }
+  .tag.heart { background: rgba(192,57,43,0.1); color: #c0392b; }
+  .tag.mind { background: rgba(44,74,110,0.1); color: #2c4a6e; }
+  .tag.soul { background: rgba(92,58,122,0.1); color: #5b2d7a; }
+
+  /* ---- CLOSING ---- */
+  .closing {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 80px 40px;
+    text-align: center;
+  }
+
+  .closing h2 {
+    font-family: 'Shippori Mincho', serif;
+    font-size: clamp(28px, 5vw, 52px);
+    font-weight: 800;
+    margin-bottom: 24px;
+    color: #c9a96e;
+  }
+
+  .closing p {
+    max-width: 600px;
+    margin: 0 auto;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 1.1em;
+    color: rgba(245,240,232,0.7);
+    line-height: 1.9;
+  }
+
+  .closing-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 24px;
+    margin: 48px auto 0;
+    max-width: 700px;
+  }
+
+  .closing-stat {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.4);
+  }
+
+  .closing-stat strong {
+    display: block;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 36px;
+    font-weight: 800;
+    color: #c9a96e;
+    letter-spacing: 0;
+    margin-bottom: 4px;
+  }
+
+  /* ---- ANIMATIONS ---- */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes expandW {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+  }
+
+  /* ---- INTRO BOX ---- */
+  .phase-intro-box {
+    max-width: 1100px;
+    margin: -12px auto 36px;
+    padding: 0 40px;
+  }
+  .phase-intro-box p {
+    background: rgba(26,20,16,0.04);
+    border-left: 3px solid var(--line);
+    padding: 16px 20px;
+    font-size: 0.9em;
+    font-style: italic;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-kana">人間形成カリキュラム · Human Formation Curriculum</div>
+  <h1>
+    The Inner Life<br>
+    <em>50 Anime Films · 50 Manga — A Curriculum for Human Development</em>
+  </h1>
+  <div class="hero-divider"></div>
+  <div class="hero-sub">Five Phases · Ten Themes · One Unfolding Life</div>
+</header>
+
+<!-- PREAMBLE -->
+<section class="preamble">
+  <p>
+    This is not a watchlist. It is a <strong>curriculum</strong> — a sequenced journey through five phases of human growth: from identity and shadow, through grief and love, to freedom, purpose, and finally wisdom. Every film and every manga has been chosen for what it teaches the self about itself.
+    <br><br>
+    Begin at Phase One. Resist the urge to skip.
+  </p>
+</section>
+
+<!-- PHASE NAV -->
+<nav class="phase-nav">
+  <div class="phase-nav-item">I · Self & Shadow</div>
+  <div class="phase-nav-item">II · Grief & Impermanence</div>
+  <div class="phase-nav-item">III · Love & Relation</div>
+  <div class="phase-nav-item">IV · Purpose & Resistance</div>
+  <div class="phase-nav-item">V · Wisdom & Freedom</div>
+</nav>
+
+
+<!-- ===================== PHASE 1 ===================== -->
+<section class="phase p1">
+  <div class="phase-header">
+    <div class="phase-number">I</div>
+    <div class="phase-title">
+      <div class="phase-label">Phase One</div>
+      <div class="phase-accent"></div>
+      <h2>Self, Shadow & the Masks We Wear</h2>
+      <p>Who are you beneath what you were told to be? These works crack open identity, confront self-deception, and begin the long work of knowing one's own face.</p>
+    </div>
+  </div>
+
+  <div class="phase-intro-box">
+    <p>Core question: <em>"What parts of myself am I hiding — from the world, and from myself?"</em> Jung called this the Shadow. These works make it visible.</p>
+  </div>
+
+  <div class="columns">
+    <!-- ANIME -->
+    <div>
+      <div class="col-head">
+        <span class="col-icon">🎬</span>
+        <span class="col-title">Anime Films</span>
+      </div>
+
+      <div class="entry"><div class="entry-num">01</div><div class="entry-body">
+        <div class="entry-title">Paprika (2006)</div>
+        <div class="entry-meta">Satoshi Kon · 1h 30m</div>
+        <div class="entry-lesson">The unconscious erupts into waking life. Learn to distinguish your desires from those implanted by others.</div>
+        <span class="tag core">Core</span><span class="tag shadow">Shadow</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">02</div><div class="entry-body">
+        <div class="entry-title">Perfect Blue (1997)</div>
+        <div class="entry-meta">Satoshi Kon · 1h 21m</div>
+        <div class="entry-lesson">Identity fractures when we perform ourselves for others. What happens when you can no longer find the original?</div>
+        <span class="tag core">Core</span><span class="tag shadow">Shadow</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">03</div><div class="entry-body">
+        <div class="entry-title">Millennium Actress (2001)</div>
+        <div class="entry-meta">Satoshi Kon · 1h 27m</div>
+        <div class="entry-lesson">We construct our lives around a story. What is the story you've chosen — and does it still serve you?</div>
+        <span class="tag mind">Mind</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">04</div><div class="entry-body">
+        <div class="entry-title">Ghost in the Shell (1995)</div>
+        <div class="entry-meta">Mamoru Oshii · 1h 23m</div>
+        <div class="entry-lesson">What constitutes a self? Memory, body, continuity — the film forces you to question the bedrock of identity.</div>
+        <span class="tag core">Core</span><span class="tag mind">Mind</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">05</div><div class="entry-body">
+        <div class="entry-title">Evangelion: 1.0 You Are (Not) Alone (2007)</div>
+        <div class="entry-meta">Hideaki Anno · 1h 38m</div>
+        <div class="entry-lesson">The cost of emotional shutdown. Shinji teaches what avoidance does to the soul.</div>
+        <span class="tag shadow">Shadow</span><span class="tag heart">Heart</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">06</div><div class="entry-body">
+        <div class="entry-title">The End of Evangelion (1997)</div>
+        <div class="entry-meta">Hideaki Anno · 1h 27m</div>
+        <div class="entry-lesson">Total psychological dissolution — and the choice to return to the world and be seen.</div>
+        <span class="tag core">Core</span><span class="tag shadow">Shadow</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">07</div><div class="entry-body">
+        <div class="entry-title">Wolf Children (2012)</div>
+        <div class="entry-meta">Mamoru Hosoda · 1h 57m</div>
+        <div class="entry-lesson">The anguish of being caught between two natures. About choosing what you truly are.</div>
+        <span class="tag heart">Heart</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">08</div><div class="entry-body">
+        <div class="entry-title">Belle (2021)</div>
+        <div class="entry-meta">Mamoru Hosoda · 2h 4m</div>
+        <div class="entry-lesson">Online personas as both shield and prison. What does it take to show your real face?</div>
+        <span class="tag shadow">Shadow</span><span class="tag heart">Heart</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">09</div><div class="entry-body">
+        <div class="entry-title">Jin-Roh: The Wolf Brigade (1999)</div>
+        <div class="entry-meta">Hiroyuki Okiura · 1h 42m</div>
+        <div class="entry-lesson">What remains of conscience when the system has shaped you into a weapon?</div>
+        <span class="tag shadow">Shadow</span><span class="tag mind">Mind</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">10</div><div class="entry-body">
+        <div class="entry-title">A Letter to Momo (2011)</div>
+        <div class="entry-meta">Hiroyuki Okiura · 2h</div>
+        <div class="entry-lesson">Guilt left unspoken curdles into shame. The practice of saying what you haven't said.</div>
+        <span class="tag heart">Heart</span>
+      </div></div>
+    </div>
+
+    <!-- MANGA -->
+    <div>
+      <div class="col-head">
+        <span class="col-icon">📖</span>
+        <span class="col-title">Manga</span>
+      </div>
+
+      <div class="entry"><div class="entry-num">01</div><div class="entry-body">
+        <div class="entry-title">Berserk</div>
+        <div class="entry-meta">Kentaro Miura · 1989–2021</div>
+        <div class="entry-lesson">The shadow given form. Guts embodies every wound we refuse to feel — and what happens when rage is the only armor.</div>
+        <span class="tag core">Core</span><span class="tag shadow">Shadow</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">02</div><div class="entry-body">
+        <div class="entry-title">Oyasumi Punpun (Goodnight Punpun)</div>
+        <div class="entry-meta">Inio Asano · 2007–2013</div>
+        <div class="entry-lesson">The most honest portrait of self-destruction in manga. How childhood wounds become adult life.</div>
+        <span class="tag core">Core</span><span class="tag shadow">Shadow</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">03</div><div class="entry-body">
+        <div class="entry-title">Vagabond</div>
+        <div class="entry-meta">Takehiko Inoue · 1998–present</div>
+        <div class="entry-lesson">Musashi's quest for invincibility becomes a quest for the self. Strength without wisdom is only violence.</div>
+        <span class="tag core">Core</span><span class="tag mind">Mind</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">04</div><div class="entry-body">
+        <div class="entry-title">Monster</div>
+        <div class="entry-meta">Naoki Urasawa · 1994–2001</div>
+        <div class="entry-lesson">Can a person be pure evil — or are we all shaped by what was done to us? Moral complexity without easy answers.</div>
+        <span class="tag mind">Mind</span><span class="tag shadow">Shadow</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">05</div><div class="entry-body">
+        <div class="entry-title">20th Century Boys</div>
+        <div class="entry-meta">Naoki Urasawa · 1999–2006</div>
+        <div class="entry-lesson">Childhood dreams weaponized. How idealism, when cut off from love, becomes control.</div>
+        <span class="tag mind">Mind</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">06</div><div class="entry-body">
+        <div class="entry-title">I Am a Hero</div>
+        <div class="entry-meta">Kengo Hanazawa · 2009–2017</div>
+        <div class="entry-lesson">The quiet horror of a person who has spent decades lying to himself about his own talent and desire.</div>
+        <span class="tag shadow">Shadow</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">07</div><div class="entry-body">
+        <div class="entry-title">Solanin</div>
+        <div class="entry-meta">Inio Asano · 2005–2006</div>
+        <div class="entry-lesson">Adulthood arrives and the dream hasn't. A masterpiece on choosing authenticity over comfort.</div>
+        <span class="tag core">Core</span><span class="tag heart">Heart</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">08</div><div class="entry-body">
+        <div class="entry-title">March Comes In Like a Lion</div>
+        <div class="entry-meta">Chika Umino · 2007–present</div>
+        <div class="entry-lesson">Depression rendered with total honesty. On finding light not through force but through being received.</div>
+        <span class="tag shadow">Shadow</span><span class="tag heart">Heart</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">09</div><div class="entry-body">
+        <div class="entry-title">Blue Period</div>
+        <div class="entry-meta">Tsubasa Yamaguchi · 2017–present</div>
+        <div class="entry-lesson">A "good student" discovers he has been performing life rather than living it. Art as confrontation with the self.</div>
+        <span class="tag shadow">Shadow</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">10</div><div class="entry-body">
+        <div class="entry-title">A Silent Voice</div>
+        <div class="entry-meta">Yoshitoki Oima · 2013–2014</div>
+        <div class="entry-lesson">The manga form of self-hatred, bullying, and redemption. Forgiveness begins with facing what you did.</div>
+        <span class="tag core">Core</span><span class="tag heart">Heart</span>
+      </div></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===================== PHASE 2 ===================== -->
+<section class="phase p2">
+  <div class="phase-header">
+    <div class="phase-number">II</div>
+    <div class="phase-title">
+      <div class="phase-label">Phase Two</div>
+      <div class="phase-accent"></div>
+      <h2>Grief, Loss & the Practice of Impermanence</h2>
+      <p>Mono no aware — the pathos of things. Nothing teaches like loss. These works do not console; they accompany.</p>
+    </div>
+  </div>
+
+  <div class="phase-intro-box">
+    <p>Core question: <em>"What am I holding onto that has already ended — and what does the holding cost me?"</em> Grief un-metabolized becomes armour. These works teach metabolization.</p>
+  </div>
+
+  <div class="columns">
+    <div>
+      <div class="col-head"><span class="col-icon">🎬</span><span class="col-title">Anime Films</span></div>
+
+      <div class="entry"><div class="entry-num">11</div><div class="entry-body">
+        <div class="entry-title">Grave of the Fireflies (1988)</div>
+        <div class="entry-meta">Isao Takahata · 1h 29m</div>
+        <div class="entry-lesson">Pride chosen over survival. The most devastating study of what denial costs those we love.</div>
+        <span class="tag core">Core</span><span class="tag heart">Heart</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">12</div><div class="entry-body">
+        <div class="entry-title">Only Yesterday (1991)</div>
+        <div class="entry-meta">Isao Takahata · 1h 58m</div>
+        <div class="entry-lesson">The child inside the adult is still waiting. On hearing that child — not silencing them.</div>
+        <span class="tag core">Core</span><span class="tag heart">Heart</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">13</div><div class="entry-body">
+        <div class="entry-title">When Marnie Was There (2014)</div>
+        <div class="entry-meta">Hiromasa Yonebayashi · 1h 43m</div>
+        <div class="entry-lesson">Shame about being loved. A child who cannot believe she deserves tenderness.</div>
+        <span class="tag heart">Heart</span><span class="tag shadow">Shadow</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">14</div><div class="entry-body">
+        <div class="entry-title">The Wind Rises (2013)</div>
+        <div class="entry-meta">Hayao Miyazaki · 2h 6m</div>
+        <div class="entry-lesson">Living fully in a beautiful world that is also terrible. On making something while knowing it will be destroyed.</div>
+        <span class="tag core">Core</span><span class="tag mind">Mind</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">15</div><div class="entry-body">
+        <div class="entry-title">Colorful (2010)</div>
+        <div class="entry-meta">Keiichi Hara · 2h 6m</div>
+        <div class="entry-lesson">A soul given a second chance to inhabit someone else's life — and discovers why that life was worth living.</div>
+        <span class="tag heart">Heart</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">16</div><div class="entry-body">
+        <div class="entry-title">5 Centimeters Per Second (2007)</div>
+        <div class="entry-meta">Makoto Shinkai · 1h 3m</div>
+        <div class="entry-lesson">Distance that accumulates grain by grain. How we hold to a past that has already left — and what that costs the present.</div>
+        <span class="tag core">Core</span><span class="tag heart">Heart</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">17</div><div class="entry-body">
+        <div class="entry-title">The Tale of Princess Kaguya (2013)</div>
+        <div class="entry-meta">Isao Takahata · 2h 17m</div>
+        <div class="entry-lesson">The cruelty of expectation imposed on a soul. And the unbearable beauty of a life nonetheless.</div>
+        <span class="tag core">Core</span><span class="tag soul">Soul</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">18</div><div class="entry-body">
+        <div class="entry-title">I Want to Eat Your Pancreas (2018)</div>
+        <div class="entry-meta">Shinichiro Ushijima · 1h 48m</div>
+        <div class="entry-lesson">A girl who lives intensely teaches a closed boy to feel. On living before dying.</div>
+        <span class="tag heart">Heart</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">19</div><div class="entry-body">
+        <div class="entry-title">The Boy and the Heron (2023)</div>
+        <div class="entry-meta">Hayao Miyazaki · 2h 4m</div>
+        <div class="entry-lesson">Grief as portal to a hidden world. How loss becomes the passage to a new relationship with living.</div>
+        <span class="tag core">Core</span><span class="tag soul">Soul</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">20</div><div class="entry-body">
+        <div class="entry-title">Mirai (2018)</div>
+        <div class="entry-meta">Mamoru Hosoda · 1h 38m</div>
+        <div class="entry-lesson">Each of us is also our ancestors — and the story we inherit carries both their wounds and their gifts.</div>
+        <span class="tag heart">Heart</span><span class="tag soul">Soul</span>
+      </div></div>
+    </div>
+
+    <div>
+      <div class="col-head"><span class="col-icon">📖</span><span class="col-title">Manga</span></div>
+
+      <div class="entry"><div class="entry-num">11</div><div class="entry-body">
+        <div class="entry-title">A Bride's Story (Otoyomegatari)</div>
+        <div class="entry-meta">Kaoru Mori · 2008–present</div>
+        <div class="entry-lesson">On how lives of quiet dignity contain enormous depth. Beauty in the ordinary rituals of being human.</div>
+        <span class="tag soul">Soul</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">12</div><div class="entry-body">
+        <div class="entry-title">Mushishi</div>
+        <div class="entry-meta">Yuki Urushibara · 1999–2008</div>
+        <div class="entry-lesson">Episode by episode: people in relationship with forces larger than themselves. On letting go of what cannot be held.</div>
+        <span class="tag core">Core</span><span class="tag soul">Soul</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">13</div><div class="entry-body">
+        <div class="entry-title">Vinland Saga</div>
+        <div class="entry-meta">Makoto Yukimura · 2005–present</div>
+        <div class="entry-lesson">A warrior who discovers revenge is a wound, not a destination. The slow path from violence to peace.</div>
+        <span class="tag core">Core</span><span class="tag shadow">Shadow</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">14</div><div class="entry-body">
+        <div class="entry-title">The Flowers of Evil (Aku no Hana)</div>
+        <div class="entry-meta">Shuzo Oshimi · 2009–2014</div>
+        <div class="entry-lesson">Adolescent shame weaponized. The unbearable need to be seen and the terror of actually being seen.</div>
+        <span class="tag shadow">Shadow</span><span class="tag heart">Heart</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">15</div><div class="entry-body">
+        <div class="entry-title">Inside Mari</div>
+        <div class="entry-meta">Shuzo Oshimi · 2012–2014</div>
+        <div class="entry-lesson">What happens when you finally inhabit someone else's life — and realize what you couldn't see from your own.</div>
+        <span class="tag shadow">Shadow</span><span class="tag heart">Heart</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">16</div><div class="entry-body">
+        <div class="entry-title">Nijigahara Holograph</div>
+        <div class="entry-meta">Inio Asano · 2004</div>
+        <div class="entry-lesson">Time, trauma, and guilt folded together. A complex meditation on how violence echoes across years.</div>
+        <span class="tag shadow">Shadow</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">17</div><div class="entry-body">
+        <div class="entry-title">Homunculus</div>
+        <div class="entry-meta">Hideo Yamamoto · 2003–2011</div>
+        <div class="entry-lesson">A surgery grants perception of others' psychological wounds projected onto their bodies. Empathy as horror.</div>
+        <span class="tag mind">Mind</span><span class="tag shadow">Shadow</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">18</div><div class="entry-body">
+        <div class="entry-title">Ping Pong</div>
+        <div class="entry-meta">Taiyo Matsumoto · 1996–1997</div>
+        <div class="entry-lesson">Competition as spiritual practice. Two boys with opposite relationships to desire, talent, and love.</div>
+        <span class="tag core">Core</span><span class="tag soul">Soul</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">19</div><div class="entry-body">
+        <div class="entry-title">Tekkon Kinkreet</div>
+        <div class="entry-meta">Taiyo Matsumoto · 1993–1994</div>
+        <div class="entry-lesson">Yin-yang children: one pure light, one shadow. On how each part of the self needs the other to survive.</div>
+        <span class="tag shadow">Shadow</span><span class="tag soul">Soul</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">20</div><div class="entry-body">
+        <div class="entry-title">Children of the Sea</div>
+        <div class="entry-meta">Daisuke Igarashi · 2006–2011</div>
+        <div class="entry-lesson">The oceanic sensation — connection to something vast and pre-verbal. The small self dissolving into something larger.</div>
+        <span class="tag soul">Soul</span>
+      </div></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===================== PHASE 3 ===================== -->
+<section class="phase p3">
+  <div class="phase-header">
+    <div class="phase-number">III</div>
+    <div class="phase-title">
+      <div class="phase-label">Phase Three</div>
+      <div class="phase-accent"></div>
+      <h2>Love, Relation & the Courage to Connect</h2>
+      <p>To be truly seen is both the deepest need and the greatest terror. These works sit with both.</p>
+    </div>
+  </div>
+
+  <div class="phase-intro-box">
+    <p>Core question: <em>"Am I capable of real intimacy — or do I only permit the version of closeness that keeps me safe?"</em> These works do not romanticize love; they study it.</p>
+  </div>
+
+  <div class="columns">
+    <div>
+      <div class="col-head"><span class="col-icon">🎬</span><span class="col-title">Anime Films</span></div>
+
+      <div class="entry"><div class="entry-num">21</div><div class="entry-body">
+        <div class="entry-title">Spirited Away (2001)</div>
+        <div class="entry-meta">Hayao Miyazaki · 2h 4m</div>
+        <div class="entry-lesson">Love as labour and steadfastness, not feeling. Chihiro earns the capacity to love through doing.</div>
+        <span class="tag core">Core</span><span class="tag heart">Heart</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">22</div><div class="entry-body">
+        <div class="entry-title">Your Name. (2016)</div>
+        <div class="entry-meta">Makoto Shinkai · 1h 52m</div>
+        <div class="entry-lesson">Longing for someone you can't name. The body remembers connections the mind has forgotten.</div>
+        <span class="tag heart">Heart</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">23</div><div class="entry-body">
+        <div class="entry-title">The Garden of Words (2013)</div>
+        <div class="entry-meta">Makoto Shinkai · 46m</div>
+        <div class="entry-lesson">Need without demand. Two people shelter each other not through words but through presence.</div>
+        <span class="tag heart">Heart</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">24</div><div class="entry-body">
+        <div class="entry-title">Nausicaä of the Valley of the Wind (1984)</div>
+        <div class="entry-meta">Hayao Miyazaki · 1h 57m</div>
+        <div class="entry-lesson">Love that extends beyond the human circle. Compassion as a practice, not a sentiment.</div>
+        <span class="tag core">Core</span><span class="tag soul">Soul</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">25</div><div class="entry-body">
+        <div class="entry-title">Princess Mononoke (1997)</div>
+        <div class="entry-meta">Hayao Miyazaki · 2h 14m</div>
+        <div class="entry-lesson">Holding opposing truths simultaneously — the mark of mature love. No heroes, no villains; only people doing their best.</div>
+        <span class="tag core">Core</span><span class="tag soul">Soul</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">26</div><div class="entry-body">
+        <div class="entry-title">Summer Wars (2009)</div>
+        <div class="entry-meta">Mamoru Hosoda · 1h 54m</div>
+        <div class="entry-lesson">Family as a system of interdependence. What you owe those who shaped you — and how to give it.</div>
+        <span class="tag heart">Heart</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">27</div><div class="entry-body">
+        <div class="entry-title">Liz and the Blue Bird (2018)</div>
+        <div class="entry-meta">Naoko Yamada · 1h 30m</div>
+        <div class="entry-lesson">A friendship where one person's growth requires the other to release their grip. On loving without possession.</div>
+        <span class="tag core">Core</span><span class="tag heart">Heart</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">28</div><div class="entry-body">
+        <div class="entry-title">A Whisker Away (2020)</div>
+        <div class="entry-meta">Junichi Sato · 1h 44m</div>
+        <div class="entry-lesson">The fantasy of becoming someone else to be loved. On why the self you want to escape is the one worth loving.</div>
+        <span class="tag heart">Heart</span><span class="tag shadow">Shadow</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">29</div><div class="entry-body">
+        <div class="entry-title">Maquia: When the Promised Flower Blooms (2018)</div>
+        <div class="entry-meta">Mari Okada · 1h 55m</div>
+        <div class="entry-lesson">Unconditional maternal love — and the grief of watching someone you love grow beyond their need for you.</div>
+        <span class="tag core">Core</span><span class="tag heart">Heart</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">30</div><div class="entry-body">
+        <div class="entry-title">My Neighbor Totoro (1988)</div>
+        <div class="entry-meta">Hayao Miyazaki · 1h 26m</div>
+        <div class="entry-lesson">Faith that the world is more than what the frightened mind can see. Childhood as spiritual state.</div>
+        <span class="tag soul">Soul</span>
+      </div></div>
+    </div>
+
+    <div>
+      <div class="col-head"><span class="col-icon">📖</span><span class="col-title">Manga</span></div>
+
+      <div class="entry"><div class="entry-num">21</div><div class="entry-body">
+        <div class="entry-title">Yotsuba&!</div>
+        <div class="entry-meta">Kiyohiko Azuma · 2003–present</div>
+        <div class="entry-lesson">What it means to encounter the world with total openness. The antidote to adult jadedness.</div>
+        <span class="tag core">Core</span><span class="tag soul">Soul</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">22</div><div class="entry-body">
+        <div class="entry-title">Nausicaä of the Valley of the Wind (manga)</div>
+        <div class="entry-meta">Hayao Miyazaki · 1982–1994</div>
+        <div class="entry-lesson">Far deeper than the film. The ethics of love — even for those who have harmed you.</div>
+        <span class="tag core">Core</span><span class="tag soul">Soul</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">23</div><div class="entry-body">
+        <div class="entry-title">Fruits Basket</div>
+        <div class="entry-meta">Natsuki Takaya · 1998–2006</div>
+        <div class="entry-lesson">Healing from family trauma. A woman's unconditional warmth thaws those who have forgotten they deserve love.</div>
+        <span class="tag heart">Heart</span><span class="tag shadow">Shadow</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">24</div><div class="entry-body">
+        <div class="entry-title">Your Lie in April</div>
+        <div class="entry-meta">Naoshi Arakawa · 2011–2015</div>
+        <div class="entry-lesson">Art as communication between two people who cannot say what they feel. On letting someone change you.</div>
+        <span class="tag heart">Heart</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">25</div><div class="entry-body">
+        <div class="entry-title">Takane & Hana</div>
+        <div class="entry-meta">Yuki Shiwasu · 2016–2020</div>
+        <div class="entry-lesson">Wit, vulnerability, and power negotiated between two people who would rather hide than be known.</div>
+        <span class="tag heart">Heart</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">26</div><div class="entry-body">
+        <div class="entry-title">Dungeon Meshi (Delicious in Dungeon)</div>
+        <div class="entry-meta">Ryoko Kui · 2014–2023</div>
+        <div class="entry-lesson">Community and care made literal: feeding one another is the deepest act of connection. Food as love language.</div>
+        <span class="tag heart">Heart</span><span class="tag soul">Soul</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">27</div><div class="entry-body">
+        <div class="entry-title">Nana</div>
+        <div class="entry-meta">Ai Yazawa · 2000–2009</div>
+        <div class="entry-lesson">Two women who love each other and keep failing to say so. The tragedy of need disguised as independence.</div>
+        <span class="tag core">Core</span><span class="tag heart">Heart</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">28</div><div class="entry-body">
+        <div class="entry-title">Paradise Kiss</div>
+        <div class="entry-meta">Ai Yazawa · 1999–2003</div>
+        <div class="entry-lesson">A relationship that transforms you even as it ends. On outgrowing someone without dishonoring them.</div>
+        <span class="tag heart">Heart</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">29</div><div class="entry-body">
+        <div class="entry-title">Sand Chronicles</div>
+        <div class="entry-meta">Hinako Ashihara · 2003–2008</div>
+        <div class="entry-lesson">Coming of age through love and loss measured in an hourglass. How grief reshapes who we become.</div>
+        <span class="tag heart">Heart</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">30</div><div class="entry-body">
+        <div class="entry-title">Chi's Sweet Home</div>
+        <div class="entry-meta">Kanata Konami · 2004–2015</div>
+        <div class="entry-lesson">A kitten's uncomplicated encounter with the world. Sometimes the curriculum is learning to be small and alive.</div>
+        <span class="tag soul">Soul</span>
+      </div></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===================== PHASE 4 ===================== -->
+<section class="phase p4">
+  <div class="phase-header">
+    <div class="phase-number">IV</div>
+    <div class="phase-title">
+      <div class="phase-label">Phase Four</div>
+      <div class="phase-accent"></div>
+      <h2>Purpose, Resistance & the Courage to Act</h2>
+      <p>What is worth doing with a life? These works grapple with systems of power, moral obligation, and the cost of standing for something.</p>
+    </div>
+  </div>
+
+  <div class="phase-intro-box">
+    <p>Core question: <em>"What would I defend at cost to myself — and have I ever actually had to?"</em> Conviction tested against consequence.</p>
+  </div>
+
+  <div class="columns">
+    <div>
+      <div class="col-head"><span class="col-icon">🎬</span><span class="col-title">Anime Films</span></div>
+
+      <div class="entry"><div class="entry-num">31</div><div class="entry-body">
+        <div class="entry-title">Akira (1988)</div>
+        <div class="entry-meta">Katsuhiro Otomo · 2h 4m</div>
+        <div class="entry-lesson">Power without self-knowledge destroys. The post-war generation's fear of what humans do with unchecked force.</div>
+        <span class="tag core">Core</span><span class="tag mind">Mind</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">32</div><div class="entry-body">
+        <div class="entry-title">In This Corner of the World (2016)</div>
+        <div class="entry-meta">Sunao Katabuchi · 2h 9m</div>
+        <div class="entry-lesson">Ordinary life in the grip of history. On finding meaning and beauty inside circumstances you didn't choose.</div>
+        <span class="tag core">Core</span><span class="tag soul">Soul</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">33</div><div class="entry-body">
+        <div class="entry-title">Patlabor 2: The Movie (1993)</div>
+        <div class="entry-meta">Mamoru Oshii · 1h 53m</div>
+        <div class="entry-lesson">A question no one wants to answer: are we at peace, or simply too comfortable to notice the war?</div>
+        <span class="tag mind">Mind</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">34</div><div class="entry-body">
+        <div class="entry-title">The Red Turtle (2016)</div>
+        <div class="entry-meta">Michaël Dudok de Wit · 1h 20m</div>
+        <div class="entry-lesson">A life stripped to its essentials. Resistance, surrender, love, and finally acceptance — wordlessly told.</div>
+        <span class="tag core">Core</span><span class="tag soul">Soul</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">35</div><div class="entry-body">
+        <div class="entry-title">Night on the Galactic Railroad (1985)</div>
+        <div class="entry-meta">Gisaburo Sugii · 1h 53m</div>
+        <div class="entry-lesson">The journey we take without knowing it is a preparation for dying — and for choosing how we live.</div>
+        <span class="tag soul">Soul</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">36</div><div class="entry-body">
+        <div class="entry-title">The Cat Returns (2002)</div>
+        <div class="entry-meta">Hiroyuki Morita · 1h 15m</div>
+        <div class="entry-lesson">Losing yourself in others' expectations is a real danger. On discovering what you actually want.</div>
+        <span class="tag shadow">Shadow</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">37</div><div class="entry-body">
+        <div class="entry-title">Sword of the Stranger (2007)</div>
+        <div class="entry-meta">Masahiro Ando · 1h 42m</div>
+        <div class="entry-lesson">A man who has renounced his name forced to care again. On the impossibility of indifference when love arrives.</div>
+        <span class="tag heart">Heart</span><span class="tag shadow">Shadow</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">38</div><div class="entry-body">
+        <div class="entry-title">Barefoot Gen (1983)</div>
+        <div class="entry-meta">Mori Masaki · 1h 23m</div>
+        <div class="entry-lesson">Survival as defiance. How the will to live becomes a political act in the face of annihilation.</div>
+        <span class="tag core">Core</span><span class="tag soul">Soul</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">39</div><div class="entry-body">
+        <div class="entry-title">Lu Over the Wall (2017)</div>
+        <div class="entry-meta">Masaaki Yuasa · 1h 52m</div>
+        <div class="entry-lesson">The joy of making something even when the community rejects it. On choosing vitality over safety.</div>
+        <span class="tag soul">Soul</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">40</div><div class="entry-body">
+        <div class="entry-title">Mind Game (2004)</div>
+        <div class="entry-meta">Masaaki Yuasa · 1h 43m</div>
+        <div class="entry-lesson">A man is given his life back and finally — finally — decides to live it. The most ferocious affirmation of existence in animation.</div>
+        <span class="tag core">Core</span><span class="tag soul">Soul</span>
+      </div></div>
+    </div>
+
+    <div>
+      <div class="col-head"><span class="col-icon">📖</span><span class="col-title">Manga</span></div>
+
+      <div class="entry"><div class="entry-num">31</div><div class="entry-body">
+        <div class="entry-title">Attack on Titan</div>
+        <div class="entry-meta">Hajime Isayama · 2009–2021</div>
+        <div class="entry-lesson">Freedom versus security as existential stakes. Every character is right and every character is wrong. That is the point.</div>
+        <span class="tag core">Core</span><span class="tag mind">Mind</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">32</div><div class="entry-body">
+        <div class="entry-title">Fullmetal Alchemist</div>
+        <div class="entry-meta">Hiromu Arakawa · 2001–2010</div>
+        <div class="entry-lesson">Equivalent exchange as moral philosophy. The cost of circumventing hard truths. Humanism without sentimentality.</div>
+        <span class="tag core">Core</span><span class="tag mind">Mind</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">33</div><div class="entry-body">
+        <div class="entry-title">Akira (manga)</div>
+        <div class="entry-meta">Katsuhiro Otomo · 1982–1990</div>
+        <div class="entry-lesson">Far richer than the film. The ruins of civilisation as space where new ways of being become possible.</div>
+        <span class="tag mind">Mind</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">34</div><div class="entry-body">
+        <div class="entry-title">Pluto</div>
+        <div class="entry-meta">Naoki Urasawa · 2003–2009</div>
+        <div class="entry-lesson">What gives a robot — or a human — the capacity to hate? On the creation of enemies, and their dismantling.</div>
+        <span class="tag core">Core</span><span class="tag mind">Mind</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">35</div><div class="entry-body">
+        <div class="entry-title">Biomega</div>
+        <div class="entry-meta">Tsutomu Nihei · 2004–2009</div>
+        <div class="entry-lesson">In a dying world, one person still moves with purpose. On action in conditions of hopelessness.</div>
+        <span class="tag soul">Soul</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">36</div><div class="entry-body">
+        <div class="entry-title">Dorohedoro</div>
+        <div class="entry-meta">Q Hayashida · 2000–2018</div>
+        <div class="entry-lesson">Community among the dispossessed. Joy as resistance in a world built to grind you down.</div>
+        <span class="tag soul">Soul</span><span class="tag heart">Heart</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">37</div><div class="entry-body">
+        <div class="entry-title">Dungeon Meshi (listed in Phase 3)</div>
+        <div class="entry-meta">Continue reading with a different lens</div>
+        <div class="entry-lesson">Re-read now: what does the ecosystem metaphor say about human systems — and our place within them?</div>
+        <span class="tag soul">Soul</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">38</div><div class="entry-body">
+        <div class="entry-title">Fire Punch</div>
+        <div class="entry-meta">Tatsuki Fujimoto · 2016–2018</div>
+        <div class="entry-lesson">Messianic narratives as trap. What happens when you have been told your suffering has a purpose and it doesn't?</div>
+        <span class="tag shadow">Shadow</span><span class="tag mind">Mind</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">39</div><div class="entry-body">
+        <div class="entry-title">Chainsaw Man</div>
+        <div class="entry-meta">Tatsuki Fujimoto · 2018–present</div>
+        <div class="entry-lesson">Desire without direction destroys — but the desire itself is not the problem. On learning what you actually want.</div>
+        <span class="tag shadow">Shadow</span><span class="tag heart">Heart</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">40</div><div class="entry-body">
+        <div class="entry-title">The Summit of the Gods</div>
+        <div class="entry-meta">Jiro Taniguchi · 2000–2003</div>
+        <div class="entry-lesson">Why do we climb? On obsession as vocation — and the difference between a life defined by conquest vs. by encounter.</div>
+        <span class="tag core">Core</span><span class="tag soul">Soul</span>
+      </div></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===================== PHASE 5 ===================== -->
+<section class="phase p5">
+  <div class="phase-header">
+    <div class="phase-number">V</div>
+    <div class="phase-title">
+      <div class="phase-label">Phase Five</div>
+      <div class="phase-accent"></div>
+      <h2>Wisdom, Presence & the Practice of Freedom</h2>
+      <p>The final phase is not arrival but practice. These works ask: can you hold everything you have learned and still remain open to what is?</p>
+    </div>
+  </div>
+
+  <div class="phase-intro-box">
+    <p>Core question: <em>"Can I be fully here — with what is, not what I wish were so — and let that be enough?"</em> This is not resignation. It is the hardest work.</p>
+  </div>
+
+  <div class="columns">
+    <div>
+      <div class="col-head"><span class="col-icon">🎬</span><span class="col-title">Anime Films</span></div>
+
+      <div class="entry"><div class="entry-num">41</div><div class="entry-body">
+        <div class="entry-title">Porco Rosso (1992)</div>
+        <div class="entry-meta">Hayao Miyazaki · 1h 34m</div>
+        <div class="entry-lesson">A man who turned himself into a pig rather than serve a world he found disgusting. On dignity without hope, and why it matters anyway.</div>
+        <span class="tag core">Core</span><span class="tag soul">Soul</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">42</div><div class="entry-body">
+        <div class="entry-title">Castle in the Sky (1986)</div>
+        <div class="entry-meta">Hayao Miyazaki · 2h 4m</div>
+        <div class="entry-lesson">Some things are not meant to last — and that is what makes them worth protecting while they exist.</div>
+        <span class="tag soul">Soul</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">43</div><div class="entry-body">
+        <div class="entry-title">Howl's Moving Castle (2004)</div>
+        <div class="entry-meta">Hayao Miyazaki · 1h 59m</div>
+        <div class="entry-lesson">A curse becomes the vehicle for self-discovery. On how constraints — even cruel ones — can be liberating.</div>
+        <span class="tag soul">Soul</span><span class="tag heart">Heart</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">44</div><div class="entry-body">
+        <div class="entry-title">Metropolis (2001)</div>
+        <div class="entry-meta">Rintaro · 1h 47m</div>
+        <div class="entry-lesson">Humanity confronted with what it has made. On whether love can exist in a world organized around power.</div>
+        <span class="tag mind">Mind</span><span class="tag soul">Soul</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">45</div><div class="entry-body">
+        <div class="entry-title">Angel's Egg (1985)</div>
+        <div class="entry-meta">Mamoru Oshii · 71m</div>
+        <div class="entry-lesson">Faith, doubt, and the thing you protect even when you can no longer explain why. Pure contemplative cinema.</div>
+        <span class="tag core">Core</span><span class="tag soul">Soul</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">46</div><div class="entry-body">
+        <div class="entry-title">Belladonna of Sadness (1973)</div>
+        <div class="entry-meta">Eiichi Yamamoto · 1h 29m</div>
+        <div class="entry-lesson">Ecstasy and devastation as one. The feminine power that a society built on control cannot tolerate.</div>
+        <span class="tag soul">Soul</span><span class="tag shadow">Shadow</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">47</div><div class="entry-body">
+        <div class="entry-title">The Tale of Hua Mulan (2023)</div>
+        <div class="entry-meta">Various · ongoing tradition</div>
+        <div class="entry-lesson">The long tradition: duty and self-determination negotiated across lifetimes. Rewatch a favourite from your childhood with new eyes.</div>
+        <span class="tag soul">Soul</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">48</div><div class="entry-body">
+        <div class="entry-title">Ride Your Wave (2019)</div>
+        <div class="entry-meta">Masaaki Yuasa · 1h 35m</div>
+        <div class="entry-lesson">Grief and joy are not opposites — they are the same wave. On continuing to live after the person who taught you how has gone.</div>
+        <span class="tag heart">Heart</span><span class="tag soul">Soul</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">49</div><div class="entry-body">
+        <div class="entry-title">Goodbye, Don Glees! (2022)</div>
+        <div class="entry-meta">Atsuko Ishizuka · 1h 35m</div>
+        <div class="entry-lesson">The summer that marked us. On what it means to search for something you can never fully name — and find it anyway.</div>
+        <span class="tag soul">Soul</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">50</div><div class="entry-body">
+        <div class="entry-title">The Boy Who Wanted to Be a Bear (2002)</div>
+        <div class="entry-meta">Jannik Hastrup · 1h 14m</div>
+        <div class="entry-lesson">A boy who wishes to become a bear. On how we find our true nature not through transformation but through recognition.</div>
+        <span class="tag soul">Soul</span>
+      </div></div>
+    </div>
+
+    <div>
+      <div class="col-head"><span class="col-icon">📖</span><span class="col-title">Manga</span></div>
+
+      <div class="entry"><div class="entry-num">41</div><div class="entry-body">
+        <div class="entry-title">Aria</div>
+        <div class="entry-meta">Kozue Amano · 2002–2008</div>
+        <div class="entry-lesson">The rarest thing in fiction: a world in which life is genuinely good, and that is enough. Radical contentment as practice.</div>
+        <span class="tag core">Core</span><span class="tag soul">Soul</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">42</div><div class="entry-body">
+        <div class="entry-title">Yokohama Kaidashi Kikou</div>
+        <div class="entry-meta">Hitoshi Ashinano · 1994–2006</div>
+        <div class="entry-lesson">A robot inherits a dying world and finds it beautiful. The post-apocalypse as invitation to presence.</div>
+        <span class="tag core">Core</span><span class="tag soul">Soul</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">43</div><div class="entry-body">
+        <div class="entry-title">Dunno Yet (Ikigami)</div>
+        <div class="entry-meta">Motoro Mase · 2005–2012</div>
+        <div class="entry-lesson">A state that sends death notices 24 hours before execution. How people choose to live the last day — and what that reveals about all days.</div>
+        <span class="tag core">Core</span><span class="tag soul">Soul</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">44</div><div class="entry-body">
+        <div class="entry-title">Biomega (revisit Phase 4)</div>
+        <div class="entry-meta">Now read as philosophy, not plot</div>
+        <div class="entry-lesson">Re-read the silence between the action panels. Tsutomu Nihei hides stillness inside violence.</div>
+        <span class="tag soul">Soul</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">45</div><div class="entry-body">
+        <div class="entry-title">Wandering Son (Hourou Musuko)</div>
+        <div class="entry-meta">Shimura Takako · 2002–2013</div>
+        <div class="entry-lesson">The tenderness and pain of becoming who you are in a world that has decided who you should be.</div>
+        <span class="tag core">Core</span><span class="tag heart">Heart</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">46</div><div class="entry-body">
+        <div class="entry-title">The Walking Man (Aruku Hito)</div>
+        <div class="entry-meta">Jiro Taniguchi · 1990–1991</div>
+        <div class="entry-lesson">A man walks. Nothing happens. Everything happens. The most Zen manga ever made.</div>
+        <span class="tag core">Core</span><span class="tag soul">Soul</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">47</div><div class="entry-body">
+        <div class="entry-title">The Quest for the Missing Girl</div>
+        <div class="entry-meta">Jiro Taniguchi · 2001</div>
+        <div class="entry-lesson">Climbing alone in winter. On silence as a form of communion with what cannot be spoken.</div>
+        <span class="tag soul">Soul</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">48</div><div class="entry-body">
+        <div class="entry-title">Shigurui: Death Frenzy</div>
+        <div class="entry-meta">Takayuki Yamaguchi · 2003–2010</div>
+        <div class="entry-lesson">Mastery and madness as the same path. What is the cost of total dedication — and who pays it?</div>
+        <span class="tag shadow">Shadow</span><span class="tag mind">Mind</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">49</div><div class="entry-body">
+        <div class="entry-title">Look Back</div>
+        <div class="entry-meta">Tatsuki Fujimoto · 2021</div>
+        <div class="entry-lesson">In a single chapter: why we make things, what friendship means, and how creation continues after the worst possible loss.</div>
+        <span class="tag core">Core</span><span class="tag soul">Soul</span>
+      </div></div>
+
+      <div class="entry"><div class="entry-num">50</div><div class="entry-body">
+        <div class="entry-title">Berserk (final volumes)</div>
+        <div class="entry-meta">Return to the beginning — read it again</div>
+        <div class="entry-lesson">You have changed. So has Guts. The work that once felt like darkness now contains a long argument for going on. Miura finished it with love.</div>
+        <span class="tag core">Core</span><span class="tag soul">Soul</span>
+      </div></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===================== THEMATIC CROSS-INDEX ===================== -->
+<section style="background:#1a1410; color:#f5f0e8; padding:80px 0;">
+  <div style="max-width:1100px; margin:0 auto; padding:0 40px;">
+
+    <div style="text-align:center; margin-bottom:60px;">
+      <div style="font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.3em; text-transform:uppercase; color:rgba(245,240,232,0.35); margin-bottom:16px;">Thematic Cross-Index</div>
+      <h2 style="font-family:'Shippori Mincho',serif; font-size:clamp(26px,4vw,42px); font-weight:800; color:#c9a96e; line-height:1.2;">Read by What You Need, Not Just by Order</h2>
+      <p style="font-style:italic; font-weight:300; color:rgba(245,240,232,0.55); max-width:560px; margin:16px auto 0; line-height:1.8;">Sometimes life points you to a theme before you've finished Phase I. Use this index to find what speaks to your current moment.</p>
+    </div>
+
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:2px;">
+
+      <!-- THEME CARD -->
+      <div style="background:rgba(245,240,232,0.03); padding:28px 24px; border:1px solid rgba(245,240,232,0.07);">
+        <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.25em; text-transform:uppercase; color:#c9a96e; margin-bottom:10px;">Theme 01</div>
+        <h3 style="font-family:'Shippori Mincho',serif; font-size:18px; font-weight:600; margin-bottom:14px; line-height:1.3;">The Wound That Runs Everything</h3>
+        <p style="font-size:0.82em; color:rgba(245,240,232,0.45); font-style:italic; margin-bottom:16px; line-height:1.6;">For when you sense you are acting from damage, not choice.</p>
+        <div style="font-size:0.82em; color:rgba(245,240,232,0.65); line-height:2;">
+          🎬 Perfect Blue · Evangelion: EoE<br>
+          🎬 Wolf Children · When Marnie Was There<br>
+          📖 Berserk · Oyasumi Punpun<br>
+          📖 March Comes In Like a Lion · Fruits Basket
+        </div>
+      </div>
+
+      <div style="background:rgba(245,240,232,0.03); padding:28px 24px; border:1px solid rgba(245,240,232,0.07);">
+        <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.25em; text-transform:uppercase; color:#c9a96e; margin-bottom:10px;">Theme 02</div>
+        <h3 style="font-family:'Shippori Mincho',serif; font-size:18px; font-weight:600; margin-bottom:14px; line-height:1.3;">What Am I Doing With My Life</h3>
+        <p style="font-size:0.82em; color:rgba(245,240,232,0.45); font-style:italic; margin-bottom:16px; line-height:1.6;">For when the life you're living feels like someone else's.</p>
+        <div style="font-size:0.82em; color:rgba(245,240,232,0.65); line-height:2;">
+          🎬 Only Yesterday · The Wind Rises<br>
+          🎬 Mind Game · Porco Rosso<br>
+          📖 Solanin · Blue Period<br>
+          📖 Vagabond · The Summit of the Gods
+        </div>
+      </div>
+
+      <div style="background:rgba(245,240,232,0.03); padding:28px 24px; border:1px solid rgba(245,240,232,0.07);">
+        <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.25em; text-transform:uppercase; color:#c9a96e; margin-bottom:10px;">Theme 03</div>
+        <h3 style="font-family:'Shippori Mincho',serif; font-size:18px; font-weight:600; margin-bottom:14px; line-height:1.3;">Losing Someone</h3>
+        <p style="font-size:0.82em; color:rgba(245,240,232,0.45); font-style:italic; margin-bottom:16px; line-height:1.6;">For when grief is acute and you need company, not advice.</p>
+        <div style="font-size:0.82em; color:rgba(245,240,232,0.65); line-height:2;">
+          🎬 Grave of the Fireflies · The Boy and the Heron<br>
+          🎬 5 Centimeters Per Second · Maquia<br>
+          📖 A Silent Voice · Your Lie in April<br>
+          📖 Look Back · Nana
+        </div>
+      </div>
+
+      <div style="background:rgba(245,240,232,0.03); padding:28px 24px; border:1px solid rgba(245,240,232,0.07);">
+        <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.25em; text-transform:uppercase; color:#c9a96e; margin-bottom:10px;">Theme 04</div>
+        <h3 style="font-family:'Shippori Mincho',serif; font-size:18px; font-weight:600; margin-bottom:14px; line-height:1.3;">I Cannot Be Close to People</h3>
+        <p style="font-size:0.82em; color:rgba(245,240,232,0.45); font-style:italic; margin-bottom:16px; line-height:1.6;">For those who protect themselves by staying just out of reach.</p>
+        <div style="font-size:0.82em; color:rgba(245,240,232,0.65); line-height:2;">
+          🎬 Liz and the Blue Bird · The Garden of Words<br>
+          🎬 A Letter to Momo · Colorful<br>
+          📖 March Comes In Like a Lion · Wandering Son<br>
+          📖 Fruits Basket · Sand Chronicles
+        </div>
+      </div>
+
+      <div style="background:rgba(245,240,232,0.03); padding:28px 24px; border:1px solid rgba(245,240,232,0.07);">
+        <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.25em; text-transform:uppercase; color:#c9a96e; margin-bottom:10px;">Theme 05</div>
+        <h3 style="font-family:'Shippori Mincho',serif; font-size:18px; font-weight:600; margin-bottom:14px; line-height:1.3;">Power, Systems & Moral Complexity</h3>
+        <p style="font-size:0.82em; color:rgba(245,240,232,0.45); font-style:italic; margin-bottom:16px; line-height:1.6;">For when you need to think clearly about systems, not just feel.</p>
+        <div style="font-size:0.82em; color:rgba(245,240,232,0.65); line-height:2;">
+          🎬 Akira · Ghost in the Shell<br>
+          🎬 Patlabor 2 · In This Corner of the World<br>
+          📖 Attack on Titan · Fullmetal Alchemist<br>
+          📖 Monster · Pluto
+        </div>
+      </div>
+
+      <div style="background:rgba(245,240,232,0.03); padding:28px 24px; border:1px solid rgba(245,240,232,0.07);">
+        <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.25em; text-transform:uppercase; color:#c9a96e; margin-bottom:10px;">Theme 06</div>
+        <h3 style="font-family:'Shippori Mincho',serif; font-size:18px; font-weight:600; margin-bottom:14px; line-height:1.3;">Rage, Violence & What Drives Them</h3>
+        <p style="font-size:0.82em; color:rgba(245,240,232,0.45); font-style:italic; margin-bottom:16px; line-height:1.6;">For when the anger is real but its source is unclear.</p>
+        <div style="font-size:0.82em; color:rgba(245,240,232,0.65); line-height:2;">
+          🎬 Jin-Roh · Barefoot Gen<br>
+          🎬 The End of Evangelion<br>
+          📖 Berserk · Vinland Saga<br>
+          📖 Fire Punch · Chainsaw Man
+        </div>
+      </div>
+
+      <div style="background:rgba(245,240,232,0.03); padding:28px 24px; border:1px solid rgba(245,240,232,0.07);">
+        <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.25em; text-transform:uppercase; color:#c9a96e; margin-bottom:10px;">Theme 07</div>
+        <h3 style="font-family:'Shippori Mincho',serif; font-size:18px; font-weight:600; margin-bottom:14px; line-height:1.3;">The Spiritual & the Numinous</h3>
+        <p style="font-size:0.82em; color:rgba(245,240,232,0.45); font-style:italic; margin-bottom:16px; line-height:1.6;">For when you sense there is more than the material — but can't name it.</p>
+        <div style="font-size:0.82em; color:rgba(245,240,232,0.65); line-height:2;">
+          🎬 Angel's Egg · The Tale of Princess Kaguya<br>
+          🎬 Night on the Galactic Railroad · Nausicaä<br>
+          📖 Mushishi · Children of the Sea<br>
+          📖 Yokohama Kaidashi Kikou · Aria
+        </div>
+      </div>
+
+      <div style="background:rgba(245,240,232,0.03); padding:28px 24px; border:1px solid rgba(245,240,232,0.07);">
+        <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.25em; text-transform:uppercase; color:#c9a96e; margin-bottom:10px;">Theme 08</div>
+        <h3 style="font-family:'Shippori Mincho',serif; font-size:18px; font-weight:600; margin-bottom:14px; line-height:1.3;">The Art of Slowing Down</h3>
+        <p style="font-size:0.82em; color:rgba(245,240,232,0.45); font-style:italic; margin-bottom:16px; line-height:1.6;">For when you have forgotten what it is to simply be present.</p>
+        <div style="font-size:0.82em; color:rgba(245,240,232,0.65); line-height:2;">
+          🎬 My Neighbor Totoro · The Red Turtle<br>
+          🎬 Only Yesterday · The Garden of Words<br>
+          📖 The Walking Man · Yotsuba&!<br>
+          📖 Aria · A Bride's Story
+        </div>
+      </div>
+
+      <div style="background:rgba(245,240,232,0.03); padding:28px 24px; border:1px solid rgba(245,240,232,0.07);">
+        <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.25em; text-transform:uppercase; color:#c9a96e; margin-bottom:10px;">Theme 09</div>
+        <h3 style="font-family:'Shippori Mincho',serif; font-size:18px; font-weight:600; margin-bottom:14px; line-height:1.3;">Gender, Body & Becoming</h3>
+        <p style="font-size:0.82em; color:rgba(245,240,232,0.45); font-style:italic; margin-bottom:16px; line-height:1.6;">For when the body you inhabit feels like a question, not an answer.</p>
+        <div style="font-size:0.82em; color:rgba(245,240,232,0.65); line-height:2;">
+          🎬 Belle · Wolf Children · Belladonna of Sadness<br>
+          🎬 A Whisker Away<br>
+          📖 Wandering Son · The Flowers of Evil<br>
+          📖 Inside Mari · Homunculus
+        </div>
+      </div>
+
+      <div style="background:rgba(245,240,232,0.03); padding:28px 24px; border:1px solid rgba(245,240,232,0.07);">
+        <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.25em; text-transform:uppercase; color:#c9a96e; margin-bottom:10px;">Theme 10</div>
+        <h3 style="font-family:'Shippori Mincho',serif; font-size:18px; font-weight:600; margin-bottom:14px; line-height:1.3;">Making Things — and Why</h3>
+        <p style="font-size:0.82em; color:rgba(245,240,232,0.45); font-style:italic; margin-bottom:16px; line-height:1.6;">For artists, writers, musicians — anyone whose practice is their soul.</p>
+        <div style="font-size:0.82em; color:rgba(245,240,232,0.65); line-height:2;">
+          🎬 The Wind Rises · Millennium Actress<br>
+          🎬 Lu Over the Wall · Mind Game<br>
+          📖 Blue Period · Ping Pong<br>
+          📖 Look Back · Solanin
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ===================== PHASE REFLECTION GUIDES ===================== -->
+<section style="background:var(--paper); padding:80px 0;">
+  <div style="max-width:900px; margin:0 auto; padding:0 40px;">
+
+    <div style="text-align:center; margin-bottom:60px;">
+      <div style="font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.3em; text-transform:uppercase; color:var(--muted); margin-bottom:14px;">Reflection Practice</div>
+      <h2 style="font-family:'Shippori Mincho',serif; font-size:clamp(26px,4vw,40px); font-weight:800; color:var(--ink);">Questions to Carry Through Each Phase</h2>
+      <div style="width:50px; height:2px; background:var(--ink); margin:20px auto;"></div>
+      <p style="font-style:italic; color:var(--steel); font-size:1.05em; line-height:1.8; font-weight:300;">These are not questions to answer once. They are questions to return to — after each work, and again years later.</p>
+    </div>
+
+    <!-- Phase 1 Questions -->
+    <div style="margin-bottom:56px; padding-bottom:56px; border-bottom:1px solid var(--line);">
+      <div style="display:grid; grid-template-columns:48px 1fr; gap:20px; align-items:start;">
+        <div style="font-family:'Shippori Mincho',serif; font-size:42px; font-weight:800; color:var(--accent1); opacity:0.25; line-height:1;">I</div>
+        <div>
+          <h3 style="font-family:'Shippori Mincho',serif; font-size:22px; font-weight:600; color:var(--accent1); margin-bottom:20px;">Self & Shadow</h3>
+          <div style="display:grid; gap:14px;">
+            <div style="padding:16px 20px; border-left:3px solid var(--accent1); background:rgba(123,63,32,0.04);">
+              <p style="font-size:0.95em; font-style:italic; color:var(--ink); line-height:1.7;">What version of yourself do you perform for others — and how does it differ from the one you are alone at 3am?</p>
+            </div>
+            <div style="padding:16px 20px; border-left:3px solid var(--accent1); background:rgba(123,63,32,0.04);">
+              <p style="font-size:0.95em; font-style:italic; color:var(--ink); line-height:1.7;">Which character in these works do you find yourself defending most vigorously? What does that defence say about you?</p>
+            </div>
+            <div style="padding:16px 20px; border-left:3px solid var(--accent1); background:rgba(123,63,32,0.04);">
+              <p style="font-size:0.95em; font-style:italic; color:var(--ink); line-height:1.7;">What thing about yourself do you most hope no one notices? When did you decide to hide it?</p>
+            </div>
+            <div style="padding:16px 20px; border-left:3px solid var(--accent1); background:rgba(123,63,32,0.04);">
+              <p style="font-size:0.95em; font-style:italic; color:var(--ink); line-height:1.7;">If a Satoshi Kon film were made about your inner life — what genre would it be? Horror? Romance? Tragedy?</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 2 Questions -->
+    <div style="margin-bottom:56px; padding-bottom:56px; border-bottom:1px solid var(--line);">
+      <div style="display:grid; grid-template-columns:48px 1fr; gap:20px; align-items:start;">
+        <div style="font-family:'Shippori Mincho',serif; font-size:42px; font-weight:800; color:var(--accent2); opacity:0.25; line-height:1;">II</div>
+        <div>
+          <h3 style="font-family:'Shippori Mincho',serif; font-size:22px; font-weight:600; color:var(--accent2); margin-bottom:20px;">Grief & Impermanence</h3>
+          <div style="display:grid; gap:14px;">
+            <div style="padding:16px 20px; border-left:3px solid var(--accent2); background:rgba(44,74,110,0.04);">
+              <p style="font-size:0.95em; font-style:italic; color:var(--ink); line-height:1.7;">What loss have you not yet fully felt? Not because it was small — but because feeling it fully felt too dangerous?</p>
+            </div>
+            <div style="padding:16px 20px; border-left:3px solid var(--accent2); background:rgba(44,74,110,0.04);">
+              <p style="font-size:0.95em; font-style:italic; color:var(--ink); line-height:1.7;">Grave of the Fireflies is not only about war. What is the pride in your own life that you have let harm someone who needed you?</p>
+            </div>
+            <div style="padding:16px 20px; border-left:3px solid var(--accent2); background:rgba(44,74,110,0.04);">
+              <p style="font-size:0.95em; font-style:italic; color:var(--ink); line-height:1.7;">The Japanese concept <em>mono no aware</em> — the ache of beauty that will not last — what in your life do you not let yourself love fully because it will end?</p>
+            </div>
+            <div style="padding:16px 20px; border-left:3px solid var(--accent2); background:rgba(44,74,110,0.04);">
+              <p style="font-size:0.95em; font-style:italic; color:var(--ink); line-height:1.7;">After Mushishi: what in your life is resisting natural cycles — and what would it take to let it pass?</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 3 Questions -->
+    <div style="margin-bottom:56px; padding-bottom:56px; border-bottom:1px solid var(--line);">
+      <div style="display:grid; grid-template-columns:48px 1fr; gap:20px; align-items:start;">
+        <div style="font-family:'Shippori Mincho',serif; font-size:42px; font-weight:800; color:var(--accent3); opacity:0.25; line-height:1;">III</div>
+        <div>
+          <h3 style="font-family:'Shippori Mincho',serif; font-size:22px; font-weight:600; color:var(--accent3); margin-bottom:20px;">Love & Relation</h3>
+          <div style="display:grid; gap:14px;">
+            <div style="padding:16px 20px; border-left:3px solid var(--accent3); background:rgba(61,90,42,0.04);">
+              <p style="font-size:0.95em; font-style:italic; color:var(--ink); line-height:1.7;">Liz and the Blue Bird is about a love that requires one person's freedom. Which relationship in your life is asking you to do the same — to love by releasing?</p>
+            </div>
+            <div style="padding:16px 20px; border-left:3px solid var(--accent3); background:rgba(61,90,42,0.04);">
+              <p style="font-size:0.95em; font-style:italic; color:var(--ink); line-height:1.7;">What do you want from others that you have not yet learned to give yourself?</p>
+            </div>
+            <div style="padding:16px 20px; border-left:3px solid var(--accent3); background:rgba(61,90,42,0.04);">
+              <p style="font-size:0.95em; font-style:italic; color:var(--ink); line-height:1.7;">Spirited Away: love as labour. Think of the last time you chose to act lovingly when you did not feel loving. What happened?</p>
+            </div>
+            <div style="padding:16px 20px; border-left:3px solid var(--accent3); background:rgba(61,90,42,0.04);">
+              <p style="font-size:0.95em; font-style:italic; color:var(--ink); line-height:1.7;">Nana: two women who never say what they need from each other. Who in your life are you doing this with right now?</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 4 Questions -->
+    <div style="margin-bottom:56px; padding-bottom:56px; border-bottom:1px solid var(--line);">
+      <div style="display:grid; grid-template-columns:48px 1fr; gap:20px; align-items:start;">
+        <div style="font-family:'Shippori Mincho',serif; font-size:42px; font-weight:800; color:var(--accent4); opacity:0.25; line-height:1;">IV</div>
+        <div>
+          <h3 style="font-family:'Shippori Mincho',serif; font-size:22px; font-weight:600; color:var(--accent4); margin-bottom:20px;">Purpose & Resistance</h3>
+          <div style="display:grid; gap:14px;">
+            <div style="padding:16px 20px; border-left:3px solid var(--accent4); background:rgba(91,45,122,0.04);">
+              <p style="font-size:0.95em; font-style:italic; color:var(--ink); line-height:1.7;">Fullmetal Alchemist says: you cannot gain without giving something of equal value. What have you been trying to get without paying the real price?</p>
+            </div>
+            <div style="padding:16px 20px; border-left:3px solid var(--accent4); background:rgba(91,45,122,0.04);">
+              <p style="font-size:0.95em; font-style:italic; color:var(--ink); line-height:1.7;">Attack on Titan refuses to give you a hero. Which character are you most like — not who you admire, but who you actually resemble in your behaviour?</p>
+            </div>
+            <div style="padding:16px 20px; border-left:3px solid var(--accent4); background:rgba(91,45,122,0.04);">
+              <p style="font-size:0.95em; font-style:italic; color:var(--ink); line-height:1.7;">In This Corner of the World: what is the beauty in your ordinary life that you are not seeing because you are too focused on what is wrong with it?</p>
+            </div>
+            <div style="padding:16px 20px; border-left:3px solid var(--accent4); background:rgba(91,45,122,0.04);">
+              <p style="font-size:0.95em; font-style:italic; color:var(--ink); line-height:1.7;">Mind Game: if you were given your life back right now, this moment — what would you do differently before nightfall?</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 5 Questions -->
+    <div>
+      <div style="display:grid; grid-template-columns:48px 1fr; gap:20px; align-items:start;">
+        <div style="font-family:'Shippori Mincho',serif; font-size:42px; font-weight:800; color:var(--accent5); opacity:0.25; line-height:1;">V</div>
+        <div>
+          <h3 style="font-family:'Shippori Mincho',serif; font-size:22px; font-weight:600; color:var(--accent5); margin-bottom:20px;">Wisdom & Freedom</h3>
+          <div style="display:grid; gap:14px;">
+            <div style="padding:16px 20px; border-left:3px solid var(--accent5); background:rgba(139,69,19,0.04);">
+              <p style="font-size:0.95em; font-style:italic; color:var(--ink); line-height:1.7;">Aria is set on a future Mars terraformed into a Venice of canals. Its characters are gondoliers. They have chosen smallness. Is there something in your life that you have rejected as too small — that might actually be enough?</p>
+            </div>
+            <div style="padding:16px 20px; border-left:3px solid var(--accent5); background:rgba(139,69,19,0.04);">
+              <p style="font-size:0.95em; font-style:italic; color:var(--ink); line-height:1.7;">Yokohama Kaidashi Kikou ends the world gently. When things fall apart, what remains? What in you survives the falling apart?</p>
+            </div>
+            <div style="padding:16px 20px; border-left:3px solid var(--accent5); background:rgba(139,69,19,0.04);">
+              <p style="font-size:0.95em; font-style:italic; color:var(--ink); line-height:1.7;">Porco Rosso refuses to be human in a world that has disappointed him. Is there a part of yourself that has made the same refusal? And is it serving you?</p>
+            </div>
+            <div style="padding:16px 20px; border-left:3px solid var(--accent5); background:rgba(139,69,19,0.04);">
+              <p style="font-size:0.95em; font-style:italic; color:var(--ink); line-height:1.7;">The Walking Man walks. No destination. No achievement. Just encounter with what is. When was the last time you allowed yourself to exist without purpose — and what did you find?</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ===================== COMPANION BOOKS ===================== -->
+<section style="background:var(--paper2); padding:80px 0;">
+  <div style="max-width:1100px; margin:0 auto; padding:0 40px;">
+
+    <div style="text-align:center; margin-bottom:56px;">
+      <div style="font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.3em; text-transform:uppercase; color:var(--muted); margin-bottom:14px;">Companion Reading</div>
+      <h2 style="font-family:'Shippori Mincho',serif; font-size:clamp(24px,4vw,38px); font-weight:800; color:var(--ink);">Books That Unlock What the Films Ask</h2>
+      <p style="font-style:italic; color:var(--steel); font-size:1em; line-height:1.8; font-weight:300; max-width:540px; margin:14px auto 0;">These books are not supplements. They are the theoretical framework that makes the curriculum cohere as a practice of living.</p>
+    </div>
+
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr)); gap:24px;">
+
+      <div style="background:var(--paper); padding:24px; border-top:3px solid var(--accent1);">
+        <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--muted); margin-bottom:8px;">Read with Phase I</div>
+        <div style="font-family:'Shippori Mincho',serif; font-size:17px; font-weight:600; color:var(--ink); margin-bottom:4px; line-height:1.3;">Awareness</div>
+        <div style="font-family:'DM Mono',monospace; font-size:10px; color:var(--muted); margin-bottom:12px;">Anthony De Mello</div>
+        <p style="font-size:0.83em; color:var(--steel); font-style:italic; line-height:1.6;">Systematic dismantling of the conditioned self. Every chapter is a scalpel for the same territory Satoshi Kon enters from the side.</p>
+      </div>
+
+      <div style="background:var(--paper); padding:24px; border-top:3px solid var(--accent1);">
+        <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--muted); margin-bottom:8px;">Read with Phase I–II</div>
+        <div style="font-family:'Shippori Mincho',serif; font-size:17px; font-weight:600; color:var(--ink); margin-bottom:4px; line-height:1.3;">The Rape of the Mind</div>
+        <div style="font-family:'DM Mono',monospace; font-size:10px; color:var(--muted); margin-bottom:12px;">Joost Meerloo</div>
+        <p style="font-size:0.83em; color:var(--steel); font-style:italic; line-height:1.6;">How systems colonise the psyche. Pairs devastatingly with Paprika, Perfect Blue, and Attack on Titan.</p>
+      </div>
+
+      <div style="background:var(--paper); padding:24px; border-top:3px solid var(--accent2);">
+        <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--muted); margin-bottom:8px;">Read with Phase II</div>
+        <div style="font-family:'Shippori Mincho',serif; font-size:17px; font-weight:600; color:var(--ink); margin-bottom:4px; line-height:1.3;">The Year of Magical Thinking</div>
+        <div style="font-family:'DM Mono',monospace; font-size:10px; color:var(--muted); margin-bottom:12px;">Joan Didion</div>
+        <p style="font-size:0.83em; color:var(--steel); font-style:italic; line-height:1.6;">Grief's logic, written from inside it. What Takahata films, Didion writes without softening.</p>
+      </div>
+
+      <div style="background:var(--paper); padding:24px; border-top:3px solid var(--accent2);">
+        <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--muted); margin-bottom:8px;">Read with Phase II–III</div>
+        <div style="font-family:'Shippori Mincho',serif; font-size:17px; font-weight:600; color:var(--ink); margin-bottom:4px; line-height:1.3;">Man's Search for Meaning</div>
+        <div style="font-family:'DM Mono',monospace; font-size:10px; color:var(--muted); margin-bottom:12px;">Viktor Frankl</div>
+        <p style="font-size:0.83em; color:var(--steel); font-style:italic; line-height:1.6;">How meaning persists inside the worst conditions. The philosophical spine of In This Corner of the World and Grave of the Fireflies.</p>
+      </div>
+
+      <div style="background:var(--paper); padding:24px; border-top:3px solid var(--accent3);">
+        <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--muted); margin-bottom:8px;">Read with Phase III</div>
+        <div style="font-family:'Shippori Mincho',serif; font-size:17px; font-weight:600; color:var(--ink); margin-bottom:4px; line-height:1.3;">The Making of Love</div>
+        <div style="font-family:'DM Mono',monospace; font-size:10px; color:var(--muted); margin-bottom:12px;">David Viscott</div>
+        <p style="font-size:0.83em; color:var(--steel); font-style:italic; line-height:1.6;">Love as a learned capacity, not a feeling that arrives. The psychological architecture behind every relationship in this curriculum.</p>
+      </div>
+
+      <div style="background:var(--paper); padding:24px; border-top:3px solid var(--accent3);">
+        <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--muted); margin-bottom:8px;">Read with Phase III–IV</div>
+        <div style="font-family:'Shippori Mincho',serif; font-size:17px; font-weight:600; color:var(--ink); margin-bottom:4px; line-height:1.3;">Siddhartha</div>
+        <div style="font-family:'DM Mono',monospace; font-size:10px; color:var(--muted); margin-bottom:12px;">Hermann Hesse</div>
+        <p style="font-size:0.83em; color:var(--steel); font-style:italic; line-height:1.6;">All phases of life as necessary. Vagabond's Musashi is Siddhartha in a different tradition — the path is the same.</p>
+      </div>
+
+      <div style="background:var(--paper); padding:24px; border-top:3px solid var(--accent4);">
+        <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--muted); margin-bottom:8px;">Read with Phase IV</div>
+        <div style="font-family:'Shippori Mincho',serif; font-size:17px; font-weight:600; color:var(--ink); margin-bottom:4px; line-height:1.3;">Thinking, Fast and Slow</div>
+        <div style="font-family:'DM Mono',monospace; font-size:10px; color:var(--muted); margin-bottom:12px;">Daniel Kahneman</div>
+        <p style="font-size:0.83em; color:var(--steel); font-style:italic; line-height:1.6;">The cognitive architecture behind the propaganda that works on the characters in Akira and 20th Century Boys — and on you.</p>
+      </div>
+
+      <div style="background:var(--paper); padding:24px; border-top:3px solid var(--accent5);">
+        <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--muted); margin-bottom:8px;">Read with Phase V</div>
+        <div style="font-family:'Shippori Mincho',serif; font-size:17px; font-weight:600; color:var(--ink); margin-bottom:4px; line-height:1.3;">The Untethered Soul</div>
+        <div style="font-family:'DM Mono',monospace; font-size:10px; color:var(--muted); margin-bottom:12px;">Michael Singer</div>
+        <p style="font-size:0.83em; color:var(--steel); font-style:italic; line-height:1.6;">The witness self that watches the self. The philosophical companion to Angel's Egg, Aria, and Yokohama Kaidashi Kikou.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ===================== HOW TO USE THIS CURRICULUM ===================== -->
+<section style="background:var(--ink); color:var(--paper); padding:80px 0;">
+  <div style="max-width:860px; margin:0 auto; padding:0 40px;">
+
+    <div style="text-align:center; margin-bottom:56px;">
+      <div style="font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.3em; text-transform:uppercase; color:rgba(245,240,232,0.35); margin-bottom:14px;">Usage Notes</div>
+      <h2 style="font-family:'Shippori Mincho',serif; font-size:clamp(24px,4vw,38px); font-weight:800; color:#c9a96e;">How to Use This Curriculum Without Ruining It</h2>
+    </div>
+
+    <div style="display:grid; gap:32px;">
+
+      <div style="display:grid; grid-template-columns:40px 1fr; gap:20px; align-items:start; padding-bottom:32px; border-bottom:1px solid rgba(245,240,232,0.07);">
+        <div style="font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.15em; color:#c9a96e; padding-top:3px;">01</div>
+        <div>
+          <h4 style="font-family:'Shippori Mincho',serif; font-size:19px; font-weight:600; margin-bottom:10px; color:var(--paper);">Do not binge</h4>
+          <p style="font-size:0.9em; color:rgba(245,240,232,0.6); line-height:1.8; font-style:italic;">One work per week is the maximum. Two is a mistake. These films and manga are not content — they are events. Give each one the days it needs to do its work on you. Binging is the mind's way of staying in control. The curriculum requires you to lose control a little.</p>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns:40px 1fr; gap:20px; align-items:start; padding-bottom:32px; border-bottom:1px solid rgba(245,240,232,0.07);">
+        <div style="font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.15em; color:#c9a96e; padding-top:3px;">02</div>
+        <div>
+          <h4 style="font-family:'Shippori Mincho',serif; font-size:19px; font-weight:600; margin-bottom:10px; color:var(--paper);">Keep a notebook, not a rating</h4>
+          <p style="font-size:0.9em; color:rgba(245,240,232,0.6); line-height:1.8; font-style:italic;">Rating a film is the mind asserting authority. Writing is the mind opening. After each work, write for ten minutes without editing. Do not write about the story. Write about what moved in you. The notebook is the real curriculum.</p>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns:40px 1fr; gap:20px; align-items:start; padding-bottom:32px; border-bottom:1px solid rgba(245,240,232,0.07);">
+        <div style="font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.15em; color:#c9a96e; padding-top:3px;">03</div>
+        <div>
+          <h4 style="font-family:'Shippori Mincho',serif; font-size:19px; font-weight:600; margin-bottom:10px; color:var(--paper);">When a work bores you, stay</h4>
+          <p style="font-size:0.9em; color:rgba(245,240,232,0.6); line-height:1.8; font-style:italic;">Boredom in front of Angel's Egg or The Walking Man is information. It means something in you is resisting the pace. That resistance is what the work is for. Sit with it. The boredom is a door.</p>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns:40px 1fr; gap:20px; align-items:start; padding-bottom:32px; border-bottom:1px solid rgba(245,240,232,0.07);">
+        <div style="font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.15em; color:#c9a96e; padding-top:3px;">04</div>
+        <div>
+          <h4 style="font-family:'Shippori Mincho',serif; font-size:19px; font-weight:600; margin-bottom:10px; color:var(--paper);">When a work breaks you, stop</h4>
+          <p style="font-size:0.9em; color:rgba(245,240,232,0.6); line-height:1.8; font-style:italic;">Grave of the Fireflies, Oyasumi Punpun, and Berserk are not for every season. If one strikes something raw, put it down. Come back in six months. The curriculum has no deadline. You are not behind.</p>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns:40px 1fr; gap:20px; align-items:start; padding-bottom:32px; border-bottom:1px solid rgba(245,240,232,0.07);">
+        <div style="font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.15em; color:#c9a96e; padding-top:3px;">05</div>
+        <div>
+          <h4 style="font-family:'Shippori Mincho',serif; font-size:19px; font-weight:600; margin-bottom:10px; color:var(--paper);">The order is a suggestion, not a law</h4>
+          <p style="font-size:0.9em; color:rgba(245,240,232,0.6); line-height:1.8; font-style:italic;">Use the thematic cross-index if life has sent you to a specific theme. The curriculum meets you where you are. Phase V is not a graduation — it is simply a different set of questions. You will cycle back to Phase I. That is the point.</p>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns:40px 1fr; gap:20px; align-items:start;">
+        <div style="font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.15em; color:#c9a96e; padding-top:3px;">06</div>
+        <div>
+          <h4 style="font-family:'Shippori Mincho',serif; font-size:19px; font-weight:600; margin-bottom:10px; color:var(--paper);">The works marked Core are non-negotiable</h4>
+          <p style="font-size:0.9em; color:rgba(245,240,232,0.6); line-height:1.8; font-style:italic;">If you only have time for thirty works in your life, let them be the ones marked <span style="background:rgba(201,169,110,0.2); padding:1px 6px; border-radius:2px; font-style:normal; font-size:0.9em;">Core</span>. Everything else is depth and texture. The Core works are the bones of the curriculum — they will hold even if the rest falls away.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ===================== DIRECTOR / AUTHOR SPOTLIGHT ===================== -->
+<section style="background:var(--paper); padding:80px 0 60px;">
+  <div style="max-width:1100px; margin:0 auto; padding:0 40px;">
+
+    <div style="text-align:center; margin-bottom:52px;">
+      <div style="font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.3em; text-transform:uppercase; color:var(--muted); margin-bottom:14px;">Master Voices</div>
+      <h2 style="font-family:'Shippori Mincho',serif; font-size:clamp(24px,4vw,36px); font-weight:800; color:var(--ink);">Seven Creators Whose Work Forms a Complete Study</h2>
+      <p style="font-style:italic; color:var(--steel); font-size:0.95em; font-weight:300; margin-top:12px; max-width:540px; margin-left:auto; margin-right:auto; line-height:1.7;">Watching all the work of any one of these artists is itself a curriculum.</p>
+    </div>
+
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(270px,1fr)); gap:1px; background:var(--line);">
+
+      <div style="background:var(--paper); padding:28px 24px;">
+        <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--muted); margin-bottom:10px;">Filmmaker · 🎬</div>
+        <h3 style="font-family:'Shippori Mincho',serif; font-size:21px; font-weight:800; margin-bottom:6px;">Hayao Miyazaki</h3>
+        <div style="font-size:0.82em; font-family:'DM Mono',monospace; color:var(--muted); margin-bottom:14px;">Studio Ghibli · 1984–2023</div>
+        <p style="font-size:0.86em; color:var(--steel); font-style:italic; line-height:1.7;">The complete filmography is a single sustained argument that the world, despite everything, is worth being alive in. No other filmmaker has made that case with such consistent force.</p>
+        <div style="margin-top:14px; font-size:0.8em; color:var(--muted); font-family:'DM Mono',monospace;">In this curriculum: Nausicaä · Totoro · Kiki · Porco · Mononoke · Spirited Away · Howl's · Ponyo · Wind Rises · Heron</div>
+      </div>
+
+      <div style="background:var(--paper); padding:28px 24px;">
+        <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--muted); margin-bottom:10px;">Filmmaker · 🎬</div>
+        <h3 style="font-family:'Shippori Mincho',serif; font-size:21px; font-weight:800; margin-bottom:6px;">Satoshi Kon</h3>
+        <div style="font-size:0.82em; font-family:'DM Mono',monospace; color:var(--muted); margin-bottom:14px;">1997–2010 · Died at 46</div>
+        <p style="font-size:0.86em; color:var(--steel); font-style:italic; line-height:1.7;">Every film is an investigation of how the mind constructs reality and then mistakes the construction for the world. A complete filmography is four films and one series — each essential.</p>
+        <div style="margin-top:14px; font-size:0.8em; color:var(--muted); font-family:'DM Mono',monospace;">Perfect Blue · Millennium Actress · Tokyo Godfathers · Paprika · (Series: Paranoia Agent)</div>
+      </div>
+
+      <div style="background:var(--paper); padding:28px 24px;">
+        <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--muted); margin-bottom:10px;">Filmmaker · 🎬</div>
+        <h3 style="font-family:'Shippori Mincho',serif; font-size:21px; font-weight:800; margin-bottom:6px;">Isao Takahata</h3>
+        <div style="font-size:0.82em; font-family:'DM Mono',monospace; color:var(--muted); margin-bottom:14px;">Studio Ghibli · 1968–2013</div>
+        <p style="font-size:0.86em; color:var(--steel); font-style:italic; line-height:1.7;">The most underrated of Ghibli's two masters. Where Miyazaki builds worlds, Takahata witnesses lives. His films destroy and illuminate with equal patience.</p>
+        <div style="margin-top:14px; font-size:0.8em; color:var(--muted); font-family:'DM Mono',monospace;">Grave of the Fireflies · Only Yesterday · Pom Poko · My Neighbours the Yamadas · Kaguya</div>
+      </div>
+
+      <div style="background:var(--paper); padding:28px 24px;">
+        <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--muted); margin-bottom:10px;">Filmmaker · 🎬</div>
+        <h3 style="font-family:'Shippori Mincho',serif; font-size:21px; font-weight:800; margin-bottom:6px;">Masaaki Yuasa</h3>
+        <div style="font-size:0.82em; font-family:'DM Mono',monospace; color:var(--muted); margin-bottom:14px;">Science SARU · 2004–present</div>
+        <p style="font-size:0.86em; color:var(--steel); font-style:italic; line-height:1.7;">Pure vitality in animated form. Every film is a different argument for the same thing: to be alive is to move, change, collide with the world, and survive the collision with more life than before.</p>
+        <div style="margin-top:14px; font-size:0.8em; color:var(--muted); font-family:'DM Mono',monospace;">Mind Game · Tatami Galaxy · Lu Over the Wall · Night is Short · Ride Your Wave · Inu-Oh</div>
+      </div>
+
+      <div style="background:var(--paper); padding:28px 24px;">
+        <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--muted); margin-bottom:10px;">Manga Artist · 📖</div>
+        <h3 style="font-family:'Shippori Mincho',serif; font-size:21px; font-weight:800; margin-bottom:6px;">Naoki Urasawa</h3>
+        <div style="font-size:0.82em; font-family:'DM Mono',monospace; color:var(--muted); margin-bottom:14px;">1986–present</div>
+        <p style="font-size:0.86em; color:var(--steel); font-style:italic; line-height:1.7;">The greatest living manga artist for readers who care about psychological depth. Every work is a question about what it means to be human in a system that would rather you weren't.</p>
+        <div style="margin-top:14px; font-size:0.8em; color:var(--muted); font-family:'DM Mono',monospace;">Monster · 20th Century Boys · Pluto · Billy Bat · Asadora!</div>
+      </div>
+
+      <div style="background:var(--paper); padding:28px 24px;">
+        <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--muted); margin-bottom:10px;">Manga Artist · 📖</div>
+        <h3 style="font-family:'Shippori Mincho',serif; font-size:21px; font-weight:800; margin-bottom:6px;">Inio Asano</h3>
+        <div style="font-size:0.82em; font-family:'DM Mono',monospace; color:var(--muted); margin-bottom:14px;">2000–present</div>
+        <p style="font-size:0.86em; color:var(--steel); font-style:italic; line-height:1.7;">The chronicler of young adulthood's particular failures. No one draws the gap between the life expected and the life being lived with more precision or more mercy.</p>
+        <div style="margin-top:14px; font-size:0.8em; color:var(--muted); font-family:'DM Mono',monospace;">Oyasumi Punpun · Solanin · Nijigahara · Dead Dead Demon's · What a Wonderful World</div>
+      </div>
+
+      <div style="background:var(--paper); padding:28px 24px;">
+        <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--muted); margin-bottom:10px;">Manga Artist · 📖</div>
+        <h3 style="font-family:'Shippori Mincho',serif; font-size:21px; font-weight:800; margin-bottom:6px;">Jiro Taniguchi</h3>
+        <div style="font-size:0.82em; font-family:'DM Mono',monospace; color:var(--muted); margin-bottom:14px;">1972–2017 · The European Mangaka</div>
+        <p style="font-size:0.86em; color:var(--steel); font-style:italic; line-height:1.7;">The slowest, quietest master. More widely read in France than in Japan. His work teaches attention — the practice of noticing what is in front of you as it actually is.</p>
+        <div style="margin-top:14px; font-size:0.8em; color:var(--muted); font-family:'DM Mono',monospace;">The Walking Man · Summit of the Gods · A Distant Neighbourhood · The Quest for the Missing Girl</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ===================== THE CORE 20 ===================== -->
+<section style="background:var(--ink); padding:72px 0; color:var(--paper);">
+  <div style="max-width:900px; margin:0 auto; padding:0 40px; text-align:center;">
+    <div style="font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.3em; text-transform:uppercase; color:rgba(245,240,232,0.3); margin-bottom:14px;">The Essential Shortlist</div>
+    <h2 style="font-family:'Shippori Mincho',serif; font-size:clamp(24px,4vw,38px); font-weight:800; color:#c9a96e; margin-bottom:16px;">If Life Gives You Only 20</h2>
+    <p style="font-style:italic; font-weight:300; color:rgba(245,240,232,0.55); line-height:1.8; margin-bottom:48px;">These twenty works, taken together, form a complete arc of human development. They do not cover everything — but they cover what matters most.</p>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:0; text-align:left;">
+      <div style="padding:20px 0; border-bottom:1px solid rgba(245,240,232,0.08); border-right:1px solid rgba(245,240,232,0.08); padding-right:32px;">
+        <div style="font-family:'DM Mono',monospace; font-size:9px; color:rgba(245,240,232,0.3); margin-bottom:6px; letter-spacing:0.1em;">ANIME · PHASE I</div>
+        <div style="font-family:'Shippori Mincho',serif; font-size:16px; font-weight:600;">Perfect Blue</div>
+      </div>
+      <div style="padding:20px 0 20px 32px; border-bottom:1px solid rgba(245,240,232,0.08);">
+        <div style="font-family:'DM Mono',monospace; font-size:9px; color:rgba(245,240,232,0.3); margin-bottom:6px; letter-spacing:0.1em;">MANGA · PHASE I</div>
+        <div style="font-family:'Shippori Mincho',serif; font-size:16px; font-weight:600;">Oyasumi Punpun</div>
+      </div>
+
+      <div style="padding:20px 0; border-bottom:1px solid rgba(245,240,232,0.08); border-right:1px solid rgba(245,240,232,0.08); padding-right:32px;">
+        <div style="font-family:'DM Mono',monospace; font-size:9px; color:rgba(245,240,232,0.3); margin-bottom:6px; letter-spacing:0.1em;">ANIME · PHASE I</div>
+        <div style="font-family:'Shippori Mincho',serif; font-size:16px; font-weight:600;">The End of Evangelion</div>
+      </div>
+      <div style="padding:20px 0 20px 32px; border-bottom:1px solid rgba(245,240,232,0.08);">
+        <div style="font-family:'DM Mono',monospace; font-size:9px; color:rgba(245,240,232,0.3); margin-bottom:6px; letter-spacing:0.1em;">MANGA · PHASE I</div>
+        <div style="font-family:'Shippori Mincho',serif; font-size:16px; font-weight:600;">Vagabond</div>
+      </div>
+
+      <div style="padding:20px 0; border-bottom:1px solid rgba(245,240,232,0.08); border-right:1px solid rgba(245,240,232,0.08); padding-right:32px;">
+        <div style="font-family:'DM Mono',monospace; font-size:9px; color:rgba(245,240,232,0.3); margin-bottom:6px; letter-spacing:0.1em;">ANIME · PHASE II</div>
+        <div style="font-family:'Shippori Mincho',serif; font-size:16px; font-weight:600;">Grave of the Fireflies</div>
+      </div>
+      <div style="padding:20px 0 20px 32px; border-bottom:1px solid rgba(245,240,232,0.08);">
+        <div style="font-family:'DM Mono',monospace; font-size:9px; color:rgba(245,240,232,0.3); margin-bottom:6px; letter-spacing:0.1em;">MANGA · PHASE II</div>
+        <div style="font-family:'Shippori Mincho',serif; font-size:16px; font-weight:600;">Mushishi</div>
+      </div>
+
+      <div style="padding:20px 0; border-bottom:1px solid rgba(245,240,232,0.08); border-right:1px solid rgba(245,240,232,0.08); padding-right:32px;">
+        <div style="font-family:'DM Mono',monospace; font-size:9px; color:rgba(245,240,232,0.3); margin-bottom:6px; letter-spacing:0.1em;">ANIME · PHASE II</div>
+        <div style="font-family:'Shippori Mincho',serif; font-size:16px; font-weight:600;">The Tale of Princess Kaguya</div>
+      </div>
+      <div style="padding:20px 0 20px 32px; border-bottom:1px solid rgba(245,240,232,0.08);">
+        <div style="font-family:'DM Mono',monospace; font-size:9px; color:rgba(245,240,232,0.3); margin-bottom:6px; letter-spacing:0.1em;">MANGA · PHASE II</div>
+        <div style="font-family:'Shippori Mincho',serif; font-size:16px; font-weight:600;">Ping Pong</div>
+      </div>
+
+      <div style="padding:20px 0; border-bottom:1px solid rgba(245,240,232,0.08); border-right:1px solid rgba(245,240,232,0.08); padding-right:32px;">
+        <div style="font-family:'DM Mono',monospace; font-size:9px; color:rgba(245,240,232,0.3); margin-bottom:6px; letter-spacing:0.1em;">ANIME · PHASE III</div>
+        <div style="font-family:'Shippori Mincho',serif; font-size:16px; font-weight:600;">Liz and the Blue Bird</div>
+      </div>
+      <div style="padding:20px 0 20px 32px; border-bottom:1px solid rgba(245,240,232,0.08);">
+        <div style="font-family:'DM Mono',monospace; font-size:9px; color:rgba(245,240,232,0.3); margin-bottom:6px; letter-spacing:0.1em;">MANGA · PHASE III</div>
+        <div style="font-family:'Shippori Mincho',serif; font-size:16px; font-weight:600;">Nana</div>
+      </div>
+
+      <div style="padding:20px 0; border-bottom:1px solid rgba(245,240,232,0.08); border-right:1px solid rgba(245,240,232,0.08); padding-right:32px;">
+        <div style="font-family:'DM Mono',monospace; font-size:9px; color:rgba(245,240,232,0.3); margin-bottom:6px; letter-spacing:0.1em;">ANIME · PHASE III</div>
+        <div style="font-family:'Shippori Mincho',serif; font-size:16px; font-weight:600;">Maquia</div>
+      </div>
+      <div style="padding:20px 0 20px 32px; border-bottom:1px solid rgba(245,240,232,0.08);">
+        <div style="font-family:'DM Mono',monospace; font-size:9px; color:rgba(245,240,232,0.3); margin-bottom:6px; letter-spacing:0.1em;">MANGA · PHASE III</div>
+        <div style="font-family:'Shippori Mincho',serif; font-size:16px; font-weight:600;">Yotsuba&!</div>
+      </div>
+
+      <div style="padding:20px 0; border-bottom:1px solid rgba(245,240,232,0.08); border-right:1px solid rgba(245,240,232,0.08); padding-right:32px;">
+        <div style="font-family:'DM Mono',monospace; font-size:9px; color:rgba(245,240,232,0.3); margin-bottom:6px; letter-spacing:0.1em;">ANIME · PHASE IV</div>
+        <div style="font-family:'Shippori Mincho',serif; font-size:16px; font-weight:600;">In This Corner of the World</div>
+      </div>
+      <div style="padding:20px 0 20px 32px; border-bottom:1px solid rgba(245,240,232,0.08);">
+        <div style="font-family:'DM Mono',monospace; font-size:9px; color:rgba(245,240,232,0.3); margin-bottom:6px; letter-spacing:0.1em;">MANGA · PHASE IV</div>
+        <div style="font-family:'Shippori Mincho',serif; font-size:16px; font-weight:600;">Fullmetal Alchemist</div>
+      </div>
+
+      <div style="padding:20px 0; border-right:1px solid rgba(245,240,232,0.08); padding-right:32px;">
+        <div style="font-family:'DM Mono',monospace; font-size:9px; color:rgba(245,240,232,0.3); margin-bottom:6px; letter-spacing:0.1em;">ANIME · PHASE V</div>
+        <div style="font-family:'Shippori Mincho',serif; font-size:16px; font-weight:600;">Angel's Egg</div>
+      </div>
+      <div style="padding:20px 0 20px 32px;">
+        <div style="font-family:'DM Mono',monospace; font-size:9px; color:rgba(245,240,232,0.3); margin-bottom:6px; letter-spacing:0.1em;">MANGA · PHASE V</div>
+        <div style="font-family:'Shippori Mincho',serif; font-size:16px; font-weight:600;">Yokohama Kaidashi Kikou</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- CLOSING -->
+<footer class="closing">
+  <h2>一 The Curriculum is You</h2>
+  <p>
+    These works do not teach lessons you didn't already know. They return you to what you knew and forgot — and what you knew but were afraid to face. The curriculum ends where it began: with the question of who you are, asked with greater honesty each time.
+  </p>
+
+  <div class="closing-grid">
+    <div class="closing-stat"><strong>100</strong>Total Works</div>
+    <div class="closing-stat"><strong>5</strong>Phases of Growth</div>
+    <div class="closing-stat"><strong>10</strong>Core Themes</div>
+    <div class="closing-stat"><strong>∞</strong>Returns to Phase I</div>
+  </div>
+
+  <div style="margin-top:48px; font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.2em; color:rgba(245,240,232,0.25); text-transform:uppercase;">
+    Self · Shadow · Grief · Impermanence · Love · Relation · Purpose · Resistance · Wisdom · Freedom
+  </div>
+</footer>
+
+</body>
+</html>

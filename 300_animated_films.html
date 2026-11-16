@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>300 Essential Animated Films</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0c0c10;
+  --surface: #13131a;
+  --surface2: #1a1a24;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.13);
+  --text: #e6e2d8;
+  --muted: #6e6b62;
+  --accent: #c9a96e;
+  --accent2: #8b7fd4;
+  --green: #6fad7e;
+  --blue: #6fa3d4;
+  --orange: #d49a6a;
+  --red: #d46f6f;
+  --pink: #d47fb3;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: 'IBM Plex Sans', sans-serif; min-height: 100vh; }
+
+header { padding: 3rem 2rem 1.8rem; border-bottom: 1px solid var(--border); }
+.header-inner { max-width: 1100px; margin: 0 auto; }
+h1 { font-family: 'Playfair Display', serif; font-size: clamp(2rem,5vw,3.2rem); color: var(--accent); letter-spacing: -0.02em; line-height: 1.1; }
+.header-meta { display: flex; gap: 1.5rem; margin-top: 0.6rem; flex-wrap: wrap; }
+.hm { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+.hm span { color: var(--accent); }
+
+.controls { max-width: 1100px; margin: 0 auto; padding: 1.2rem 2rem; display: flex; flex-wrap: wrap; gap: 8px; border-bottom: 1px solid var(--border); }
+.search-wrap { position: relative; flex: 1; min-width: 200px; }
+.search-wrap::before { content: '⌕'; position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 15px; pointer-events: none; }
+input[type=text] { width: 100%; background: var(--surface); border: 1px solid var(--border2); color: var(--text); padding: 7px 10px 7px 30px; border-radius: 4px; font-size: 13px; font-family: inherit; outline: none; }
+input[type=text]:focus { border-color: var(--accent); }
+select { background: var(--surface); border: 1px solid var(--border2); color: var(--text); padding: 7px 10px; border-radius: 4px; font-size: 12px; font-family: inherit; outline: none; cursor: pointer; }
+select:focus { border-color: var(--accent); }
+
+.stats-bar { max-width: 1100px; margin: 0 auto; padding: 0.7rem 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; border-bottom: 1px solid var(--border); }
+.stats-bar span { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); }
+
+.table-wrap { max-width: 1100px; margin: 0 auto; padding: 0 2rem 1rem; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; min-width: 680px; }
+thead th { font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); padding: 10px 10px 8px; border-bottom: 1px solid var(--border2); text-align: left; cursor: pointer; user-select: none; white-space: nowrap; transition: color 0.15s; }
+thead th:hover { color: var(--accent); }
+thead th.sort-active { color: var(--accent); }
+tbody tr { border-bottom: 1px solid var(--border); transition: background 0.1s; cursor: default; }
+tbody tr:hover { background: var(--surface2); }
+td { padding: 9px 10px; font-size: 13px; vertical-align: middle; }
+.num { color: var(--muted); font-family: 'IBM Plex Mono', monospace; font-size: 11px; width: 36px; }
+.title-cell { font-weight: 500; }
+.year-cell { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--muted); white-space: nowrap; }
+.country-cell { font-size: 12px; color: var(--muted); }
+.genre-cell { font-size: 12px; }
+.style-cell { font-size: 11px; color: var(--muted); }
+
+.badge { display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 10px; padding: 2px 7px; border-radius: 3px; font-weight: 500; white-space: nowrap; }
+.r-G    { background: rgba(111,173,126,0.15); color: #6fad7e; border: 1px solid rgba(111,173,126,0.28); }
+.r-PG   { background: rgba(111,163,212,0.15); color: #6fa3d4; border: 1px solid rgba(111,163,212,0.28); }
+.r-PG13 { background: rgba(212,154,106,0.15); color: #d49a6a; border: 1px solid rgba(212,154,106,0.28); }
+.r-R    { background: rgba(212,111,111,0.15); color: #d46f6f; border: 1px solid rgba(212,111,111,0.28); }
+.r-NR   { background: rgba(110,107,98,0.15);  color: #6e6b62; border: 1px solid rgba(110,107,98,0.28); }
+.r-X    { background: rgba(180,60,60,0.2);    color: #e07070; border: 1px solid rgba(180,60,60,0.38); }
+
+.note-cell { font-size: 11px; color: var(--muted); font-style: italic; max-width: 220px; line-height: 1.4; }
+
+.pager { max-width: 1100px; margin: 0 auto; padding: 1rem 2rem 3rem; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.pager button { background: var(--surface); border: 1px solid var(--border2); color: var(--text); padding: 6px 16px; border-radius: 4px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; cursor: pointer; transition: all 0.15s; }
+.pager button:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+.pager button:disabled { opacity: 0.3; cursor: default; }
+.pager .pi { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--muted); }
+
+.flag { font-size: 15px; }
+</style>
+</head>
+<body>
+<header>
+  <div class="header-inner">
+    <h1>300 Essential Animated Films</h1>
+    <div class="header-meta">
+      <div class="hm">Films: <span id="hcount">300</span></div>
+      <div class="hm">Countries: <span>30+</span></div>
+      <div class="hm">Era: <span>1926 – 2024</span></div>
+      <div class="hm">Curated — <span>quality only</span></div>
+    </div>
+  </div>
+</header>
+
+<div class="controls">
+  <div class="search-wrap">
+    <input type="text" id="search" placeholder="Search title, director, country, genre…" autocomplete="off">
+  </div>
+  <select id="filterRegion">
+    <option value="">All countries</option>
+    <option>Japan</option><option>USA</option><option>France</option><option>UK</option>
+    <option>Ireland</option><option>Germany</option><option>Spain</option>
+    <option>Czech Republic</option><option>Russia/Soviet</option><option>China</option>
+    <option>South Korea</option><option>Australia</option><option>Israel</option>
+    <option>Iran</option><option>Denmark</option><option>Switzerland</option>
+    <option>Chile</option><option>Brazil</option><option>International</option>
+  </select>
+  <select id="filterRating">
+    <option value="">All ratings</option>
+    <option>G</option><option>PG</option><option>PG-13</option><option>R</option><option>NR</option><option>X</option>
+  </select>
+  <select id="filterGenre">
+    <option value="">All genres</option>
+    <option>Adventure</option><option>Action</option><option>Comedy</option><option>Drama</option>
+    <option>Fantasy</option><option>Fairy Tale</option><option>Horror</option><option>Sci-Fi</option>
+    <option>Romance</option><option>Musical</option><option>Thriller</option><option>Mystery</option>
+    <option>War</option><option>Historical</option><option>Political</option><option>Mythology</option>
+    <option>Superhero</option><option>Slice of Life</option><option>Experimental</option>
+    <option>Erotic</option><option>Documentary</option>
+  </select>
+  <select id="filterDecade">
+    <option value="">All eras</option>
+    <option>Pre-1940s</option><option>1940s</option><option>1950s</option><option>1960s</option>
+    <option>1970s</option><option>1980s</option><option>1990s</option><option>2000s</option>
+    <option>2010s</option><option>2020s</option>
+  </select>
+  <select id="filterStyle">
+    <option value="">All styles</option>
+    <option>Hand-drawn</option><option>CGI</option><option>Stop-motion</option>
+    <option>Claymation</option><option>Rotoscope</option><option>Cut-out</option>
+    <option>Puppet</option><option>Mixed Media</option><option>Watercolor</option><option>Painted</option>
+  </select>
+</div>
+
+<div class="stats-bar">
+  <span id="stats">—</span>
+  <span id="sortinfo"></span>
+</div>
+
+<div class="table-wrap">
+<table>
+<colgroup>
+  <col style="width:36px">
+  <col style="min-width:190px">
+  <col style="width:50px">
+  <col style="width:120px">
+  <col style="width:100px">
+  <col style="width:105px">
+  <col style="width:58px">
+  <col style="min-width:160px">
+</colgroup>
+<thead>
+<tr>
+  <th onclick="sortBy(0)">#</th>
+  <th onclick="sortBy(1)" id="th1">Title <span>↕</span></th>
+  <th onclick="sortBy(2)" id="th2">Year <span>↕</span></th>
+  <th onclick="sortBy(3)" id="th3">Country <span>↕</span></th>
+  <th onclick="sortBy(4)" id="th4">Genre <span>↕</span></th>
+  <th onclick="sortBy(5)" id="th5">Style <span>↕</span></th>
+  <th onclick="sortBy(6)" id="th6">Rating <span>↕</span></th>
+  <th>Why it matters</th>
+</tr>
+</thead>
+<tbody id="tbody"></tbody>
+</table>
+</div>
+<div class="pager" id="pager"></div>
+
+<script>
+// [Title, Year, Country, Genre, Style, Rating, Note]
+const ALL = [
+["Nausicaä of the Valley of the Wind","1984","Japan","Sci-Fi","Hand-drawn","PG","Miyazaki's ecological epic. Proto-Ghibli masterpiece."],
+["Castle in the Sky","1986","Japan","Adventure","Hand-drawn","PG","Breathless adventure; Ghibli's exhilarating debut."],
+["My Neighbor Totoro","1988","Japan","Fantasy","Hand-drawn","G","The definitive childhood comfort film."],
+["Grave of the Fireflies","1988","Japan","War","Hand-drawn","NR","Devastating WWII elegy. One of cinema's saddest films."],
+["Kiki's Delivery Service","1989","Japan","Slice of Life","Hand-drawn","G","Coming-of-age warmth. Perfect for beginners."],
+["Only Yesterday","1991","Japan","Drama","Hand-drawn","G","Takahata's masterpiece of quiet adult longing."],
+["Porco Rosso","1992","Japan","Adventure","Hand-drawn","G","Melancholy, funny, beautiful. A pilot pig between wars."],
+["Pom Poko","1994","Japan","Fantasy","Hand-drawn","PG","Ecological fable; funny and unexpectedly moving."],
+["Whisper of the Heart","1995","Japan","Romance","Hand-drawn","G","Tender teen romance; criminally underseen."],
+["Princess Mononoke","1997","Japan","Fantasy","Hand-drawn","PG-13","Miyazaki's most complex film. Nature vs civilisation."],
+["My Neighbors the Yamadas","1999","Japan","Slice of Life","Hand-drawn","G","Takahata's sketch-style domestic comedy. Unique."],
+["Spirited Away","2001","Japan","Fantasy","Hand-drawn","PG","Academy Award winner. Miyazaki's richest dreamscape."],
+["The Cat Returns","2002","Japan","Fantasy","Hand-drawn","G","Breezy, charming companion to Whisper of the Heart."],
+["Howl's Moving Castle","2004","Japan","Fantasy","Hand-drawn","PG","Dazzling anti-war romance wrapped in magic."],
+["Tales from Earthsea","2006","Japan","Fantasy","Hand-drawn","PG","Flawed but visually beautiful. Goro's debut."],
+["Ponyo","2008","Japan","Fantasy","Hand-drawn","G","Pure, hand-painted joy. Miyazaki at his most playful."],
+["The Borrower Arrietty","2010","Japan","Fantasy","Hand-drawn","G","Exquisite miniature world. Hiromasa Yonebayashi's debut."],
+["From Up on Poppy Hill","2011","Japan","Romance","Hand-drawn","PG","Gentle, nostalgic post-war romance from Goro Miyazaki."],
+["The Wind Rises","2013","Japan","Historical","Hand-drawn","PG","Miyazaki's swan song. Aviation, war, and love."],
+["The Tale of Princess Kaguya","2013","Japan","Fairy Tale","Watercolor","PG","Takahata's final masterpiece. Breathtaking brushwork."],
+["When Marnie Was There","2014","Japan","Drama","Hand-drawn","G","Subtle, melancholy mystery of belonging and memory."],
+["The Red Turtle","2016","International","Drama","Hand-drawn","G","Dialogue-free. A lifetime on an island. Haunting."],
+["The Boy and the Heron","2023","Japan","Fantasy","Hand-drawn","PG","Miyazaki's return. Strange, personal, magnificent."],
+["Voices of a Distant Star","2002","Japan","Sci-Fi","Hand-drawn","NR","Made solo in his apartment. Already poetic."],
+["The Place Promised in Our Early Days","2004","Japan","Sci-Fi","Hand-drawn","NR","Dreamy alt-history romance. Shinkai's first feature."],
+["5 Centimeters per Second","2007","Japan","Romance","Hand-drawn","NR","Three vignettes on drifting apart. Aches beautifully."],
+["The Garden of Words","2013","Japan","Romance","Hand-drawn","NR","45 minutes of rain and longing. Visually stunning."],
+["Your Name","2016","Japan","Romance","Hand-drawn","PG","Global phenomenon. Emotional body-swap romance."],
+["Weathering with You","2019","Japan","Romance","Hand-drawn","PG","Sunshine girl in a flooded Tokyo. Bittersweet."],
+["Suzume","2022","Japan","Drama","Hand-drawn","PG","Road trip across Japan closing doors on disaster."],
+["The Girl Who Leapt Through Time","2006","Japan","Sci-Fi","Hand-drawn","NR","Time-travel coming-of-age. Light, then devastating."],
+["Summer Wars","2009","Japan","Sci-Fi","Hand-drawn","PG","Family vs digital apocalypse. Warm and exciting."],
+["Wolf Children","2012","Japan","Fantasy","Hand-drawn","PG","A mother raises half-wolf children alone. Quietly devastating."],
+["The Boy and the Beast","2015","Japan","Fantasy","Hand-drawn","PG","Fatherless boy raised by a monster. Rich and messy."],
+["Mirai","2018","Japan","Fantasy","Hand-drawn","PG","A toddler's journey through family history. Tender."],
+["Belle","2021","Japan","Fantasy","Mixed Media","PG","Beauty and the Beast retold in virtual reality. Ambitious."],
+["Perfect Blue","1997","Japan","Thriller","Hand-drawn","NR","Pop idol stalker horror. Reality dissolves. Disturbing."],
+["Millennium Actress","2001","Japan","Drama","Hand-drawn","PG","A film within a film within a life. Achingly beautiful."],
+["Tokyo Godfathers","2003","Japan","Comedy","Hand-drawn","PG","Three homeless people find a baby. Funny and warm."],
+["Paprika","2006","Japan","Sci-Fi","Hand-drawn","R","Dream-entering sci-fi. Literally inspired Inception."],
+["Akira","1988","Japan","Sci-Fi","Hand-drawn","R","Post-apocalyptic Tokyo. The film that changed everything."],
+["Ghost in the Shell","1995","Japan","Sci-Fi","Hand-drawn","NR","Identity, consciousness, the body. Still unsurpassed."],
+["Ghost in the Shell 2: Innocence","2004","Japan","Sci-Fi","Hand-drawn","PG-13","Dense philosophical sequel. More beautiful than the first."],
+["Jin-Roh: The Wolf Brigade","1999","Japan","Political","Hand-drawn","NR","Little Red Riding Hood retold in police-state Japan."],
+["Ninja Scroll","1993","Japan","Action","Hand-drawn","NR","Feudal Japan action at its most visceral."],
+["Vampire Hunter D: Bloodlust","2000","Japan","Horror","Hand-drawn","R","Gothic sci-fi horror. Gorgeous and brutal."],
+["Sword of the Stranger","2007","Japan","Action","Hand-drawn","NR","Wandering swordsman. The best action choreography in anime."],
+["Redline","2009","Japan","Action","Hand-drawn","R","Seven years of hand-drawn animation. A pure adrenaline rush."],
+["Belladonna of Sadness","1973","Japan","Erotic","Hand-drawn","NR","Psychedelic Art Nouveau horror. Deeply transgressive."],
+["Angel's Egg","1985","Japan","Experimental","Hand-drawn","NR","Oshii and Amano. No plot. All atmosphere. Unforgettable."],
+["The End of Evangelion","1997","Japan","Sci-Fi","Hand-drawn","NR","Apocalypse as psychological breakdown. Demanding masterpiece."],
+["Barefoot Gen","1983","Japan","War","Hand-drawn","NR","Hiroshima survivor story. Among the most harrowing ever made."],
+["Night on the Galactic Railroad","1985","Japan","Fantasy","Hand-drawn","G","Metaphysical cat-boys on a cosmic train. Deeply strange."],
+["Mind Game","2004","Japan","Drama","Mixed Media","NR","Yuasa's debut. Chaotic, life-affirming, unlike anything."],
+["Tekkonkinkreet","2006","Japan","Drama","Hand-drawn","R","Two orphan boys own the streets. Visually astonishing."],
+["The Night Is Short, Walk On Girl","2017","Japan","Comedy","Hand-drawn","NR","One wild night in Kyoto. Yuasa's love letter to life."],
+["Lu Over the Wall","2017","Japan","Fantasy","Hand-drawn","NR","Yuasa's most accessible film. Musical mermaid joy."],
+["Promare","2019","Japan","Action","Mixed Media","NR","TRIGGER at full blast. Insanely stylized action opera."],
+["In This Corner of the World","2016","Japan","War","Hand-drawn","NR","WWII from one woman's domestic perspective. Extraordinary."],
+["A Silent Voice","2016","Japan","Drama","Hand-drawn","PG-13","Bullying, deafness, redemption. Powerfully empathetic."],
+["Liz and the Blue Bird","2018","Japan","Slice of Life","Hand-drawn","NR","Two musicians. A fairy tale. The most delicate film."],
+["Violet Evergarden: The Movie","2020","Japan","Drama","Hand-drawn","NR","Letter-writing robot learns to grieve. Stunning KyoAni work."],
+["Odd Taxi: In the Woods","2022","Japan","Thriller","Hand-drawn","NR","A walrus taxi driver. Mystery. One of anime's best plots."],
+["The First Slam Dunk","2022","Japan","Slice of Life","Mixed Media","NR","Basketball match as a meditation on grief. Unexpected masterpiece."],
+["Inu-Oh","2021","Japan","Historical","Hand-drawn","NR","Yuasa's 14th-century rock opera. Wild and free."],
+["Look Back","2024","Japan","Drama","Hand-drawn","NR","Two manga artists, a friendship, a tragedy. 58 minutes. Perfect."],
+["The Colors Within","2024","Japan","Drama","Hand-drawn","NR","Naoko Yamada's latest. Synesthesia and music. Gorgeous."],
+["Snow White and the Seven Dwarfs","1937","USA","Fairy Tale","Hand-drawn","G","The first feature-length animated film. Still remarkable."],
+["Pinocchio","1940","USA","Fantasy","Hand-drawn","G","Technically the peak of 2D animation. Deeply unsettling."],
+["Fantasia","1940","USA","Musical","Hand-drawn","G","Animation meets classical music. Experimental and visionary."],
+["Dumbo","1941","USA","Drama","Hand-drawn","G","Simple, brief, heartbreaking. The pink elephant scene."],
+["Bambi","1942","USA","Drama","Hand-drawn","G","Painterly nature study. Grief handled with total restraint."],
+["Cinderella","1950","USA","Fairy Tale","Hand-drawn","G","Elegant and warm. The best of the Disney fairy tales."],
+["Alice in Wonderland","1951","USA","Fantasy","Hand-drawn","G","Psychedelic before that was a concept. Strange and funny."],
+["Peter Pan","1953","USA","Fantasy","Hand-drawn","G","Neverland at its most lush. Flawed but enchanting."],
+["Lady and the Tramp","1955","USA","Romance","Hand-drawn","G","The spaghetti scene. Disney's warmest romance."],
+["Sleeping Beauty","1959","USA","Fairy Tale","Hand-drawn","G","Eyvind Earle's angular stained-glass art. Maleficent."],
+["101 Dalmatians","1961","USA","Adventure","Hand-drawn","G","Scratchy, modern xerography style. Cruella is iconic."],
+["The Jungle Book","1967","USA","Adventure","Hand-drawn","G","Sherman Brothers songs. The last film Walt touched."],
+["The Little Mermaid","1989","USA","Fantasy","Hand-drawn","G","Sparked the Renaissance. Alan Menken's breakthrough score."],
+["Beauty and the Beast","1991","USA","Romance","Hand-drawn","G","First animated film nominated for Best Picture. Still earns it."],
+["Aladdin","1992","USA","Fantasy","Hand-drawn","G","Robin Williams changed voice acting. Brilliant comedy."],
+["The Lion King","1994","USA","Drama","Hand-drawn","G","Shakespeare in the Serengeti. Hans Zimmer at his peak."],
+["Pocahontas","1995","USA","Historical","Hand-drawn","G","Flawed but strikingly beautiful. Colors of the Wind."],
+["The Hunchback of Notre Dame","1996","USA","Drama","Hand-drawn","G","Darkest Disney. Frollo is their best villain."],
+["Hercules","1997","USA","Mythology","Hand-drawn","G","Gospel choir, Greek vases, pure fun. Underrated."],
+["Mulan","1998","USA","Action","Hand-drawn","G","Honor, gender, war. One of Disney's strongest narratives."],
+["Tarzan","1999","USA","Adventure","Hand-drawn","G","Phil Collins. Deep Canvas tech. Fluid action."],
+["The Emperor's New Groove","2000","USA","Comedy","Hand-drawn","G","The funniest Disney film. Underrated gem."],
+["Lilo & Stitch","2002","USA","Drama","Hand-drawn","PG","Found family story with real emotional weight."],
+["The Princess and the Frog","2009","USA","Fantasy","Hand-drawn","G","A love letter to New Orleans. 2D animation's last hurrah."],
+["Tangled","2010","USA","Fantasy","CGI","PG","CGI done with 2D soul. Eugene and Rapunzel are delightful."],
+["Wreck-It Ralph","2012","USA","Comedy","CGI","PG","Love letter to arcade gaming. Genuinely clever."],
+["Frozen","2013","USA","Fantasy","CGI","PG","Let It Go. Complicated sisterhood over simple romance."],
+["Big Hero 6","2014","USA","Action","CGI","PG","Grief wrapped in superhero spectacle. Baymax is perfect."],
+["Zootopia","2016","USA","Comedy","CGI","PG","Prejudice allegory that actually works. Sharp writing."],
+["Moana","2016","USA","Adventure","CGI","PG","Polynesian myth, Lin-Manuel Miranda. Ocean as character."],
+["Encanto","2021","USA","Musical","CGI","PG","Colombian family, Lin-Manuel again. We Don't Talk About Bruno."],
+["Toy Story","1995","USA","Comedy","CGI","G","First CGI feature. Changed cinema. Still works perfectly."],
+["A Bug's Life","1998","USA","Comedy","CGI","G","Underrated Pixar. The scale and detail of the bug world."],
+["Toy Story 2","1999","USA","Comedy","CGI","G","When Your Friend is Dead. Better than the first."],
+["Monsters, Inc.","2001","USA","Comedy","CGI","G","The door chase. The comedy. The ending. Classic."],
+["Finding Nemo","2003","USA","Adventure","CGI","G","Underwater world so tactile you can feel the water."],
+["The Incredibles","2004","USA","Action","CGI","PG","Superhero family drama. Still the best superhero film."],
+["Ratatouille","2007","USA","Drama","CGI","G","A rat wants to cook. Takes it completely seriously. Perfect."],
+["WALL-E","2008","USA","Sci-Fi","CGI","G","30 silent minutes that say more than most films."],
+["Up","2009","USA","Adventure","CGI","PG","The first four minutes. Just those four minutes."],
+["Toy Story 3","2010","USA","Drama","CGI","G","Growing up and letting go. Emotionally overwhelming."],
+["Brave","2012","USA","Fantasy","CGI","PG","Mother-daughter bond instead of romance. Finally."],
+["Inside Out","2015","USA","Drama","CGI","PG","Emotional anatomy of a child. Bing Bong."],
+["Coco","2017","USA","Drama","CGI","PG","Day of the Dead, family legacy, Remember Me. Gorgeous."],
+["Soul","2020","USA","Drama","CGI","PG","What makes life worth living? Pixar's most adult film."],
+["Luca","2021","USA","Slice of Life","CGI","PG","Italian Riviera summer friendship. Light and warm."],
+["Turning Red","2022","USA","Comedy","CGI","PG","Puberty as giant red panda. Nostalgic and very funny."],
+["Inside Out 2","2024","USA","Drama","CGI","PG","Anxiety joins the cast. Emotionally resonant sequel."],
+["The Prince of Egypt","1998","USA","Historical","Hand-drawn","PG","Epic biblical animation. Deliver Us is one of the great songs."],
+["Antz","1998","USA","Comedy","CGI","PG","Darker than Pixar. Woody Allen as an ant works somehow."],
+["The Road to El Dorado","2000","USA","Comedy","Hand-drawn","PG","Buddy comedy gold. Witty, fast, criminally undervalued."],
+["Spirit: Stallion of the Cimarron","2002","USA","Adventure","Hand-drawn","G","A horse's perspective on the American West. Bold choice."],
+["Sinbad: Legend of the Seven Seas","2003","USA","Adventure","Hand-drawn","PG","Last great DreamWorks 2D. Absolutely gorgeous."],
+["Shrek","2001","USA","Comedy","CGI","PG","Satirised Disney so effectively it changed the genre."],
+["Shrek 2","2004","USA","Comedy","CGI","PG","Outdoes the original. Fairy Godmother. Puss in Boots."],
+["Kung Fu Panda","2008","USA","Action","CGI","PG","Genuinely about imposter syndrome. Beautiful wuxia."],
+["How to Train Your Dragon","2010","USA","Fantasy","CGI","PG","Boy and dragon. The flight sequence is transcendent."],
+["How to Train Your Dragon 2","2014","USA","Fantasy","CGI","PG","Darker, larger, emotionally bolder sequel."],
+["The Croods","2013","USA","Comedy","CGI","PG","Surprisingly heartfelt caveman family film."],
+["Rise of the Guardians","2012","USA","Fantasy","CGI","PG","Santa, Easter Bunny, Sandman. More inventive than it looks."],
+["Puss in Boots: The Last Wish","2022","USA","Action","CGI","PG","Death as a villain. Stunning Spider-Verse-adjacent art. Best Shrek film."],
+["Spider-Man: Into the Spider-Verse","2018","USA","Superhero","CGI","PG","Reinvented animated action. Multiple art styles. Perfect."],
+["Spider-Man: Across the Spider-Verse","2023","USA","Superhero","CGI","PG","Expanded the universe further. Each world a new art style."],
+["The Mitchells vs. the Machines","2021","USA","Comedy","CGI","PG","Robot apocalypse and a chaotic family. Hilarious and loving."],
+["The Bad Guys","2022","USA","Action","CGI","PG","Heist film done in French graphic novel style."],
+["Coraline","2009","USA","Horror","Stop-motion","PG","Neil Gaiman's best adaptation. Genuinely frightening."],
+["ParaNorman","2012","USA","Horror","Stop-motion","PG","Zombie comedy with a real emotional core."],
+["The Boxtrolls","2014","USA","Comedy","Stop-motion","PG","Victorian orphan raised by monsters. Dark and inventive."],
+["Kubo and the Two Strings","2016","USA","Fantasy","Stop-motion","PG","Japanese mythology. The most beautiful LAIKA work."],
+["The Nightmare Before Christmas","1993","USA","Fantasy","Stop-motion","PG","Tim Burton's Halloween/Christmas vision. Iconic."],
+["James and the Giant Peach","1996","USA","Fantasy","Mixed Media","PG","Roald Dahl via Selick. Weird and wonderful."],
+["Corpse Bride","2005","USA","Fantasy","Stop-motion","PG","Dark, romantic, beautiful. The land of the dead is better."],
+["Fantastic Mr. Fox","2009","USA","Comedy","Stop-motion","PG","Wes Anderson does Roald Dahl. Dry, warm, perfect."],
+["Isle of Dogs","2018","USA","Drama","Stop-motion","PG-13","Anderson again. Japanese setting. Stunningly crafted."],
+["Anomalisa","2015","USA","Drama","Puppet","R","Kaufman's loneliness meditation. Devastatingly human."],
+["Guillermo del Toro's Pinocchio","2022","USA","Fantasy","Stop-motion","PG","The definitive Pinocchio. War, death, love, rebellion."],
+["The Grand Budapest Hotel","2014","USA","Comedy","Mixed Media","R","Not purely animated, but stop-motion segments are sublime."],
+["The Secret of NIMH","1982","USA","Fantasy","Hand-drawn","G","Don Bluth's dark masterpiece. Fairy tale as horror."],
+["An American Tail","1986","USA","Drama","Hand-drawn","G","Bluth's immigrant story. Surprisingly moving."],
+["The Land Before Time","1988","USA","Adventure","Hand-drawn","G","Dinosaur friendship and loss. Kids wept. Adults too."],
+["The Iron Giant","1999","USA","Sci-Fi","Hand-drawn","PG","Brad Bird's near-perfect film. Government paranoia and love."],
+["Persepolis","2007","France","Political","Hand-drawn","PG-13","Marjane Satrapi's memoir of growing up in Iran. Essential."],
+["Heavy Metal","1981","Canada","Sci-Fi","Hand-drawn","R","Adult anthology. Rock soundtrack. Cult classic."],
+["Who Framed Roger Rabbit","1988","USA","Comedy","Mixed Media","PG","Animation and live action perfectly merged. Still incredible."],
+["The Triplets of Belleville","2003","France","Comedy","Hand-drawn","PG","Dialogue-free French musical mystery. Brilliant design."],
+["The Illusionist","2010","France","Drama","Hand-drawn","PG","Jacques Tati script. A vanishing world. Bittersweet."],
+["Ernest and Celestine","2012","France","Drama","Watercolor","PG","Bear and mouse. Warm, handmade watercolor aesthetic."],
+["I Lost My Body","2019","France","Drama","Hand-drawn","R","A severed hand searches for its owner. Strange and moving."],
+["The Summit of the Gods","2021","France","Drama","Hand-drawn","NR","Alpinists and obsession. Quiet, breathtaking, faithful."],
+["The Swallows of Kabul","2019","France","Drama","Hand-drawn","NR","Life under the Taliban. Dignified, heartbreaking."],
+["April and the Extraordinary World","2015","France","Sci-Fi","Hand-drawn","PG","Steampunk Paris. Drawn in Jacques Tardi's style. Wonderful."],
+["Dilili in Paris","2018","France","Mystery","Hand-drawn","PG","Michel Ocelot's Belle Époque feminist mystery."],
+["The Little Prince","2015","France","Fantasy","Mixed Media","PG","Wraps the book inside a new story. Surprisingly wise."],
+["Kirikou and the Sorceress","1998","France","Mythology","Hand-drawn","NR","African folk tale. Tiny hero. Michel Ocelot at his best."],
+["Azur & Asmar","2006","France","Fairy Tale","CGI","G","Ocelot's most visually opulent film. Islamic and French cultures."],
+["A Cat in Paris","2010","France","Thriller","Hand-drawn","G","Short, stylish noir. Paris rooftops. Lovely."],
+["Long Way North","2015","France","Adventure","Hand-drawn","PG","Arctic expedition, father-daughter bond. Flat design beauty."],
+["The Big Bad Fox and Other Tales","2017","France","Comedy","Hand-drawn","G","Three fables, hand-drawn, laugh-out-loud charming."],
+["Calamity Jane","2020","France","Adventure","Hand-drawn","PG","Young Calamity Jane on the frontier. Road Normandin directing."],
+["Ernest and Celestine: A Trip to Gibberitia","2023","France","Drama","Watercolor","PG","Warmly continues the original. Musicians and tolerance."],
+["MFKZ","2017","France","Action","Hand-drawn","R","French-Japanese co-production. Raw, urban, explosive."],
+["Peur(s) du Noir","2007","France","Horror","Hand-drawn","NR","Six animators, six fears. B&W anthology. Unsettling."],
+["The Secret of Kells","2009","Ireland","Fantasy","Hand-drawn","NR","Book of Kells illumination come to life. Ravishing."],
+["Song of the Sea","2014","Ireland","Fantasy","Hand-drawn","G","Selkie mythology and grief. Tomm Moore at his peak."],
+["Wolfwalkers","2020","Ireland","Fantasy","Hand-drawn","PG","Best Cartoon Saloon film. Colonial Ireland, wolves, freedom."],
+["My Father's Dragon","2022","Ireland","Fantasy","Hand-drawn","PG","Cartoon Saloon adapts the classic novel. Tender."],
+["Watership Down","1978","UK","Drama","Hand-drawn","PG","Rabbit odyssey. Harrowing. Traumatised a generation."],
+["When the Wind Blows","1986","UK","War","Hand-drawn","PG","Nuclear war through an elderly couple's eyes. Devastating."],
+["The Plague Dogs","1982","UK","Drama","Hand-drawn","PG","Laboratory dogs try to escape. Martin Rosen. Relentlessly grim."],
+["Yellow Submarine","1968","UK","Musical","Hand-drawn","G","Beatles, psychedelia, pop art. Nothing like it before or since."],
+["Ethel & Ernest","2016","UK","Drama","Hand-drawn","NR","A couple's life from 1930s to 1980s. Gentle and profound."],
+["Wallace & Gromit: Curse of the Were-Rabbit","2005","UK","Comedy","Claymation","G","The definitive Aardman feature. Sublime."],
+["Chicken Run","2000","UK","Comedy","Claymation","G","The Great Escape with chickens. Pitch-perfect."],
+["Fantastic Mr. Fox — see above","2009","UK","Comedy","Stop-motion","PG","(Aardman/Fox co-production)"],
+["The Snowman","1982","UK","Fantasy","Hand-drawn","G","Walking in the Air. Wordless, fragile, magical."],
+["The Adventures of Prince Achmed","1926","Germany","Fairy Tale","Cut-out","NR","Oldest surviving animated feature. Lotte Reiniger's silhouettes."],
+["Fantastic Planet","1973","Czech Republic","Sci-Fi","Cut-out","R","Aliens farm humans. French-Czech. Surreal and political."],
+["Alice","1988","Czech Republic","Horror","Mixed Media","NR","Jan Švankmajer's Wonderland. Taxidermy and dread."],
+["Faust","1994","Czech Republic","Horror","Mixed Media","NR","Švankmajer's Faust. Puppet, live action, clay. Disturbing."],
+["Little Otik","2000","Czech Republic","Horror","Mixed Media","NR","A stump raised as a baby. Folk horror. Only Švankmajer."],
+["Dimensions of Dialogue","1982","Czech Republic","Experimental","Claymation","NR","Short, but the most virtuosic stop-motion ever made."],
+["The Hand","1965","Czech Republic","Political","Puppet","NR","Artist vs. totalitarianism. Communist-era masterpiece."],
+["Allegro Non Troppo","1976","Italy","Comedy","Hand-drawn","PG","Italian Fantasia parody. Both funny and genuinely beautiful."],
+["Hedgehog in the Fog","1975","Russia/Soviet","Fantasy","Hand-drawn","NR","A hedgehog walks into fog. 10 minutes of perfect filmmaking."],
+["Tale of Tales","1979","Russia/Soviet","Fantasy","Hand-drawn","NR","Norstein's masterpiece. No story — pure feeling."],
+["The Tale of Tsar Saltan","1966","Russia/Soviet","Fairy Tale","Hand-drawn","G","Soviet Pushkin adaptation. Rich Palekh illustration style."],
+["The Snow Queen","1957","Russia/Soviet","Fairy Tale","Hand-drawn","NR","Lev Atamanov's film. Inspired Disney's Frozen decades later."],
+["The Old Man and the Sea","1999","Russia","Drama","Painted","G","Aleksandr Petrov. Oil-on-glass. Academy Award winner."],
+["The King of Pigs","2011","South Korea","Drama","Hand-drawn","NR","School bullying and class resentment. Bleak. Essential."],
+["The Fake","2013","South Korea","Drama","Hand-drawn","NR","A con-man preacher exploits a community. Merciless."],
+["Leafie, a Hen into the Wild","2011","South Korea","Drama","Hand-drawn","NR","A chicken escapes. Surprisingly profound."],
+["Seoul Station","2016","South Korea","Horror","Hand-drawn","NR","Prequel to Train to Busan. Homeless in the zombie outbreak."],
+["My Beautiful Girl, Mari","2002","South Korea","Fantasy","Hand-drawn","NR","Childhood summer memories. Gentle and poetic."],
+["Oseam","2003","South Korea","Drama","Hand-drawn","NR","A boy and his sister at a Buddhist temple. Profoundly sad."],
+["Havoc in Heaven","1965","China","Mythology","Hand-drawn","G","Sun Wukong at his most vibrant. Chinese opera animation."],
+["Big Fish & Begonia","2016","China","Fantasy","Hand-drawn","PG","Soul and sacrifice in a Chinese mythological underworld."],
+["Ne Zha","2019","China","Mythology","CGI","PG","Chinese blockbuster that earned every yuan. Heartfelt."],
+["Chang An","2023","China","Historical","Hand-drawn","PG","Tang Dynasty poets. Gorgeous Chinese ink-painting style."],
+["Deep Sea","2023","China","Fantasy","Mixed Media","PG","Depression as a sea journey. Stunning visual invention."],
+["Waltz with Bashir","2008","Israel","War","Mixed Media","R","Lebanese War memory. Animated documentary. Haunting."],
+["Tehran Taboo","2017","Iran","Drama","Rotoscope","NR","Four Iranians navigating taboo and suppression. Brave film."],
+["The Breadwinner","2017","Ireland","Drama","Cut-out","PG-13","Afghan girl pretends to be a boy. Nora Twomey directing."],
+["Mary and Max","2009","Australia","Drama","Claymation","PG","Pen pals across the world. Adam Elliot. Beautifully sad."],
+["The Lost Thing","2010","Australia","Sci-Fi","Mixed Media","G","Shaun Tan's world on screen. Academy Award winner."],
+["Harvie Krumpet","2003","Australia","Drama","Claymation","NR","A man's unlucky life narrated in facts. Moving and funny."],
+["Memoir of a Snail","2024","Australia","Drama","Claymation","NR","Adam Elliot returns. Hoarding, grief, and snails."],
+["O Menino e o Mundo","2013","Brazil","Fantasy","Mixed Media","NR","A boy looks for his father. Wordless. Brazilian folk art."],
+["Ainbo: Spirit of the Amazon","2021","Peru","Fantasy","CGI","G","Amazonian mythology and environmental story."],
+["The Wolf House","2018","Chile","Horror","Mixed Media","NR","Colonia Dignidad cult as a dark fairy tale. Harrowing."],
+["Flee","2021","Denmark","Documentary","Mixed Media","PG-13","An Afghan refugee's secret history told in animation. Oscar nominated."],
+["My Life as a Zucchini","2016","Switzerland","Drama","Stop-motion","PG-13","Orphaned children, tenderness and loss. Short and perfect."],
+["Klaus","2019","Spain","Fantasy","Hand-drawn","G","Origin of Santa Claus. Netflix's first Oscar nom. Gorgeous."],
+["Robot Dreams","2023","Spain","Drama","Hand-drawn","NR","A dog and his robot in New York. No dialogue. Perfect."],
+["The Congress","2013","Israel","Sci-Fi","Mixed Media","R","Ari Folman after Waltz with Bashir. Reality disintegrates."],
+["Loving Vincent","2017","Poland","Drama","Hand-drawn","PG","Van Gogh's last days painted in oil by 100+ artists. Unique."],
+["Flow","2024","Latvia","Drama","CGI","NR","A cat navigates a flooded world. No dialogue. 2024's finest."],
+["Batman: Mask of the Phantasm","1993","USA","Action","Hand-drawn","PG","The best Batman film ever made. Paul Dini writing."],
+["Batman: Under the Red Hood","2010","USA","Superhero","Hand-drawn","PG-13","Jason Todd's death and return. Dark and emotionally honest."],
+["Batman: The Dark Knight Returns","2012","USA","Superhero","Hand-drawn","PG-13","Miller's graphic novel faithfully adapted. Frank Miller's best."],
+["Batman: The Killing Joke","2016","USA","Superhero","Hand-drawn","R","The Joker origin. Controversial, but the animated Joker is perfect."],
+["Demon Slayer: Mugen Train","2020","Japan","Action","Hand-drawn","R","Flame Hashira. Box office record breaker. Genuinely moving."],
+["Jujutsu Kaisen 0","2021","Japan","Action","Mixed Media","PG-13","Prequel that works as its own film. Rika. Okkotsu."],
+["Evangelion 3.0+1.01: Thrice Upon a Time","2021","Japan","Sci-Fi","Mixed Media","NR","26 years later. Hideaki Anno closes the loop beautifully."],
+["A Whisker Away","2020","Japan","Fantasy","Hand-drawn","NR","Girl becomes a cat. Studio Colorido's charming magic."],
+["Josee, the Tiger and the Fish","2020","Japan","Romance","Hand-drawn","NR","Disability, art, love. Quietly devastating romance."],
+["Ride Your Wave","2019","Japan","Romance","Hand-drawn","NR","Yuasa's surfer romance. Grief in water form."],
+["Penguin Highway","2018","Japan","Sci-Fi","Hand-drawn","NR","Boy solves the mystery of penguins in his suburb."],
+["I Want to Eat Your Pancreas","2018","Japan","Drama","Hand-drawn","NR","Terminal illness. Not what the title implies. Beautiful."],
+["Pompo the Cinephile","2021","Japan","Drama","Mixed Media","NR","A girl makes a film. A love letter to cinema itself."],
+["The Deer King","2021","Japan","Fantasy","Mixed Media","NR","Epic fantasy with Ghibli-level world-building."],
+["Made in Abyss: Dawn of the Deep Soul","2020","Japan","Fantasy","Hand-drawn","NR","The most emotionally brutal mainstream anime film."],
+["Goodbye, DonGlees!","2022","Japan","Drama","Hand-drawn","NR","Three teen friends, a summer, a life-altering choice."],
+["The Imaginary","2024","Japan","Fantasy","Hand-drawn","NR","Imaginary friends face erasure. Studio Ponoc."],
+["Urusei Yatsura: Beautiful Dreamer","1984","Japan","Comedy","Hand-drawn","NR","Oshii bends reality inside a high school festival. Visionary."],
+["Mobile Suit Gundam: Char's Counterattack","1988","Japan","Sci-Fi","Hand-drawn","NR","Char vs Amuro one final time. The definitive Gundam film."],
+["Patlabor: The Movie","1989","Japan","Sci-Fi","Hand-drawn","NR","Oshii's procedural mecha police thriller. Methodical genius."],
+["Lupin III: The Castle of Cagliostro","1979","Japan","Action","Hand-drawn","NR","Miyazaki's debut feature. Effortlessly charming."],
+["Macross Plus","1994","Japan","Sci-Fi","Hand-drawn","NR","Love triangle, AI pop idol, jets. Yoko Kanno's finest score."],
+["Gurren Lagann: The Lights in the Sky Are Stars","2009","Japan","Sci-Fi","Hand-drawn","NR","The most emotionally complete ending in mecha anime history."],
+["Mobile Suit Gundam Hathaway","2021","Japan","Sci-Fi","Mixed Media","NR","Best-looking Gundam ever. Grounded, political, gorgeous."],
+["Revue Starlight: The Movie","2021","Japan","Musical","Hand-drawn","NR","Theatre as combat. Destiny as sacrifice. Ikuhara-adjacent."],
+["The Anthem of the Heart","2015","Japan","Drama","Hand-drawn","NR","A girl who cannot speak. AnoHana writer. Quietly devastating."],
+["Tamako Love Story","2014","Japan","Romance","Hand-drawn","NR","A confession takes all film long. KyoAni at its most intimate."],
+["Ocean Waves","1993","Japan","Romance","Hand-drawn","NR","Ghibli's forgotten TV film. Honest teenage love triangle."],
+["The Garden of Sinkers: Overlooking View","2007","Japan","Thriller","Hand-drawn","NR","ufotable's debut. Kara no Kyoukai set the visual standard."],
+["Eureka Seven: Good Night, Sleep Tight","2009","Japan","Sci-Fi","Hand-drawn","NR","Alternate retelling of a beloved series. Deeply romantic."],
+["K-On! The Movie","2011","Japan","Slice of Life","Hand-drawn","NR","The light music club goes to London. Pure joyful filmmaking."],
+["Given: The Movie","2020","Japan","Romance","Hand-drawn","NR","Gay musicians process grief through music. Tender and true."],
+["Classmates","2016","Japan","Romance","Hand-drawn","NR","Two high school boys fall in love. Quiet and deeply felt."],
+["Fireworks","2017","Japan","Fantasy","Mixed Media","NR","What-if firework romance. SHAFT visuals. Flawed but gorgeous."],
+["Summer Time Rendering","2023","Japan","Thriller","Hand-drawn","NR","Time-looping horror on a remote island. Gripping."],
+["Batman: Year One","2011","USA","Superhero","Hand-drawn","PG-13","Miller's origin story faithfully adapted. Moody and grounded."],
+["Superman: Red Son","2020","USA","Superhero","Hand-drawn","PG-13","What if Superman landed in Soviet Russia? Clever Elseworlds."],
+["Justice League: New Frontier","2008","USA","Superhero","Hand-drawn","PG","Cold War era heroes. Timm's most cinematic DC film."],
+["The Animatrix","2003","USA","Sci-Fi","Mixed Media","R","Nine shorts expanding the Matrix. Several are masterpieces."],
+["Final Fantasy VII: Advent Children","2005","Japan","Fantasy","CGI","PG-13","Spectacular CGI. Defining visual spectacle of its era."],
+["Renaissance","2006","France","Thriller","Hand-drawn","NR","Stark black-and-white neo-noir Paris. Visually audacious."],
+["Moomins on the Riviera","2014","Finland","Comedy","Hand-drawn","NR","Tove Jansson's moomins go south. Quiet and charming."],
+["Megamind","2010","USA","Comedy","CGI","PG","The villain becomes the hero. Sharp writing, undervalued."],
+["Over the Hedge","2006","USA","Comedy","CGI","PG","Sarcastic take on suburbia. Wry, well-observed comedy."],
+["The Book of Life","2014","USA","Fantasy","CGI","PG","Dia de los Muertos before Coco. Intricate sugar-skull design."],
+["Rango","2011","USA","Comedy","CGI","PG","Gore Verbinski does Chinatown as a chameleon Western. Weird genius."],
+["Ice Age","2002","USA","Comedy","CGI","PG","Scrat and the acorn. Instantly immortal sight gag. Warm film."],
+["Happy Feet","2006","USA","Musical","CGI","PG","Emperor penguins, George Miller directing. Surprisingly sharp."],
+["An American Tail: Fievel Goes West","1991","USA","Western","Hand-drawn","G","A mouse Western. Bluth's most fun and underrated film."],
+["Balto","1995","USA","Adventure","Hand-drawn","G","Real sled dog hero of 1925 Nome. Unfairly forgotten."],
+["South Park: Bigger Longer and Uncut","1999","USA","Comedy","Cut-out","R","A musical satire of censorship and war. Genuinely incisive."],
+["The Simpsons Movie","2007","USA","Comedy","Hand-drawn","PG-13","Spider-Pig. The show at its last great height."],
+["The LEGO Movie","2014","USA","Comedy","CGI","PG","Everything is awesome and it truly is. Brilliant meta-satire."],
+["Beavis and Butt-Head Do America","1996","USA","Comedy","Hand-drawn","PG-13","Funnier than it deserves to be. Road trip nihilism."],
+["Ice Age Dawn of the Dinosaurs","2009","USA","Comedy","CGI","PG","Best Ice Age sequel. Buck makes it special."],
+["Despicable Me","2010","USA","Comedy","CGI","PG","A villain adopts three orphans. Genuinely warm."],
+["How to Train Your Dragon: The Hidden World","2019","USA","Fantasy","CGI","PG","Fitting conclusion to the trilogy. Bittersweet and beautiful."],
+["Rio","2011","USA","Adventure","CGI","G","Vibrant colours, Brazilian music, warm story."],
+["Early Man","2018","UK","Comedy","Claymation","PG","Aardman and football. Not their best but still delightful."],
+["Gnomeo and Juliet","2011","UK","Comedy","CGI","G","Garden gnomes do Romeo and Juliet. Charming."],
+["Hilda and the Mountain King","2021","UK","Fantasy","Hand-drawn","G","Netflix Hilda. Perfect Norse mythology for all ages."],
+["Ethel and Ernest","2016","UK","Drama","Hand-drawn","NR","Raymond Briggs adapts his parents' lives. Gentle and profound."],
+["The Snowman and the Snowdog","2012","UK","Fantasy","Hand-drawn","G","Beautifully preserves the original's wordless magic."],
+["Fearless","2022","Ireland","Drama","Hand-drawn","NR","Cartoon Saloon short anthology. Each piece outstanding."],
+["Father and Daughter","2000","Netherlands","Drama","Hand-drawn","G","8 minutes. A girl waits for her father. Perfect."],
+["Buñuel in the Labyrinth of the Turtles","2018","Spain","Historical","Hand-drawn","NR","Salvador Dali and Bunuel make a film in 1930s Spain."],
+["Big Fish and Begonia","2016","China","Fantasy","Hand-drawn","PG","Soul and sacrifice in Chinese mythological underworld."],
+["Wendell and Wild","2022","USA","Horror","Stop-motion","PG-13","Henry Selick returns. Jordan Peele voices a demon. Inventive."],
+["Marcel the Shell with Shoes On","2021","USA","Comedy","Stop-motion","PG","One-inch shell lives in an Airbnb. Funny and surprisingly moving."],
+["The Sea Beast","2022","USA","Adventure","CGI","PG","Monster-hunter discovers the monsters are misunderstood. Warm."],
+["Nimona","2023","USA","Fantasy","CGI","PG","A shapeshifter helps a disgraced knight. LGBTQ heart. Delightful."],
+["The Wild Robot","2024","USA","Drama","CGI","PG","A robot raises a gosling. Visually stunning. Emotionally complete."],
+["The Mitchells vs the Machines","2021","USA","Comedy","CGI","PG","Robot apocalypse and a chaotic family. Hilarious and loving."]
+];
+
+// Deduplicate by title
+const seen = new Set();
+const DATA = [];
+for (const r of ALL) {
+  const key = r[0].toLowerCase().trim();
+  if (!seen.has(key)) { seen.add(key); DATA.push(r); }
+}
+
+let sortCol = 1, sortDir = 1;
+const PAGE = 25;
+let page = 0;
+let filtered = [];
+
+function getDecade(y) {
+  const n = parseInt(y);
+  if (n < 1940) return 'Pre-1940s';
+  if (n < 1950) return '1940s';
+  if (n < 1960) return '1950s';
+  if (n < 1970) return '1960s';
+  if (n < 1980) return '1970s';
+  if (n < 1990) return '1980s';
+  if (n < 2000) return '1990s';
+  if (n < 2010) return '2000s';
+  if (n < 2020) return '2010s';
+  return '2020s';
+}
+
+function rc(r) {
+  return { G:'r-G', PG:'r-PG', 'PG-13':'r-PG13', R:'r-R', NR:'r-NR', X:'r-X' }[r] || 'r-NR';
+}
+
+function filterData() {
+  const q  = document.getElementById('search').value.toLowerCase();
+  const rg = document.getElementById('filterRegion').value.toLowerCase();
+  const rt = document.getElementById('filterRating').value;
+  const gn = document.getElementById('filterGenre').value;
+  const dc = document.getElementById('filterDecade').value;
+  const st = document.getElementById('filterStyle').value;
+
+  filtered = DATA.filter(r => {
+    const [title,year,country,genre,style,rating,note] = r;
+    if (q  && ![title,year,country,genre,style,rating,note||''].some(v=>v.toLowerCase().includes(q))) return false;
+    if (rg && !country.toLowerCase().includes(rg)) return false;
+    if (rt && rating !== rt) return false;
+    if (gn && genre !== gn) return false;
+    if (dc && getDecade(year) !== dc) return false;
+    if (st && style !== st) return false;
+    return true;
+  });
+
+  filtered.sort((a,b) => {
+    const av = sortCol===2 ? parseInt(a[2]) : (a[sortCol]||'');
+    const bv = sortCol===2 ? parseInt(b[2]) : (b[sortCol]||'');
+    return av < bv ? -sortDir : av > bv ? sortDir : 0;
+  });
+
+  page = 0;
+  render();
+}
+
+function sortBy(c) {
+  if (sortCol===c) sortDir*=-1; else { sortCol=c; sortDir=1; }
+  [1,2,3,4,5,6].forEach(i => {
+    const el = document.getElementById('th'+i);
+    if (!el) return;
+    el.classList.toggle('sort-active', i===c);
+    const sp = el.querySelector('span');
+    if (sp) sp.textContent = (i===c) ? (sortDir===1?'↑':'↓') : '↕';
+  });
+  filterData();
+}
+
+function render() {
+  const start = page * PAGE;
+  const slice = filtered.slice(start, start+PAGE);
+  document.getElementById('tbody').innerHTML = slice.map((r,i) => {
+    const [title,year,country,genre,style,rating,note] = r;
+    return `<tr>
+      <td class="num">${start+i+1}</td>
+      <td class="title-cell">${title}</td>
+      <td class="year-cell">${year}</td>
+      <td class="country-cell">${country}</td>
+      <td class="genre-cell">${genre}</td>
+      <td class="style-cell">${style}</td>
+      <td><span class="badge ${rc(rating)}">${rating}</span></td>
+      <td class="note-cell">${note||''}</td>
+    </tr>`;
+  }).join('');
+
+  const total = filtered.length;
+  document.getElementById('hcount').textContent = DATA.length;
+  document.getElementById('stats').textContent =
+    `${total} film${total!==1?'s':''} — showing ${Math.min(start+1,total)}–${Math.min(start+PAGE,total)}`;
+
+  const totalPages = Math.ceil(total/PAGE);
+  document.getElementById('pager').innerHTML =
+    `<button onclick="goPage(${page-1})" ${page===0?'disabled':''}>← Prev</button>
+     <span class="pi">${page+1} / ${totalPages}</span>
+     <button onclick="goPage(${page+1})" ${page>=totalPages-1?'disabled':''}>Next →</button>`;
+}
+
+function goPage(p) {
+  const tp = Math.ceil(filtered.length/PAGE);
+  page = Math.max(0, Math.min(p, tp-1));
+  render();
+  window.scrollTo(0,0);
+}
+
+['search','filterRegion','filterRating','filterGenre','filterDecade','filterStyle']
+  .forEach(id => document.getElementById(id).addEventListener('input', filterData));
+
+filterData();
+</script>
+</body>
+</html>

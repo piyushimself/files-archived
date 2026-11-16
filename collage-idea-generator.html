@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Collage Brief Generator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Caveat:wght@600;700&family=Special+Elite&family=IBM+Plex+Mono:wght@400;500;600&family=Shadows+Into+Light&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#121014;
+    --bg2:#19161b;
+    --paper:#f3ead9;
+    --paper2:#e8dcc3;
+    --ink:#201c18;
+    --hot:#ff2f6e;
+    --acid:#d4ff3f;
+    --tape:#8fc1ff;
+    --tape2:#ffcf6e;
+    --glow1:#1d1a20;
+    --glow2:#17151a;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(ellipse at 20% 0%, var(--glow1) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 100%, var(--glow2) 0%, transparent 60%),
+      var(--bg);
+    color:var(--paper);
+    font-family:'IBM Plex Mono', monospace;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:32px 16px 80px;
+  }
+
+  /* ---- Ransom note title ---- */
+  .title-wrap{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:6px;
+    max-width:640px;
+    margin:8px 0 6px;
+  }
+  .title-wrap span{
+    display:inline-block;
+    padding:6px 9px 4px;
+    font-size:clamp(18px, 4.6vw, 30px);
+    line-height:1;
+    box-shadow:2px 3px 0 rgba(0,0,0,.35);
+    transform:rotate(var(--r,0deg));
+  }
+  .subtitle{
+    font-family:'Caveat', cursive;
+    font-size:20px;
+    color:var(--acid);
+    margin:2px 0 8px;
+    text-align:center;
+    max-width:480px;
+  }
+  .stat{
+    font-size:11px;
+    letter-spacing:.08em;
+    color:#8a8390;
+    text-transform:uppercase;
+    margin-bottom:26px;
+    text-align:center;
+  }
+  .stat b{color:var(--tape);}
+
+  .theme-label{
+    text-align:center;
+    font-size:10px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:#8a8390;
+    margin-bottom:10px;
+  }
+
+  /* ---- Emotion picker ---- */
+  .emotions{
+    display:flex;
+    gap:8px;
+    margin-bottom:22px;
+    flex-wrap:wrap;
+    justify-content:center;
+    max-width:600px;
+  }
+  .emotion-btn{
+    font-family:'Special Elite', monospace;
+    background:var(--bg2);
+    border:1.5px dashed #4a434e;
+    color:#cfc8d2;
+    padding:7px 14px;
+    border-radius:2px;
+    cursor:pointer;
+    font-size:12.5px;
+    letter-spacing:.03em;
+    transition:transform .15s ease, border-color .15s ease, color .15s ease;
+  }
+  .emotion-btn:hover{transform:translateY(-2px);}
+  .emotion-btn.active{
+    border-color:var(--acid);
+    color:var(--acid);
+    border-style:solid;
+  }
+
+  /* ---- Surreal dial ---- */
+  .levels{
+    display:flex;
+    gap:10px;
+    margin-bottom:26px;
+    flex-wrap:wrap;
+    justify-content:center;
+  }
+  .level-btn{
+    font-family:'Special Elite', monospace;
+    background:var(--bg2);
+    border:1.5px dashed #4a434e;
+    color:#cfc8d2;
+    padding:8px 16px;
+    border-radius:2px;
+    cursor:pointer;
+    font-size:13px;
+    letter-spacing:.04em;
+    transition:transform .15s ease, border-color .15s ease, color .15s ease;
+  }
+  .level-btn:hover{transform:translateY(-2px);}
+  .level-btn.active{
+    border-color:var(--hot);
+    color:var(--hot);
+    border-style:solid;
+  }
+
+  /* ---- Generate button ---- */
+  .generate-btn{
+    font-family:'Permanent Marker', cursive;
+    font-size:20px;
+    background:var(--hot);
+    color:#1a0510;
+    border:none;
+    padding:16px 40px;
+    border-radius:3px;
+    cursor:pointer;
+    box-shadow:0 6px 0 #99123f, 0 8px 14px rgba(0,0,0,.4);
+    transform:rotate(-1deg);
+    transition:transform .1s ease, box-shadow .1s ease;
+    letter-spacing:.02em;
+  }
+  .generate-btn:active{
+    transform:translateY(4px) rotate(-1deg);
+    box-shadow:0 2px 0 #99123f, 0 4px 8px rgba(0,0,0,.4);
+  }
+
+  /* ---- Result card ---- */
+  .card-stage{
+    width:100%;
+    max-width:600px;
+    min-height:260px;
+    margin-top:36px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .card{
+    position:relative;
+    background:var(--paper);
+    color:var(--ink);
+    padding:32px 28px 26px;
+    width:100%;
+    border-radius:1px;
+    box-shadow:0 14px 30px rgba(0,0,0,.45), 0 2px 0 rgba(0,0,0,.2);
+    opacity:0;
+    transform:scale(.85) rotate(0deg);
+  }
+  .card.show{
+    animation:slap .38s cubic-bezier(.2,1.4,.4,1) forwards;
+  }
+  @keyframes slap{
+    0%{opacity:0; transform:scale(.7) rotate(0deg);}
+    60%{opacity:1; transform:scale(1.03) rotate(var(--rot));}
+    100%{opacity:1; transform:scale(1) rotate(var(--rot));}
+  }
+  .tape{
+    position:absolute;
+    width:70px;
+    height:26px;
+    top:-14px;
+    left:50%;
+    margin-left:-35px;
+    background:var(--tape);
+    opacity:.85;
+    transform:rotate(-3deg);
+    box-shadow:0 2px 4px rgba(0,0,0,.25);
+  }
+  .idea-index{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    color:#8a7d5f;
+    letter-spacing:.05em;
+    margin-bottom:16px;
+    display:block;
+  }
+  .brief-row{
+    margin-bottom:16px;
+  }
+  .brief-label{
+    font-family:'Special Elite', monospace;
+    font-size:11px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color:#a3874f;
+    margin-bottom:3px;
+  }
+  .brief-value{
+    font-family:'Caveat', cursive;
+    font-size:23px;
+    line-height:1.3;
+  }
+  .brief-value.caption-text{
+    font-family:'Shadows Into Light', cursive;
+    font-size:22px;
+  }
+  .brief-value.caption-text::before{ content:'“'; }
+  .brief-value.caption-text::after{ content:'”'; }
+
+  .card-actions{
+    display:flex;
+    gap:10px;
+    margin-top:8px;
+    justify-content:center;
+    flex-wrap:wrap;
+  }
+  .mini-btn{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    background:transparent;
+    border:1px solid #55505a;
+    color:#cfc8d2;
+    padding:8px 14px;
+    border-radius:2px;
+    cursor:pointer;
+  }
+  .mini-btn:hover{border-color:var(--acid); color:var(--acid);}
+
+  /* ---- History ---- */
+  .history{
+    width:100%;
+    max-width:600px;
+    margin-top:44px;
+  }
+  .history h2{
+    font-family:'Special Elite', monospace;
+    font-size:13px;
+    color:#8a8390;
+    text-transform:uppercase;
+    letter-spacing:.1em;
+    border-bottom:1px dashed #3a353e;
+    padding-bottom:8px;
+  }
+  .history-item{
+    font-size:13px;
+    color:#d6cfda;
+    padding:10px 4px;
+    border-bottom:1px dotted #2c282f;
+  }
+  .history-item .tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10px;
+    color:#6d6672;
+    display:block;
+    margin-bottom:3px;
+  }
+
+  footer{
+    margin-top:56px;
+    font-size:11px;
+    color:#5f5866;
+    text-align:center;
+    max-width:440px;
+  }
+</style>
+</head>
+<body>
+
+  <div class="title-wrap" id="title"></div>
+  <div class="subtitle">an actual brief, not just a vibe</div>
+  <div class="stat">built from <b id="comboCount">—</b> possible briefs</div>
+
+  <div class="theme-label">pick an emotional theme</div>
+  <div class="emotions" id="emotions">
+    <button class="emotion-btn active" data-emotion="nostalgia">nostalgia</button>
+    <button class="emotion-btn" data-emotion="longing">longing</button>
+    <button class="emotion-btn" data-emotion="wonder">wonder</button>
+    <button class="emotion-btn" data-emotion="tenderness">tenderness</button>
+    <button class="emotion-btn" data-emotion="loneliness">loneliness</button>
+    <button class="emotion-btn" data-emotion="grief">grief</button>
+    <button class="emotion-btn" data-emotion="joy">joy</button>
+    <button class="emotion-btn" data-emotion="unease">unease</button>
+  </div>
+
+  <div class="theme-label">how far from reality should it push</div>
+  <div class="levels">
+    <button class="level-btn active" data-level="literal">literal</button>
+    <button class="level-btn" data-level="blended">blended</button>
+    <button class="level-btn" data-level="surreal">surreal</button>
+  </div>
+
+  <button class="generate-btn" id="genBtn">BUILD A BRIEF</button>
+
+  <div class="card-stage">
+    <div class="card" id="card">
+      <div class="tape"></div>
+      <span class="idea-index" id="ideaIndex"></span>
+
+      <div class="brief-row">
+        <div class="brief-label">Shoot / find this reference</div>
+        <div class="brief-value" id="shootText"></div>
+      </div>
+
+      <div class="brief-row">
+        <div class="brief-label">Add this overlay, hand-drawn</div>
+        <div class="brief-value" id="addText"></div>
+      </div>
+
+      <div class="brief-row">
+        <div class="brief-label">Caption line</div>
+        <div class="brief-value caption-text" id="captionText"></div>
+      </div>
+
+      <div class="brief-row" style="margin-bottom:0;">
+        <div class="brief-label">Technique</div>
+        <div class="brief-value" id="techniqueText"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-actions" id="cardActions" style="display:none;">
+    <button class="mini-btn" id="copyBtn">copy brief</button>
+    <button class="mini-btn" id="againBtn">build another</button>
+  </div>
+
+  <div class="history">
+    <h2>Recent briefs</h2>
+    <div id="historyList"></div>
+  </div>
+
+  <footer>Nothing here is saved when you close the tab. Copy any brief you like into your swipe file before you go.</footer>
+
+<script>
+/* ---------- Ransom-note title ---------- */
+const titleWords = ["COLLAGE","BRIEF","GENERATOR"];
+const ransomFonts = ["'Permanent Marker', cursive", "'Special Elite', monospace", "'Caveat', cursive", "'Shadows Into Light', cursive"];
+const clipColors = ["var(--paper)","var(--paper2)","var(--acid)","var(--tape2)","#ffffff"];
+const titleEl = document.getElementById('title');
+titleWords.forEach(word=>{
+  [...word].forEach(letter=>{
+    const s = document.createElement('span');
+    s.textContent = letter;
+    const rot = (Math.random()*16-8).toFixed(1);
+    s.style.setProperty('--r', rot+'deg');
+    s.style.fontFamily = ransomFonts[Math.floor(Math.random()*ransomFonts.length)];
+    s.style.background = clipColors[Math.floor(Math.random()*clipColors.length)];
+    s.style.color = 'var(--ink)';
+    titleEl.appendChild(s);
+  });
+  const space = document.createElement('div');
+  space.style.width='10px';
+  titleEl.appendChild(space);
+});
+
+/* ---------- Word banks, one per emotional theme ---------- */
+const banks = {
+  nostalgia: {
+    shoot: ["Photograph an old family photo, slightly blurred at the edges","Shoot the staircase or doorway of your childhood building","Photograph a handwritten letter or old postcard you've kept","Capture your city skyline at the same golden hour you remember","Photograph a worn-out toy, school bag, or old notebook","Shoot a street or market that's changed since you were young","Photograph your hands next to an old photo of yourself as a kid"],
+    add: ["a small hand-drawn paper airplane","a pressed or hand-painted flower","a torn ticket stub or old stamp","a hand-lettered date, written like a diary entry","a faded postmark stamp","a small sketched bird mid-flight"],
+    caption: ["I still remember the smell of this place.","Some things you don't forget.","This used to be ours.","Same street, different me.","It's still here, just quieter now."]
+  },
+  longing: {
+    shoot: ["Photograph an empty chair or the unmade side of a bed","Shoot a doorway or window facing an empty street","Photograph two cups, one clearly unused","Capture a train platform or airport gate, mid-wait","Shoot your phone screen, unlit, face up on a table","Photograph a coat or pair of shoes that aren't yours, by the door"],
+    add: ["a small hand-drawn paper plane pointed off-frame","a torn piece of a letter, mid-sentence","a single loose thread trailing off the edge","a hand-drawn outline of a hand, left unfilled","a small sketched clock with no hands","a faded second figure, drawn in outline only"],
+    caption: ["Come back before the light changes.","I kept the other cup out anyway.","Some rooms wait longer than others.","Still checking the wrong window.","Not gone. Just late."]
+  },
+  wonder: {
+    shoot: ["Photograph the night sky or stars from your balcony","Shoot a child looking up at something, mid-amazement","Photograph water — a lake, puddle, or the sea — catching light","Capture a kite, balloon, or paper boat in motion","Shoot an open book or an attic box, mid-discovery","Photograph a doorway with light pouring through it"],
+    add: ["a hand-drawn constellation, connected with thin lines","a small sketched compass or star chart","a paper crane or origami boat","a hand-painted moon or planet","tiny hand-lettered numbers, like a map key","a small illustrated telescope"],
+    caption: ["Something is about to happen here.","I didn't know it could look like that.","Still trying to find the edge of it.","This is the part no one warned me about.","Look up. No, further."]
+  },
+  tenderness: {
+    shoot: ["Photograph small shoes lined up by a door","Shoot two hands, one clearly smaller, held together","Photograph a shared blanket or a freshly made bed","Capture a lunchbox note or handwritten reminder","Shoot a doorway at bedtime, light spilling through a gap","Photograph a plate split into two uneven portions"],
+    add: ["a small hand-drawn heart, imperfectly drawn","a tiny sketched nightlight glow","a hand-lettered short note, like a lunchbox message","a small illustrated fold or stitch line on fabric","a soft watercolor wash in one warm color","a small sketched pair of shoes, two different sizes"],
+    caption: ["You won't remember this, but I will.","Small hands, big trust.","This is the quiet part of loving someone.","I'll stay until you fall asleep.","Some love doesn't need to be loud."]
+  },
+  loneliness: {
+    shoot: ["Photograph a single plate or chair at an otherwise set table","Shoot the empty side of a bench or sofa","Photograph your phone screen with no notifications","Capture an empty office, classroom, or train car","Shoot your own shadow, alone, on pavement","Photograph a mailbox that's mostly bills or flyers"],
+    add: ["a single hand-drawn chair outline","a small sketched speech bubble, left empty","a faded second silhouette, mostly erased","a hand-lettered '1 of 2', with the second crossed out","a small illustrated closed door","a thin hand-drawn line trailing off, unfinished"],
+    caption: ["I set two places out of habit.","The apartment is loud with silence.","Everyone else seems to have somewhere to be.","Still haven't learned the neighbor's name.","It's fine. It's just quiet."]
+  },
+  grief: {
+    shoot: ["Photograph an empty chair at a table, left as it was","Shoot a coat, still hanging on its hook","Photograph handwriting you recognize — a letter, recipe, or note","Capture a garden, closet, or drawer that hasn't been touched","Shoot a calendar page marking a date that still matters","Photograph a mug or object that was clearly 'theirs'"],
+    add: ["a small hand-drawn wilted flower","a faded, half-erased handwritten name","a small sketched candle, unlit","a thin hand-drawn line like a closed door","a torn calendar page, one date circled","a soft grey watercolor wash across one corner"],
+    caption: ["I haven't deleted the number yet.","The garden still grows like nothing happened.","Some Tuesdays are heavier than others.","I set the table for one too many, again.","Still here, just missing you in it."]
+  },
+  joy: {
+    shoot: ["Photograph a child mid-laugh or mid-jump","Shoot confetti, fireworks, or something caught mid-air","Photograph a full table of people cooking or eating together","Capture a dance floor, playground, or finish line","Shoot a text message or note that says 'yes'","Photograph a dog running, ears back, full speed"],
+    add: ["small hand-drawn confetti pieces","a sketched exclamation mark or star burst","a hand-painted balloon or ribbon","a small illustrated party hat or streamer","bright hand-lettered text, like a celebratory stamp","a small sketched sun with rays"],
+    caption: ["This is the good part.","Say it again, I want to hear it twice.","We're allowed to be this happy.","Finally, finally, finally.","Someone pinch me."]
+  },
+  unease: {
+    shoot: ["Photograph a hallway or staircase from an odd, low angle","Shoot a mirror or window with an unclear reflection","Photograph a door that's slightly ajar, nothing visible beyond","Capture an empty parking lot or garage at night","Shoot a clock or watch, slightly askew","Photograph a room that's a little too tidy, or too still"],
+    add: ["a small sketched eye, slightly off-center","a hand-drawn crack running through the image","a faint, mostly-erased second figure","a small illustrated door, left ajar","a hand-lettered fragment of text, cut off mid-word","a thin red thread, out of place"],
+    caption: ["Something's off, I just can't say what.","I don't remember leaving that door open.","It looked different a second ago.","Don't turn around yet.","This wasn't here before."]
+  }
+};
+
+/* ---------- Techniques, grouped by how far from reality ---------- */
+const techniqueTiers = {
+  literal: [
+    "Layer the reference photo as the base, add the overlay in one corner only.",
+    "Use torn paper edges where the photo meets the background.",
+    "Keep the caption handwritten, small, tucked into a corner.",
+    "Add a strip of tape across one edge, like a kept keepsake.",
+    "Use a single muted color wash over the whole piece to unify it.",
+    "Frame the photo like a postcard, caption on the 'address' side."
+  ],
+  blended: [
+    "Double-expose the reference photo with a second, softer image behind it.",
+    "Let the overlay bleed slightly outside the frame.",
+    "Cut the photo into two halves and offset them slightly, like a glitch.",
+    "Layer the caption directly over the photo, semi-transparent.",
+    "Use a torn strip of a second photo as a border.",
+    "Desaturate the photo except for the overlay element, kept in color."
+  ],
+  surreal: [
+    "Scale the overlay unrealistically large or small against the photo.",
+    "Repeat the overlay several times, fading with each repetition.",
+    "Invert the photo's light and dark areas in one section only.",
+    "Cut a literal hole in the photo, showing a second image underneath.",
+    "Mirror half the photo so the image folds in on itself.",
+    "Let the caption text physically interrupt or cut through the photo."
+  ]
+};
+
+function comboCountFor(emotion, level){
+  const b = banks[emotion];
+  return b.shoot.length * b.add.length * b.caption.length * techniqueTiers[level].length;
+}
+
+let currentEmotion = 'nostalgia';
+let currentLevel = 'literal';
+const history = [];
+
+function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+
+function generateBrief(emotion, level){
+  const b = banks[emotion];
+  return {
+    shoot: pick(b.shoot),
+    add: pick(b.add),
+    caption: pick(b.caption),
+    technique: pick(techniqueTiers[level])
+  };
+}
+
+function updateComboStat(){
+  let total = 0;
+  Object.keys(banks).forEach(e=>{
+    Object.keys(techniqueTiers).forEach(l=> total += comboCountFor(e, l));
+  });
+  document.getElementById('comboCount').textContent = total.toLocaleString()+"+";
+}
+updateComboStat();
+
+const card = document.getElementById('card');
+const shootText = document.getElementById('shootText');
+const addText = document.getElementById('addText');
+const captionText = document.getElementById('captionText');
+const techniqueText = document.getElementById('techniqueText');
+const ideaIndex = document.getElementById('ideaIndex');
+const cardActions = document.getElementById('cardActions');
+const historyList = document.getElementById('historyList');
+let count = 0;
+
+function rip(){
+  count++;
+  const brief = generateBrief(currentEmotion, currentLevel);
+  card.classList.remove('show');
+  void card.offsetWidth;
+  const rot = (Math.random()*4-2).toFixed(1)+'deg';
+  card.style.setProperty('--rot', rot);
+  ideaIndex.textContent = '#' + count + ' · ' + currentEmotion + ' · ' + currentLevel;
+  shootText.textContent = brief.shoot;
+  addText.textContent = brief.add;
+  captionText.textContent = brief.caption;
+  techniqueText.textContent = brief.technique;
+  requestAnimationFrame(()=> card.classList.add('show'));
+  cardActions.style.display = 'flex';
+
+  history.unshift({...brief, emotion: currentEmotion, level: currentLevel, n: count});
+  if(history.length > 6) history.pop();
+  renderHistory();
+}
+
+function renderHistory(){
+  historyList.innerHTML = '';
+  history.forEach(h=>{
+    const div = document.createElement('div');
+    div.className = 'history-item';
+    div.innerHTML = '<span class="tag">#'+h.n+' · '+h.emotion+' · '+h.level+'</span>'
+      + 'Shoot: '+h.shoot+'<br>Add: '+h.add+'<br>Caption: “'+h.caption+'”<br>Technique: '+h.technique;
+    historyList.appendChild(div);
+  });
+}
+
+function briefAsText(){
+  return 'SHOOT: '+shootText.textContent+'\nADD: '+addText.textContent+'\nCAPTION: "'+captionText.textContent+'"\nTECHNIQUE: '+techniqueText.textContent;
+}
+
+document.getElementById('genBtn').addEventListener('click', rip);
+document.getElementById('againBtn').addEventListener('click', rip);
+
+document.getElementById('copyBtn').addEventListener('click', ()=>{
+  navigator.clipboard.writeText(briefAsText()).then(()=>{
+    const btn = document.getElementById('copyBtn');
+    const old = btn.textContent;
+    btn.textContent = 'copied';
+    setTimeout(()=> btn.textContent = old, 1200);
+  });
+});
+
+document.querySelectorAll('.emotion-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.emotion-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    currentEmotion = btn.dataset.emotion;
+  });
+});
+
+document.querySelectorAll('.level-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.level-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    currentLevel = btn.dataset.level;
+  });
+});
+</script>
+</body>
+</html>

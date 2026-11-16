@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marginalia — a daily notebook</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600;9..144,700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  :root{
+    --bg: #1c1a17;
+    --bg-raised: #242019;
+    --bg-card: #28231b;
+    --hairline: rgba(201,163,92,0.18);
+    --ink: #e8dfd0;
+    --ink-dim: #a99d87;
+    --ink-faint: #6f6657;
+    --gold: #c9a35c;
+    --gold-bright: #e0bc7a;
+    --rust: #9a5b48;
+    --sage: #6c8478;
+    --dusk: #6f7fa3;
+    --danger: #b35c4f;
+    --radius: 3px;
+    --shadow: 0 8px 28px rgba(0,0,0,0.45);
+  }
+
+  *{ box-sizing: border-box; }
+  html,body{ height:100%; }
+  body{
+    margin:0;
+    background:
+      radial-gradient(ellipse at top, rgba(201,163,92,0.05), transparent 60%),
+      var(--bg);
+    color: var(--ink);
+    font-family: 'Source Serif 4', Georgia, serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* faint laid-paper texture */
+  body::before{
+    content:"";
+    position: fixed; inset:0;
+    pointer-events:none;
+    background-image: repeating-linear-gradient(
+      0deg, rgba(255,255,255,0.012) 0px, rgba(255,255,255,0.012) 1px,
+      transparent 1px, transparent 3px
+    );
+    z-index:0;
+  }
+
+  .shell{
+    position:relative; z-index:1;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 56px 28px 120px;
+  }
+
+  /* Header */
+  header.masthead{
+    text-align:center;
+    margin-bottom: 44px;
+  }
+  .masthead .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 10px;
+  }
+  .masthead h1{
+    font-family:'Fraunces', serif;
+    font-weight: 600;
+    font-style: italic;
+    font-size: clamp(36px, 6vw, 52px);
+    margin: 0;
+    color: var(--gold-bright);
+    letter-spacing: -0.01em;
+  }
+  .masthead .sub{
+    margin-top: 10px;
+    font-size: 14px;
+    color: var(--ink-dim);
+    font-style: italic;
+  }
+  .masthead .rule{
+    width: 64px; height:1px;
+    margin: 18px auto 0;
+    background: var(--gold);
+    opacity: 0.5;
+  }
+
+  /* Toolbar */
+  .toolbar{
+    display:flex; gap:10px; align-items:center;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+  .toolbar input[type="search"]{
+    flex: 1 1 180px;
+    background: var(--bg-raised);
+    border: 1px solid var(--hairline);
+    color: var(--ink);
+    padding: 10px 14px;
+    border-radius: var(--radius);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    outline: none;
+  }
+  .toolbar input[type="search"]::placeholder{ color: var(--ink-faint); }
+  .toolbar input[type="search"]:focus{ border-color: var(--gold); }
+
+  select#filterTag{
+    background: var(--bg-raised);
+    border: 1px solid var(--hairline);
+    color: var(--ink-dim);
+    padding: 10px 10px;
+    border-radius: var(--radius);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    outline:none;
+  }
+
+  button{
+    font-family: 'IBM Plex Mono', monospace;
+    cursor: pointer;
+    border-radius: var(--radius);
+  }
+  .btn-primary{
+    background: var(--gold);
+    color: #1c1a17;
+    border: none;
+    padding: 10px 18px;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    transition: background 0.15s ease, transform 0.1s ease;
+  }
+  .btn-primary:hover{ background: var(--gold-bright); }
+  .btn-primary:active{ transform: scale(0.97); }
+
+  .btn-ghost{
+    background: transparent;
+    border: 1px solid var(--hairline);
+    color: var(--ink-dim);
+    padding: 9px 14px;
+    font-size: 12px;
+  }
+  .btn-ghost:hover{ border-color: var(--gold); color: var(--gold-bright); }
+
+  /* Composer */
+  .composer{
+    background: var(--bg-card);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius);
+    padding: 22px;
+    margin-bottom: 36px;
+    box-shadow: var(--shadow);
+    display: none;
+  }
+  .composer.open{ display:block; }
+
+  .composer-row{ display:flex; gap:10px; margin-bottom: 12px; flex-wrap: wrap; }
+  .composer input[type="text"], .composer textarea, .composer input[type="url"]{
+    width:100%;
+    background: var(--bg-raised);
+    border: 1px solid var(--hairline);
+    color: var(--ink);
+    padding: 10px 12px;
+    border-radius: var(--radius);
+    font-family: 'Source Serif 4', serif;
+    font-size: 15px;
+    outline:none;
+    resize: vertical;
+  }
+  .composer input[type="text"]:focus, .composer textarea:focus, .composer input[type="url"]:focus{
+    border-color: var(--gold);
+  }
+  .composer textarea{ min-height: 130px; line-height: 1.6; }
+  .composer .title-input{ font-family:'Fraunces', serif; font-size: 19px; font-weight: 500; }
+
+  .tag-select{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 12px;
+    background: var(--bg-raised);
+    border: 1px solid var(--hairline);
+    color: var(--ink-dim);
+    padding: 9px 10px;
+    border-radius: var(--radius);
+    outline: none;
+  }
+
+  .composer-foot{
+    display:flex; justify-content: space-between; align-items:center;
+    margin-top: 14px; gap: 10px; flex-wrap: wrap;
+  }
+  .file-label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--ink-faint);
+    border: 1px dashed var(--hairline);
+    padding: 9px 12px;
+    border-radius: var(--radius);
+    cursor:pointer;
+    transition: border-color 0.15s ease, color 0.15s ease;
+  }
+  .file-label:hover{ border-color: var(--gold); color: var(--gold-bright); }
+  #imageInput{ display:none; }
+
+  .img-preview-strip{
+    display:flex; gap:8px; flex-wrap:wrap; margin-top: 10px;
+  }
+  .img-preview-strip .thumb{
+    position:relative; width:64px; height:64px; border-radius: var(--radius);
+    overflow:hidden; border: 1px solid var(--hairline);
+  }
+  .img-preview-strip .thumb img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .img-preview-strip .thumb .rm{
+    position:absolute; top:0; right:0; background:rgba(0,0,0,0.6); color:#fff;
+    font-size: 11px; width:18px; height:18px; line-height:18px; text-align:center;
+    cursor:pointer;
+  }
+
+  .composer-actions{ display:flex; gap:8px; }
+
+  /* Empty state */
+  .empty{
+    text-align:center;
+    padding: 60px 20px;
+    color: var(--ink-faint);
+  }
+  .empty .glyph{ font-size: 34px; margin-bottom: 14px; opacity:0.6; }
+  .empty p{ font-family:'IBM Plex Mono', monospace; font-size: 13px; letter-spacing: 0.02em; }
+
+  /* Entries feed */
+  .feed{ display:flex; flex-direction:column; gap: 30px; }
+
+  .entry{
+    position: relative;
+    background: var(--bg-card);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius);
+    padding: 26px 26px 22px;
+    box-shadow: var(--shadow);
+    animation: rise 0.4s ease both;
+  }
+  @keyframes rise{
+    from{ opacity:0; transform: translateY(10px); }
+    to{ opacity:1; transform: translateY(0); }
+  }
+
+  /* deckled top edge */
+  .entry::before{
+    content:"";
+    position:absolute; top:-1px; left:0; right:0; height:6px;
+    background-image: linear-gradient(135deg, var(--bg) 50%, transparent 50%),
+                       linear-gradient(225deg, var(--bg) 50%, transparent 50%);
+    background-size: 12px 12px;
+    background-repeat: repeat-x;
+    background-position: bottom left;
+  }
+
+  .stamp{
+    position:absolute;
+    top: 18px; right: 22px;
+    width: 64px; height: 64px;
+    border: 1.5px dashed var(--gold);
+    border-radius: 50%;
+    display:flex; align-items:center; justify-content:center;
+    transform: rotate(-8deg);
+    opacity: 0.85;
+    flex-direction:column;
+    text-align:center;
+  }
+  .stamp .d1{ font-family:'IBM Plex Mono', monospace; font-size: 16px; color: var(--gold-bright); line-height:1; }
+  .stamp .d2{ font-family:'IBM Plex Mono', monospace; font-size: 8px; color: var(--ink-dim); letter-spacing:0.08em; text-transform:uppercase; margin-top:2px; }
+
+  .entry-head{ padding-right: 80px; margin-bottom: 6px; }
+  .entry-tag{
+    display:inline-block;
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    border: 1px solid currentColor;
+  }
+  .tag-sketch{ color: var(--gold-bright); }
+  .tag-film{ color: var(--dusk); }
+  .tag-book{ color: var(--sage); }
+  .tag-music{ color: var(--rust); }
+  .tag-history{ color: #c08a52; }
+  .tag-thought{ color: var(--ink-dim); }
+
+  .entry h2{
+    font-family:'Fraunces', serif;
+    font-weight: 600;
+    font-size: 22px;
+    margin: 0 0 4px;
+    color: var(--ink);
+  }
+  .entry .timestamp{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-faint);
+    margin-bottom: 14px;
+  }
+  .entry .body-text{
+    font-size: 15.5px;
+    line-height: 1.75;
+    color: var(--ink);
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+  .entry .body-text a{ color: var(--gold-bright); text-decoration: underline; text-decoration-color: var(--hairline); }
+
+  .entry-images{
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 8px;
+    margin-top: 14px;
+  }
+  .entry-images img{
+    width:100%; height: 110px; object-fit: cover;
+    border-radius: var(--radius);
+    border: 1px solid var(--hairline);
+    cursor: zoom-in;
+  }
+
+  .entry-foot{
+    display:flex; justify-content:flex-end; gap: 8px;
+    margin-top: 16px;
+    border-top: 1px solid var(--hairline);
+    padding-top: 12px;
+  }
+  .icon-btn{
+    background:none; border:none; color: var(--ink-faint);
+    font-family:'IBM Plex Mono', monospace; font-size: 11px;
+    padding: 4px 8px;
+    letter-spacing: 0.05em;
+  }
+  .icon-btn:hover{ color: var(--gold-bright); }
+  .icon-btn.danger:hover{ color: var(--danger); }
+
+  /* lightbox */
+  .lightbox{
+    position: fixed; inset:0; background: rgba(10,9,7,0.92);
+    display:none; align-items:center; justify-content:center; z-index: 50;
+    padding: 30px;
+  }
+  .lightbox.open{ display:flex; }
+  .lightbox img{ max-width:100%; max-height:100%; border-radius: 4px; box-shadow: 0 20px 60px rgba(0,0,0,0.6); }
+
+  footer.foot-note{
+    text-align:center;
+    margin-top: 50px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-faint);
+    letter-spacing: 0.05em;
+  }
+  footer.foot-note button{ background:none;border:none;color:var(--ink-faint);text-decoration:underline;font-family:inherit;font-size:inherit; }
+  footer.foot-note button:hover{ color: var(--gold-bright); }
+
+  #importInput{ display:none; }
+
+  @media (prefers-reduced-motion: reduce){
+    .entry{ animation:none; }
+  }
+
+  ::-webkit-scrollbar{ width: 10px; }
+  ::-webkit-scrollbar-track{ background: var(--bg); }
+  ::-webkit-scrollbar-thumb{ background: var(--bg-raised); border: 2px solid var(--bg); border-radius:10px; }
+</style>
+</head>
+<body>
+
+<div class="shell">
+
+  <header class="masthead">
+    <div class="eyebrow">a private notebook</div>
+    <h1>Marginalia</h1>
+    <div class="sub">things seen, read, heard — and what was stolen from them</div>
+    <div class="rule"></div>
+  </header>
+
+  <div class="toolbar">
+    <input type="search" id="searchBox" placeholder="search your entries…">
+    <select id="filterTag">
+      <option value="">all tags</option>
+      <option value="sketch">sketch</option>
+      <option value="film">film</option>
+      <option value="book">book</option>
+      <option value="music">music</option>
+      <option value="history">history</option>
+      <option value="thought">thought</option>
+    </select>
+    <button class="btn-primary" id="newEntryBtn">+ New entry</button>
+  </div>
+
+  <div class="composer" id="composer">
+    <div class="composer-row">
+      <input type="text" id="entryTitle" class="title-input" placeholder="Title (optional)">
+    </div>
+    <div class="composer-row">
+      <select id="entryTag" class="tag-select">
+        <option value="thought">thought</option>
+        <option value="sketch">sketch</option>
+        <option value="film">film</option>
+        <option value="book">book</option>
+        <option value="music">music</option>
+        <option value="history">history</option>
+      </select>
+      <input type="url" id="entryLink" placeholder="https:// link (optional)">
+    </div>
+    <div class="composer-row">
+      <textarea id="entryBody" placeholder="Write whatever you want to remember…"></textarea>
+    </div>
+    <label class="file-label" for="imageInput">+ attach image(s)</label>
+    <input type="file" id="imageInput" accept="image/*" multiple>
+    <div class="img-preview-strip" id="previewStrip"></div>
+    <div class="composer-foot">
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-faint);">saved only on this device</span>
+      <div class="composer-actions">
+        <button class="btn-ghost" id="cancelBtn">cancel</button>
+        <button class="btn-primary" id="saveBtn">Save entry</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="feed" id="feed"></div>
+
+  <div class="empty" id="emptyState" style="display:none;">
+    <div class="glyph">✎</div>
+    <p>nothing written yet — start the first page</p>
+  </div>
+
+  <footer class="foot-note">
+    <span id="entryCount">0 entries</span> ·
+    <button id="exportBtn">export backup</button> ·
+    <button id="importBtn">import backup</button>
+    <input type="file" id="importInput" accept=".json">
+  </footer>
+
+</div>
+
+<div class="lightbox" id="lightbox"><img id="lightboxImg" src=""></div>
+
+<script>
+(function(){
+  const STORAGE_KEY = 'marginalia_entries_v1';
+  let entries = [];
+  let pendingImages = []; // {dataUrl}
+  let editingId = null;
+
+  const feed = document.getElementById('feed');
+  const emptyState = document.getElementById('emptyState');
+  const composer = document.getElementById('composer');
+  const entryCount = document.getElementById('entryCount');
+
+  function load(){
+    try{
+      const raw = localStorage.getItem(STORAGE_KEY);
+      entries = raw ? JSON.parse(raw) : [];
+    }catch(e){ entries = []; }
+  }
+  function persist(){
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
+  }
+
+  function escapeHtml(str){
+    const d = document.createElement('div');
+    d.textContent = str;
+    return d.innerHTML;
+  }
+
+  // turn plain text + auto-linkify URLs, escape everything else
+  function renderBody(text){
+    const escaped = escapeHtml(text);
+    return escaped.replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
+  }
+
+  function fmtStamp(ts){
+    const d = new Date(ts);
+    const day = d.getDate();
+    const month = d.toLocaleString('en-US', {month:'short'}).toUpperCase();
+    return {d1: day, d2: month + " '" + String(d.getFullYear()).slice(2)};
+  }
+  function fmtFull(ts){
+    const d = new Date(ts);
+    return d.toLocaleString('en-US', {weekday:'long', year:'numeric', month:'long', day:'numeric', hour:'numeric', minute:'2-digit'});
+  }
+
+  function render(){
+    const q = document.getElementById('searchBox').value.trim().toLowerCase();
+    const tagFilter = document.getElementById('filterTag').value;
+
+    let list = entries.slice().sort((a,b)=> b.createdAt - a.createdAt);
+    if(tagFilter){ list = list.filter(e => e.tag === tagFilter); }
+    if(q){
+      list = list.filter(e =>
+        (e.title||'').toLowerCase().includes(q) ||
+        (e.body||'').toLowerCase().includes(q) ||
+        (e.link||'').toLowerCase().includes(q)
+      );
+    }
+
+    entryCount.textContent = entries.length + (entries.length===1 ? ' entry' : ' entries');
+
+    if(list.length === 0){
+      feed.innerHTML = '';
+      emptyState.style.display = 'block';
+      emptyState.querySelector('p').textContent = entries.length === 0
+        ? 'nothing written yet — start the first page'
+        : 'no entries match your search';
+      return;
+    }
+    emptyState.style.display = 'none';
+
+    feed.innerHTML = list.map(e => {
+      const stamp = fmtStamp(e.createdAt);
+      const imgs = (e.images||[]).map(src => `<img src="${src}" data-full="${src}">`).join('');
+      const linkHtml = e.link ? `<div class="body-text"><a href="${escapeHtml(e.link)}" target="_blank" rel="noopener">${escapeHtml(e.link)}</a></div>` : '';
+      return `
+      <article class="entry" data-id="${e.id}">
+        <div class="stamp"><div class="d1">${stamp.d1}</div><div class="d2">${stamp.d2}</div></div>
+        <div class="entry-head">
+          <span class="entry-tag tag-${e.tag}">${e.tag}</span>
+          ${e.title ? `<h2>${escapeHtml(e.title)}</h2>` : ''}
+          <div class="timestamp">${fmtFull(e.createdAt)}</div>
+        </div>
+        ${e.body ? `<div class="body-text">${renderBody(e.body)}</div>` : ''}
+        ${linkHtml}
+        ${imgs ? `<div class="entry-images">${imgs}</div>` : ''}
+        <div class="entry-foot">
+          <button class="icon-btn" data-action="edit">edit</button>
+          <button class="icon-btn danger" data-action="delete">delete</button>
+        </div>
+      </article>`;
+    }).join('');
+  }
+
+  // composer open/close
+  document.getElementById('newEntryBtn').addEventListener('click', () => {
+    editingId = null;
+    clearComposer();
+    composer.classList.add('open');
+    document.getElementById('entryBody').focus();
+  });
+  document.getElementById('cancelBtn').addEventListener('click', closeComposer);
+
+  function closeComposer(){
+    composer.classList.remove('open');
+    clearComposer();
+  }
+  function clearComposer(){
+    document.getElementById('entryTitle').value = '';
+    document.getElementById('entryBody').value = '';
+    document.getElementById('entryLink').value = '';
+    document.getElementById('entryTag').value = 'thought';
+    pendingImages = [];
+    renderPreviewStrip();
+    document.getElementById('imageInput').value = '';
+  }
+
+  // image attach
+  document.getElementById('imageInput').addEventListener('change', (e) => {
+    const files = Array.from(e.target.files || []);
+    files.forEach(file => {
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        pendingImages.push(ev.target.result);
+        renderPreviewStrip();
+      };
+      reader.readAsDataURL(file);
+    });
+  });
+
+  function renderPreviewStrip(){
+    const strip = document.getElementById('previewStrip');
+    strip.innerHTML = pendingImages.map((src, i) =>
+      `<div class="thumb"><img src="${src}"><div class="rm" data-i="${i}">×</div></div>`
+    ).join('');
+    strip.querySelectorAll('.rm').forEach(btn => {
+      btn.addEventListener('click', () => {
+        pendingImages.splice(parseInt(btn.dataset.i), 1);
+        renderPreviewStrip();
+      });
+    });
+  }
+
+  // save
+  document.getElementById('saveBtn').addEventListener('click', () => {
+    const title = document.getElementById('entryTitle').value.trim();
+    const body = document.getElementById('entryBody').value.trim();
+    const link = document.getElementById('entryLink').value.trim();
+    const tag = document.getElementById('entryTag').value;
+
+    if(!title && !body && !link && pendingImages.length === 0){
+      alert('Write something, add a link, or attach an image first.');
+      return;
+    }
+
+    if(editingId){
+      const e = entries.find(x => x.id === editingId);
+      if(e){
+        e.title = title; e.body = body; e.link = link; e.tag = tag;
+        e.images = pendingImages.slice();
+      }
+    }else{
+      entries.push({
+        id: 'e' + Date.now() + Math.random().toString(36).slice(2,7),
+        title, body, link, tag,
+        images: pendingImages.slice(),
+        createdAt: Date.now()
+      });
+    }
+    persist();
+    closeComposer();
+    render();
+  });
+
+  // edit / delete / lightbox via delegation
+  feed.addEventListener('click', (e) => {
+    const article = e.target.closest('.entry');
+    if(!article) return;
+    const id = article.dataset.id;
+
+    if(e.target.dataset.action === 'delete'){
+      if(confirm('Delete this entry? This cannot be undone.')){
+        entries = entries.filter(x => x.id !== id);
+        persist();
+        render();
+      }
+      return;
+    }
+    if(e.target.dataset.action === 'edit'){
+      const entry = entries.find(x => x.id === id);
+      if(!entry) return;
+      editingId = id;
+      document.getElementById('entryTitle').value = entry.title || '';
+      document.getElementById('entryBody').value = entry.body || '';
+      document.getElementById('entryLink').value = entry.link || '';
+      document.getElementById('entryTag').value = entry.tag || 'thought';
+      pendingImages = (entry.images||[]).slice();
+      renderPreviewStrip();
+      composer.classList.add('open');
+      composer.scrollIntoView({behavior:'smooth', block:'start'});
+      return;
+    }
+    if(e.target.tagName === 'IMG' && e.target.dataset.full){
+      document.getElementById('lightboxImg').src = e.target.dataset.full;
+      document.getElementById('lightbox').classList.add('open');
+    }
+  });
+
+  document.getElementById('lightbox').addEventListener('click', () => {
+    document.getElementById('lightbox').classList.remove('open');
+  });
+
+  document.getElementById('searchBox').addEventListener('input', render);
+  document.getElementById('filterTag').addEventListener('change', render);
+
+  // export / import
+  document.getElementById('exportBtn').addEventListener('click', () => {
+    const blob = new Blob([JSON.stringify(entries, null, 2)], {type:'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'marginalia-backup-' + new Date().toISOString().slice(0,10) + '.json';
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+
+  document.getElementById('importBtn').addEventListener('click', () => {
+    document.getElementById('importInput').click();
+  });
+  document.getElementById('importInput').addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      try{
+        const imported = JSON.parse(ev.target.result);
+        if(!Array.isArray(imported)) throw new Error('bad format');
+        const existingIds = new Set(entries.map(x => x.id));
+        const merged = imported.filter(x => !existingIds.has(x.id));
+        entries = entries.concat(merged);
+        persist();
+        render();
+        alert('Imported ' + merged.length + ' entries.');
+      }catch(err){
+        alert('Could not read that backup file.');
+      }
+    };
+    reader.readAsText(file);
+  });
+
+  // keyboard shortcut: press "n" to start a new entry (when not typing)
+  document.addEventListener('keydown', (e) => {
+    if(e.key === 'n' && !composer.classList.contains('open') &&
+       document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA'){
+      document.getElementById('newEntryBtn').click();
+    }
+    if(e.key === 'Escape'){
+      document.getElementById('lightbox').classList.remove('open');
+      if(composer.classList.contains('open')) closeComposer();
+    }
+  });
+
+  load();
+  render();
+})();
+</script>
+
+</body>
+</html>

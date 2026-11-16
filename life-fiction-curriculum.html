@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Fiction of Living — A Curriculum for the Soul</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;600&family=Noto+Serif+Devanagari:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1208;
+    --parchment: #f5edd8;
+    --gold: #c9922a;
+    --gold-light: #e8c06a;
+    --rust: #8b3a2a;
+    --sage: #4a5e4a;
+    --deep: #0d0a06;
+    --mist: #d4c9b0;
+    --ember: #d4502a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--deep);
+    color: var(--parchment);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    padding: 2rem;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 40%, #1e1408 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 20% 80%, #2a1a08 0%, transparent 60%),
+      radial-gradient(ellipse 50% 50% at 80% 20%, #1a0d08 0%, transparent 60%);
+    background-color: #090604;
+  }
+
+  .mandala {
+    position: absolute;
+    width: 700px; height: 700px;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0.06;
+    animation: mandala-spin 120s linear infinite;
+  }
+
+  @keyframes mandala-spin {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to   { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+
+  .sparks {
+    position: absolute; inset: 0;
+    pointer-events: none;
+  }
+
+  .spark {
+    position: absolute;
+    width: 2px; height: 2px;
+    background: var(--gold-light);
+    border-radius: 50%;
+    animation: float-spark linear infinite;
+    opacity: 0;
+  }
+
+  @keyframes float-spark {
+    0%   { opacity: 0; transform: translateY(0) scale(1); }
+    10%  { opacity: 0.8; }
+    90%  { opacity: 0.3; }
+    100% { opacity: 0; transform: translateY(-80vh) scale(0.3); }
+  }
+
+  .hero-eyebrow {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.4em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fade-up 1.2s ease 0.3s forwards;
+  }
+
+  .hero-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(2.4rem, 6vw, 5rem);
+    font-weight: 600;
+    text-align: center;
+    line-height: 1.1;
+    color: var(--parchment);
+    opacity: 0;
+    animation: fade-up 1.4s ease 0.6s forwards;
+    max-width: 800px;
+  }
+
+  .hero-title em {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 300;
+    color: var(--gold-light);
+  }
+
+  .hero-sub {
+    margin-top: 2rem;
+    font-size: 1.25rem;
+    font-style: italic;
+    color: var(--mist);
+    text-align: center;
+    max-width: 580px;
+    line-height: 1.7;
+    opacity: 0;
+    animation: fade-up 1.4s ease 0.9s forwards;
+  }
+
+  .hero-divider {
+    margin: 2.5rem auto;
+    width: 120px; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0;
+    animation: fade-up 1s ease 1.2s forwards;
+  }
+
+  .scroll-cue {
+    position: absolute;
+    bottom: 2.5rem;
+    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+    font-size: 0.65rem; letter-spacing: 0.3em;
+    color: var(--gold);
+    opacity: 0;
+    animation: fade-up 1s ease 2s forwards;
+  }
+
+  .scroll-line {
+    width: 1px; height: 40px;
+    background: linear-gradient(var(--gold), transparent);
+    animation: scroll-pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes scroll-pulse {
+    0%, 100% { opacity: 0.3; transform: scaleY(0.8); }
+    50% { opacity: 1; transform: scaleY(1); }
+  }
+
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── INTRO ── */
+  .intro-band {
+    background: var(--ink);
+    padding: 5rem 2rem;
+    text-align: center;
+    border-top: 1px solid rgba(201,146,42,0.2);
+    border-bottom: 1px solid rgba(201,146,42,0.2);
+  }
+
+  .intro-band p {
+    font-size: 1.3rem;
+    line-height: 2;
+    max-width: 680px;
+    margin: 0 auto;
+    color: var(--mist);
+  }
+
+  .intro-band p strong {
+    color: var(--gold-light);
+    font-weight: 400;
+  }
+
+  /* ── STAGE SECTION ── */
+  .stages-header {
+    text-align: center;
+    padding: 5rem 2rem 3rem;
+    background: var(--deep);
+  }
+
+  .stages-header h2 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.4rem, 3vw, 2.2rem);
+    color: var(--gold);
+    letter-spacing: 0.15em;
+  }
+
+  .stage {
+    padding: 0 1.5rem 6rem;
+    background: var(--deep);
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  .stage-header {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 2rem;
+    align-items: start;
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(201,146,42,0.15);
+  }
+
+  .stage-num {
+    font-family: 'Cinzel', serif;
+    font-size: 4rem;
+    color: rgba(201,146,42,0.15);
+    line-height: 1;
+    font-weight: 600;
+    min-width: 80px;
+    text-align: right;
+  }
+
+  .stage-meta { }
+
+  .stage-tag {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.4em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 0.6rem;
+  }
+
+  .stage-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
+    color: var(--parchment);
+    line-height: 1.2;
+    margin-bottom: 0.8rem;
+  }
+
+  .stage-age {
+    font-size: 0.85rem;
+    color: var(--mist);
+    letter-spacing: 0.15em;
+    font-style: italic;
+  }
+
+  .stage-essence {
+    font-size: 1.15rem;
+    font-style: italic;
+    color: var(--gold-light);
+    line-height: 1.8;
+    margin-bottom: 3rem;
+    padding-left: 1.5rem;
+    border-left: 2px solid var(--gold);
+  }
+
+  .wisdom-strip {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 3rem;
+  }
+
+  .wisdom-pill {
+    background: rgba(201,146,42,0.07);
+    border: 1px solid rgba(201,146,42,0.2);
+    border-radius: 2px;
+    padding: 1rem 1.2rem;
+    font-size: 0.85rem;
+    color: var(--mist);
+  }
+
+  .wisdom-pill strong {
+    display: block;
+    color: var(--gold);
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+    font-weight: 400;
+  }
+
+  .books-grid {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .book-card {
+    display: grid;
+    grid-template-columns: 3px 1fr;
+    gap: 0;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 2px;
+    overflow: hidden;
+    transition: border-color 0.3s, background 0.3s;
+    cursor: pointer;
+  }
+
+  .book-card:hover {
+    background: rgba(201,146,42,0.05);
+    border-color: rgba(201,146,42,0.3);
+  }
+
+  .book-stripe { background: var(--gold); }
+  .book-stripe.india  { background: #d4782a; }
+  .book-stripe.japan  { background: #8b2a2a; }
+  .book-stripe.greece { background: #2a5e8b; }
+  .book-stripe.persia { background: #2a6b4a; }
+  .book-stripe.china  { background: #8b2a5e; }
+  .book-stripe.west   { background: #4a5e8b; }
+  .book-stripe.africa { background: #8b6b2a; }
+  .book-stripe.russia { background: #5e3a8b; }
+
+  .book-body { padding: 1.4rem 1.6rem; }
+
+  .book-origin {
+    font-size: 0.6rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.4rem;
+    font-family: 'Cinzel', serif;
+  }
+
+  .book-title {
+    font-size: 1.15rem;
+    color: var(--parchment);
+    margin-bottom: 0.2rem;
+    font-style: italic;
+  }
+
+  .book-author {
+    font-size: 0.8rem;
+    color: var(--mist);
+    margin-bottom: 0.8rem;
+    opacity: 0.7;
+  }
+
+  .book-lesson {
+    font-size: 0.92rem;
+    color: #b8ad9a;
+    line-height: 1.7;
+  }
+
+  .book-why {
+    margin-top: 0.7rem;
+    font-size: 0.8rem;
+    font-style: italic;
+    color: var(--gold-light);
+    opacity: 0.8;
+  }
+
+  /* ── SEPARATOR ── */
+  .sep {
+    text-align: center;
+    padding: 2rem 0 0;
+    color: rgba(201,146,42,0.3);
+    font-size: 1.5rem;
+    letter-spacing: 0.5em;
+  }
+
+  /* ── CLOSING ── */
+  .closing {
+    background: var(--ink);
+    padding: 6rem 2rem;
+    text-align: center;
+    border-top: 1px solid rgba(201,146,42,0.2);
+  }
+
+  .closing-quote {
+    font-size: clamp(1.3rem, 3vw, 2rem);
+    font-style: italic;
+    color: var(--parchment);
+    max-width: 640px;
+    margin: 0 auto 1.5rem;
+    line-height: 1.7;
+  }
+
+  .closing-attr {
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+
+  .closing-line {
+    width: 80px; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 2rem auto;
+  }
+
+  .closing-footer {
+    font-size: 0.75rem;
+    color: var(--mist);
+    opacity: 0.4;
+    letter-spacing: 0.2em;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .stage-header { grid-template-columns: 1fr; }
+    .stage-num { font-size: 2.5rem; text-align: left; }
+    .wisdom-strip { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+
+  <!-- Mandala SVG -->
+  <svg class="mandala" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="250" cy="250" r="240" stroke="white" stroke-width="0.5"/>
+    <circle cx="250" cy="250" r="200" stroke="white" stroke-width="0.5"/>
+    <circle cx="250" cy="250" r="160" stroke="white" stroke-width="0.5"/>
+    <circle cx="250" cy="250" r="120" stroke="white" stroke-width="0.5"/>
+    <circle cx="250" cy="250" r="80" stroke="white" stroke-width="0.5"/>
+    <circle cx="250" cy="250" r="40" stroke="white" stroke-width="0.5"/>
+    <line x1="250" y1="10" x2="250" y2="490" stroke="white" stroke-width="0.5"/>
+    <line x1="10" y1="250" x2="490" y2="250" stroke="white" stroke-width="0.5"/>
+    <line x1="74" y1="74" x2="426" y2="426" stroke="white" stroke-width="0.5"/>
+    <line x1="426" y1="74" x2="74" y2="426" stroke="white" stroke-width="0.5"/>
+    <line x1="163" y1="20" x2="87" y2="480" stroke="white" stroke-width="0.3"/>
+    <line x1="337" y1="20" x2="413" y2="480" stroke="white" stroke-width="0.3"/>
+    <line x1="20" y1="163" x2="480" y2="87" stroke="white" stroke-width="0.3"/>
+    <line x1="20" y1="337" x2="480" y2="413" stroke="white" stroke-width="0.3"/>
+    <polygon points="250,30 278,222 470,250 278,278 250,470 222,278 30,250 222,222" stroke="white" stroke-width="0.5" fill="none"/>
+    <polygon points="250,70 268,232 430,250 268,268 250,430 232,268 70,250 232,232" stroke="white" stroke-width="0.3" fill="none"/>
+    <circle cx="250" cy="30"  r="5" stroke="white" stroke-width="0.5"/>
+    <circle cx="250" cy="470" r="5" stroke="white" stroke-width="0.5"/>
+    <circle cx="30"  cy="250" r="5" stroke="white" stroke-width="0.5"/>
+    <circle cx="470" cy="250" r="5" stroke="white" stroke-width="0.5"/>
+    <circle cx="74"  cy="74"  r="5" stroke="white" stroke-width="0.5"/>
+    <circle cx="426" cy="74"  r="5" stroke="white" stroke-width="0.5"/>
+    <circle cx="74"  cy="426" r="5" stroke="white" stroke-width="0.5"/>
+    <circle cx="426" cy="426" r="5" stroke="white" stroke-width="0.5"/>
+  </svg>
+
+  <div class="sparks" id="sparks"></div>
+
+  <div class="hero-eyebrow">A Sacred Curriculum · India · Japan · Greece · Persia · China</div>
+  <h1 class="hero-title">The Fiction<br>of <em>Living</em></h1>
+  <div class="hero-divider"></div>
+  <p class="hero-sub">A curated library of world fiction, mapped to the seven stages of a human life — for those who wish to live with depth, not just length.</p>
+
+  <div class="scroll-cue">
+    <span>Begin the Journey</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- INTRO BAND -->
+<div class="intro-band">
+  <p>
+    The wisest traditions all agree: <strong>a life examined through story is a life better lived.</strong>
+    Every stage of human existence — wonder, confusion, love, crisis, grief, acceptance, transcendence —
+    has been mapped by the greatest minds in fiction. This curriculum draws from
+    <strong>India's epics, Japan's literature, Persian poetry, Greek tragedy, Chinese philosophy, African ubuntu,
+    and Russian soul</strong> to offer the exact book for the exact moment you need it.
+  </p>
+</div>
+
+<!-- STAGES -->
+<div class="stages-header">
+  <h2>Seven Stages · Seven Awakenings</h2>
+</div>
+
+<div class="stage">
+
+  <!-- ══ STAGE 1 ══ -->
+  <div class="stage-header">
+    <div class="stage-num">I</div>
+    <div class="stage-meta">
+      <div class="stage-tag">The First Stage · Brahmacharya</div>
+      <h2 class="stage-title">The Age of Wonder & Formation</h2>
+      <div class="stage-age">Ages 7 – 21 · The Student · The Seeker</div>
+    </div>
+  </div>
+
+  <p class="stage-essence">
+    "Before you can know the world, you must know that the world is vast beyond your imagining.
+    Wonder is not naïveté — it is the first form of intelligence."
+  </p>
+
+  <div class="wisdom-strip">
+    <div class="wisdom-pill"><strong>Indian Wisdom</strong>Guru-shishya: the pupil who listens before speaking receives all knowledge.</div>
+    <div class="wisdom-pill"><strong>Japanese Wisdom</strong>Shoshin — beginner's mind. The expert has few possibilities; the beginner has infinite ones.</div>
+    <div class="wisdom-pill"><strong>Greek Wisdom</strong>Paideia — education as the shaping of the whole soul, not just the mind.</div>
+    <div class="wisdom-pill"><strong>Core Question</strong>Who am I becoming, and what kind of world am I entering?</div>
+  </div>
+
+  <div class="books-grid">
+    <div class="book-card">
+      <div class="book-stripe india"></div>
+      <div class="book-body">
+        <div class="book-origin">🇮🇳 India · Epic</div>
+        <div class="book-title">The Panchatantra</div>
+        <div class="book-author">Vishnu Sharma · ~300 BCE</div>
+        <div class="book-lesson">The world's oldest collection of moral fables — animal stories that embed dharma, cunning, friendship, and consequence into a child's consciousness before they can even name these values. Still the most elegant primer on how the world actually works.</div>
+        <div class="book-why">✦ Read this to learn: wisdom is not preached, it is storied.</div>
+      </div>
+    </div>
+    <div class="book-card">
+      <div class="book-stripe japan"></div>
+      <div class="book-body">
+        <div class="book-origin">🇯🇵 Japan · Novel</div>
+        <div class="book-title">Kokoro</div>
+        <div class="book-author">Natsume Soseki · 1914</div>
+        <div class="book-lesson">A young student befriends an older, enigmatic man called "Sensei." Through letters and silence, he discovers that the men who seem most whole are often the most broken — and that the greatest education is learning to sit with that mystery.</div>
+        <div class="book-why">✦ Read this to learn: admiration for a mentor is the first form of philosophy.</div>
+      </div>
+    </div>
+    <div class="book-card">
+      <div class="book-stripe persia"></div>
+      <div class="book-body">
+        <div class="book-origin">🇮🇷 Persia · Poetry</div>
+        <div class="book-title">The Rubaiyat of Omar Khayyam</div>
+        <div class="book-author">Omar Khayyam · 11th Century</div>
+        <div class="book-lesson">Introduces the young mind to the great paradox: the world is impermanent and unknowable — and therefore worth tasting with full presence. Not nihilism, but ecstatic acceptance. The poem that teaches wonder at the cost of certainty.</div>
+        <div class="book-why">✦ Read this to learn: uncertainty is not a problem to solve but a mystery to inhabit.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sep">· · ·</div>
+
+  <!-- ══ STAGE 2 ══ -->
+  <div class="stage-header" style="margin-top:5rem;">
+    <div class="stage-num">II</div>
+    <div class="stage-meta">
+      <div class="stage-tag">The Second Stage · Grihastha Threshold</div>
+      <h2 class="stage-title">The Age of Desire & Identity</h2>
+      <div class="stage-age">Ages 21 – 35 · The Lover · The Builder · The Striver</div>
+    </div>
+  </div>
+
+  <p class="stage-essence">
+    "Desire is not the enemy of the spiritual life. It is its raw material.
+    Every great tradition teaches you to feel desire fully — then trace its root."
+  </p>
+
+  <div class="wisdom-strip">
+    <div class="wisdom-pill"><strong>Indian Wisdom</strong>Kama — desire as one of the four aims of life. It is not sinful; it is human. The error is making it the only aim.</div>
+    <div class="wisdom-pill"><strong>Japanese Wisdom</strong>Mono no Aware — the bittersweet ache of beautiful things passing. Love contains its own grief.</div>
+    <div class="wisdom-pill"><strong>Sufi Wisdom</strong>Ishq — divine love disguised as human longing. Every earthly love is a ladder to the Beloved.</div>
+    <div class="wisdom-pill"><strong>Core Question</strong>What do I truly want, and at what cost am I willing to have it?</div>
+  </div>
+
+  <div class="books-grid">
+    <div class="book-card">
+      <div class="book-stripe india"></div>
+      <div class="book-body">
+        <div class="book-origin">🇮🇳 India · Epic Poetry</div>
+        <div class="book-title">Meghaduta (The Cloud Messenger)</div>
+        <div class="book-author">Kalidasa · ~5th Century CE</div>
+        <div class="book-lesson">A yaksha (spirit) exiled from paradise asks a passing cloud to carry a message to his wife, describing the whole of India landscape by landscape — because longing makes every detail of the beloved world unbearably beautiful. The definitive meditation on what it means to miss someone so deeply that geography becomes poetry.</div>
+        <div class="book-why">✦ Read this to learn: love that suffers is still love — and it sees more clearly than love that is comfortable.</div>
+      </div>
+    </div>
+    <div class="book-card">
+      <div class="book-stripe persia"></div>
+      <div class="book-body">
+        <div class="book-origin">🇮🇷 Persia · Sufi Epic</div>
+        <div class="book-title">Layla and Majnun</div>
+        <div class="book-author">Nizami Ganjavi · 1188 CE</div>
+        <div class="book-lesson">Qays loves Layla so completely that the world names him Majnun — the mad one. His love consumes his sanity, his social standing, his life. But the Sufis read this as theology: the soul's annihilating love for the Divine. The greatest portrait of what happens when desire crosses the line into devotion.</div>
+        <div class="book-why">✦ Read this to learn: some loves are not meant to be fulfilled — they are meant to transform you.</div>
+      </div>
+    </div>
+    <div class="book-card">
+      <div class="book-stripe japan"></div>
+      <div class="book-body">
+        <div class="book-origin">🇯🇵 Japan · Novel</div>
+        <div class="book-title">The Tale of Genji</div>
+        <div class="book-author">Murasaki Shikibu · 1008 CE</div>
+        <div class="book-lesson">The world's first psychological novel. Prince Genji pursues beauty, love, and social glory — and slowly discovers that every conquest leaves him emptier. Written by a woman at the world's first sophisticated court, it maps desire's full arc: pursuit, possession, loss, longing, and the quiet understanding that comes too late.</div>
+        <div class="book-why">✦ Read this to learn: beauty is not something to possess — it is something to witness.</div>
+      </div>
+    </div>
+    <div class="book-card">
+      <div class="book-stripe russia"></div>
+      <div class="book-body">
+        <div class="book-origin">🇷🇺 Russia · Novel</div>
+        <div class="book-title">Anna Karenina</div>
+        <div class="book-author">Leo Tolstoy · 1878</div>
+        <div class="book-lesson">Two paths: Anna follows passionate desire and destroys herself. Levin follows confused longing toward truth and finds something like God. Tolstoy's greatest argument that the question is not "what do you want?" but "what are you building with your wanting?"</div>
+        <div class="book-why">✦ Read this to learn: desire without direction is a flame without a hearth — it burns the house down.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sep">· · ·</div>
+
+  <!-- ══ STAGE 3 ══ -->
+  <div class="stage-header" style="margin-top:5rem;">
+    <div class="stage-num">III</div>
+    <div class="stage-meta">
+      <div class="stage-tag">The Third Stage · The Crucible</div>
+      <h2 class="stage-title">The Age of Duty, Conflict & Crisis</h2>
+      <div class="stage-age">Ages 28 – 45 · The Householder · The Warrior · The One Who Must Choose</div>
+    </div>
+  </div>
+
+  <p class="stage-essence">
+    "The battlefield is not always external. The Kurukshetra of the Gita is inside you —
+    the armies are your duties, your doubts, and your desire to do nothing at all."
+  </p>
+
+  <div class="wisdom-strip">
+    <div class="wisdom-pill"><strong>Indian Wisdom</strong>Dharma in conflict. When every choice carries harm, the question becomes: which action is most aligned with your deepest nature?</div>
+    <div class="wisdom-pill"><strong>Greek Wisdom</strong>Tragic hamartia — the fatal flaw that greatness tends to carry. Wisdom is knowing yours before it destroys you.</div>
+    <div class="wisdom-pill"><strong>Stoic Wisdom</strong>Amor fati — love your fate. Do not wish things were different; meet what is with full presence.</div>
+    <div class="wisdom-pill"><strong>Core Question</strong>What must I sacrifice, and what must I refuse to sacrifice, to become who I must be?</div>
+  </div>
+
+  <div class="books-grid">
+    <div class="book-card">
+      <div class="book-stripe india"></div>
+      <div class="book-body">
+        <div class="book-origin">🇮🇳 India · Sacred Epic</div>
+        <div class="book-title">The Bhagavad Gita</div>
+        <div class="book-author">Vyasa · ~500 BCE (within Mahabharata)</div>
+        <div class="book-lesson">Arjuna stands between two armies — his own family on both sides — and collapses. Krishna's 700-verse answer remains the most complete manual for action under moral paralysis ever composed. Act from duty, not from desire for results. The soul is not the body. Do what is right — the outcome is not yours to control.</div>
+        <div class="book-why">✦ Read this to learn: you can do the hardest thing with the most peaceful heart — when you act from dharma, not ego.</div>
+      </div>
+    </div>
+    <div class="book-card">
+      <div class="book-stripe greece"></div>
+      <div class="book-body">
+        <div class="book-origin">🇬🇷 Greece · Tragedy</div>
+        <div class="book-title">Antigone</div>
+        <div class="book-author">Sophocles · 441 BCE</div>
+        <div class="book-lesson">Antigone must choose between the law of the state and the law of the gods — between obedience and conscience. She chooses conscience and dies for it. The play has no villain; it has two people each completely right by their own logic. The greatest exploration of moral conflict where both sides are real.</div>
+        <div class="book-why">✦ Read this to learn: integrity sometimes costs everything — and the question is whether you can bear to pay it.</div>
+      </div>
+    </div>
+    <div class="book-card">
+      <div class="book-stripe china"></div>
+      <div class="book-body">
+        <div class="book-origin">🇨🇳 China · Novel</div>
+        <div class="book-title">Dream of the Red Chamber</div>
+        <div class="book-author">Cao Xueqin · 1791</div>
+        <div class="book-lesson">The collapse of a great aristocratic clan, seen through the eyes of a sensitive young man who loves beauty and cannot survive the world's demand that he harden himself. China's greatest novel asks: what does it cost a gentle soul to live in a world that rewards only ambition?</div>
+        <div class="book-why">✦ Read this to learn: sensitivity is not weakness — it is a form of consciousness most people sacrifice for comfort.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sep">· · ·</div>
+
+  <!-- ══ STAGE 4 ══ -->
+  <div class="stage-header" style="margin-top:5rem;">
+    <div class="stage-num">IV</div>
+    <div class="stage-meta">
+      <div class="stage-tag">The Fourth Stage · The Dark Night</div>
+      <h2 class="stage-title">The Age of Loss, Grief & the Void</h2>
+      <div class="stage-age">Ages 35 – 55 · The Grieving · The Disillusioned · The One Who Questions Everything</div>
+    </div>
+  </div>
+
+  <p class="stage-essence">
+    "You cannot skip grief. The traditions that tried to — failed. The ones that walked through it
+    came back with something that cannot be taken away."
+  </p>
+
+  <div class="wisdom-strip">
+    <div class="wisdom-pill"><strong>Indian Wisdom</strong>Vairagya — dispassion that arises naturally after loss. Not depression, but the first clearing of the sky.</div>
+    <div class="wisdom-pill"><strong>Japanese Wisdom</strong>Aware — the pathos of things. Grief is not a failure; it is the correct response to beauty that passes.</div>
+    <div class="wisdom-pill"><strong>Sufi Wisdom</strong>The heart must be broken to be opened. Rumi's reed cries because it has been cut — and that cry is music.</div>
+    <div class="wisdom-pill"><strong>Core Question</strong>Can I hold loss without being defined by it — and what remains when everything I counted on is gone?</div>
+  </div>
+
+  <div class="books-grid">
+    <div class="book-card">
+      <div class="book-stripe persia"></div>
+      <div class="book-body">
+        <div class="book-origin">🇮🇷 Persia · Sufi Mystical Poetry</div>
+        <div class="book-title">The Masnavi (Book I)</div>
+        <div class="book-author">Jalal ad-Din Rumi · 1258 CE</div>
+        <div class="book-lesson">Opens with the flute — the reed cut from the reed bed — crying for its origin. Rumi transforms grief into theology: the ache of separation is the proof of connection. Every human longing is a longing for the Divine. The most beautiful argument ever made that suffering is not meaningless — it is the wound through which light enters.</div>
+        <div class="book-why">✦ Read this to learn: grief is not the opposite of meaning — it is its deepest form.</div>
+      </div>
+    </div>
+    <div class="book-card">
+      <div class="book-stripe russia"></div>
+      <div class="book-body">
+        <div class="book-origin">🇷🇺 Russia · Novel</div>
+        <div class="book-title">The Brothers Karamazov</div>
+        <div class="book-author">Fyodor Dostoevsky · 1880</div>
+        <div class="book-lesson">Ivan Karamazov's rebellion against God — "If a single child suffers unjustly, I return the ticket" — is the most honest statement of theodicy in all literature. And yet Alyosha's answer, which is not an argument but a life lived in love, somehow wins. The greatest exploration of whether faith is possible after encountering the world's real darkness.</div>
+        <div class="book-why">✦ Read this to learn: the question "why does suffering exist" has only one real answer — how you choose to live after asking it.</div>
+      </div>
+    </div>
+    <div class="book-card">
+      <div class="book-stripe africa"></div>
+      <div class="book-body">
+        <div class="book-origin">🌍 Nigeria · Novel</div>
+        <div class="book-title">Things Fall Apart</div>
+        <div class="book-author">Chinua Achebe · 1958</div>
+        <div class="book-lesson">Okonkwo built his identity on strength and the rejection of his father's weakness — and when the world changes, he has no inner life to fall back on. A civilization, a man, and a way of being all collapse simultaneously. The most powerful account of what happens when identity is built on external achievement rather than inner roots.</div>
+        <div class="book-why">✦ Read this to learn: what you refuse to feel will eventually be what undoes you.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sep">· · ·</div>
+
+  <!-- ══ STAGE 5 ══ -->
+  <div class="stage-header" style="margin-top:5rem;">
+    <div class="stage-num">V</div>
+    <div class="stage-meta">
+      <div class="stage-tag">The Fifth Stage · Vanaprastha</div>
+      <h2 class="stage-title">The Age of Turning Inward</h2>
+      <div class="stage-age">Ages 45 – 65 · The Retreater · The Witness · The One Who Simplifies</div>
+    </div>
+  </div>
+
+  <p class="stage-essence">
+    "At some point, accumulation stops being growth and starts being weight.
+    The forest calls — not as escape, but as return."
+  </p>
+
+  <div class="wisdom-strip">
+    <div class="wisdom-pill"><strong>Indian Wisdom</strong>Vanaprastha — the forest dweller stage. Not abandoning the world, but loosening one's grip on it. Becoming a witness.</div>
+    <div class="wisdom-pill"><strong>Zen Wisdom</strong>Before enlightenment, chop wood, carry water. After enlightenment, chop wood, carry water. But now you know why.</div>
+    <div class="wisdom-pill"><strong>Stoic Wisdom</strong>Meditations: Marcus Aurelius ruled an empire and wrote a private diary reminding himself to be small, humble, and present.</div>
+    <div class="wisdom-pill"><strong>Core Question</strong>What is truly mine — what must I let go of to find what has always been here?</div>
+  </div>
+
+  <div class="books-grid">
+    <div class="book-card">
+      <div class="book-stripe india"></div>
+      <div class="book-body">
+        <div class="book-origin">🇮🇳 India · Philosophical Novel</div>
+        <div class="book-title">Siddhartha</div>
+        <div class="book-author">Hermann Hesse · 1922 (based on Indian tradition)</div>
+        <div class="book-lesson">Siddhartha tries every path — asceticism, sensual pleasure, commerce, meditation — and finds that the river, which simply flows without grasping or resisting, has always been the teacher. The novel is a map of the complete human journey toward stillness. It doesn't preach: it shows.</div>
+        <div class="book-why">✦ Read this to learn: wisdom cannot be taught or given — it must be lived into, season by season.</div>
+      </div>
+    </div>
+    <div class="book-card">
+      <div class="book-stripe china"></div>
+      <div class="book-body">
+        <div class="book-origin">🇨🇳 China · Taoist Classic</div>
+        <div class="book-title">The Tao Te Ching</div>
+        <div class="book-author">Laozi · ~6th Century BCE</div>
+        <div class="book-lesson">81 short poems that cannot be summarized — only encountered. The Tao that can be named is not the eternal Tao. Wu wei: do by not-doing. The soft overcomes the hard; water defeats stone. Read this slowly, one chapter per morning, for a year. It will not explain itself — it will change you.</div>
+        <div class="book-why">✦ Read this to learn: the universe is not a problem to be solved — it is a rhythm to be joined.</div>
+      </div>
+    </div>
+    <div class="book-card">
+      <div class="book-stripe japan"></div>
+      <div class="book-body">
+        <div class="book-origin">🇯🇵 Japan · Haiku & Prose</div>
+        <div class="book-title">Oku no Hosomichi (Narrow Road to the Deep North)</div>
+        <div class="book-author">Matsuo Basho · 1689</div>
+        <div class="book-lesson">A 50-year-old poet walks 1,500 miles alone through Japan, writing haiku at sacred and desolate spots. Not tourism — pilgrimage. He is not looking for comfort; he is looking to become transparent to experience. The world's most beautiful argument for solitude, presence, and the holiness of ordinary moments.</div>
+        <div class="book-why">✦ Read this to learn: slowing down is not retreat — it is the bravest form of attention.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sep">· · ·</div>
+
+  <!-- ══ STAGE 6 ══ -->
+  <div class="stage-header" style="margin-top:5rem;">
+    <div class="stage-num">VI</div>
+    <div class="stage-meta">
+      <div class="stage-tag">The Sixth Stage · The Elder</div>
+      <h2 class="stage-title">The Age of Wisdom & Legacy</h2>
+      <div class="stage-age">Ages 60 – 80 · The Elder · The Teacher · The Keeper of Flame</div>
+    </div>
+  </div>
+
+  <p class="stage-essence">
+    "The elder's task is not to accumulate more wisdom but to become simple enough
+    that wisdom can flow through them into the next generation."
+  </p>
+
+  <div class="wisdom-strip">
+    <div class="wisdom-pill"><strong>Indian Wisdom</strong>The elder who has done artha and kama now lives for dharma alone — their presence is itself a teaching.</div>
+    <div class="wisdom-pill"><strong>African Wisdom</strong>Ubuntu — "I am because we are." The elder exists to ensure the community continues to exist after them.</div>
+    <div class="wisdom-pill"><strong>Greek Wisdom</strong>Socrates taught by asking questions, not giving answers. The deepest wisdom knows what it does not know.</div>
+    <div class="wisdom-pill"><strong>Core Question</strong>What have I truly learned — and to whom, and how, must I pass it?</div>
+  </div>
+
+  <div class="books-grid">
+    <div class="book-card">
+      <div class="book-stripe india"></div>
+      <div class="book-body">
+        <div class="book-origin">🇮🇳 India · Dialogue</div>
+        <div class="book-title">The Upanishads (selected)</div>
+        <div class="book-author">Various Rishis · ~800–200 BCE</div>
+        <div class="book-lesson">Not a single book but a series of forest conversations between teachers and students at the end of the Vedic world. Chandogya, Brihadaranyaka, Mundaka — each maps the same territory from a different angle: the self that is identical to the universe. "Tat tvam asi" — Thou art That. The intellectual and experiential pinnacle of human self-inquiry.</div>
+        <div class="book-why">✦ Read this to learn: the search for the self leads, inevitably, to the discovery of everything.</div>
+      </div>
+    </div>
+    <div class="book-card">
+      <div class="book-stripe greece"></div>
+      <div class="book-body">
+        <div class="book-origin">🇬🇷 Greece · Philosophical Dialogue</div>
+        <div class="book-title">The Death of Socrates (Phaedo)</div>
+        <div class="book-author">Plato · 399 BCE</div>
+        <div class="book-lesson">Socrates spends his final hours not in grief or fear but in conversation — arguing for the immortality of the soul with the same philosophical joy he showed all his life. His death becomes his greatest teaching: that a life examined has already transcended death. The most extraordinary account of dying as a philosophical act.</div>
+        <div class="book-why">✦ Read this to learn: how a person dies reveals how fully they understood how to live.</div>
+      </div>
+    </div>
+    <div class="book-card">
+      <div class="book-stripe russia"></div>
+      <div class="book-body">
+        <div class="book-origin">🇷🇺 Russia · Novella</div>
+        <div class="book-title">The Death of Ivan Ilyich</div>
+        <div class="book-author">Leo Tolstoy · 1886</div>
+        <div class="book-lesson">A successful judge faces death and realizes, in horrifying clarity, that he has lived entirely for status, approval, and comfort — never once for truth or love. Only his peasant servant Gerasim, who tends to his dying body without pretense, shows him what a genuine life looks like. Tolstoy's most devastating and merciful story.</div>
+        <div class="book-why">✦ Read this to learn: the question to ask at 40 is the same one you'll be asked at death — and you'd rather practice.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sep">· · ·</div>
+
+  <!-- ══ STAGE 7 ══ -->
+  <div class="stage-header" style="margin-top:5rem;">
+    <div class="stage-num">VII</div>
+    <div class="stage-meta">
+      <div class="stage-tag">The Seventh Stage · Sannyasa · The Great Return</div>
+      <h2 class="stage-title">The Age of Transcendence & Release</h2>
+      <div class="stage-age">Ages 75 – End · The Renunciant · The One Who Has Arrived</div>
+    </div>
+  </div>
+
+  <p class="stage-essence">
+    "The final stage is not decline — it is the dropping of every mask.
+    The river returning to the ocean does not mourn its banks."
+  </p>
+
+  <div class="wisdom-strip">
+    <div class="wisdom-pill"><strong>Indian Wisdom</strong>Moksha — liberation from the cycle of becoming. The self realizes it was never born and never dies. The game is over; the player is at rest.</div>
+    <div class="wisdom-pill"><strong>Buddhist Wisdom</strong>Nirvana is not nothing — it is the extinguishing of the fire of craving. What remains is awareness itself.</div>
+    <div class="wisdom-pill"><strong>Sufi Wisdom</strong>Fana — annihilation of the ego-self in the Divine. The drop returns to the ocean and discovers it was always the ocean.</div>
+    <div class="wisdom-pill"><strong>Core Question</strong>Who was I before I was given a name — and who remains when everything else is released?</div>
+  </div>
+
+  <div class="books-grid">
+    <div class="book-card">
+      <div class="book-stripe india"></div>
+      <div class="book-body">
+        <div class="book-origin">🇮🇳 India · Sacred Biography</div>
+        <div class="book-title">The Gospel of Ramakrishna</div>
+        <div class="book-author">Mahendranath Gupta (M.) · 1897</div>
+        <div class="book-lesson">A direct transcript of conversations with the 19th century mystic who moved between states of divine ecstasy the way others move between rooms. Ramakrishna practiced every religion — Hinduism, Islam, Christianity — and declared they all arrived at the same place. The record of a human consciousness that had dissolved its boundaries while still in a body.</div>
+        <div class="book-why">✦ Read this to learn: the final stage of the spiritual life is not belief — it is direct, lived experience of what was always true.</div>
+      </div>
+    </div>
+    <div class="book-card">
+      <div class="book-stripe persia"></div>
+      <div class="book-body">
+        <div class="book-origin">🇮🇷 Persia · Sufi Epic</div>
+        <div class="book-title">The Conference of the Birds</div>
+        <div class="book-author">Farid ud-Din Attar · 1177 CE</div>
+        <div class="book-lesson">Thirty birds set out to find the Simorgh — the divine king bird — flying through seven valleys: Quest, Love, Understanding, Detachment, Unity, Bewilderment, and finally Annihilation. Only thirty survive the journey. When they arrive and look upon the Simorgh, they see only themselves. "Si morgh" means thirty birds. The greatest allegory of the soul's return to its source ever written.</div>
+        <div class="book-why">✦ Read this to learn: you were never searching for God — you were searching for the self that is not separate from God.</div>
+      </div>
+    </div>
+    <div class="book-card">
+      <div class="book-stripe japan"></div>
+      <div class="book-body">
+        <div class="book-origin">🇯🇵 Japan · Zen Text</div>
+        <div class="book-title">Zen Mind, Beginner's Mind</div>
+        <div class="book-author">Shunryu Suzuki · 1970</div>
+        <div class="book-lesson">A Zen master's talks reduced to their most essential form: sit, breathe, pay attention. Do not seek enlightenment — be here. The paradox of the final stage is that its wisdom looks identical to the beginner's wonder of Stage I. The circle closes. The student who sat in wonder at seven is reunited with the elder who has dropped everything.</div>
+        <div class="book-why">✦ Read this to learn: the deepest wisdom is indistinguishable from simplicity — and simplicity was always available.</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /stage -->
+
+<!-- CLOSING -->
+<div class="closing">
+  <div class="closing-line"></div>
+  <p class="closing-quote">
+    "You are not reading to fill the hours.<br>
+    You are reading to meet yourself<br>
+    at every age you have not yet become."
+  </p>
+  <div class="closing-line"></div>
+  <p class="closing-attr">A curriculum drawn from India · Japan · Persia · Greece · China · Africa · Russia</p>
+  <br>
+  <p class="closing-footer">THE FICTION OF LIVING · CURRICULUM FOR THE SOUL · 2026</p>
+</div>
+
+<script>
+  // Floating sparks
+  const container = document.getElementById('sparks');
+  for (let i = 0; i < 40; i++) {
+    const s = document.createElement('div');
+    s.className = 'spark';
+    s.style.left = Math.random() * 100 + '%';
+    s.style.top = Math.random() * 100 + 60 + '%';
+    s.style.animationDuration = (8 + Math.random() * 20) + 's';
+    s.style.animationDelay = (Math.random() * 15) + 's';
+    s.style.width = s.style.height = (1 + Math.random() * 3) + 'px';
+    container.appendChild(s);
+  }
+
+  // Fade-in on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.book-card, .stage-header, .wisdom-strip, .stage-essence').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>

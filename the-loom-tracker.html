@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Loom — four threads</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600;9..144,700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  :root{
+    --bg: #1c1a17;
+    --bg-raised: #242019;
+    --bg-card: #28231b;
+    --hairline: rgba(201,163,92,0.18);
+    --ink: #e8dfd0;
+    --ink-dim: #a99d87;
+    --ink-faint: #6f6657;
+    --gold: #c9a35c;
+    --gold-bright: #e0bc7a;
+    --c-create: #c9a35c;
+    --c-deep: #7c8fc4;
+    --c-connect: #b06a52;
+    --c-serve: #74937f;
+    --radius: 3px;
+    --shadow: 0 8px 28px rgba(0,0,0,0.45);
+  }
+  *{ box-sizing:border-box; }
+  html,body{ height:100%; }
+  body{
+    margin:0;
+    background: radial-gradient(ellipse at top, rgba(201,163,92,0.05), transparent 60%), var(--bg);
+    color: var(--ink);
+    font-family:'Source Serif 4', Georgia, serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .shell{ max-width: 880px; margin:0 auto; padding: 52px 26px 110px; }
+
+  header.masthead{ text-align:center; margin-bottom: 40px; }
+  .masthead .eyebrow{ font-family:'IBM Plex Mono', monospace; font-size:11px; letter-spacing:0.22em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:10px; }
+  .masthead h1{ font-family:'Fraunces', serif; font-weight:600; font-style:italic; font-size:clamp(34px,6vw,50px); margin:0; color:var(--gold-bright); letter-spacing:-0.01em; }
+  .masthead .sub{ margin-top:10px; font-size:14px; color:var(--ink-dim); font-style:italic; }
+  .masthead .rule{ width:64px; height:1px; margin:18px auto 0; background:var(--gold); opacity:0.5; }
+
+  .card{ background:var(--bg-card); border:1px solid var(--hairline); border-radius:var(--radius); padding:22px; margin-bottom:26px; box-shadow:var(--shadow); }
+  .card h3{ font-family:'IBM Plex Mono', monospace; font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:var(--gold); margin:0 0 16px; }
+
+  /* Threads panel */
+  .thread-list{ display:flex; gap:10px; flex-wrap:wrap; margin-bottom: 14px; }
+  .thread-chip{
+    display:flex; align-items:center; gap:8px;
+    background:var(--bg-raised); border:1px solid var(--hairline);
+    border-radius:20px; padding:7px 8px 7px 14px;
+    font-family:'Fraunces', serif; font-style:italic; font-size:14px; color:var(--ink);
+  }
+  .thread-chip .rm{ cursor:pointer; color:var(--ink-faint); font-family:'IBM Plex Mono',monospace; font-size:12px; width:18px; height:18px; line-height:18px; text-align:center; border-radius:50%; }
+  .thread-chip .rm:hover{ color:var(--c-connect); background:rgba(176,106,82,0.15); }
+  .thread-add{ display:flex; gap:8px; }
+  .thread-add input{
+    flex:1; background:var(--bg-raised); border:1px solid var(--hairline); color:var(--ink);
+    padding:9px 12px; border-radius:var(--radius); font-family:'Source Serif 4',serif; font-size:14px; outline:none;
+  }
+  .thread-add input:focus{ border-color:var(--gold); }
+  .thread-note{ font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--ink-faint); margin-top:10px; }
+
+  /* Day panel */
+  .day-head{ display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; margin-bottom:18px; }
+  .day-head input[type="date"]{
+    background:var(--bg-raised); border:1px solid var(--hairline); color:var(--ink);
+    padding:8px 10px; border-radius:var(--radius); font-family:'IBM Plex Mono',monospace; font-size:13px; outline:none;
+  }
+  .pillars{ display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:14px; }
+  .pillar{
+    border:1px solid var(--hairline); border-radius:var(--radius); padding:14px;
+    background:var(--bg-raised); transition: border-color 0.15s ease;
+  }
+  .pillar.active{ border-color: var(--p-color); box-shadow: 0 0 0 1px var(--p-color) inset; }
+  .pillar-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; cursor:pointer; }
+  .pillar-head .name{ font-family:'Fraunces',serif; font-weight:600; font-size:15px; color:var(--ink); }
+  .dot{ width:11px; height:11px; border-radius:50%; border:1.5px solid var(--p-color); background:transparent; transition: background 0.15s ease; }
+  .pillar.active .dot{ background: var(--p-color); }
+  .pillar textarea{
+    width:100%; min-height:54px; margin-top:6px;
+    background:var(--bg-card); border:1px solid var(--hairline); color:var(--ink);
+    padding:8px 10px; border-radius:var(--radius); font-family:'Source Serif 4',serif; font-size:13.5px;
+    resize:vertical; outline:none; display:none;
+  }
+  .pillar.active textarea{ display:block; }
+  .pillar select{
+    width:100%; margin-top:6px; background:var(--bg-card); border:1px solid var(--hairline); color:var(--ink-dim);
+    padding:7px 8px; border-radius:var(--radius); font-family:'IBM Plex Mono',monospace; font-size:12px; outline:none; display:none;
+  }
+  .pillar.active.is-deep select{ display:block; }
+
+  .save-row{ display:flex; justify-content:flex-end; margin-top:16px; }
+  .btn-primary{
+    background:var(--gold); color:#1c1a17; border:none; padding:10px 20px; border-radius:var(--radius);
+    font-family:'IBM Plex Mono',monospace; font-size:13px; font-weight:500; cursor:pointer; transition: background 0.15s ease;
+  }
+  .btn-primary:hover{ background:var(--gold-bright); }
+
+  /* Streak strip */
+  .streak-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:14px; }
+  .streak-item{ text-align:center; padding:10px 6px; border-radius:var(--radius); border:1px solid var(--hairline); }
+  .streak-item .label{ font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color: var(--p-color); margin-bottom:8px; }
+  .streak-item .num{ font-family:'Fraunces',serif; font-weight:700; font-size:28px; color:var(--ink); }
+  .streak-item .cap{ font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--ink-faint); margin-top:2px;}
+  .streak-item .longest{ font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--ink-faint); margin-top:6px; border-top:1px solid var(--hairline); padding-top:6px;}
+
+  /* Balance meter */
+  .balance-row{ display:flex; align-items:center; gap:12px; margin-bottom:10px; }
+  .balance-row .lbl{ width:90px; font-family:'IBM Plex Mono',monospace; font-size:11px; color: var(--p-color); flex-shrink:0; }
+  .balance-track{ flex:1; height:8px; background:var(--bg-raised); border-radius:4px; overflow:hidden; }
+  .balance-fill{ height:100%; background: var(--p-color); border-radius:4px; transition: width 0.4s ease; }
+  .balance-row .cnt{ width:34px; text-align:right; font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--ink-faint); flex-shrink:0; }
+  .nudges{ margin-top:16px; display:flex; flex-direction:column; gap:6px; }
+  .nudge{ font-family:'Source Serif 4',serif; font-style:italic; font-size:13.5px; color:var(--ink-dim); padding-left:14px; border-left:2px solid var(--hairline); }
+
+  /* Weave */
+  .weave-legend{ display:flex; gap:16px; margin-bottom:16px; flex-wrap:wrap; }
+  .weave-legend .item{ display:flex; align-items:center; gap:6px; font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--ink-dim); }
+  .weave-legend .sw{ width:9px; height:9px; border-radius:50%; }
+  .weave-wrap{ overflow-x:auto; padding-bottom:6px; }
+  .weave-grid{ display:grid; grid-auto-flow:column; grid-template-rows:repeat(7,1fr); gap:4px; width:max-content; }
+  .weave-cell{
+    width:24px; height:24px; border-radius:4px; background:var(--bg-raised); border:1px solid var(--hairline);
+    display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; gap:1.5px; padding:3px;
+    cursor:pointer; transition: transform 0.1s ease, border-color 0.15s ease;
+  }
+  .weave-cell:hover{ transform: scale(1.18); border-color:var(--gold); z-index:2; position:relative; }
+  .weave-cell.future{ opacity:0.25; cursor:default; }
+  .weave-cell.future:hover{ transform:none; border-color:var(--hairline); }
+  .weave-dot{ border-radius:1px; background:transparent; }
+  .weave-dot.on{ background: var(--dot-color); }
+  .weave-today{ box-shadow: 0 0 0 1.5px var(--gold-bright); }
+
+  footer.foot-note{ text-align:center; margin-top:40px; font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--ink-faint); letter-spacing:0.05em; }
+  footer.foot-note button{ background:none;border:none;color:var(--ink-faint);text-decoration:underline;font-family:inherit;font-size:inherit;cursor:pointer; }
+  footer.foot-note button:hover{ color:var(--gold-bright); }
+  #importInput{ display:none; }
+
+  ::-webkit-scrollbar{ height:8px; width:8px; }
+  ::-webkit-scrollbar-track{ background:var(--bg); }
+  ::-webkit-scrollbar-thumb{ background:var(--bg-raised); border-radius:8px; }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <header class="masthead">
+    <div class="eyebrow">a tracker, woven not checked</div>
+    <h1>The Loom</h1>
+    <div class="sub">four threads — create, go deep, connect, serve</div>
+    <div class="rule"></div>
+  </header>
+
+  <div class="card">
+    <h3>Active threads — go deep</h3>
+    <div class="thread-list" id="threadList"></div>
+    <div class="thread-add">
+      <input type="text" id="threadInput" placeholder="name a thread you're staying with… (max 2 at a time)">
+      <button class="btn-primary" id="addThreadBtn">Add</button>
+    </div>
+    <div class="thread-note">Two threads, not ten. Finish or pause one before starting another.</div>
+  </div>
+
+  <div class="card">
+    <div class="day-head">
+      <h3 style="margin:0;">Today's weave</h3>
+      <input type="date" id="dateInput">
+    </div>
+    <div class="pillars" id="pillars"></div>
+    <div class="save-row"><button class="btn-primary" id="saveDayBtn">Save day</button></div>
+  </div>
+
+  <div class="card">
+    <h3>Streaks</h3>
+    <div class="streak-grid" id="streakGrid"></div>
+  </div>
+
+  <div class="card">
+    <h3>Balance — last 30 days</h3>
+    <div id="balanceBars"></div>
+    <div class="nudges" id="nudges"></div>
+  </div>
+
+  <div class="card">
+    <h3>The weave — last 12 weeks</h3>
+    <div class="weave-legend">
+      <div class="item"><span class="sw" style="background:var(--c-create)"></span>create</div>
+      <div class="item"><span class="sw" style="background:var(--c-deep)"></span>go deep</div>
+      <div class="item"><span class="sw" style="background:var(--c-connect)"></span>connect</div>
+      <div class="item"><span class="sw" style="background:var(--c-serve)"></span>serve</div>
+    </div>
+    <div class="weave-wrap"><div class="weave-grid" id="weaveGrid"></div></div>
+  </div>
+
+  <footer class="foot-note">
+    <span id="dayCount">0 days logged</span> ·
+    <button id="exportBtn">export backup</button> ·
+    <button id="importBtn">import backup</button>
+    <input type="file" id="importInput" accept=".json">
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  const ENTRIES_KEY = 'loom_entries_v1';
+  const THREADS_KEY = 'loom_threads_v1';
+  const PILLARS = [
+    {id:'create', name:'Create', color:'var(--c-create)', prompt:'what did you make today?'},
+    {id:'deep', name:'Go deep', color:'var(--c-deep)', prompt:'what did you move forward?', isDeep:true},
+    {id:'connect', name:'Connect', color:'var(--c-connect)', prompt:'who, and how?'},
+    {id:'serve', name:'Serve', color:'var(--c-serve)', prompt:'for whom, or what?'}
+  ];
+
+  let entries = {};   // { 'YYYY-MM-DD': { create:{done,note}, deep:{done,note,thread}, connect:{...}, serve:{...} } }
+  let threads = [];   // [string, string]
+
+  function todayStr(){
+    const d = new Date();
+    return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+  }
+  function load(){
+    try{ entries = JSON.parse(localStorage.getItem(ENTRIES_KEY)) || {}; }catch(e){ entries = {}; }
+    try{ threads = JSON.parse(localStorage.getItem(THREADS_KEY)) || []; }catch(e){ threads = []; }
+  }
+  function persistEntries(){ localStorage.setItem(ENTRIES_KEY, JSON.stringify(entries)); }
+  function persistThreads(){ localStorage.setItem(THREADS_KEY, JSON.stringify(threads)); }
+  function escapeHtml(str){ const d=document.createElement('div'); d.textContent=str; return d.innerHTML; }
+
+  // ---------- Threads ----------
+  function renderThreads(){
+    const list = document.getElementById('threadList');
+    if(threads.length === 0){
+      list.innerHTML = '<span style="font-family:IBM Plex Mono,monospace;font-size:12px;color:var(--ink-faint);">no active thread yet — name what you\'re going deep on</span>';
+    }else{
+      list.innerHTML = threads.map((t,i) => `
+        <div class="thread-chip">${escapeHtml(t)}<span class="rm" data-i="${i}">×</span></div>
+      `).join('');
+      list.querySelectorAll('.rm').forEach(btn => {
+        btn.addEventListener('click', () => {
+          threads.splice(parseInt(btn.dataset.i),1);
+          persistThreads(); renderThreads(); renderPillars();
+        });
+      });
+    }
+  }
+  document.getElementById('addThreadBtn').addEventListener('click', addThread);
+  document.getElementById('threadInput').addEventListener('keydown', e => { if(e.key==='Enter') addThread(); });
+  function addThread(){
+    const input = document.getElementById('threadInput');
+    const val = input.value.trim();
+    if(!val) return;
+    if(threads.length >= 2){
+      alert('Two threads at a time. Remove or finish one first — that\'s the point of going deep, not wide.');
+      return;
+    }
+    threads.push(val);
+    persistThreads();
+    input.value = '';
+    renderThreads();
+    renderPillars();
+  }
+
+  // ---------- Day panel ----------
+  const dateInput = document.getElementById('dateInput');
+  dateInput.value = todayStr();
+  dateInput.addEventListener('change', renderPillars);
+
+  function getEntry(date){
+    return entries[date] || {create:{done:false,note:''}, deep:{done:false,note:'',thread:''}, connect:{done:false,note:''}, serve:{done:false,note:''}};
+  }
+
+  function renderPillars(){
+    const date = dateInput.value || todayStr();
+    const entry = getEntry(date);
+    const wrap = document.getElementById('pillars');
+    wrap.innerHTML = PILLARS.map(p => {
+      const data = entry[p.id] || {done:false, note:''};
+      const threadOptions = threads.map(t => `<option value="${escapeHtml(t)}" ${data.thread===t?'selected':''}>${escapeHtml(t)}</option>`).join('');
+      return `
+      <div class="pillar ${data.done?'active':''} ${p.isDeep?'is-deep':''}" style="--p-color:${p.color};" data-id="${p.id}">
+        <div class="pillar-head" data-toggle="${p.id}">
+          <span class="name">${p.name}</span>
+          <span class="dot"></span>
+        </div>
+        ${p.isDeep ? `<select data-note-thread="${p.id}">${threads.length? threadOptions : '<option value="">no active thread set</option>'}</select>` : ''}
+        <textarea placeholder="${p.prompt}" data-note="${p.id}">${escapeHtml(data.note||'')}</textarea>
+      </div>`;
+    }).join('');
+
+    wrap.querySelectorAll('[data-toggle]').forEach(el => {
+      el.addEventListener('click', () => {
+        const card = el.closest('.pillar');
+        card.classList.toggle('active');
+      });
+    });
+  }
+
+  document.getElementById('saveDayBtn').addEventListener('click', () => {
+    const date = dateInput.value || todayStr();
+    const entry = {};
+    PILLARS.forEach(p => {
+      const card = document.querySelector(`.pillar[data-id="${p.id}"]`);
+      const done = card.classList.contains('active');
+      const note = card.querySelector(`[data-note="${p.id}"]`).value.trim();
+      const obj = {done, note};
+      if(p.isDeep){
+        const sel = card.querySelector(`[data-note-thread="${p.id}"]`);
+        obj.thread = sel ? sel.value : '';
+      }
+      entry[p.id] = obj;
+    });
+    // only store the day if something happened
+    const any = PILLARS.some(p => entry[p.id].done || entry[p.id].note);
+    if(any){ entries[date] = entry; } else { delete entries[date]; }
+    persistEntries();
+    renderAll();
+  });
+
+  // ---------- Streaks ----------
+  function dateMinus(days){
+    const d = new Date();
+    d.setDate(d.getDate()-days);
+    return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+  }
+  function currentStreak(pillarId){
+    let streak = 0;
+    for(let i=0;i<3650;i++){
+      const date = dateMinus(i);
+      const e = entries[date];
+      if(e && e[pillarId] && e[pillarId].done){ streak++; } else { break; }
+    }
+    return streak;
+  }
+  function longestStreak(pillarId){
+    const dates = Object.keys(entries).filter(d => entries[d][pillarId] && entries[d][pillarId].done).sort();
+    if(dates.length===0) return 0;
+    let longest=1, run=1;
+    for(let i=1;i<dates.length;i++){
+      const prev = new Date(dates[i-1]); const cur = new Date(dates[i]);
+      const diff = Math.round((cur-prev)/86400000);
+      if(diff===1){ run++; } else { run=1; }
+      longest = Math.max(longest, run);
+    }
+    return longest;
+  }
+  function daysSinceLast(pillarId){
+    for(let i=0;i<3650;i++){
+      const date = dateMinus(i);
+      const e = entries[date];
+      if(e && e[pillarId] && e[pillarId].done) return i;
+    }
+    return null;
+  }
+
+  function renderStreaks(){
+    const grid = document.getElementById('streakGrid');
+    grid.innerHTML = PILLARS.map(p => `
+      <div class="streak-item" style="--p-color:${p.color};">
+        <div class="label">${p.name}</div>
+        <div class="num">${currentStreak(p.id)}</div>
+        <div class="cap">day streak</div>
+        <div class="longest">longest: ${longestStreak(p.id)}d</div>
+      </div>
+    `).join('');
+  }
+
+  // ---------- Balance + nudges ----------
+  function renderBalance(){
+    const counts = {};
+    let max = 1;
+    PILLARS.forEach(p => {
+      let c = 0;
+      for(let i=0;i<30;i++){
+        const date = dateMinus(i);
+        const e = entries[date];
+        if(e && e[p.id] && e[p.id].done) c++;
+      }
+      counts[p.id] = c;
+      max = Math.max(max, c);
+    });
+    const wrap = document.getElementById('balanceBars');
+    wrap.innerHTML = PILLARS.map(p => `
+      <div class="balance-row" style="--p-color:${p.color};">
+        <span class="lbl">${p.name}</span>
+        <div class="balance-track"><div class="balance-fill" style="width:${(counts[p.id]/max*100)}%;"></div></div>
+        <span class="cnt">${counts[p.id]}d</span>
+      </div>
+    `).join('');
+
+    const nudgeWrap = document.getElementById('nudges');
+    const notes = [];
+    PILLARS.forEach(p => {
+      const since = daysSinceLast(p.id);
+      if(since === null && Object.keys(entries).length > 0){
+        notes.push(`${p.name} hasn't shown up yet — even something tiny counts.`);
+      } else if(since !== null && since >= 6){
+        notes.push(`${p.name} has been quiet for ${since} days — might be worth a small one today.`);
+      }
+    });
+    if(threads.length === 1){
+      notes.push(`One active thread — good focus. Stay with it before adding another.`);
+    }
+    nudgeWrap.innerHTML = notes.map(n => `<div class="nudge">${escapeHtml(n)}</div>`).join('');
+  }
+
+  // ---------- Weave ----------
+  function renderWeave(){
+    const grid = document.getElementById('weaveGrid');
+    const today = new Date();
+    const todayDow = today.getDay(); // 0=Sun
+    // find start: go back to align so today is in last column, and start is a Sunday
+    const totalDays = 84; // 12 weeks
+    const start = new Date(today);
+    start.setDate(start.getDate() - (totalDays - 1) - todayDow + (6-todayDow));
+    // simpler approach: build list of last 84 days, then pad to full weeks aligned by weekday
+    const days = [];
+    for(let i = totalDays-1; i>=0; i--){
+      const d = new Date();
+      d.setDate(d.getDate()-i);
+      days.push(d);
+    }
+    // pad start so first day is a Sunday
+    const firstDow = days[0].getDay();
+    for(let i=firstDow-1;i>=0;i--){
+      const d = new Date(days[0]);
+      d.setDate(d.getDate()-(i+1));
+      days.unshift(d);
+    }
+    const todayKey = todayStr();
+    grid.innerHTML = days.map(d => {
+      const key = d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+      const isFuture = d > today;
+      const e = entries[key];
+      const dots = PILLARS.map(p => {
+        const on = e && e[p.id] && e[p.id].done;
+        return `<div class="weave-dot ${on?'on':''}" style="--dot-color:${p.color};"></div>`;
+      }).join('');
+      return `<div class="weave-cell ${isFuture?'future':''} ${key===todayKey?'weave-today':''}" data-date="${key}" title="${key}">${dots}</div>`;
+    }).join('');
+
+    grid.querySelectorAll('.weave-cell:not(.future)').forEach(cell => {
+      cell.addEventListener('click', () => {
+        dateInput.value = cell.dataset.date;
+        renderPillars();
+        document.querySelector('.day-head').scrollIntoView({behavior:'smooth', block:'center'});
+      });
+    });
+  }
+
+  function renderDayCount(){
+    document.getElementById('dayCount').textContent = Object.keys(entries).length + ' days logged';
+  }
+
+  function renderAll(){
+    renderThreads();
+    renderPillars();
+    renderStreaks();
+    renderBalance();
+    renderWeave();
+    renderDayCount();
+  }
+
+  // ---------- export / import ----------
+  document.getElementById('exportBtn').addEventListener('click', () => {
+    const payload = {entries, threads};
+    const blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'loom-backup-' + todayStr() + '.json';
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+  document.getElementById('importBtn').addEventListener('click', () => document.getElementById('importInput').click());
+  document.getElementById('importInput').addEventListener('change', e => {
+    const file = e.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      try{
+        const payload = JSON.parse(ev.target.result);
+        entries = Object.assign({}, entries, payload.entries||{});
+        if(Array.isArray(payload.threads) && payload.threads.length){ threads = payload.threads.slice(0,2); }
+        persistEntries(); persistThreads();
+        renderAll();
+        alert('Backup imported.');
+      }catch(err){ alert('Could not read that backup file.'); }
+    };
+    reader.readAsText(file);
+  });
+
+  load();
+  renderAll();
+})();
+</script>
+</body>
+</html>

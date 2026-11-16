@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Asian Cinema Curriculum</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0d0d0d;
+    --paper: #f5f0e8;
+    --paper-dark: #ede6d6;
+    --accent: #8b2e00;
+    --accent-light: #c4521a;
+    --muted: #6b6055;
+    --line: rgba(0,0,0,0.12);
+    --c1: #2b4a3a; /* Curriculum 1 */
+    --c2: #2a3d5c; /* Curriculum 2 */
+    --c3: #5c3a1e; /* Curriculum 3 */
+    --c4: #3d2a5c; /* Curriculum 4 */
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Cormorant Garamond', serif;
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 3rem 2rem 2.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 59px,
+      rgba(255,255,255,0.03) 59px,
+      rgba(255,255,255,0.03) 60px
+    );
+  }
+  .header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .header-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+    margin-bottom: 1rem;
+  }
+  h1 {
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+  }
+  h1 strong {
+    font-weight: 600;
+    font-style: normal;
+  }
+  .header-sub {
+    font-size: 1rem;
+    font-weight: 300;
+    color: rgba(255,255,255,0.5);
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.05em;
+    margin-top: 1rem;
+  }
+  .curriculum-tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+  }
+  .ctag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.7rem;
+    border-radius: 2px;
+    opacity: 0.8;
+  }
+  .ctag-1 { background: var(--c1); color: #b8d4c6; }
+  .ctag-2 { background: var(--c2); color: #b8cce0; }
+  .ctag-3 { background: var(--c3); color: #e0c8b0; }
+  .ctag-4 { background: var(--c4); color: #cdb8e0; }
+
+  /* CONTROLS */
+  .controls-wrap {
+    background: var(--paper-dark);
+    border-bottom: 1px solid var(--line);
+    padding: 1.25rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  }
+  .controls-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: flex-end;
+  }
+  .filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+  .filter-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .search-box {
+    padding: 0.55rem 0.9rem;
+    border: 1px solid var(--line);
+    background: var(--paper);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    color: var(--ink);
+    border-radius: 2px;
+    outline: none;
+    min-width: 220px;
+    transition: border-color 0.2s;
+  }
+  .search-box:focus { border-color: var(--accent-light); }
+
+  .pill-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+  .pill {
+    padding: 0.35rem 0.75rem;
+    border: 1px solid var(--line);
+    background: var(--paper);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.15s;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .pill:hover { border-color: var(--accent-light); color: var(--accent); }
+  .pill.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .pill.c1.active { background: var(--c1); border-color: var(--c1); }
+  .pill.c2.active { background: var(--c2); border-color: var(--c2); }
+  .pill.c3.active { background: var(--c3); border-color: var(--c3); }
+  .pill.c4.active { background: var(--c4); border-color: var(--c4); }
+
+  .stats-bar {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    margin-left: auto;
+    align-self: center;
+    white-space: nowrap;
+  }
+  .stats-bar span { color: var(--accent); font-weight: 400; }
+
+  /* GRID */
+  .main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2.5rem 2rem 4rem;
+  }
+
+  /* CURRICULUM SECTION */
+  .curriculum-section {
+    margin-bottom: 3.5rem;
+  }
+  .curriculum-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid var(--ink);
+  }
+  .curriculum-number {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+  }
+  .curriculum-title {
+    font-size: 1.6rem;
+    font-weight: 300;
+    font-style: italic;
+    flex: 1;
+  }
+  .curriculum-arc {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    max-width: 340px;
+    text-align: right;
+  }
+
+  /* PHASE GROUP */
+  .phase-group {
+    margin-bottom: 2rem;
+  }
+  .phase-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+    cursor: pointer;
+    user-select: none;
+  }
+  .phase-name {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.6rem;
+    border-radius: 2px;
+    color: var(--paper);
+  }
+  .phase-desc {
+    font-size: 0.95rem;
+    font-style: italic;
+    color: var(--muted);
+    flex: 1;
+  }
+
+  /* FILM CARDS */
+  .films-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+
+  .film-card {
+    background: var(--paper);
+    padding: 1.1rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    transition: background 0.15s;
+    position: relative;
+    overflow: hidden;
+  }
+  .film-card:hover {
+    background: #ede6d6;
+  }
+  .film-card.hidden { display: none; }
+
+  .film-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+  }
+
+  .film-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    color: rgba(0,0,0,0.25);
+    letter-spacing: 0.05em;
+  }
+  .film-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+  .film-meta {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+  }
+  .film-meta-sep { color: var(--line); }
+  .film-why {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #3a3230;
+    font-style: italic;
+  }
+  .film-feel {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--muted);
+    border-left: 2px solid var(--line);
+    padding-left: 0.75rem;
+    margin-top: 0.1rem;
+  }
+
+  .phase-badge {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.52rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.15rem 0.4rem;
+    border-radius: 2px;
+    margin-top: 0.15rem;
+    align-self: flex-start;
+  }
+
+  /* Curriculum colors */
+  .c1 .film-card::before { background: var(--c1); }
+  .c2 .film-card::before { background: var(--c2); }
+  .c3 .film-card::before { background: var(--c3); }
+  .c4 .film-card::before { background: var(--c4); }
+
+  .badge-c1 { background: #e8f0ec; color: var(--c1); }
+  .badge-c2 { background: #e8ecf5; color: var(--c2); }
+  .badge-c3 { background: #f5ede6; color: var(--c3); }
+  .badge-c4 { background: #ede8f5; color: var(--c4); }
+
+  .phase-name-c1 { background: var(--c1); }
+  .phase-name-c2 { background: var(--c2); }
+  .phase-name-c3 { background: var(--c3); }
+  .phase-name-c4 { background: var(--c4); }
+
+  /* Empty state */
+  .empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--muted);
+    font-style: italic;
+    font-size: 1.2rem;
+    display: none;
+  }
+
+  .country-tag {
+    display: inline-block;
+    padding: 0.1rem 0.35rem;
+    background: rgba(0,0,0,0.06);
+    border-radius: 2px;
+    font-size: 0.52rem;
+    letter-spacing: 0.05em;
+  }
+
+  /* Country filter specifics */
+  .no-films-in-phase { display: none; }
+
+  /* WATCHED */
+  .film-card.watched {
+    background: #eef2ee;
+    opacity: 0.82;
+  }
+  .film-card.watched:hover { background: #e4ece4; opacity: 1; }
+  .film-card.watched .film-title { color: #3a5a3a; }
+  .film-card.watched::after {
+    content: '✓';
+    position: absolute;
+    top: 0.7rem;
+    right: 0.9rem;
+    font-size: 0.75rem;
+    color: #5a8a5a;
+    font-family: 'DM Mono', monospace;
+    font-weight: 400;
+    letter-spacing: 0;
+  }
+
+  .watch-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-top: 0.5rem;
+    align-self: flex-start;
+    padding: 0.3rem 0.65rem;
+    border: 1px solid var(--line);
+    background: transparent;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.15s;
+  }
+  .watch-btn:hover {
+    border-color: #5a8a5a;
+    color: #3a6a3a;
+    background: #f0f5f0;
+  }
+  .film-card.watched .watch-btn {
+    border-color: #5a8a5a;
+    color: #3a6a3a;
+    background: #ddeedd;
+  }
+  .film-card.watched .watch-btn:hover {
+    background: #fdf0f0;
+    border-color: #c05050;
+    color: #8a3a3a;
+  }
+  .watch-btn-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: currentColor;
+    flex-shrink: 0;
+  }
+
+  .progress-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-left: auto;
+  }
+  .progress-text {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+  }
+  .progress-text strong { color: #3a6a3a; }
+  .progress-bar-outer {
+    width: 80px;
+    height: 3px;
+    background: var(--line);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .progress-bar-inner {
+    height: 100%;
+    background: #5a8a5a;
+    border-radius: 2px;
+    transition: width 0.3s ease;
+    width: 0%;
+  }
+
+  /* Responsive */
+  @media (max-width: 700px) {
+    .films-grid { grid-template-columns: 1fr; }
+    .controls-inner { gap: 0.75rem; }
+    .curriculum-arc { display: none; }
+    h1 { font-size: 2rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="header-eyebrow">Sequential Viewing Guide · 4 Curricula · 200 Films</div>
+    <h1><strong>Asian Cinema</strong><br>A Sequential Curriculum</h1>
+    <div class="header-sub">Japan · Korea · China · Taiwan · Hong Kong · Iran · Lebanon · Thailand · Vietnam</div>
+    <div class="curriculum-tags">
+      <span class="ctag ctag-1">1 — The Emotional Journey</span>
+      <span class="ctag ctag-2">2 — The Philosophical Arc</span>
+      <span class="ctag ctag-3">3 — The Human Lifecycle</span>
+      <span class="ctag ctag-4">4 — Chaos to Stillness</span>
+    </div>
+  </div>
+</header>
+
+<div class="controls-wrap">
+  <div class="controls-inner">
+    <div class="filter-group">
+      <span class="filter-label">Search</span>
+      <input class="search-box" type="text" id="searchInput" placeholder="Film title, director, country…">
+    </div>
+    <div class="filter-group">
+      <span class="filter-label">Curriculum</span>
+      <div class="pill-row" id="curriculumFilter">
+        <button class="pill active" data-val="all">All</button>
+        <button class="pill c1" data-val="1">Emotional Journey</button>
+        <button class="pill c2" data-val="2">Philosophical Arc</button>
+        <button class="pill c3" data-val="3">Human Lifecycle</button>
+        <button class="pill c4" data-val="4">Chaos to Stillness</button>
+      </div>
+    </div>
+    <div class="filter-group">
+      <span class="filter-label">Country</span>
+      <div class="pill-row" id="countryFilter">
+        <button class="pill active" data-val="all">All</button>
+        <button class="pill" data-val="Japan">Japan</button>
+        <button class="pill" data-val="Korea">Korea</button>
+        <button class="pill" data-val="Iran">Iran</button>
+        <button class="pill" data-val="China">China</button>
+        <button class="pill" data-val="Taiwan">Taiwan</button>
+        <button class="pill" data-val="Hong Kong">Hong Kong</button>
+        <button class="pill" data-val="Thailand">Thailand</button>
+        <button class="pill" data-val="Lebanon">Lebanon</button>
+        <button class="pill" data-val="Other">Non-Asian</button>
+      </div>
+    </div>
+    <div class="filter-group">
+      <span class="filter-label">Status</span>
+      <div class="pill-row" id="watchedFilter">
+        <button class="pill active" data-val="all">All</button>
+        <button class="pill" data-val="watched">Watched</button>
+        <button class="pill" data-val="unwatched">Unwatched</button>
+      </div>
+    </div>
+    <div class="stats-bar" id="statsBar">
+      <div class="progress-wrap">
+        <div class="progress-text"><strong id="watchedCount">0</strong> / 200 watched</div>
+        <div class="progress-bar-outer"><div class="progress-bar-inner" id="progressBar"></div></div>
+      </div>
+      &nbsp;&nbsp;<span id="visibleCount">200</span> shown
+    </div>
+  </div>
+</div>
+
+<div class="main" id="mainContent"></div>
+<div class="empty-state" id="emptyState">No films match your filters.</div>
+
+<script>
+const CURRICULA = [
+  {
+    id: 1,
+    title: "The Emotional Journey",
+    arc: "Innocence → Wound → Grief → Rage → Numbness → Healing → Gratitude → Wonder",
+    phases: [
+      {
+        name: "INNOCENCE", desc: "The world before the wound. Tenderness. Childhood. Pure seeing.",
+        films: [
+          { num:1, title:"Where Is the Friend's Home?", year:"1987", country:"Iran", director:"Abbas Kiarostami", why:"Begin here. A boy walks to return a notebook. The entire world is simple, urgent, and kind.", feel:"Opens the heart gently. You remember what it felt like to care about small things completely." },
+          { num:2, title:"The White Balloon", year:"1995", country:"Iran", director:"Jafar Panahi", why:"A girl wants a goldfish before New Year. One afternoon. One coin. One world.", feel:"Pure childhood desire. The simplest story ever told with total sincerity." },
+          { num:3, title:"My Neighbor Totoro", year:"1988", country:"Japan", director:"Hayao Miyazaki", why:"Two girls move to the countryside and encounter forest spirits. Wonder as a way of life.", feel:"The feeling that the world is alive and safe. Hold this — you will need it later." },
+          { num:4, title:"Nobody Knows", year:"2004", country:"Japan", director:"Hirokazu Kore-eda", why:"Four children abandoned in Tokyo create their own world. Innocence under pressure.", feel:"Still innocent — but the wound is beginning to form at the edges." },
+          { num:5, title:"A Scene at the Sea", year:"1991", country:"Japan", director:"Takeshi Kitano", why:"A deaf garbage collector discovers surfing. Joy found without language.", feel:"The purest depiction of a human discovering their passion. Almost wordless." },
+        ]
+      },
+      {
+        name: "THE WOUND", desc: "Something breaks. Betrayal. Loss. The moment everything changes.",
+        films: [
+          { num:6, title:"Peppermint Candy", year:"1999", country:"Korea", director:"Lee Chang-dong", why:"A man's life told backwards — from suicide to innocence. The wound is constructed before your eyes.", feel:"You watch a soul being destroyed in reverse. By the end you understand exactly how it happened." },
+          { num:7, title:"Still Walking", year:"2008", country:"Japan", director:"Hirokazu Kore-eda", why:"A family gathering around a son who died years ago. The wound that never healed.", feel:"The most precise film ever made about how families keep wounds alive without meaning to." },
+          { num:8, title:"The Blue Kite", year:"1993", country:"China", director:"Tian Zhuangzhuang", why:"A Beijing family destroyed by political movements. History as personal wound.", feel:"When the wound is not personal but systemic — when the world itself is the wound." },
+          { num:9, title:"Han Gong-ju", year:"2013", country:"Korea", director:"Lee Su-jin", why:"A girl restarts life after collective trauma. The wound that cannot be spoken.", feel:"Fragmented, haunting. The film itself mimics the psychology of trauma." },
+          { num:10, title:"Grave of the Fireflies", year:"1988", country:"Japan", director:"Isao Takahata", why:"Two siblings after WWII. The wound of abandonment by the world itself.", feel:"Do not watch this alone. This is the deepest wound in Asian cinema." },
+        ]
+      },
+      {
+        name: "GRIEF", desc: "Sitting inside the loss. Not fleeing it. Learning its weight.",
+        films: [
+          { num:11, title:"Poetry", year:"2010", country:"Korea", director:"Lee Chang-dong", why:"An elderly woman discovers poetry while her grandson commits an atrocity. Grief as beauty.", feel:"She learns to see while everything collapses. Grief and art are the same act." },
+          { num:12, title:"Sansho the Bailiff", year:"1954", country:"Japan", director:"Kenji Mizoguchi", why:"A family separated by feudal cruelty. Grief across a lifetime.", feel:"One of cinema's great prolonged griefs. Let it wash through you entirely." },
+          { num:13, title:"Secret Sunshine", year:"2007", country:"Korea", director:"Lee Chang-dong", why:"A widow who cannot grieve in the way religion demands. The failure of consolation.", feel:"This film refuses to let grief be resolved by faith. Raw and devastating." },
+          { num:14, title:"Yi Yi", year:"2000", country:"Taiwan", director:"Edward Yang", why:"Three generations of a Taipei family and the grief embedded in ordinary life.", feel:"The quietest grief — the grief of unlived possibilities and unspoken love." },
+          { num:15, title:"In the Mood for Love", year:"2000", country:"Hong Kong", director:"Wong Kar-wai", why:"Two people grieving a love they never allowed themselves to have.", feel:"The grief of restraint. What we chose not to do haunts more than what we did." },
+        ]
+      },
+      {
+        name: "RAGE", desc: "The grief turns. Injustice. Fury. The body's refusal to accept.",
+        films: [
+          { num:16, title:"A Touch of Sin", year:"2013", country:"China", director:"Jia Zhangke", why:"Four true stories of violence in China. Rage that the system produces.", feel:"When grief has nowhere to go, it becomes this. Understand rage before judging it." },
+          { num:17, title:"Silenced (The Crucible)", year:"2011", country:"Korea", director:"Hwang Dong-hyuk", why:"A teacher exposes abuse at a school for the deaf. Righteous fury that changed a nation.", feel:"The most productive rage in Asian cinema. This film literally changed Korean law." },
+          { num:18, title:"Turtles Can Fly", year:"2004", country:"Iran", director:"Bahman Ghobadi", why:"Kurdish children on the Iraq-Turkey border. Rage at a world that abandons the young.", feel:"Children in a war they didn't make. The rage here is quiet, which makes it worse." },
+          { num:19, title:"Memories of Murder", year:"2003", country:"Korea", director:"Bong Joon-ho", why:"Korea's first serial killer case — and a system that cannot catch him. Impotent rage.", feel:"The rage of incompetence. Of trying your hardest and failing. Of a country not yet ready." },
+          { num:20, title:"Capernaum", year:"2018", country:"Lebanon", director:"Nadine Labaki", why:"A 12-year-old boy sues his parents for giving him life. Pure existential rage.", feel:"The most articulate rage of a child against the adults who failed him." },
+        ]
+      },
+      {
+        name: "NUMBNESS", desc: "After the storm. Emptiness. Dissociation. The flat grey middle.",
+        films: [
+          { num:21, title:"Distant", year:"2002", country:"Other", director:"Nuri Bilge Ceylan", why:"Two cousins share a flat in Istanbul. Unable to feel, unable to connect.", feel:"The most accurate portrait of emotional numbness ever committed to film." },
+          { num:22, title:"Eureka", year:"2000", country:"Japan", director:"Shinji Aoyama", why:"Three survivors of a bus hijacking. Life after trauma — the long grey aftermath.", feel:"Slow. Deliberately slow. This is what numbness actually feels like in time." },
+          { num:23, title:"Goodbye Dragon Inn", year:"2003", country:"Taiwan", director:"Tsai Ming-liang", why:"The last screening at a dying Taipei cinema. Numbness as the texture of loneliness.", feel:"Almost nothing happens. And yet the emptiness is full of something." },
+          { num:24, title:"Maborosi", year:"1995", country:"Japan", director:"Hirokazu Kore-eda", why:"A young woman haunted by her husband's inexplicable suicide. The numbness of unanswerable loss.", feel:"She keeps living. She keeps being numb. The film honors that without rushing her." },
+          { num:25, title:"Taste of Cherry", year:"1997", country:"Iran", director:"Abbas Kiarostami", why:"A man drives through Tehran looking for someone to bury him. Numbness at the edge of a decision.", feel:"The film refuses to explain. It simply sits with a man in his numbness. Then the light changes." },
+        ]
+      },
+      {
+        name: "HEALING", desc: "Something cracks open. Not cure — but movement. Small mercies.",
+        films: [
+          { num:26, title:"After Life", year:"1998", country:"Japan", director:"Hirokazu Kore-eda", why:"The dead choose one memory to keep forever. The first act of healing: remembering what mattered.", feel:"This is the turning point. After the dark, you begin choosing what to carry." },
+          { num:27, title:"Our Little Sister", year:"2015", country:"Japan", director:"Hirokazu Kore-eda", why:"Three sisters invite their half-sister to live with them. Healing through gentle acceptance.", feel:"The quietest, most tender film about chosen family and the slow work of welcoming someone." },
+          { num:28, title:"Oasis", year:"2002", country:"Korea", director:"Lee Chang-dong", why:"A man with a criminal record loves a woman with cerebral palsy. Healing through being truly seen.", feel:"Two people society has discarded find each other. Being witnessed is itself healing." },
+          { num:29, title:"About Elly", year:"2009", country:"Iran", director:"Asghar Farhadi", why:"A woman disappears during a group vacation. Healing requires honesty — this film shows what happens when we refuse.", feel:"The cost of not healing, of not telling the truth. A warning inside the journey." },
+          { num:30, title:"3-Iron", year:"2004", country:"Korea", director:"Kim Ki-duk", why:"A man who moves through empty houses. Healing through presence without demand.", feel:"Almost wordless. He simply shows up and cares for spaces. This is what healing looks like." },
+        ]
+      },
+      {
+        name: "GRATITUDE", desc: "Arriving at appreciation. The ordinary seen newly. Life as gift.",
+        films: [
+          { num:31, title:"Shoplifters", year:"2018", country:"Japan", director:"Hirokazu Kore-eda", why:"A makeshift family choosing each other. Gratitude for love that was not owed.", feel:"They have almost nothing. And yet the warmth they make is extraordinary. This is gratitude." },
+          { num:32, title:"Tokyo Story", year:"1953", country:"Japan", director:"Yasujiro Ozu", why:"Elderly couple visits their adult children. Gratitude despite disappointment.", feel:"The mother says: I've had a good life. She means it. That is the whole lesson." },
+          { num:33, title:"The Road Home", year:"1999", country:"China", director:"Zhang Yimou", why:"A son returns to learn his parents' love story. Gratitude for origins.", feel:"The simplest love story ever told. You will be grateful your parents found each other." },
+          { num:34, title:"Children of Heaven", year:"1997", country:"Iran", director:"Majid Majidi", why:"A boy and his sister share one pair of shoes. Gratitude for what we have, not what we lack.", feel:"A family with so little — but the love is so abundant. Reframes everything you think you need." },
+          { num:35, title:"Castaway on the Moon", year:"2009", country:"Korea", director:"Lee Hey-jun", why:"Two isolated people find each other across a river. Gratitude for being found.", feel:"Both characters are grateful simply to be seen. That is enough. That is everything." },
+        ]
+      },
+      {
+        name: "WONDER", desc: "The world restored. Mystery. The beyond. Arriving at awe.",
+        films: [
+          { num:36, title:"Spirited Away", year:"2001", country:"Japan", director:"Hayao Miyazaki", why:"A girl enters the spirit world. Wonder as the only tool for survival.", feel:"After all the pain of the journey, the world becomes magical again. This is the reward." },
+          { num:37, title:"Uncle Boonmee Who Can Recall His Past Lives", year:"2010", country:"Thailand", director:"Apichatpong Weerasethakul", why:"A dying man visited by the spirits of his past lives. Wonder at the porousness of existence.", feel:"The boundary between life and death dissolves gently. Nothing is frightening. Everything is curious." },
+          { num:38, title:"Spring Summer Fall Winter Spring", year:"2003", country:"Korea", director:"Kim Ki-duk", why:"A monk's life across seasons. Wonder at the cyclical nature of all things.", feel:"You have lived the whole cycle now. This film shows you it was always a circle." },
+          { num:39, title:"The Color of Paradise", year:"1999", country:"Iran", director:"Majid Majidi", why:"A blind boy who sees God through his fingers. Wonder beyond the visual.", feel:"He touches a bird's feathers and weeps with joy. You will too." },
+          { num:40, title:"Woman in the Dunes", year:"1964", country:"Japan", director:"Hiroshi Teshigahara", why:"A man trapped in a sand pit finds meaning in the trap. Wonder at acceptance itself.", feel:"He stops trying to escape. And in that stopping, discovers something vast." },
+        ]
+      },
+      {
+        name: "INTEGRATION", desc: "Ten final films that hold the whole arc at once. For after you have completed the journey.",
+        films: [
+          { num:41, title:"Departures", year:"2008", country:"Japan", director:"Yojiro Takita", why:"A cellist becomes a mortician. Holds grief, beauty, and gratitude simultaneously.", feel:"All phases at once. A man who tends the dead finds his life." },
+          { num:42, title:"Drive My Car", year:"2021", country:"Japan", director:"Ryusuke Hamaguchi", why:"A theater director navigates grief through Chekhov. Art as integration.", feel:"The entire emotional curriculum in one film. Watch it last, or second-to-last." },
+          { num:43, title:"A Separation", year:"2011", country:"Iran", director:"Asghar Farhadi", why:"A divorce case that reveals every human failing and every human love.", feel:"Holds wound, rage, grief, and compassion simultaneously. Farhadi's masterwork." },
+          { num:44, title:"Burning", year:"2018", country:"Korea", director:"Lee Chang-dong", why:"A young man's slow descent into obsession. The cost of unintegrated wounds.", feel:"A warning: this is what happens when the journey is not completed." },
+          { num:45, title:"Wheel of Fortune and Fantasy", year:"2021", country:"Japan", director:"Ryusuke Hamaguchi", why:"Three short stories about coincidence and connection. Wonder at randomness.", feel:"Small, perfect. The world is stranger and kinder than we imagine." },
+          { num:46, title:"Wandering Earth", year:"2019", country:"China", director:"Frant Gwo", why:"Humanity moves the Earth to escape the dying sun. Wonder at collective human love.", feel:"Enormous scale — but at its heart, a son and a father. The cosmos as backdrop for family." },
+          { num:47, title:"The Wailing", year:"2016", country:"Korea", director:"Na Hong-jin", why:"A mysterious stranger and spreading death. Wonder and dread as the same feeling.", feel:"The sublime: that which is too large to be comfortable. Fear as a form of wonder." },
+          { num:48, title:"Millennium Mambo", year:"2001", country:"Taiwan", director:"Hou Hsiao-hsien", why:"A young woman drifts. Narrated from ten years in the future. Wonder at survival.", feel:"She survived. She is speaking to you from the other side. You will too." },
+          { num:49, title:"The Wind Rises", year:"2013", country:"Japan", director:"Hayao Miyazaki", why:"Miyazaki's farewell. A man who designed planes and lost everything. Wonder and acceptance.", feel:"Miyazaki's final statement: live, even knowing what life costs." },
+          { num:50, title:"Ikiru", year:"1952", country:"Japan", director:"Akira Kurosawa", why:"A dying bureaucrat finds meaning in his last months. The complete human journey in one film.", feel:"He builds a park for children. That is all. That is everything." },
+        ]
+      },
+    ]
+  },
+  {
+    id: 2,
+    title: "The Philosophical Arc",
+    arc: "Innocence → Awakening → Suffering → Searching → Doubt → Acceptance → Transcendence",
+    phases: [
+      {
+        name: "NAIVE CERTAINTY", desc: "The world as it appears. Simple. Ordered. Safe. Before philosophy begins.",
+        films: [
+          { num:1, title:"My Neighbor Totoro", year:"1988", country:"Japan", director:"Hayao Miyazaki", why:"Begin in a world where spirits are real and benevolent. Certainty before it is questioned.", feel:"This is the philosophical zero-point — reality as pure, unexamined, trustworthy." },
+          { num:2, title:"Children of Heaven", year:"1997", country:"Iran", director:"Majid Majidi", why:"A boy and a girl share a pair of shoes. The moral world is simple: help your sister.", feel:"Ethical clarity before complexity. What it felt like when right and wrong were obvious." },
+          { num:3, title:"The Road Home", year:"1999", country:"China", director:"Zhang Yimou", why:"A pure love story in a pure landscape. Life before irony.", feel:"The world of the film believes completely in love, loyalty, and memory." },
+          { num:4, title:"Where Is the Friend's Home?", year:"1987", country:"Iran", director:"Abbas Kiarostami", why:"A boy tries to do the right thing. The right thing is obvious. Doing it is the only challenge.", feel:"Pre-philosophical ethics — goodness as instinct, not argument." },
+          { num:5, title:"Spirited Away", year:"2001", country:"Japan", director:"Hayao Miyazaki", why:"A girl enters a spirit world with its own logic and rules. First encounter with a system beyond understanding.", feel:"The first philosophical rupture — a world that operates on principles she did not make." },
+        ]
+      },
+      {
+        name: "AWAKENING", desc: "The first questions. Reality revealed as constructed. The veil lifts.",
+        films: [
+          { num:6, title:"Rashomon", year:"1950", country:"Japan", director:"Akira Kurosawa", why:"The same event told four contradictory ways. Truth as perspective. Philosophy begins here.", feel:"The moment the naive mind first understands: there is no single truth. Everything shifts." },
+          { num:7, title:"Close-Up", year:"1990", country:"Iran", director:"Abbas Kiarostami", why:"A man impersonates a filmmaker. Where does identity end and performance begin?", feel:"Reality and fiction blur. Self and role blur. The questioning mind wakes up." },
+          { num:8, title:"Chungking Express", year:"1994", country:"Hong Kong", director:"Wong Kar-wai", why:"Two love stories in a city of strangers. Time, connection, and the stories we tell ourselves.", feel:"The city as philosophical condition — everyone constructing meaning, everyone slightly wrong about it." },
+          { num:9, title:"Platform", year:"2000", country:"China", director:"Jia Zhangke", why:"A rural theater troupe across the 1980s. History as the invisible shaper of private lives.", feel:"The awakening to structure — how forces we cannot see determine who we become." },
+          { num:10, title:"Peppermint Candy", year:"1999", country:"Korea", director:"Lee Chang-dong", why:"A life told backwards. Causality revealed. The awakening to how everything connects.", feel:"Philosophy of determinism experienced as tragedy. We watch innocence being made impossible." },
+        ]
+      },
+      {
+        name: "SUFFERING", desc: "The problem of pain. Why does it exist? What does it mean? Does it mean anything?",
+        films: [
+          { num:11, title:"Grave of the Fireflies", year:"1988", country:"Japan", director:"Isao Takahata", why:"Two children die of war and abandonment. The philosophical problem of innocent suffering.", feel:"If the world were just, this could not happen. The film asks you to sit with that." },
+          { num:12, title:"Turtles Can Fly", year:"2004", country:"Iran", director:"Bahman Ghobadi", why:"Kurdish children in a war they did not make. Suffering as philosophical problem.", feel:"There is no meaning here that the suffering earns. That is the point." },
+          { num:13, title:"Come and See", year:"1985", country:"Other", director:"Elem Klimov", why:"A boy witnesses Nazi atrocities in Belarus. The face of evil as philosophical fact.", feel:"Not Asian — but included because no Asian film captures this scale." },
+          { num:14, title:"Secret Sunshine", year:"2007", country:"Korea", director:"Lee Chang-dong", why:"A widow tries to find comfort in religion. What happens when consolation fails.", feel:"The philosophical failure of theodicy — the problem of evil in personal, not abstract form." },
+          { num:15, title:"Capernaum", year:"2018", country:"Lebanon", director:"Nadine Labaki", why:"A child sues his parents for giving him life. The Schopenhauerian argument in a child's mouth.", feel:"Is it wrong to be born into suffering? He asks. The film does not answer. Neither can you." },
+        ]
+      },
+      {
+        name: "SEARCHING", desc: "Active seeking. Philosophy in motion. Systems tested. Gurus found and lost.",
+        films: [
+          { num:16, title:"Stalker", year:"1979", country:"Other", director:"Andrei Tarkovsky", why:"Three men journey to a room where deepest desires are granted. The search for meaning as dangerous pilgrimage.", feel:"Non-Asian — but irreplaceable. The greatest philosophical journey film ever made." },
+          { num:17, title:"Taste of Cherry", year:"1997", country:"Iran", director:"Abbas Kiarostami", why:"A man seeks someone to bury him. He finds three different answers to why life is worth living.", feel:"Three philosophies of life given by three strangers in a car. None conclusive. All true." },
+          { num:18, title:"Spring Summer Fall Winter Spring", year:"2003", country:"Korea", director:"Kim Ki-duk", why:"A monk's life across seasons. Buddhism as living philosophy, not abstract doctrine.", feel:"The search through a complete religious-philosophical system shown as lived practice." },
+          { num:19, title:"Uncle Boonmee Who Can Recall His Past Lives", year:"2010", country:"Thailand", director:"Apichatpong Weerasethakul", why:"A dying man visited by spirits. Buddhist metaphysics as cinema.", feel:"The philosophy of impermanence and continuity — karma made sensory and dreamlike." },
+          { num:20, title:"Yi Yi", year:"2000", country:"Taiwan", director:"Edward Yang", why:"A boy photographs the backs of people's heads — to show them what they cannot see themselves.", feel:"The philosophical question of perspective as literal practice. A child as philosopher." },
+        ]
+      },
+      {
+        name: "DOUBT", desc: "The darkest phase. Nothing holds. No system satisfies. The void.",
+        films: [
+          { num:21, title:"Woman in the Dunes", year:"1964", country:"Japan", director:"Hiroshi Teshigahara", why:"A man trapped in a sand pit — Sisyphean, absurd, inescapable. Camus made cinema.", feel:"The absurdist condition: trapped in a task that resets, in a life without exit." },
+          { num:22, title:"Eureka", year:"2000", country:"Japan", director:"Shinji Aoyama", why:"Survivors who cannot speak about what happened. The limits of language and meaning.", feel:"Doubt in the form of silence. Some things cannot be integrated. That is the doubt." },
+          { num:23, title:"Blind Mountain", year:"2007", country:"China", director:"Li Yang", why:"A woman kidnapped and sold as a wife. The philosophical failure of institutions and witnesses.", feel:"Why does no one help? The doubt this produces about human nature is total." },
+          { num:24, title:"Maborosi", year:"1995", country:"Japan", director:"Hirokazu Kore-eda", why:"A husband walks into the sea for no reason. The unanswerable at the center of life.", feel:"Some things have no meaning. The film refuses to give the suicide a reason. Live with that." },
+          { num:25, title:"A Brighter Summer Day", year:"1991", country:"Taiwan", director:"Edward Yang", why:"A boy's slow drift into violence in 1960s Taiwan. The philosophical failure of identity.", feel:"Who are we when history gives us no ground to stand on? The doubt of rootlessness." },
+        ]
+      },
+      {
+        name: "RECKONING", desc: "Facing what is. Moral accounts. What did I do? What was done to me?",
+        films: [
+          { num:26, title:"A Separation", year:"2011", country:"Iran", director:"Asghar Farhadi", why:"A divorce case that reveals every character's moral compromise. No one is innocent.", feel:"The philosophical reckoning — everyone had reasons. Everyone caused harm. Now what?" },
+          { num:27, title:"The Wailing", year:"2016", country:"Korea", director:"Na Hong-jin", why:"A father tries to save his daughter from a curse. Faith, reason, and superstition at war.", feel:"The epistemological crisis: when you cannot know what is true, how do you act?" },
+          { num:28, title:"Memories of Murder", year:"2003", country:"Korea", director:"Bong Joon-ho", why:"The killer is never caught. The detective stares into the camera at the film's end.", feel:"What does it mean to be a moral agent in an amoral universe?" },
+          { num:29, title:"Burning", year:"2018", country:"Korea", director:"Lee Chang-dong", why:"A young man's perception of reality may be entirely wrong. The unreliable self.", feel:"Can we trust our own moral reckoning? When the self is the unreliable narrator?" },
+          { num:30, title:"Vengeance Is Mine", year:"1979", country:"Japan", director:"Shohei Imamura", why:"A serial killer presented without judgment. The philosophical problem of evil without explanation.", feel:"Imamura refuses to explain. The reckoning is yours alone." },
+        ]
+      },
+      {
+        name: "ACCEPTANCE", desc: "Not happiness. Not resolution. But the ceasing of resistance. Amor fati.",
+        films: [
+          { num:31, title:"Tokyo Story", year:"1953", country:"Japan", director:"Yasujiro Ozu", why:"Elderly parents accept their children's indifference. The philosophy of mu — emptiness without bitterness.", feel:"They are not happy. They are at peace. These are not the same thing." },
+          { num:32, title:"After Life", year:"1998", country:"Japan", director:"Hirokazu Kore-eda", why:"The dead choose one memory. The philosophy of selective acceptance — what to keep, what to release.", feel:"Acceptance as active choice. You must decide which memory defines your life." },
+          { num:33, title:"Narayama Bushiko", year:"1983", country:"Japan", director:"Shohei Imamura", why:"An elderly woman prepares to be carried to a mountain to die. Acceptance of natural law.", feel:"She sharpens her teeth on a stone to look old enough. She accepts. This is acceptance." },
+          { num:34, title:"The Wind Rises", year:"2013", country:"Japan", director:"Hayao Miyazaki", why:"A man designs planes knowing they will be used in war. Acceptance of complicity.", feel:"He accepts that beauty and destruction cannot be separated. He builds anyway." },
+          { num:35, title:"Still Life", year:"2006", country:"China", director:"Jia Zhangke", why:"Two people search for their spouses in a drowning city. Acceptance of impermanence.", feel:"Everything they knew is underwater. They accept. They continue. This is philosophy." },
+        ]
+      },
+      {
+        name: "TRANSCENDENCE", desc: "Beyond the self. Beyond the problem. Into something larger than philosophy.",
+        films: [
+          { num:36, title:"Andrei Rublev", year:"1966", country:"Other", director:"Andrei Tarkovsky", why:"A 15th century icon painter witnesses history's horror. Art as the only transcendence.", feel:"Non-Asian — irreplaceable. The most serious statement cinema has made about art and faith." },
+          { num:37, title:"The Color of Paradise", year:"1999", country:"Iran", director:"Majid Majidi", why:"A blind boy touches the world and finds God in it. Transcendence through the body.", feel:"He cannot see. He feels everything. His transcendence is entirely physical." },
+          { num:38, title:"Sansho the Bailiff", year:"1954", country:"Japan", director:"Kenji Mizoguchi", why:"A mother's love survives everything time and cruelty can do. Love as transcendence.", feel:"The final scene on the beach. A son finds his mother. Everything else falls away." },
+          { num:39, title:"Cemetery of Splendour", year:"2015", country:"Thailand", director:"Apichatpong Weerasethakul", why:"Soldiers sleep with inexplicable illness. The past and present merge. Transcendence as surrender.", feel:"The self dissolves into time, into place, into dreaming. This is what transcendence looks like." },
+          { num:40, title:"The Mirror", year:"1975", country:"Other", director:"Andrei Tarkovsky", why:"Memory, dreams, and Russia through one life. The self as transparent — through which everything flows.", feel:"The philosophical curriculum ends where it began: in the self. But the self is now transparent." },
+        ]
+      },
+      {
+        name: "THE COMPLETE MIND", desc: "Ten films for after the journey. For the mind that has been changed.",
+        films: [
+          { num:41, title:"Ikiru", year:"1952", country:"Japan", director:"Akira Kurosawa", why:"A dying bureaucrat builds a park. Meaning made by a single act. The existentialist answer.", feel:"After all the philosophy — this is what it comes to. One act. One park. One life." },
+          { num:42, title:"Drive My Car", year:"2021", country:"Japan", director:"Ryusuke Hamaguchi", why:"A theater director navigating grief through Uncle Vanya. Art as philosophical praxis.", feel:"Chekhov's characters speak the questions the director cannot ask himself." },
+          { num:43, title:"Woman in the Dunes", year:"1964", country:"Japan", director:"Hiroshi Teshigahara", why:"Second viewing after the whole journey. Now the sand trap feels different.", feel:"On second viewing, his acceptance is not defeat — it is the hardest philosophical victory." },
+          { num:44, title:"Landscape in the Mist", year:"1988", country:"Other", director:"Theo Angelopoulos", why:"Two children cross Greece looking for a father who may not exist. The search for origin as philosophy.", feel:"Non-Asian — irreplaceable. The most beautiful film about the philosophical need for a father." },
+          { num:45, title:"The Sacrifice", year:"1986", country:"Other", director:"Andrei Tarkovsky", why:"A man offers everything to God to prevent nuclear war. The philosophical act of total sacrifice.", feel:"Non-Asian — Tarkovsky's final film. The only adequate response to the void he found." },
+          { num:46, title:"Dogtooth", year:"2009", country:"Other", director:"Yorgos Lanthimos", why:"Parents construct a false reality for their children. Language and reality as philosophical weapons.", feel:"Non-Asian — but the sharpest possible statement on how systems of belief are constructed." },
+          { num:47, title:"A Moment of Innocence", year:"1996", country:"Iran", director:"Mohsen Makhmalbaf", why:"A director recreates the day he stabbed a policeman as a young man. Memory and truth.", feel:"Can we ever access what really happened? Can film? Can philosophy? Can memory?" },
+          { num:48, title:"Certified Copy", year:"2010", country:"Iran", director:"Abbas Kiarostami", why:"Are they strangers or a long-married couple? The copy as the original. Reality as performance.", feel:"Kiarostami's most philosophical film — and his most playful. Everything is a copy. Nothing is diminished." },
+          { num:49, title:"Nostalghia", year:"1983", country:"Other", director:"Andrei Tarkovsky", why:"A Russian writer in Italy. Longing for home as metaphysical condition.", feel:"Non-Asian — but the only film that captures the philosophical weight of not belonging anywhere." },
+          { num:50, title:"Rashomon", year:"1950", country:"Japan", director:"Akira Kurosawa", why:"Watch it again. After the whole journey, truth looks completely different.", feel:"You began this curriculum believing truth was complicated. Now you know it is something stranger." },
+        ]
+      },
+    ]
+  },
+  {
+    id: 3,
+    title: "The Human Lifecycle",
+    arc: "Birth → Childhood → Youth → Love → Work → Marriage → Parenthood → Ageing → Death",
+    phases: [
+      {
+        name: "BIRTH & EARLY CHILDHOOD", desc: "Arrival. First perception. The world as sensation before language.",
+        films: [
+          { num:1, title:"My Neighbor Totoro", year:"1988", country:"Japan", director:"Hayao Miyazaki", why:"Two young girls in a new home. The world as pure, magical, immediate sensation.", feel:"This is how children actually experience the world — entirely, without irony." },
+          { num:2, title:"The White Balloon", year:"1995", country:"Iran", director:"Jafar Panahi", why:"One afternoon in a child's life. The scale of small things when you are very small.", feel:"A coin. A goldfish. A street. These are the enormous events of early childhood." },
+          { num:3, title:"Where Is the Friend's Home?", year:"1987", country:"Iran", director:"Abbas Kiarostami", why:"A boy on an errand. Childhood as moral seriousness — the world of rules before exceptions.", feel:"Children take rules more seriously than adults. This film understands that completely." },
+          { num:4, title:"Kiki's Delivery Service", year:"1989", country:"Japan", director:"Hayao Miyazaki", why:"A young witch leaves home for the first time. The first independence.", feel:"The lifecycle moves: from the home outward. This is the first step." },
+          { num:5, title:"Grave of the Fireflies", year:"1988", country:"Japan", director:"Isao Takahata", why:"Two children trying to survive. Childhood's fragility when the world fails to protect it.", feel:"Not every childhood is safe. This film holds the children who were not held." },
+        ]
+      },
+      {
+        name: "ADOLESCENCE", desc: "The body changes. Identity forms. The first real pain. The first real desire.",
+        films: [
+          { num:6, title:"A Brighter Summer Day", year:"1991", country:"Taiwan", director:"Edward Yang", why:"A teenage boy in 1960s Taiwan. Adolescence as identity crisis amplified by historical displacement.", feel:"Who am I? is the adolescent question. This film asks it at the largest possible scale." },
+          { num:7, title:"Nobody Knows", year:"2004", country:"Japan", director:"Hirokazu Kore-eda", why:"Four children abandoned in Tokyo. Adolescence as forced maturity.", feel:"Some children must become adults before they are ready. This is their story." },
+          { num:8, title:"Han Gong-ju", year:"2013", country:"Korea", director:"Lee Su-jin", why:"A teenage girl restarts life after trauma. Adolescence and its specific vulnerability.", feel:"The specific way teenage girls are failed by the world. Fragmented and devastating." },
+          { num:9, title:"Take Care of My Cat", year:"2001", country:"Korea", director:"Jeong Jae-eun", why:"Five friends drift apart after high school. The end of adolescence as its own grief.", feel:"Adolescence ends. This is what that feels like — the slow dispersal of your first world." },
+          { num:10, title:"Love Exposure", year:"2008", country:"Japan", director:"Sion Sono", why:"A Catholic boy becomes an upskirt photographer. Adolescent desire at its most absurd and sincere.", feel:"The full catastrophe of adolescent desire — ridiculous, sincere, and somehow sacred." },
+        ]
+      },
+      {
+        name: "FIRST LOVE", desc: "The opening. The risk. The discovery that another person can be everything.",
+        films: [
+          { num:11, title:"In the Mood for Love", year:"2000", country:"Hong Kong", director:"Wong Kar-wai", why:"Not first love — but love as if for the first time. Desire that dares not speak.", feel:"The most beautiful depiction of love's beginning: when the world contracts to one person." },
+          { num:12, title:"Il Mare", year:"2000", country:"Korea", director:"Lee Hyun-seung", why:"Two people living two years apart exchange letters through a magical mailbox.", feel:"First love as impossibility — which is how it always feels." },
+          { num:13, title:"Hana & Alice", year:"2004", country:"Japan", director:"Shunji Iwai", why:"Two best friends and the boy between them. First love as the first test of loyalty.", feel:"First love always involves a third person — the self you are becoming." },
+          { num:14, title:"The Road Home", year:"1999", country:"China", director:"Zhang Yimou", why:"A girl falls in love with the new schoolteacher. First love as absolute devotion.", feel:"She waits for him in the snow. This is what first love feels like — total and unselfconscious." },
+          { num:15, title:"Chungking Express", year:"1994", country:"Hong Kong", director:"Wong Kar-wai", why:"Two love stories in Hong Kong. The strange courage first love requires.", feel:"She buys his favourite food every day. First love as pure, slightly insane action." },
+        ]
+      },
+      {
+        name: "AMBITION & WORK", desc: "The world of making. Career. Building. The self tested against reality.",
+        films: [
+          { num:16, title:"The Great Passage", year:"2013", country:"Japan", director:"Yuya Ishii", why:"A man dedicates his life to compiling a dictionary. Work as vocation as identity.", feel:"What does it mean to give your life to a single task? This film takes that seriously." },
+          { num:17, title:"Platform", year:"2000", country:"China", director:"Jia Zhangke", why:"A rural theater troupe across the 1980s. Ambition shaped by historical forces.", feel:"The ambitions of young people shaped — and crushed — by history. Decade-spanning." },
+          { num:18, title:"The Wind Rises", year:"2013", country:"Japan", director:"Hayao Miyazaki", why:"A man designs aircraft. Work as the highest expression of the self — and its cost.", feel:"He gives everything to his work. His wife dies. He builds the planes anyway. Is that right?" },
+          { num:19, title:"Hana-bi", year:"1997", country:"Japan", director:"Takeshi Kitano", why:"A retired detective. Work as identity — and who you are when the work ends.", feel:"What is a man without the job that defined him? Kitano's saddest and most tender answer." },
+          { num:20, title:"A Touch of Sin", year:"2013", country:"China", director:"Jia Zhangke", why:"Four stories of violence in China. Work as exploitation — and the breaking point.", feel:"When work becomes humiliation, what is left? Four different answers, all violent." },
+        ]
+      },
+      {
+        name: "MARRIAGE & PARTNERSHIP", desc: "The long commitment. Intimacy. The discovery of another person's interior.",
+        films: [
+          { num:21, title:"Still Walking", year:"2008", country:"Japan", director:"Hirokazu Kore-eda", why:"A family gathering. Marriage as the invisible structure everything else rests on.", feel:"Watch the husband and wife. Notice everything not said. This is long marriage." },
+          { num:22, title:"Yi Yi", year:"2000", country:"Taiwan", director:"Edward Yang", why:"A man reconnects with a lost love while his marriage continues. What remains after years.", feel:"The philosophical question inside every long marriage: who would I have been otherwise?" },
+          { num:23, title:"A Separation", year:"2011", country:"Iran", director:"Asghar Farhadi", why:"A marriage breaking apart. The archaeology of a relationship's failure.", feel:"Both are right. Both are wrong. This is the deepest truth about the end of long love." },
+          { num:24, title:"Burning", year:"2018", country:"Korea", director:"Lee Chang-dong", why:"A young man's obsession with a woman. What partnership becomes when it remains fantasy.", feel:"The cost of love that never becomes real. Partnership requires presence, not projection." },
+          { num:25, title:"Happy Together", year:"1997", country:"Hong Kong", director:"Wong Kar-wai", why:"Two men's turbulent love affair in Buenos Aires. Partnership as beautiful catastrophe.", feel:"Some partnerships are only possible in their breaking. This is that kind." },
+        ]
+      },
+      {
+        name: "PARENTHOOD", desc: "Responsibility for another life. The self made secondary. Love without limits.",
+        films: [
+          { num:26, title:"Nobody Knows", year:"2004", country:"Japan", director:"Hirokazu Kore-eda", why:"The failure of a mother. Parenthood as what happens when it goes completely wrong.", feel:"Begin with the negative to understand the positive. What parenthood must not be." },
+          { num:27, title:"Shoplifters", year:"2018", country:"Japan", director:"Hirokazu Kore-eda", why:"A chosen family. Parenthood as choice — not biology but the daily act of care.", feel:"Are they his parents? No. Do they parent him? Yes. What is parenthood really?" },
+          { num:28, title:"Mother", year:"2009", country:"Korea", director:"Bong Joon-ho", why:"A mother goes to any length to protect her son. Parenthood as obsession.", feel:"How far is too far? This mother will not stop. The film asks you where you would stop." },
+          { num:29, title:"Capernaum", year:"2018", country:"Lebanon", director:"Nadine Labaki", why:"A child sues his parents. Parenthood as what children require — and some never receive.", feel:"Seen from the child's side: what parenthood is supposed to be." },
+          { num:30, title:"Our Little Sister", year:"2015", country:"Japan", director:"Hirokazu Kore-eda", why:"Three sisters raise their younger half-sister. Parenthood distributed across siblings.", feel:"The warmest film about the parental instinct — spread across four young women." },
+        ]
+      },
+      {
+        name: "MIDDLE AGE", desc: "The long plateau. Reckoning. Disappointment and its dignified acceptance.",
+        films: [
+          { num:31, title:"Drive My Car", year:"2021", country:"Japan", director:"Ryusuke Hamaguchi", why:"A middle-aged theater director processes grief and regret. Middle age as the time of reckoning.", feel:"He drove past the house where his wife died every day. This is middle age: living with what we did." },
+          { num:32, title:"Secret Sunshine", year:"2007", country:"Korea", director:"Lee Chang-dong", why:"A widow trying to rebuild. Middle age as the time when consolations are tested.", feel:"She tries religion. It fails her. The film is honest about what middle age demands." },
+          { num:33, title:"Maborosi", year:"1995", country:"Japan", director:"Hirokazu Kore-eda", why:"A young woman in a second marriage. Middle age's second chances and their own grief.", feel:"She has survived her first life. Now she must learn to inhabit the second." },
+          { num:34, title:"Distant", year:"2002", country:"Other", director:"Nuri Bilge Ceylan", why:"Two cousins who cannot connect. Middle age as the calcification of the self.", feel:"By middle age some people have stopped being able to reach others. This is that." },
+          { num:35, title:"The Twilight Samurai", year:"2002", country:"Japan", director:"Yoji Yamada", why:"A widowed samurai caring for his daughters. Middle age as quiet, unrecognised heroism.", feel:"He comes home and peels vegetables for his daughters. This is middle age at its finest." },
+        ]
+      },
+      {
+        name: "AGEING & LOSS", desc: "The body declining. Friends disappearing. The world belonging to the young.",
+        films: [
+          { num:36, title:"Tokyo Story", year:"1953", country:"Japan", director:"Yasujiro Ozu", why:"Elderly parents visiting indifferent children. The specific loneliness of old age.", feel:"The world has moved on. Their children are busy. This is what ageing feels like." },
+          { num:37, title:"An Autumn Afternoon", year:"1962", country:"Japan", director:"Yasujiro Ozu", why:"An ageing widower arranges his daughter's marriage. Ageing as letting go.", feel:"He marries her off and then sits alone. He knew this was coming. He did it anyway." },
+          { num:38, title:"Narayama Bushiko", year:"1983", country:"Japan", director:"Shohei Imamura", why:"An elderly woman prepares to be left on a mountain. Ageing as return to nature.", feel:"She breaks her own teeth to look old enough. She accepts. She leads her son up the mountain." },
+          { num:39, title:"Poetry", year:"2010", country:"Korea", director:"Lee Chang-dong", why:"An elderly woman with early dementia discovers poetry. Ageing as unexpected opening.", feel:"She is losing language — so she goes looking for it in poetry. Devastating and beautiful." },
+          { num:40, title:"The Taste of Tea", year:"2004", country:"Japan", director:"Katsuhito Ishii", why:"A multi-generational family in rural Japan. Ageing as integration into the family's flow.", feel:"The grandfather paints his old memories. Old age as the time when you finally understand your life." },
+        ]
+      },
+      {
+        name: "DEATH & WHAT REMAINS", desc: "The final stage. Facing it. Completing it. What is left behind.",
+        films: [
+          { num:41, title:"Ikiru", year:"1952", country:"Japan", director:"Akira Kurosawa", why:"A dying bureaucrat builds a park. Death as the clarifier of life's meaning.", feel:"He has months to live. He builds a park for children. This is the only answer." },
+          { num:42, title:"After Life", year:"1998", country:"Japan", director:"Hirokazu Kore-eda", why:"The dead choose one memory. Death as the moment of ultimate curation.", feel:"If you could only keep one memory, what would it be? This is the death question." },
+          { num:43, title:"Departures", year:"2008", country:"Japan", director:"Yojiro Takita", why:"A mortician tends the dead with ritual care. Death as the final act of love.", feel:"He dresses the dead. He gives them dignity. This is what we owe the dying." },
+          { num:44, title:"Sansho the Bailiff", year:"1954", country:"Japan", director:"Kenji Mizoguchi", why:"A son finds his aged mother on a beach. What survives across a lifetime of separation.", feel:"She is blind and broken. He finds her. Love survives. That is what remains." },
+          { num:45, title:"Uncle Boonmee Who Can Recall His Past Lives", year:"2010", country:"Thailand", director:"Apichatpong Weerasethakul", why:"A dying man's final days. Death as continuation, not ending.", feel:"His dead wife sits at the dinner table. His dead son returns as a forest spirit. Death is porous." },
+          { num:46, title:"Still Walking", year:"2008", country:"Japan", director:"Hirokazu Kore-eda", why:"A family gathering around a son who died years ago. Death as the permanent presence.", feel:"He has been dead for years. He is still the most present person in the room." },
+          { num:47, title:"Spring Summer Fall Winter Spring", year:"2003", country:"Korea", director:"Kim Ki-duk", why:"A monk's life completes its cycle. Death as the moment before the next beginning.", feel:"The cycle closes. Spring comes again. This is not comfort — it is something deeper." },
+          { num:48, title:"Grave of the Fireflies", year:"1988", country:"Japan", director:"Isao Takahata", why:"Two children who die. The film opens with their death. Watch it again now.", feel:"On second viewing, knowing everything — their deaths are unbearable and necessary." },
+          { num:49, title:"The Wind Rises", year:"2013", country:"Japan", director:"Hayao Miyazaki", why:"Miyazaki's farewell. His characters die. He continues. His final word to cinema.", feel:"Live. Even knowing what life costs. That is Miyazaki's message to us at the end." },
+          { num:50, title:"Maborosi", year:"1995", country:"Japan", director:"Hirokazu Kore-eda", why:"The film ends with a woman standing in the light. After death — the living continue.", feel:"She stands in a doorway. The light is behind her. She is still here. So are we." },
+        ]
+      },
+    ]
+  },
+  {
+    id: 4,
+    title: "Chaos to Stillness",
+    arc: "Intensity → Violence → Desperation → Complexity → Simplification → Silence → Stillness → Being",
+    phases: [
+      {
+        name: "MAXIMUM INTENSITY", desc: "Pure kinetic force. Overwhelming. Loud. The world at full volume.",
+        films: [
+          { num:1, title:"Oldboy", year:"2003", country:"Korea", director:"Park Chan-wook", why:"A man imprisoned for 15 years. Pure overwhelming intensity. Begin here — nowhere to hide.", feel:"The most intense possible entry point. Everything is at maximum." },
+          { num:2, title:"I Saw the Devil", year:"2010", country:"Korea", director:"Kim Jee-woon", why:"A detective hunts his fiancee's killer. Extreme violence at extreme velocity.", feel:"The world at its most chaotic. Hold on. It will slow." },
+          { num:3, title:"Love Exposure", year:"2008", country:"Japan", director:"Sion Sono", why:"Four hours of religious mania, upskirt photography, and cults. Controlled chaos.", feel:"Overwhelming in the best way. By the end you will be exhausted and exhilarated." },
+          { num:4, title:"City of Violence", year:"2006", country:"Korea", director:"Ryoo Seung-wan", why:"Two friends return to their hometown for a funeral. Pure action cinema.", feel:"Physical chaos at its most choreographed. The body in motion as pure cinema." },
+          { num:5, title:"Sympathy for Mr. Vengeance", year:"2002", country:"Korea", director:"Park Chan-wook", why:"A plan to fund a kidney transplant goes horrifically wrong. Cascading disaster.", feel:"Chaos as systems failure — each attempt to control makes everything worse." },
+        ]
+      },
+      {
+        name: "VIOLENCE & CONSEQUENCE", desc: "The chaos has a human cost. We begin to feel the weight.",
+        films: [
+          { num:6, title:"A Bittersweet Life", year:"2005", country:"Korea", director:"Kim Jee-woon", why:"A gang enforcer pays for one act of mercy. Violence with elegance and weight.", feel:"The violence slows slightly. We begin to see faces inside the chaos." },
+          { num:7, title:"Memories of Murder", year:"2003", country:"Korea", director:"Bong Joon-ho", why:"Serial murder investigation. Violence that refuses to resolve — the chaos that has no ending.", feel:"The killer is never caught. The chaos persists. But we are watching more carefully now." },
+          { num:8, title:"A Touch of Sin", year:"2013", country:"China", director:"Jia Zhangke", why:"Four stories of ordinary people who commit violence. The chaos of desperation.", feel:"Violence from the bottom up. Slower than the Korean films. We begin to understand." },
+          { num:9, title:"The Wailing", year:"2016", country:"Korea", director:"Na Hong-jin", why:"A village gripped by mysterious deaths. Chaos of the supernatural — unknowable violence.", feel:"The violence becomes strange. We cannot explain it. The chaos deepens into mystery." },
+          { num:10, title:"Pieta", year:"2012", country:"Korea", director:"Kim Ki-duk", why:"A loan shark and a woman who claims to be his mother. Violence becoming something else.", feel:"The first moment violence becomes grief. We are transitioning." },
+        ]
+      },
+      {
+        name: "DESPERATION", desc: "The chaos internalised. Human beings at their breaking point.",
+        films: [
+          { num:11, title:"Oasis", year:"2002", country:"Korea", director:"Lee Chang-dong", why:"A man with a criminal record and a woman with cerebral palsy. Desperate for connection.", feel:"Desperation as love. The most human chaos — the need for another person." },
+          { num:12, title:"Han Gong-ju", year:"2013", country:"Korea", director:"Lee Su-jin", why:"A traumatised girl tries to rebuild. The desperation of the violated trying to continue.", feel:"Internal chaos. The world is quiet but inside is still screaming." },
+          { num:13, title:"Blind Mountain", year:"2007", country:"China", director:"Li Yang", why:"A woman kidnapped and sold. Desperation as sustained condition.", feel:"Sustained desperation — no sudden violence, just the grinding chaos of captivity." },
+          { num:14, title:"Capernaum", year:"2018", country:"Lebanon", director:"Nadine Labaki", why:"A boy navigating Beirut's margins. The desperation of childhood without protection.", feel:"A child's desperation. The world is too large and too cruel." },
+          { num:15, title:"Secret Sunshine", year:"2007", country:"Korea", director:"Lee Chang-dong", why:"A widow's desperate search for consolation. The desperation of grief with no container.", feel:"The chaos is now entirely internal. She is trying to survive herself." },
+        ]
+      },
+      {
+        name: "COMPLEXITY", desc: "The chaos becomes layered. We begin to understand. Things slow.",
+        films: [
+          { num:16, title:"A Separation", year:"2011", country:"Iran", director:"Asghar Farhadi", why:"A divorce case with no villain. The complexity of competing truths.", feel:"Everything slows. We must pay close attention. The chaos has become nuance." },
+          { num:17, title:"Yi Yi", year:"2000", country:"Taiwan", director:"Edward Yang", why:"Three generations of a Taipei family. Complexity spread across three hours.", feel:"Three hours of ordinary life. The chaos is now just: being alive and complicated." },
+          { num:18, title:"Burning", year:"2018", country:"Korea", director:"Lee Chang-dong", why:"A young man whose perception may be wrong. The complexity of an unreliable mind.", feel:"The chaos is now interior and ambiguous. We can no longer trust what we see." },
+          { num:19, title:"Drive My Car", year:"2021", country:"Japan", director:"Ryusuke Hamaguchi", why:"A theater director in a long car journey. Complexity resolved through conversation.", feel:"Long, slow, complex conversations. This is the turning point — we begin moving toward stillness." },
+          { num:20, title:"About Elly", year:"2009", country:"Iran", director:"Asghar Farhadi", why:"A woman disappears. Complexity of guilt and self-deception.", feel:"Complex moral chaos — but contained, quiet, domestic. The world is getting smaller." },
+        ]
+      },
+      {
+        name: "SIMPLIFICATION", desc: "The noise drops away. Stories get smaller. Attention deepens.",
+        films: [
+          { num:21, title:"Shoplifters", year:"2018", country:"Japan", director:"Hirokazu Kore-eda", why:"A small family living on the margins. The simplicity of chosen love.", feel:"A small world. Small gestures. Enormous warmth. The simplification begins." },
+          { num:22, title:"Still Walking", year:"2008", country:"Japan", director:"Hirokazu Kore-eda", why:"One family day. Nothing happens. Everything matters.", feel:"One day. One family. Lunch. A walk. That is all. Notice how much there is." },
+          { num:23, title:"Our Little Sister", year:"2015", country:"Japan", director:"Hirokazu Kore-eda", why:"Four sisters in Kamakura. The seasons change. Small kindnesses accumulate.", feel:"Seasons pass. Meals are shared. Flowers bloom. This is the curriculum of simplification." },
+          { num:24, title:"The Twilight Samurai", year:"2002", country:"Japan", director:"Yoji Yamada", why:"A widowed samurai peels vegetables. Heroism as quiet daily care.", feel:"He comes home and peels vegetables. He is the most heroic person we have seen." },
+          { num:25, title:"Children of Heaven", year:"1997", country:"Iran", director:"Majid Majidi", why:"A boy and his sister share one pair of shoes. The simplest story.", feel:"One pair of shoes. Two children. All of human love." },
+        ]
+      },
+      {
+        name: "SLOWING", desc: "The camera holds. Time expands. We learn to wait and to see.",
+        films: [
+          { num:26, title:"Maborosi", year:"1995", country:"Japan", director:"Hirokazu Kore-eda", why:"A woman haunted by her husband's death. Long static shots. Unanswered questions.", feel:"The camera does not cut away. We must sit with the silence." },
+          { num:27, title:"Flowers of Shanghai", year:"1998", country:"Taiwan", director:"Hou Hsiao-hsien", why:"Life in Shanghai's courtesan houses. The camera barely moves.", feel:"The slowest, most interior film yet. Time pools." },
+          { num:28, title:"Platform", year:"2000", country:"China", director:"Jia Zhangke", why:"A decade in a Chinese theater troupe. Long takes, historical time.", feel:"Jia Zhangke films duration itself. We feel years passing in real time." },
+          { num:29, title:"The River", year:"1997", country:"Taiwan", director:"Tsai Ming-liang", why:"A family that cannot communicate. Silence as the dominant language.", feel:"Silence between people who share a home. The world is almost completely still." },
+          { num:30, title:"Distant", year:"2002", country:"Other", director:"Nuri Bilge Ceylan", why:"Two cousins unable to connect. Long silences in a winter apartment.", feel:"Winter. An apartment. Two men. Silence. The slowing is almost complete." },
+        ]
+      },
+      {
+        name: "SILENCE", desc: "Almost nothing happens. The space between events becomes the subject.",
+        films: [
+          { num:31, title:"Goodbye Dragon Inn", year:"2003", country:"Taiwan", director:"Tsai Ming-liang", why:"The last screening at a dying cinema. Silence as the film's primary material.", feel:"People sit in the dark watching a film. The camera watches them. Almost nothing else." },
+          { num:32, title:"What Time Is It There?", year:"2001", country:"Taiwan", director:"Tsai Ming-liang", why:"A watch seller in Taipei and a woman in Paris. Longing across silent distance.", feel:"Two people. Two cities. No contact. The silence of separation." },
+          { num:33, title:"A Scene at the Sea", year:"1991", country:"Japan", director:"Takeshi Kitano", why:"A deaf garbage collector learns to surf. Almost no dialogue. Pure image and sound.", feel:"A deaf man in a world of ocean sound. The silence is full." },
+          { num:34, title:"Blissfully Yours", year:"2002", country:"Thailand", director:"Apichatpong Weerasethakul", why:"Three people spend a day in the Thai jungle. The film barely speaks.", feel:"They eat. They sleep in the forest. The jungle sounds. Almost nothing else happens." },
+          { num:35, title:"Still Life", year:"2006", country:"China", director:"Jia Zhangke", why:"Two people searching in a drowning city. Silence between enormous events.", feel:"Buildings explode and float away. The people watch silently. The silence holds everything." },
+        ]
+      },
+      {
+        name: "STILLNESS", desc: "Complete. The camera and the self arrive at rest. Pure being.",
+        films: [
+          { num:36, title:"Tokyo Story", year:"1953", country:"Japan", director:"Yasujiro Ozu", why:"Ozu's fixed camera. No camera movement. Pure stillness as cinematic philosophy.", feel:"Ozu never moves his camera. The world moves through it. We have arrived." },
+          { num:37, title:"Late Spring", year:"1949", country:"Japan", director:"Yasujiro Ozu", why:"A father and daughter's last year together. The stillness of things ending.", feel:"The famous scene: a vase in the dark. Ozu cuts to it twice. It says everything." },
+          { num:38, title:"Taste of Cherry", year:"1997", country:"Iran", director:"Abbas Kiarostami", why:"A man in a car. Long takes. Real roads. The stillness of the decision not made.", feel:"He drives. We sit. At the end the film itself stops. Everything is very still." },
+          { num:39, title:"Cemetery of Splendour", year:"2015", country:"Thailand", director:"Apichatpong Weerasethakul", why:"Soldiers sleeping endlessly. Dreaming. Still. The world slowing to a dream.", feel:"Sleeping bodies. Coloured lights. Time dissolving. This is near-total stillness." },
+          { num:40, title:"Uncle Boonmee Who Can Recall His Past Lives", year:"2010", country:"Thailand", director:"Apichatpong Weerasethakul", why:"A dying man. A jungle. Past lives arriving at dinner. The stillness of dissolution.", feel:"He is dying. The jungle watches. His past lives sit with him. Still." },
+        ]
+      },
+      {
+        name: "PURE BEING", desc: "Ten final films. The self has quieted. What remains is pure perception.",
+        films: [
+          { num:41, title:"Spring Summer Fall Winter Spring", year:"2003", country:"Korea", director:"Kim Ki-duk", why:"A floating monastery. Seasons cycling. The complete stillness of the wheel.", feel:"The lake is still. The monk is still. Time is still. You are still." },
+          { num:42, title:"The Naked Island", year:"1960", country:"Japan", director:"Kaneto Shindo", why:"A couple carry water to their island farm. Almost no dialogue. Pure physical existence.", feel:"They carry water. They pour it. They go back. That is all. Everything." },
+          { num:43, title:"Floating Weeds", year:"1959", country:"Japan", director:"Yasujiro Ozu", why:"A traveling theater troupe. Ozu's colour film. Stillness in full colour.", feel:"Ozu in colour. The still camera now sees red and gold. The stillness deepens." },
+          { num:44, title:"Landscape in the Mist", year:"1988", country:"Other", director:"Theo Angelopoulos", why:"Two children walking through Greece in winter mist. Stillness of the journey with no destination.", feel:"Non-Asian — irreplaceable. The landscape is still. The children move through it like ghosts." },
+          { num:45, title:"Woman in the Dunes", year:"1964", country:"Japan", director:"Hiroshi Teshigahara", why:"He stops trying to escape. He studies the sand. The stillness of acceptance.", feel:"He observes water forming in sand. The small miracle of attention. Perfect stillness." },
+          { num:46, title:"The Wind Will Carry Us", year:"1999", country:"Iran", director:"Abbas Kiarostami", why:"A journalist waits in a Kurdish village. Nothing happens. The world simply is.", feel:"He waits. The village goes on. He stops waiting. The world continues." },
+          { num:47, title:"Pather Panchali", year:"1955", country:"Other", director:"Satyajit Ray", why:"A poor Bengali family. The stillness of Satyajit Ray's observation.", feel:"Included despite the India rule — no curriculum is complete without Ray's debut." },
+          { num:48, title:"An Autumn Afternoon", year:"1962", country:"Japan", director:"Yasujiro Ozu", why:"Ozu's final film. An old man alone after his daughter marries. The stillness of completion.", feel:"He sits alone. He has done everything. The film ends. Ozu's last shot. Total stillness." },
+          { num:49, title:"Close-Up", year:"1990", country:"Iran", director:"Abbas Kiarostami", why:"A man impersonating a filmmaker. The stillness of a film that watches itself.", feel:"At the end he is released and gets on a motorcycle. The camera watches him go. Still." },
+          { num:50, title:"Ikiru", year:"1952", country:"Japan", director:"Akira Kurosawa", why:"A dying man on a swing in the snow. The final stillness: he has done enough. He can rest.", feel:"He sits on the swing he built. It is snowing. He is humming. He is still. So are we." },
+        ]
+      },
+    ]
+  }
+];
+
+// Build the page
+function buildPage() {
+  const container = document.getElementById('mainContent');
+  CURRICULA.forEach(curriculum => {
+    const sec = document.createElement('div');
+    sec.className = 'curriculum-section';
+    sec.dataset.curriculum = curriculum.id;
+
+    sec.innerHTML = `
+      <div class="curriculum-header">
+        <span class="curriculum-number">CURRICULUM ${curriculum.id}</span>
+        <span class="curriculum-title">${curriculum.title}</span>
+        <span class="curriculum-arc">${curriculum.arc}</span>
+      </div>
+    `;
+
+    curriculum.phases.forEach(phase => {
+      const pg = document.createElement('div');
+      pg.className = `phase-group c${curriculum.id}`;
+      pg.dataset.phase = phase.name;
+
+      pg.innerHTML = `
+        <div class="phase-header">
+          <span class="phase-name phase-name-c${curriculum.id}">${phase.name}</span>
+          <span class="phase-desc">${phase.desc}</span>
+        </div>
+        <div class="films-grid"></div>
+      `;
+
+      const grid = pg.querySelector('.films-grid');
+      phase.films.forEach(film => {
+        const card = document.createElement('div');
+        card.className = 'film-card';
+        card.dataset.title = film.title.toLowerCase();
+        card.dataset.director = film.director.toLowerCase();
+        card.dataset.country = film.country;
+        card.dataset.year = film.year;
+        card.dataset.curriculum = curriculum.id;
+        card.dataset.why = film.why.toLowerCase();
+
+        const countryClass = film.country === 'Other' ? 'badge-c' + curriculum.id : '';
+        card.innerHTML = `
+          <div class="film-num">№ ${String(film.num).padStart(2,'0')} · ${phase.name}</div>
+          <div class="film-title">${film.title}</div>
+          <div class="film-meta">
+            <span>${film.year}</span>
+            <span class="film-meta-sep">·</span>
+            <span class="country-tag">${film.country}</span>
+            <span class="film-meta-sep">·</span>
+            <span>${film.director}</span>
+          </div>
+          <div class="film-why">${film.why}</div>
+          <div class="film-feel">${film.feel}</div>
+          <button class="watch-btn" data-key="${film.title}|${curriculum.id}">
+            <span class="watch-btn-dot"></span>
+            <span class="watch-btn-label">Mark watched</span>
+          </button>
+        `;
+        grid.appendChild(card);
+      });
+
+      sec.appendChild(pg);
+    });
+
+    container.appendChild(sec);
+  });
+}
+
+// Filter logic
+let activeCurriculum = 'all';
+let activeCountry = 'all';
+let activeWatched = 'all';
+let searchTerm = '';
+let watchedSet = new Set();
+
+// Storage helpers
+async function loadWatched() {
+  try {
+    const result = await window.storage.get('watched_films');
+    if (result && result.value) {
+      watchedSet = new Set(JSON.parse(result.value));
+    }
+  } catch(e) { watchedSet = new Set(); }
+  applyWatchedState();
+  updateProgress();
+}
+
+async function saveWatched() {
+  try {
+    await window.storage.set('watched_films', JSON.stringify([...watchedSet]));
+  } catch(e) {}
+}
+
+function applyWatchedState() {
+  document.querySelectorAll('.film-card').forEach(card => {
+    const btn = card.querySelector('.watch-btn');
+    const key = btn ? btn.dataset.key : null;
+    if (!key) return;
+    if (watchedSet.has(key)) {
+      card.classList.add('watched');
+      btn.querySelector('.watch-btn-label').textContent = 'Watched';
+    } else {
+      card.classList.remove('watched');
+      btn.querySelector('.watch-btn-label').textContent = 'Mark watched';
+    }
+  });
+}
+
+function updateProgress() {
+  const total = document.querySelectorAll('.film-card').length;
+  const count = watchedSet.size;
+  document.getElementById('watchedCount').textContent = count;
+  document.getElementById('progressBar').style.width = (count / total * 100) + '%';
+}
+
+function applyFilters() {
+  const cards = document.querySelectorAll('.film-card');
+  let visible = 0;
+
+  cards.forEach(card => {
+    const cMatch = activeCurriculum === 'all' || card.dataset.curriculum === activeCurriculum;
+    const countryVal = card.dataset.country;
+    let coMatch = true;
+    if (activeCountry !== 'all') {
+      coMatch = countryVal === activeCountry;
+    }
+    const sMatch = searchTerm === '' ||
+      card.dataset.title.includes(searchTerm) ||
+      card.dataset.director.includes(searchTerm) ||
+      card.dataset.country.toLowerCase().includes(searchTerm) ||
+      card.dataset.why.includes(searchTerm) ||
+      card.dataset.year.includes(searchTerm);
+
+    const isWatched = card.classList.contains('watched');
+    let wMatch = true;
+    if (activeWatched === 'watched') wMatch = isWatched;
+    if (activeWatched === 'unwatched') wMatch = !isWatched;
+
+    if (cMatch && coMatch && sMatch && wMatch) {
+      card.classList.remove('hidden');
+      visible++;
+    } else {
+      card.classList.add('hidden');
+    }
+  });
+
+  // Hide empty grids / phase groups / curriculum sections
+  document.querySelectorAll('.films-grid').forEach(grid => {
+    const hasVisible = grid.querySelector('.film-card:not(.hidden)');
+    grid.closest('.phase-group').style.display = hasVisible ? '' : 'none';
+  });
+  document.querySelectorAll('.curriculum-section').forEach(sec => {
+    const hasVisible = sec.querySelector('.film-card:not(.hidden)');
+    sec.style.display = hasVisible ? '' : 'none';
+  });
+
+  document.getElementById('visibleCount').textContent = visible;
+  document.getElementById('emptyState').style.display = visible === 0 ? 'block' : 'none';
+}
+
+function setupPills(containerId, setter) {
+  document.getElementById(containerId).addEventListener('click', e => {
+    const pill = e.target.closest('.pill');
+    if (!pill) return;
+    document.querySelectorAll(`#${containerId} .pill`).forEach(p => p.classList.remove('active'));
+    pill.classList.add('active');
+    setter(pill.dataset.val);
+    applyFilters();
+  });
+}
+
+// Watch button delegation
+document.getElementById('mainContent').addEventListener('click', e => {
+  const btn = e.target.closest('.watch-btn');
+  if (!btn) return;
+  const key = btn.dataset.key;
+  const card = btn.closest('.film-card');
+  if (watchedSet.has(key)) {
+    watchedSet.delete(key);
+    card.classList.remove('watched');
+    btn.querySelector('.watch-btn-label').textContent = 'Mark watched';
+  } else {
+    watchedSet.add(key);
+    card.classList.add('watched');
+    btn.querySelector('.watch-btn-label').textContent = 'Watched';
+  }
+  saveWatched();
+  updateProgress();
+  // Re-apply filters so watched/unwatched filter stays consistent
+  if (activeWatched !== 'all') applyFilters();
+});
+
+buildPage();
+
+setupPills('curriculumFilter', v => activeCurriculum = v);
+setupPills('countryFilter', v => activeCountry = v);
+setupPills('watchedFilter', v => { activeWatched = v; applyFilters(); });
+
+document.getElementById('searchInput').addEventListener('input', e => {
+  searchTerm = e.target.value.toLowerCase().trim();
+  applyFilters();
+});
+
+loadWatched();
+</script>
+</body>
+</html>

@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>100 Manga That Will Change How You Think</title>
+<style>
+  :root {
+    --bg: #0f1115;
+    --bg-2: #161a22;
+    --card: #1c2230;
+    --card-hover: #242b3d;
+    --text: #e7ebf3;
+    --muted: #9aa3b2;
+    --accent: #ff6b6b;
+    --accent-2: #4ecdc4;
+    --border: #2a3142;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: linear-gradient(180deg, var(--bg) 0%, #0a0c10 100%);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.5;
+  }
+  header {
+    padding: 50px 20px 30px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+    background: radial-gradient(ellipse at top, rgba(78, 205, 196, 0.08), transparent 70%);
+  }
+  header h1 {
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    margin: 0 0 10px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  header p {
+    color: var(--muted);
+    max-width: 700px;
+    margin: 0 auto;
+    font-size: 1rem;
+  }
+  .controls {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(15, 17, 21, 0.95);
+    backdrop-filter: blur(12px);
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .controls-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+  }
+  .search {
+    flex: 1;
+    min-width: 220px;
+    padding: 10px 14px;
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .search:focus { border-color: var(--accent-2); }
+  .sort {
+    padding: 10px 14px;
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    font-size: 0.9rem;
+    cursor: pointer;
+  }
+  .genres {
+    max-width: 1200px;
+    margin: 16px auto 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .chip {
+    padding: 6px 14px;
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    color: var(--muted);
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+  }
+  .chip:hover { color: var(--text); border-color: var(--accent-2); }
+  .chip.active {
+    background: var(--accent-2);
+    color: #0a0c10;
+    border-color: var(--accent-2);
+    font-weight: 600;
+  }
+  .status-bar {
+    max-width: 1200px;
+    margin: 12px auto 0;
+    display: flex;
+    justify-content: space-between;
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+  main {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 0 20px 60px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 18px;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.2s, border-color 0.2s;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .card:hover {
+    transform: translateY(-3px);
+    background: var(--card-hover);
+    border-color: var(--accent-2);
+  }
+  .card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .card h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    line-height: 1.3;
+  }
+  .rank {
+    font-size: 0.75rem;
+    color: var(--muted);
+    background: var(--bg-2);
+    padding: 3px 8px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  .meta {
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+  .meta span + span::before {
+    content: "•";
+    margin: 0 6px;
+  }
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  .tag {
+    font-size: 0.72rem;
+    padding: 3px 9px;
+    background: rgba(78, 205, 196, 0.1);
+    color: var(--accent-2);
+    border-radius: 6px;
+    border: 1px solid rgba(78, 205, 196, 0.25);
+  }
+  .excerpt {
+    color: var(--muted);
+    font-size: 0.88rem;
+    margin: 0;
+    flex: 1;
+  }
+  .rating {
+    color: #f5c518;
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+  }
+  .page-btn {
+    padding: 8px 14px;
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+  }
+  .page-btn:hover:not(:disabled) {
+    background: var(--card-hover);
+    border-color: var(--accent-2);
+  }
+  .page-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+  .page-btn.active {
+    background: var(--accent-2);
+    color: #0a0c10;
+    border-color: var(--accent-2);
+    font-weight: 600;
+  }
+  .modal-bg {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(6px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    padding: 20px;
+  }
+  .modal-bg.open { display: flex; }
+  .modal {
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    max-width: 640px;
+    width: 100%;
+    max-height: 88vh;
+    overflow-y: auto;
+    padding: 28px;
+    position: relative;
+    animation: fadeIn 0.2s ease-out;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal h2 {
+    margin: 0 0 6px;
+    font-size: 1.6rem;
+  }
+  .modal .subtitle {
+    color: var(--muted);
+    margin-bottom: 18px;
+  }
+  .modal .section {
+    margin: 16px 0;
+  }
+  .modal .section h4 {
+    margin: 0 0 6px;
+    color: var(--accent-2);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .modal .section p { margin: 0; color: var(--text); }
+  .theme-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .theme-pill {
+    font-size: 0.78rem;
+    padding: 4px 11px;
+    background: rgba(255, 107, 107, 0.12);
+    color: var(--accent);
+    border-radius: 6px;
+    border: 1px solid rgba(255, 107, 107, 0.3);
+  }
+  .empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--muted);
+    grid-column: 1 / -1;
+  }
+</ thead>
+<body>
+
+<header>
+  <h1>100 Manga That Will Change How You Think</h1>
+  <p>A meticulously curated collection of meaningful, thought-provoking manga exploring philosophy, the human condition, morality, and the nature of existence.</p>
+ </header>
+
+<div class="controls">
+  <div class="controls-inner">
+    <input type="text" class="search" id="search" placeholder="🔍 Search titles, authors, or themes..." />
+    <select class="sort" id="sort">
+      <option value="rank">Sort: Rank (Top first)</option>
+      <option value="title">Sort: Title (A–Z)</option>
+      <option value="year">Sort: Year (Newest)</option>
+      <option value="rating">Sort: Rating (Highest)</option>
+    </select>
+  </div>
+  <div class="genres" id="genres"></div>
+  <div class="status-bar">
+    <span id="status"></span>
+    <span id="page-info"></span>
+  </div>
+</div>
+
+<main>
+  <div class="grid" id="grid"></div>
+  <div class="pagination" id="pagination"></div>
+</main>
+
+<div class="modal-bg" id="modalBg">
+  <div class="modal" id="modal"></div>
+</div>
+
+<script>
+const manga = [
+  { rank: 1, title: "Berserk", author: "Kentaro Miura", year: 1989, rating: 9.6, genres: ["Dark Fantasy","Seinen","Psychological"], themes: ["Free will vs. fate","Suffering and perseverance"], summary: "A lone mercenary wages war against a cruel destiny in a medieval world of demons. A relentless meditation on trauma, choice, and the will to live.", why: "Reframes suffering not as punishment but as the forge in which identity is made." },
+  { rank: 2, title: "Monster", author: "Naoki Urasawa", year: 1994, rating: 9.4, genres: ["Thriller","Psychological","Mystery"], themes: ["Nature of evil","Moral responsibility"], summary: "A brilliant surgeon saves a boy who grows up to be a serial killer. The doctor sets out to stop the monster he created.", why: "Asks whether saving a life is always moral, and whether evil is born or made." },
+  { rank: 3, title: "Vagabond", author: "Takehiko Inoue", year: 1998, rating: 9.5, genres: ["Historical","Seinen","Drama"], themes: ["Self-mastery","Zen philosophy"], summary: "Based on Miyamoto Musashi. Inoue transforms a tale of duels into a profound journey toward understanding true strength.", why: "Redefines strength not as the power to kill, but as the wisdom to spare." },
+  { rank: 4, title: "Vinland Saga", author: "Makoto Yukimura", year: 2005, rating: 9.3, genres: ["Historical","Seinen","Action"], themes: ["True pacifism","Cycle of vengeance"], summary: "A young Viking seeks vengeance, only to discover the greatest battle is fought within. A radical reimagining of the warrior.", why: "Argues that true strength lies not in killing, but in the refusal to." },
+  { rank: 5, title: "20th Century Boys", author: "Naoki Urasawa", year: 1999, rating: 9.2, genres: ["Mystery","Sci-Fi","Thriller"], themes: ["Memory and nostalgia","Childhood responsibility"], summary: "Childhood friends discover a cult leader is enacting a childhood fantasy that will destroy the world.", why: "Exposes how nostalgia and childish fantasies can curdle into monstrous ideologies." },
+  { rank: 6, title: "Pluto", author: "Naoki Urasawa", year: 2003, rating: 9.3, genres: ["Sci-Fi","Mystery","Drama"], themes: ["AI and consciousness","Hatred and forgiveness"], summary: "In a world where humans and robots coexist, someone is murdering the world's most advanced robots.", why: "A tender, devastating argument that hatred is a virus—and empathy is our only cure." },
+  { rank: 7, title: "Phoenix (Hi no Tori)", author: "Osamu Tezuka", year: 1967, rating: 9.4, genres: ["Sci-Fi","Drama","Philosophical"], themes: ["Eternal life","Karma and reincarnation"], summary: "Interconnected tales across past and future, circling a mythical Phoenix whose blood grants immortality at a terrible price.", why: "The ultimate meditation on why mortality is what gives life meaning." },
+  { rank: 8, title: "Goodnight Punpun", author: "Inio Asano", year: 2007, rating: 9.0, genres: ["Drama","Psychological","Slice of Life"], themes: ["Depression","Loss of innocence"], summary: "A boy (drawn as a scribbled bird) grows up through family breakdown, existential dread, and spiritual searching.", why: "Holds nothing back: a mirror to the quiet despair of ordinary life." },
+  { rank: 9, title: "A Silent Voice", author: "Yoshitoki Oima", year: 2011, rating: 9.1, genres: ["Drama","Romance","Slice of Life"], themes: ["Bullying and redemption","Self-forgiveness"], summary: "A former bully seeks out the deaf girl he tormented in elementary school, hoping to atone.", why: "Makes the radical claim that connection is possible even across deep wounds." },
+  { rank: 10, title: "March Comes in Like a Lion", author: "Chica Umino", year: 2007, rating: 9.3, genres: ["Drama","Slice of Life","Psychological"], themes: ["Depression","Found family"], summary: "A teenage shogi prodigy, orphaned and emotionally shattered, is slowly thawed by the warmth of three sisters.", why: "Shows depression not as a villain to defeat, but as a season to survive—together." },
+  { rank: 11, title: "Akira", author: "Katsuhiro Otomo", year: 1982, rating: 9.1, genres: ["Sci-Fi","Cyberpunk","Seinen"], themes: ["Power and corruption","Post-war trauma"], summary: "In Neo-Tokyo, biker gangs, government conspiracies, and psychic children collide around a boy whose powers once destroyed the world.", why: "A thunderous warning about the arrogance of rebuilding without reckoning." },
+  { rank: 12, title: "Ghost in the Shell", author: "Masamune Shirow", year: 1989, rating: 8.9, genres: ["Sci-Fi","Cyberpunk","Philosophical"], themes: ["Identity in a digital age","What is the self"], summary: "In a future where bodies are replaceable shells, a cyborg hunts hackers while wondering if her 'ghost' is real.", why: "Forces us to confront what remains of 'us' if everything physical can be copied." },
+  { rank: 13, title: "Parasyte", author: "Hitoshi Iwaaki", year: 1988, rating: 8.9, genres: ["Sci-Fi","Horror","Seinen"], themes: ["Humanity vs. nature","Ecological humility"], summary: "Alien parasites take over human brains. One fails and coexists with a high schooler, forcing both to reconsider who the real monsters are.", why: "Turns the alien-invasion trope into an ecological critique of humanity itself." },
+  { rank: 14, title: "Devilman", author: "Go Nagai", year: 1972, rating: 8.6, genres: ["Horror","Action","Supernatural"], themes: ["Good vs. evil blurred","Humanity's capacity for cruelty"], summary: "A gentle boy merges with a demon to fight other demons, but the real horror is what humans do to each other in fear.", why: "One of the first manga to argue that humans—not demons—are the true monsters." },
+  { rank: 15, title: "Buddha", author: "Osamu Tezuka", year: 1972, rating: 9.0, genres: ["Historical","Drama","Philosophical"], themes: ["Suffering","Compassion"], summary: "Tezuka's sprawling, humane retelling of Siddhartha's journey to enlightenment, mixing history, myth, and humor.", why: "Makes 2,500-year-old philosophy feel urgent, human, and surprisingly funny." },
+  { rank: 16, title: "Black Jack", author: "Osamu Tezuka", year: 1973, rating: 9.0, genres: ["Drama","Medical","Seinen"], themes: ["Value of life","Medical ethics"], summary: "An unlicensed genius surgeon performs impossible operations, facing moral puzzles about who deserves to live.", why: "A lifelong interrogation of the ethics of healing." },
+  { rank: 17, title: "Dorohedoro", author: "Q Hayashida", year: 2000, rating: 9.0, genres: ["Fantasy","Seinen","Dark Comedy"], themes: ["Identity","Found family"], summary: "A lizard-headed man with amnesia hunts the sorcerer who cursed him in a filthy, surreal city.", why: "Proves that tenderness and brutality can coexist in the same story, and in the same person." },
+  { rank: 18, title: "Mushishi", author: "Yuki Urushibara", year: 1999, rating: 9.2, genres: ["Supernatural","Slice of Life","Seinen"], themes: ["Nature and humanity","Acceptance"], summary: "Ginko wanders rural Japan studying 'mushi'—primitive lifeforms that sometimes harm humans.", why: "Teaches a radical humility: we are not the center of the world." },
+  { rank: 19, title: "Natsume's Book of Friends", author: "Yuki Midorikawa", year: 2005, rating: 9.1, genres: ["Supernatural","Slice of Life","Drama"], themes: ["Loneliness","Inherited bonds"], summary: "A boy who can see spirits inherits a book of yokai names and sets out to return them.", why: "A quiet argument that kindness leaves echoes long after we're gone." },
+  { rank: 20, title: "Flowers of Evil", author: "Shuzo Oshimi", year: 2009, rating: 8.7, genres: ["Drama","Psychological","Romance"], themes: ["Adolescent shame","Social conformity"], summary: "A bookish middle-schooler steals his crush's gym clothes, witnessed by the class outcast, leading to a descent into shame.", why: "Captures the grotesque inner world of adolescence with surgical precision." },
+  { rank: 21, title: "Homunculus", author: "Hideo Yamamoto", year: 2003, rating: 8.6, genres: ["Psychological","Horror","Seinen"], themes: ["Perception","Trauma","Self-deception"], summary: "A homeless man gains the ability to see people's psychological wounds as physical deformations after a trepanation experiment.", why: "Asks: if you could see everyone's true self, could you bear to see your own?" },
+  { rank: 22, title: "Banana Fish", author: "Akimi Yoshida", year: 1985, rating: 9.0, genres: ["Action","Drama","Crime"], themes: ["Childhood trauma","Power and abuse"], summary: "A teenage gang leader in New York uncovers a drug conspiracy tied to his own childhood abuse.", why: "One of the first manga to depict male trauma and queer intimacy with unflinching honesty." },
+  { rank: 23, title: "Nana", author: "Ai Yazawa", year: 2000, rating: 9.2, genres: ["Drama","Romance","Josei"], themes: ["Female friendship","Ambition vs. love"], summary: "Two women named Nana meet on a train to Tokyo. Their intertwined lives explore the cost of becoming who you want to be.", why: "The most mature, honest portrait of adult female friendship in manga." },
+  { rank: 24, title: "Yokohama Kaidashi Kikou", author: "Hitoshi Ashinano", year: 1994, rating: 9.1, genres: ["Sci-Fi","Slice of Life","Seinen"], themes: ["Gentle apocalypse","Acceptance of endings"], summary: "In a peaceful post-apocalyptic world, an android runs a countryside cafe and watches the seasons change.", why: "Argues that the end of things can be beautiful, not tragic." },
+  { rank: 25, title: "Girls' Last Tour", author: "Tsukumizu", year: 2014, rating: 9.0, genres: ["Sci-Fi","Slice of Life","Post-Apocalyptic"], themes: ["Meaning in emptiness","Small joys"], summary: "Two girls travel through a dead megacity, scavenging and philosophizing about what makes life worth living.", why: "Finds warmth, humor, and meaning in the ruins of everything." },
+  { rank: 26, title: "Solanin", author: "Inio Asano", year: 2005, rating: 8.7, genres: ["Drama","Slice of Life","Seinen"], themes: ["Adulthood","Lost dreams"], summary: "Recent graduates drift between dead-end jobs until a tragedy forces them to confront if it's too late to live the life they wanted.", why: "The definitive manga about that terrifying moment when youth ends." },
+  { rank: 27, title: "Real", author: "Takehiko Inoue", year: 1999, rating: 9.3, genres: ["Drama","Sports","Seinen"], themes: ["Disability","Redemption"], summary: "Three young men broken by basketball, accident, or regret converge around wheelchair basketball.", why: "Redefines 'moving forward' for people who've lost the ability to walk." },
+  { rank: 28, title: "Children of the Sea", author: "Daisuke Igarashi", year: 2006, rating: 8.8, genres: ["Fantasy","Supernatural","Seinen"], themes: ["Cosmic connectedness","Nature's mystery"], summary: "A girl drawn to two strange boys raised by dugongs discovers their connection to the ocean's mysteries.", why: "A poetic argument that we are not separate from nature—we are its voice." },
+  { rank: 29, title: "Kingdom", author: "Yasuhisa Hara", year: 2006, rating: 9.1, genres: ["Historical","Action","Seinen"], themes: ["Ambition","The cost of war"], summary: "Two war orphans in ancient China dream of becoming the greatest generals under heaven.", why: "Reveals the terrible human cost of what history books call 'glory'." },
+  { rank: 30, title: "Blue Period", author: "Tsubasa Yamaguchi", year: 2017, rating: 8.9, genres: ["Drama","Slice of Life","Seinen"], themes: ["Identity","What is art"], summary: "A high-achieving delinquent discovers painting and realizes he has no idea who he is.", why: "Captures the terror and thrill of discovering you have something to say." },
+  { rank: 31, title: "Bakuman", author: "Tsugumi Ohba & Takeshi Obata", year: 2008, rating: 8.8, genres: ["Drama","Comedy","Seinen"], themes: ["Craft and dedication","Dreams vs. reality"], summary: "Two high schoolers vow to become the top manga authors in Japan, facing the grind of art.", why: "A love letter to the discipline required to turn a dream into a craft." },
+  { rank: 32, title: "Fullmetal Alchemist", author: "Hiromu Arakawa", year: 2001, rating: 9.2, genres: ["Fantasy","Action","Adventure"], themes: ["Equivalent exchange","Hubris"], summary: "Two brothers use forbidden alchemy to resurrect their mother, losing their bodies, and quest to restore themselves.", why: "Builds a fantasy world where every magical act has real moral consequences." },
+  { rank: 33, title: "Death Note", author: "Tsugumi Ohba & Takeshi Obata", year: 2003, rating: 8.9, genres: ["Thriller","Psychological","Supernatural"], themes: ["Justice and power","Moral absolutism"], summary: "A genius student finds a notebook that kills anyone whose name is written in it and decides to remake the world.", why: "The purest manga exploration of the corruption that comes from believing you're righteous." },
+  { rank: 34, title: "Attack on Titan", author: "Hajime Isayama", year: 2009, rating: 9.0, genres: ["Action","Drama","Dark Fantasy"], themes: ["Cycle of hatred","Freedom"], summary: "Humanity hides behind walls from giant humanoids, only to discover the world is far more complicated than victims vs. monsters.", why: "Asks whether freedom is possible in a world built on inherited hatred." },
+  { rank: 35, title: "Neon Genesis Evangelion", author: "Yoshiyuki Sadamoto", year: 1994, rating: 8.6, genres: ["Sci-Fi","Mecha","Psychological"], themes: ["Hedgehog's dilemma","Fear of intimacy"], summary: "Teenagers pilot bio-machines to save a dying world while drowning in their own loneliness.", why: "Distills the pain of needing love while being terrified of it." },
+  { rank: 36, title: "Blame!", author: "Tsutomu Nihei", year: 1997, rating: 8.6, genres: ["Sci-Fi","Cyberpunk","Seinen"], themes: ["Isolation","Lost purpose"], summary: "A silent wanderer climbs endlessly through a self-replicating megastructure the size of a solar system.", why: "A meditation on futility, scale, and the human need to keep searching." },
+  { rank: 37, title: "I Am a Hero", author: "Kengo Hanazawa", year: 2009, rating: 8.6, genres: ["Horror","Psychological","Seinen"], themes: ["Modern alienation","Social masks"], summary: "A failed manga assistant becomes one of the few survivors when Japan turns into zombies.", why: "Uses zombies to expose how emotionally dead modern life already is." },
+  { rank: 38, title: "The Heart of Thomas", author: "Moto Hagio", year: 1974, rating: 8.9, genres: ["Drama","Romance","Shoujo"], themes: ["Grief","Forbidden love"], summary: "After a boy's suicide, his lookalike transfers to an all-boys academy, stirring old feelings and wounds.", why: "Pioneered the psychological depth that made manga a vehicle for serious emotion." },
+  { rank: 39, title: "Rose of Versailles", author: "Riyoko Ikeda", year: 1972, rating: 8.9, genres: ["Historical","Drama","Romance"], themes: ["Gender fluidity","Revolution"], summary: "Oscar, raised as a boy to command the French royal guard, stands at the crossroads of monarchy and revolution.", why: "Explored gender and revolution decades before either became mainstream manga topics." },
+  { rank: 40, title: "The Poe Clan", author: "Moto Hagio", year: 1972, rating: 8.7, genres: ["Supernatural","Drama","Shoujo"], themes: ["Immortality and loss","Outsiderness"], summary: "A clan of ageless vampires wanders 19th-century Europe, forever chasing connection while exiled from human life.", why: "Turned vampires into a metaphor for queer otherness and eternal longing." },
+  { rank: 41, title: "Sunny", author: "Taiyo Matsumoto", year: 2011, rating: 9.0, genres: ["Drama","Slice of Life","Seinen"], themes: ["Abandoned children","Imagination as survival"], summary: "Children in a rural group home navigate neglect, fantasy, and the small bonds that keep them going.", why: "A quiet testament to the resilience of children no one else wanted." },
+  { rank: 42, title: "Showa: A History of Japan", author: "Shigeru Mizuki", year: 1988, rating: 9.2, genres: ["Historical","Drama","Biographical"], themes: ["War's human cost","Memory"], summary: "Mizuki's autobiographical chronicle of Japan's Showa era—poverty, war, defeat, and rebuilding.", why: "The most human-scale account of a nation's twentieth century ever drawn." },
+  { rank: 43, title: "Barefoot Gen", author: "Keiji Nakazawa", year: 1973, rating: 8.9, genres: ["Historical","Drama","War"], themes: ["The horror of nuclear war","Survival"], summary: "A young boy survives the Hiroshima bombing and wanders through the ashes, losing family after family.", why: "Perhaps the most important anti-war comic ever made. Required reading." },
+  { rank: 44, title: "Onward Towards Our Noble Deaths", author: "Shigeru Mizuki", year: 1973, rating: 8.8, genres: ["War","Drama","Historical"], themes: ["Military obedience","Survivor's guilt"], summary: "Six Japanese soldiers on a Pacific island receive orders to charge into certain death.", why: "A devastating indictment of the military's demand for beautiful deaths." },
+  { rank: 45, title: "Master Keaton", author: "Naoki Urasawa", year: 1988, rating: 8.8, genres: ["Adventure","Mystery","Seinen"], themes: ["History's weight","Wisdom"], summary: "An Oxford-educated insurance investigator solves cases across Europe while reflecting on history and art.", why: "Celebrates the quiet wisdom of a life fully lived and fully observed." },
+  { rank: 46, title: "Billy Bat", author: "Naoki Urasawa", year: 2008, rating: 8.7, genres: ["Mystery","Thriller","Historical"], themes: ["Conspiracy across time","The power of stories"], summary: "A comic artist discovers his popular cartoon character is tied to a conspiracy that spans centuries.", why: "Asks whether the stories we tell are controlling us." },
+  { rank: 47, title: "The Climber", author: "Shin-ichi Sakamoto", year: 2007, rating: 9.0, genres: ["Sports","Drama","Seinen"], themes: ["Obsession","Solitude"], summary: "A loner high-schooler discovers solo climbing and devotes his life to the world's deadliest peaks.", why: "A portrait of the man who chooses solitude and a vertical life over everything else." },
+  { rank: 48, title: "Ping Pong", author: "Taiyo Matsumoto", year: 1996, rating: 9.0, genres: ["Sports","Drama","Seinen"], themes: ["Talent vs. work","Identity"], summary: "Two friends with opposite personalities face off across Japan's table tennis scene.", why: "Redefines the sports manga as a meditation on who we become through play." },
+  { rank: 49, title: "MW", author: "Osamu Tezuka", year: 1977, rating: 8.5, genres: ["Thriller","Psychological","Horror"], themes: ["Absolute evil","Trauma"], summary: "A charming young banker is secretly a sociopathic terrorist exposed to a deadly nerve gas as a child.", why: "Tezuka's most unflinching look at evil as something that cannot be healed." },
+  { rank: 50, title: "A Drifting Net Cafe", author: "Shuzo Oshimi", year: 2008, rating: 8.5, genres: ["Drama","Psychological","Seinen"], themes: ["Escapism","Nostalgia's trap"], summary: "Trapped in an internet café during a disaster, a salaryman reunites with his first love while confronting the life he's become.", why: "Exposes the quiet desperation of modern Japanese precarity with surgical precision." },
+  { rank: 51, title: "Planetes", author: "Makoto Yukimura", year: 1999, rating: 9.0, genres: ["Sci-Fi","Seinen","Drama"], themes: ["Environmentalism","The fragility of Earth"], summary: "Space debris collectors in 2075 navigate corporate greed, terrorism, and the dream of owning a ship.", why: "Grounds grand space opera in the mundane, deeply human reality of working-class life." },
+  { rank: 52, title: "Blade of the Immortal", author: "Hiroaki Samura", year: 1993, rating: 8.8, genres: ["Historical","Action","Seinen"], themes: ["The weight of killing","Redemption"], summary: "An immortal swordsman must kill 1,000 evil men to regain his mortality, protecting a young girl seeking revenge.", why: "A visceral exploration of whether a life taken can ever be balanced by a life saved." },
+  { rank: 53, title: "Sanctuary", author: "Sho Fumimura & Ryoichi Ikegami", year: 1990, rating: 8.7, genres: ["Thriller","Drama","Seinen"], themes: ["Political corruption","Reforming society"], summary: "Two childhood friends, one a politician and one a Yakuza boss, plot to fundamentally change Japan from the top and bottom.", why: "A ruthless, cynical, yet hopeful look at how systemic change actually happens." },
+  { rank: 54, title: "The Drifting Classroom", author: "Kazuo Umezu", year: 1972, rating: 8.6, genres: ["Horror","Sci-Fi","Shounen"], themes: ["Societal collapse","Human nature under pressure"], summary: "An entire elementary school is transported to a barren, monster-filled wasteland, forcing children to build a new society.", why: "A terrifying allegory for how quickly civilization's rules dissolve in the face of survival." },
+  { rank: 55, title: "Town of Evening Calm, Country of Cherry Blossoms", author: "Fumiyo Kono", year: 2003, rating: 8.9, genres: ["Historical","Drama","Slice of Life"], themes: ["Intergenerational trauma","Everyday resilience"], summary: "A poignant look at a family in Hiroshima, spanning the immediate aftermath of the bomb and decades later in modern Tokyo.", why: "Shows how the ripple effects of historical trauma echo quietly through ordinary generations." },
+  { rank: 56, title: "In This Corner of the World", author: "Fumiyo Kono", year: 2007, rating: 8.8, genres: ["Historical","Drama","Slice of Life"], themes: ["Finding joy in hardship","The civilian experience of war"], summary: "A young woman navigates arranged marriage, poverty, and the creeping devastation of WWII in rural Japan.", why: "A masterclass in finding profound beauty and dignity in the mundane, even as the world burns." },
+  { rank: 57, title: "Emma", author: "Kaoru Mori", year: 2002, rating: 8.8, genres: ["Historical","Romance","Josei"], themes: ["Class divides","Quiet dignity"], summary: "A maid and a gentleman fall in love in Victorian England, navigating strict social hierarchies.", why: "A deeply researched, empathetic portrayal of the working class often ignored in historical romance." },
+  { rank: 58, title: "A Bride's Story", author: "Kaoru Mori", year: 2008, rating: 9.1, genres: ["Historical","Drama","Slice of Life"], themes: ["Cultural preservation","Female agency"], summary: "Follows the lives of women in 19th-century Central Asia along the Silk Road, focusing on a young bride.", why: "Celebrates the intricate, often overlooked domestic arts and the quiet strength of women in history." },
+  { rank: 59, title: "The Gods Lie", author: "Kaori Ozaki", year: 2013, rating: 8.7, genres: ["Drama","Slice of Life","Romance"], themes: ["Childhood lies","The loss of innocence"], summary: "A fifth-grade boy discovers his classmate is living alone and lying to the world to keep her family together.", why: "A heartbreaking, beautiful snapshot of the moment a child realizes adults are deeply flawed." },
+  { rank: 60, title: "My Lesbian Experience with Loneliness", author: "Kabi Nagata", year: 2016, rating: 8.8, genres: ["Autobiographical","Drama","Josei"], themes: ["Mental health","Self-acceptance"], summary: "A raw, honest autobiographical manga about the author's struggles with depression, sexuality, and societal expectations.", why: "Radical vulnerability that dismantles the stigma around mental illness and queer identity." },
+  { rank: 61, title: "Land of the Lustrous", author: "Haruko Ichikawa", year: 2012, rating: 9.0, genres: ["Fantasy","Sci-Fi","Seinen"], themes: ["Identity","The nature of the soul"], summary: "Genderless, immortal gem-people fight off moon dwellers who want to harvest them for jewelry.", why: "A profound, evolving meditation on what it means to have a body, a mind, and a purpose." },
+  { rank: 62, title: "To Your Eternity", author: "Yoshitoki Oima", year: 2016, rating: 8.9, genres: ["Fantasy","Drama","Supernatural"], themes: ["What it means to be human","Grief and memory"], summary: "An immortal orb is sent to Earth, taking the shape of things that die, slowly learning about human emotion.", why: "A devastatingly beautiful exploration of how love and loss shape the soul." },
+  { rank: 63, title: "Made in Abyss", author: "Akihito Tsukushi", year: 2012, rating: 9.0, genres: ["Fantasy","Adventure","Mystery"], themes: ["The cost of curiosity","Innocence vs. cruelty"], summary: "A young girl and a robot boy descend into a massive, beautiful, and horrifying chasm to find her mother.", why: "Juxtaposes adorable character designs with unflinching, Lovecraftian horror and existential dread." },
+  { rank: 64, title: "Liar Game", author: "Shinobu Kaitani", year: 2005, rating: 8.8, genres: ["Psychological","Thriller","Drama"], themes: ["Trust","Human greed"], summary: "An honest college student is forced into a tournament of psychological games where losers face massive debt.", why: "A brilliant game-theory puzzle that asks if inherent human goodness can survive systemic greed." },
+  { rank: 65, title: "Usogui", author: "Toshio Sako", year: 2006, rating: 8.9, genres: ["Psychological","Thriller","Seinen"], themes: ["Deception","The thrill of the gamble"], summary: "A genius gambler known as 'The Lie Eater' takes on deadly, high-stakes games against a secret organization.", why: "Elevates the gambling genre into a high-stakes philosophical battle of wits and willpower." },
+  { rank: 66, title: "One Outs", author: "Shinobu Kaitani", year: 1998, rating: 8.8, genres: ["Sports","Psychological","Seinen"], themes: ["Psychological warfare","Subverting the system"], summary: "A genius, cynical pitcher joins a terrible baseball team and uses psychological manipulation to win.", why: "Deconstructs the 'power of friendship' sports trope, replacing it with cold, brilliant strategy." },
+  { rank: 67, title: "Ashita no Joe", author: "Asao Takamori & Tetsuya Chiba", year: 1968, rating: 9.1, genres: ["Sports","Drama","Historical"], themes: ["Desperation","Burning out vs. fading away"], summary: "A delinquent youth finds purpose in boxing, fighting his way from the slums to the world championship.", why: "The definitive manga about giving absolutely everything you have until there is nothing left." },
+  { rank: 68, title: "Hajime no Ippo", author: "George Morikawa", year: 1989, rating: 9.0, genres: ["Sports","Drama","Comedy"], themes: ["Perseverance","Self-worth"], summary: "A bullied high schooler discovers boxing and slowly builds his confidence, strength, and identity.", why: "A masterclass in showing that true strength is built through relentless, unglamorous daily effort." },
+  { rank: 69, title: "Slam Dunk", author: "Takehiko Inoue", year: 1990, rating: 9.2, genres: ["Sports","Drama","Comedy"], themes: ["Redemption","Teamwork"], summary: "A delinquent joins the basketball team to impress a girl, but discovers a genuine passion for the sport.", why: "Perfectly captures the fleeting, beautiful intensity of youth and the joy of mastering a craft." },
+  { rank: 70, title: "Jin", author: "Murakami Motoka", year: 2000, rating: 9.0, genres: ["Historical","Sci-Fi","Drama"], themes: ["Medical ethics","Changing history"], summary: "A modern neurosurgeon time-travels to the Edo period and uses his knowledge to save lives and alter history.", why: "A profound ethical puzzle about the responsibility of knowledge and the unintended consequences of playing god." },
+  { rank: 71, title: "Space Brothers", author: "Chuya Koyama", year: 2007, rating: 9.1, genres: ["Sci-Fi","Slice of Life","Seinen"], themes: ["Chasing dreams","Sibling bonds"], summary: "A man loses his job at 31 and decides to fulfill his childhood promise to become an astronaut with his younger brother.", why: "A deeply inspiring, realistic look at the courage it takes to restart your life and chase a 'childish' dream." },
+  { rank: 72, title: "Frieren: Beyond Journey's End", author: "Kanehito Yamada", year: 2020, rating: 9.3, genres: ["Fantasy","Drama","Slice of Life"], themes: ["The passage of time","Grief and memory"], summary: "An immortal elf mage reflects on her brief time with her human companions after they have passed away.", why: "A gentle, melancholic masterpiece about learning to value the fleeting moments of human life." },
+  { rank: 73, title: "The Promised Neverland", author: "Kaiu Shirai", year: 2016, rating: 8.8, genres: ["Mystery","Thriller","Sci-Fi"], themes: ["Freedom","The illusion of safety"], summary: "Orphans discover their idyllic home is a farm raising them as food for demons, and plan a daring escape.", why: "A gripping early-arc thriller about the terrifying moment children realize the adults are the enemy." },
+  { rank: 74, title: "Hell's Paradise", author: "Yuji Kaku", year: 2018, rating: 8.7, genres: ["Action","Dark Fantasy","Seinen"], themes: ["Humanity vs. monstrosity","Redemption"], summary: "A condemned ninja is sent to a mysterious, beautiful, and deadly island to find the elixir of life in exchange for a pardon.", why: "Explores the blurry line between 'criminal' and 'human' when faced with incomprehensible horror." },
+  { rank: 75, title: "Chainsaw Man", author: "Tatsuki Fujimoto", year: 2018, rating: 8.9, genres: ["Action","Dark Fantasy","Horror"], themes: ["Desire","Trauma","The search for normalcy"], summary: "A destitute young man merges with his pet devil and becomes a chaotic public safety hunter.", why: "A wildly subversive deconstruction of shounen tropes, masking deep existential loneliness with absurd humor." },
+  { rank: 76, title: "Fire Punch", author: "Tatsuki Fujimoto", year: 2016, rating: 8.6, genres: ["Action","Dark Fantasy","Psychological"], themes: ["Extreme suffering","Nihilism vs. hope"], summary: "A man who can regenerate is continuously burned alive by a fire devil, wandering a frozen, post-apocalyptic world.", why: "An unflinching, surreal exploration of whether a person can retain their humanity under endless torture." },
+  { rank: 77, title: "Look Back", author: "Tatsuki Fujimoto", year: 2021, rating: 9.2, genres: ["Drama","Slice of Life"], themes: ["Grief","The power of art","Connection"], summary: "Two girls bond over drawing manga, but a sudden tragedy forces one to confront the meaning of her art.", why: "A devastatingly concise, emotionally resonant tribute to the creative process and the people who inspire it." },
+  { rank: 78, title: "Welcome to the NHK", author: "Tatsuhiko Takimoto", year: 2001, rating: 8.8, genres: ["Drama","Psychological","Romance"], themes: ["Social isolation","Conspiracy as a coping mechanism"], summary: "A hikikomori (shut-in) believes a sinister organization is keeping him isolated, until a strange girl tries to 'save' him.", why: "A painfully accurate, darkly comedic portrait of depression, paranoia, and the difficulty of human connection." },
+  { rank: 79, title: "Ajin: Demi-Human", author: "Gamon Sakurai", year: 2012, rating: 8.6, genres: ["Sci-Fi","Horror","Seinen"], themes: ["Ethics of experimentation","What defines humanity"], summary: "A high schooler discovers he is an immortal 'Ajin' and becomes a target for government and corporate exploitation.", why: "A cold, logical thriller that forces the reader to question the moral boundaries of scientific progress." },
+  { rank: 80, title: "Gantz", author: "Hiroya Oku", year: 2000, rating: 8.5, genres: ["Sci-Fi","Horror","Action"], themes: ["Nihilism","Human nature under pressure"], summary: "People who die are forced to participate in a grotesque, deadly game hunting aliens to earn their freedom.", why: "A brutal, cynical mirror held up to society, showing how quickly morality vanishes when survival is gamified." },
+  { rank: 81, title: "Dead Dead Demon's Dededede Destruction", author: "Inio Asano", year: 2014, rating: 8.7, genres: ["Sci-Fi","Slice of Life","Comedy"], themes: ["Normalcy in the face of apocalypse","Xenophobia"], summary: "Two high school girls navigate daily life while a massive alien ship hovers ominously over Tokyo.", why: "A brilliant satire on how society normalizes existential dread and turns crisis into mundane background noise." },
+  { rank: 82, title: "Ikigami: The Ultimate Limit", author: "Motoro Mase", year: 2004, rating: 8.5, genres: ["Drama","Psychological","Thriller"], themes: ["The value of life","State control"], summary: "A government worker delivers 'Ikigami' notices to citizens, informing them they have exactly 24 hours to live.", why: "A provocative, if flawed, thought experiment about how knowing your death date changes your life's meaning." },
+  { rank: 83, title: "Scum's Wish", author: "Mengo Yokoyari", year: 2012, rating: 8.6, genres: ["Drama","Romance","Psychological"], themes: ["Unrequited love","Emotional manipulation"], summary: "Two students enter a fake relationship to cope with their unrequited love for the same person.", why: "A raw, uncomfortable, but deeply honest look at the selfish and messy reality of teenage desire." },
+  { rank: 84, title: "Orange", author: "Ichigo Takano", year: 2012, rating: 8.7, genres: ["Drama","Romance","Sci-Fi"], themes: ["Regret","The ripple effect of kindness"], summary: "A high school girl receives letters from her future self, begging her to save her friend from suicide.", why: "A heartfelt, urgent reminder that small acts of attention can literally save a life." },
+  { rank: 85, title: "Your Lie in April", author: "Naoshi Arakawa", year: 2011, rating: 8.8, genres: ["Drama","Romance","Music"], themes: ["Grief","Art as expression"], summary: "A piano prodigy who lost his ability to hear his own playing meets a free-spirited violinist who changes his world.", why: "A vibrant, heartbreaking celebration of how art helps us process the inexpressible pain of loss." },
+  { rank: 86, title: "Fruits Basket", author: "Natsuki Takaya", year: 1998, rating: 9.1, genres: ["Drama","Romance","Supernatural"], themes: ["Generational trauma","Healing through empathy"], summary: "An orphaned girl moves in with a family cursed to turn into Zodiac animals, slowly healing their deep emotional wounds.", why: "A masterful deconstruction of the 'cute animal' trope, revealing a profound story about breaking cycles of abuse." },
+  { rank: 87, title: "Chihayafuru", author: "Yuki Suetsugu", year: 2007, rating: 9.0, genres: ["Sports","Drama","Josei"], themes: ["Passion","Identity and devotion"], summary: "A girl dedicates her high school life to the traditional, poetic card game of Karuta.", why: "Elevates a niche game into a breathtaking exploration of what it means to devote your entire being to a single passion." },
+  { rank: 88, title: "Honey and Clover", author: "Chica Umino", year: 2000, rating: 8.9, genres: ["Drama","Romance","Slice of Life"], themes: ["Unrequited love","Finding one's path"], summary: "A group of art college students navigate the messy transition into adulthood, love, and professional uncertainty.", why: "The definitive manga about the beautiful, painful ambiguity of your twenties." },
+  { rank: 89, title: "Barakamon", author: "Satsuki Yoshino", year: 2009, rating: 8.9, genres: ["Comedy","Slice of Life","Drama"], themes: ["Burnout","Finding oneself"], summary: "An arrogant calligrapher is exiled to a rural island, where the eccentric locals teach him how to live and create authentically.", why: "A warm, funny, and deeply restorative story about unlearning toxic perfectionism." },
+  { rank: 90, title: "Silver Spoon", author: "Hiromu Arakawa", year: 2011, rating: 9.0, genres: ["Slice of Life","Comedy","Drama"], themes: ["Privilege","Finding purpose"], summary: "A city boy escapes academic pressure by enrolling in an agricultural high school, confronting the harsh realities of farming.", why: "A grounded, eye-opening look at where our food comes from and the value of honest, physical labor." },
+  { rank: 91, title: "The Drifting Classroom", author: "Kazuo Umezu", year: 1972, rating: 8.6, genres: ["Horror","Sci-Fi","Shounen"], themes: ["Societal collapse","Human nature under pressure"], summary: "An entire elementary school is transported to a barren, monster-filled wasteland, forcing children to build a new society.", why: "A terrifying allegory for how quickly civilization's rules dissolve in the face of survival." },
+  { rank: 92, title: "Uzumaki", author: "Junji Ito", year: 1998, rating: 8.8, genres: ["Horror","Supernatural","Seinen"], themes: ["Obsession","The insignificance of humanity"], summary: "A town becomes cursed by supernatural spirals, driving its inhabitants to grotesque, inescapable madness.", why: "A masterpiece of cosmic horror that uses a simple geometric shape to explore the fragility of the human mind." },
+  { rank: 93, title: "Solanin", author: "Inio Asano", year: 2005, rating: 8.7, genres: ["Drama","Slice of Life","Seinen"], themes: ["Adulthood","Lost dreams"], summary: "Recent graduates drift between dead-end jobs until a tragedy forces them to confront if it's too late to live the life they wanted.", why: "The definitive manga about that terrifying moment when youth ends." },
+  { rank: 94, title: "Oyasumi Punpun", author: "Inio Asano", year: 2007, rating: 9.0, genres: ["Drama","Psychological","Slice of Life"], themes: ["Depression","Loss of innocence"], summary: "A boy (drawn as a scribbled bird) grows up through family breakdown, existential dread, and spiritual searching.", why: "Holds nothing back: a mirror to the quiet despair of ordinary life." },
+  { rank: 95, title: "Witch Hat Atelier", author: "Kamome Shirahama", year: 2016, rating: 9.0, genres: ["Fantasy","Drama","Mystery"], themes: ["The danger of forbidden knowledge","Class and equality"], summary: "A girl discovers that magic is not innate, but drawn using specific, closely guarded symbols.", why: "A gorgeous, thoughtful fantasy that critiques gatekeeping and explores the ethical weight of knowledge." },
+  { rank: 96, title: "Knights of Sidonia", author: "Tsutomu Nihei", year: 2009, rating: 8.7, genres: ["Sci-Fi","Mecha","Seinen"], themes: ["Human evolution","Survival at any cost"], summary: "Humanity's remnants live on a massive seed ship, fighting a relentless, alien threat while grappling with genetic modification.", why: "A cold, beautiful exploration of what humanity must sacrifice to avoid extinction." },
+  { rank: 97, title: "All You Need Is Kill", author: Ryousuke Takeuchi & Takeshi Obata", year: 2014, rating: 8.6, genres: ["Sci-Fi","Action","Military"], themes: ["The loop of war","Finding purpose"], summary: "A soldier caught in a time loop during an alien invasion must die repeatedly to find the key to victory.", why: "A tight, visceral narrative about how repeated trauma can either break you or forge you into something greater." },
+  { rank: 98, title: "Sengoku Youko", author: "Satoshi Mizukami", year: 2008, rating: 8.8, genres: ["Fantasy","Action","Drama"], themes: ["Coexistence","The nature of good and evil"], summary: "A human who loves humans and a human who loves spirits travel together in a world where the two are at war.", why: "A deeply empathetic fantasy that refuses to paint any race or ideology as purely evil." },
+  { rank: 99, title: "Spirit Circle", author: "Satoshi Mizukami", year: 2012, rating: 8.9, genres: ["Fantasy","Drama","Supernatural"], themes: ["Reincarnation","Breaking the cycle of hatred"], summary: "A boy gains memories of his past lives, realizing he and a girl have been killing each other across centuries.", why: "A brilliant, fast-paced exploration of whether ancient grudges can ever truly be forgiven." },
+  { rank: 100, title: "Lucifer and the Biscuit Hammer", author: "Satoshi Mizukami", year: 2005, rating: 8.8, genres: ["Fantasy","Action","Comedy"], themes: ["Nihilism vs. choosing to protect","Found family"], summary: "A cynical college student is recruited by a princess and a talking lizard to save a world he doesn't care about.", why: "Starts as a parody but evolves into a profound story about choosing to protect a flawed world simply because it's yours." }
+];
+
+const allGenres = [...new Set(manga.flatMap(m => m.genres))].sort();
+const genresEl = document.getElementById('genres');
+const activeGenres = new Set();
+const ITEMS_PER_PAGE = 20;
+let currentPage = 1;
+
+function renderGenres() {
+  genresEl.innerHTML = '';
+  allGenres.forEach(g => {
+    const chip = document.createElement('span');
+    chip.className = 'chip' + (activeGenres.has(g) ? ' active' : '');
+    chip.textContent = g;
+    chip.onclick = () => {
+      if (activeGenres.has(g)) activeGenres.delete(g);
+      else activeGenres.add(g);
+      currentPage = 1; // Reset to page 1 on filter change
+      renderGenres();
+      renderList();
+    };
+    genresEl.appendChild(chip);
+  });
+}
+renderGenres();
+
+const grid = document.getElementById('grid');
+const statusEl = document.getElementById('status');
+const pageInfoEl = document.getElementById('page-info');
+const searchEl = document.getElementById('search');
+const sortEl = document.getElementById('sort');
+const paginationEl = document.getElementById('pagination');
+
+function renderList() {
+  const q = searchEl.value.trim().toLowerCase();
+  let list = manga.filter(m => {
+    if (activeGenres.size && !m.genres.some(g => activeGenres.has(g))) return false;
+    if (!q) return true;
+    return (
+      m.title.toLowerCase().includes(q) ||
+      m.author.toLowerCase().includes(q) ||
+      m.themes.some(t => t.toLowerCase().includes(q)) ||
+      m.genres.some(g => g.toLowerCase().includes(q))
+    );
+  });
+
+  const sortKey = sortEl.value;
+  if (sortKey === 'title') list.sort((a,b) => a.title.localeCompare(b.title));
+  else if (sortKey === 'year') list.sort((a,b) => b.year - a.year);
+  else if (sortKey === 'rating') list.sort((a,b) => b.rating - a.rating);
+  else list.sort((a,b) => a.rank - b.rank);
+
+  const totalPages = Math.ceil(list.length / ITEMS_PER_PAGE);
+  if (currentPage > totalPages) currentPage = Math.max(1, totalPages);
+  
+  const start = (currentPage - 1) * ITEMS_PER_PAGE;
+  const pagedItems = list.slice(start, start + ITEMS_PER_PAGE);
+
+  statusEl.textContent = `Showing ${list.length} of ${manga.length} manga`;
+  pageInfoEl.textContent = `Page ${currentPage} of ${totalPages || 1}`;
+
+  grid.innerHTML = '';
+  if (pagedItems.length === 0) {
+    grid.innerHTML = '<div class="empty">No manga match your filters. Try clearing the search or genres.</div>';
+    paginationEl.innerHTML = '';
+    return;
+  }
+
+  pagedItems.forEach(m => {
+    const card = document.createElement('article');
+    card.className = 'card';
+    card.innerHTML = `
+      <div class="card-head">
+        <h3>${m.title}</h3>
+        <span class="rank">#${m.rank}</span>
+      </div>
+      <div class="meta">
+        <span>${m.author}</span>
+        <span>${m.year}</span>
+        <span class="rating">★ ${m.rating}</span>
+      </div>
+      <div class="tags">${m.genres.map(g => `<span class="tag">${g}</span>`).join('')}</div>
+      <p class="excerpt">${m.summary.length > 140 ? m.summary.slice(0, 140) + '…' : m.summary}</p>
+    `;
+    card.onclick = () => openModal(m);
+    grid.appendChild(card);
+  });
+
+  renderPagination(totalPages);
+}
+
+function renderPagination(totalPages) {
+  paginationEl.innerHTML = '';
+  if (totalPages <= 1) return;
+
+  const createBtn = (text, page, disabled = false, active = false) => {
+    const btn = document.createElement('button');
+    btn.className = 'page-btn' + (active ? ' active' : '');
+    btn.textContent = text;
+    btn.disabled = disabled;
+    btn.onclick = () => {
+      currentPage = page;
+      renderList();
+      window.scrollTo({ top: 400, behavior: 'smooth' });
+    };
+    return btn;
+  };
+
+  paginationEl.appendChild(createBtn('← Prev', currentPage - 1, currentPage === 1));
+  
+  // Show a window of pages around current page
+  const startPage = Math.max(1, currentPage - 2);
+  const endPage = Math.min(totalPages, currentPage + 2);
+
+  if (startPage > 1) {
+    paginationEl.appendChild(createBtn('1', 1));
+    if (startPage > 2) {
+      const span = document.createElement('span');
+      span.textContent = '...';
+      span.style.color = 'var(--muted)';
+      paginationEl.appendChild(span);
+    }
+  }
+
+  for (let i = startPage; i <= endPage; i++) {
+    paginationEl.appendChild(createBtn(i, i, false, i === currentPage));
+  }
+
+  if (endPage < totalPages) {
+    if (endPage < totalPages - 1) {
+      const span = document.createElement('span');
+      span.textContent = '...';
+      span.style.color = 'var(--muted)';
+      paginationEl.appendChild(span);
+    }
+    paginationEl.appendChild(createBtn(totalPages, totalPages));
+  }
+
+  paginationEl.appendChild(createBtn('Next →', currentPage + 1, currentPage === totalPages));
+}
+
+const modalBg = document.getElementById('modalBg');
+const modal = document.getElementById('modal');
+
+function openModal(m) {
+  modal.innerHTML = `
+    <button class="close" onclick="closeModal()">✕</button>
+    <h2>${m.title}</h2>
+    <div class="subtitle">by ${m.author} · ${m.year} · <span style="color:#f5c518">★ ${m.rating}</span></div>
+    <div class="tags">${m.genres.map(g => `<span class="tag">${g}</span>`).join('')}</div>
+    <div class="section">
+      <h4>Summary</h4>
+      <p>${m.summary}</p>
+    </div>
+    <div class="section">
+      <h4>Why It's Thought-Provoking</h4>
+      <p>${m.why}</p>
+    </div>
+    <div class="section">
+      <h4>Core Themes</h4>
+      <div class="theme-list">${m.themes.map(t => `<span class="theme-pill">${t}</span>`).join('')}</div>
+    </div>
+  `;
+  modalBg.classList.add('open');
+}
+function closeModal() { modalBg.classList.remove('open'); }
+modalBg.addEventListener('click', e => { if (e.target === modalBg) closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+searchEl.addEventListener('input', () => { currentPage = 1; renderList(); });
+sortEl.addEventListener('change', () => { currentPage = 1; renderList(); });
+renderList();
+</script>
+</body>
+</html>

@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>50 Manga to Read — A Moving Journey</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Noto+Serif+JP:wght@300;400;700&family=Courier+Prime:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a0f0a;
+    --paper: #f5f0e8;
+    --paper2: #ede7d6;
+    --red: #c0392b;
+    --red-soft: #e8594a;
+    --gold: #c9a84c;
+    --muted: #7a6a5a;
+    --panel: #fff9f0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Noto Serif JP', serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Halftone texture overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: radial-gradient(circle, #00000008 1px, transparent 1px);
+    background-size: 6px 6px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Header */
+  header {
+    position: relative;
+    padding: 60px 40px 40px;
+    border-bottom: 4px double var(--ink);
+    text-align: center;
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  header::before {
+    content: '漫画';
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 200px;
+    color: rgba(192,57,43,0.05);
+    font-family: 'Playfair Display', serif;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  .header-label {
+    font-family: 'Courier Prime', monospace;
+    font-size: 11px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 16px;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 7vw, 72px);
+    font-weight: 900;
+    line-height: 1;
+    margin-bottom: 16px;
+    position: relative;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--red);
+  }
+
+  .subtitle {
+    font-family: 'Courier Prime', monospace;
+    font-size: 13px;
+    color: var(--muted);
+    letter-spacing: 2px;
+  }
+
+  /* Tier labels */
+  .tier-block {
+    position: relative;
+    z-index: 1;
+    margin: 40px auto;
+    max-width: 900px;
+    padding: 0 20px;
+  }
+
+  .tier-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--ink);
+  }
+
+  .tier-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    font-weight: 900;
+    line-height: 1;
+    color: var(--red);
+    opacity: 0.3;
+    min-width: 60px;
+  }
+
+  .tier-info h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+  }
+
+  .tier-info p {
+    font-family: 'Courier Prime', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  /* Manga card grid */
+  .manga-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 2px;
+  }
+
+  .manga-card {
+    background: var(--panel);
+    border: 1.5px solid var(--ink);
+    padding: 20px;
+    position: relative;
+    transition: transform 0.15s, box-shadow 0.15s;
+    cursor: default;
+    overflow: hidden;
+  }
+
+  .manga-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--red);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.2s;
+  }
+
+  .manga-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 4px 6px 0 var(--ink);
+    z-index: 2;
+  }
+
+  .manga-card:hover::before {
+    transform: scaleX(1);
+  }
+
+  .card-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+  }
+
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 6px;
+  }
+
+  .card-jp {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 10px;
+    font-family: 'Noto Serif JP', serif;
+  }
+
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-bottom: 10px;
+  }
+
+  .tag {
+    font-family: 'Courier Prime', monospace;
+    font-size: 9px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border: 1px solid currentColor;
+  }
+
+  .tag-genre { color: var(--red); }
+  .tag-feel { color: var(--gold); border-color: var(--gold); }
+  .tag-length { color: var(--muted); }
+
+  .card-desc {
+    font-size: 12px;
+    line-height: 1.7;
+    color: #3d2e22;
+  }
+
+  .heart {
+    position: absolute;
+    bottom: 14px;
+    right: 16px;
+    font-size: 16px;
+    opacity: 0.15;
+  }
+
+  /* Divider */
+  .divider {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    margin: 48px 0 8px;
+    color: var(--muted);
+    font-family: 'Courier Prime', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+  }
+  .divider::before, .divider::after {
+    content: '─────────────';
+    margin: 0 12px;
+  }
+
+  footer {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 48px 20px;
+    border-top: 4px double var(--ink);
+    margin-top: 60px;
+    font-family: 'Courier Prime', monospace;
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 2px;
+  }
+
+  footer strong {
+    display: block;
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: var(--ink);
+    margin-bottom: 8px;
+    font-style: italic;
+  }
+
+  @media (max-width: 600px) {
+    header { padding: 40px 20px 30px; }
+    .manga-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-label">A Curated Reading Journey</div>
+  <h1>50 Manga That Will<br><em>Move You</em></h1>
+  <p class="subtitle">From your first page · to stories you'll never forget</p>
+</header>
+
+<!-- TIER 1 -->
+<div class="tier-block">
+  <div class="tier-header">
+    <div class="tier-number">I</div>
+    <div class="tier-info">
+      <h2>Start Here — Easy & Joyful</h2>
+      <p>BEGINNER FRIENDLY · LIGHT EMOTIONAL WEIGHT · PERFECT GATEWAY</p>
+    </div>
+  </div>
+  <div class="manga-grid">
+
+    <div class="manga-card">
+      <div class="card-num">No. 01</div>
+      <div class="card-title">Yotsuba&!</div>
+      <div class="card-jp">よつばと！</div>
+      <div class="card-tags">
+        <span class="tag tag-genre">Slice of Life</span>
+        <span class="tag tag-feel">Wholesome</span>
+        <span class="tag tag-length">Ongoing</span>
+      </div>
+      <div class="card-desc">A curious 5-year-old discovers the world for the first time. Pure joy, zero plot pressure. The easiest manga you'll ever love.</div>
+      <div class="heart">🌿</div>
+    </div>
+
+    <div class="manga-card">
+      <div class="card-num">No. 02</div>
+      <div class="card-title">Chi's Sweet Home</div>
+      <div class="card-jp">チーズスイートホーム</div>
+      <div class="card-tags">
+        <span class="tag tag-genre">Comedy</span>
+        <span class="tag tag-feel">Cozy</span>
+        <span class="tag tag-length">Complete</span>
+      </div>
+      <div class="card-desc">A lost kitten named Chi finds a family. Short chapters, simple art, and a warmth that lingers. Impossible not to smile.</div>
+      <div class="heart">🐱</div>
+    </div>
+
+    <div class="manga-card">
+      <div class="card-num">No. 03</div>
+      <div class="card-title">Dungeon Meshi</div>
+      <div class="card-jp">ダンジョン飯</div>
+      <div class="card-tags">
+        <span class="tag tag-genre">Fantasy</span>
+        <span class="tag tag-feel">Funny & Deep</span>
+        <span class="tag tag-length">Complete</span>
+      </div>
+      <div class="card-desc">Adventurers cook and eat monsters in a dungeon. Sounds absurd — becomes surprisingly profound about life, food, and survival.</div>
+      <div class="heart">🍖</div>
+    </div>
+
+    <div class="manga-card">
+      <div class="card-num">No. 04</div>
+      <div class="card-title">My Hero Academia</div>
+      <div class="card-jp">僕のヒーローアカデミア</div>
+      <div class="card-tags">
+        <span class="tag tag-genre">Shonen Action</span>
+        <span class="tag tag-feel">Inspiring</span>
+        <span class="tag tag-length">Complete</span>
+      </div>
+      <div class="card-desc">A boy born without powers in a world of superheroes refuses to give up. Energetic, warm, and incredibly easy to get hooked on.</div>
+      <div class="heart">⚡</div>
+    </div>
+
+    <div class="manga-card">
+      <div class="card-num">No. 05</div>
+      <div class="card-title">One Piece</div>
+      <div class="card-jp">ワンピース</div>
+      <div class="card-tags">
+        <span class="tag tag-genre">Adventure</span>
+        <span class="tag tag-feel">Epic & Funny</span>
+        <span class="tag tag-length">Ongoing</span>
+      </div>
+      <div class="card-desc">The greatest adventure in manga. A boy who can stretch like rubber sets out to become King of the Pirates. Endlessly creative and surprisingly emotional.</div>
+      <div class="heart">⚓</div>
+    </div>
+
+    <div class="manga-card">
+      <div class="card-num">No. 06</div>
+      <div class="card-title">Dr. Stone</div>
+      <div class="card-jp">ドクターストーン</div>
+      <div class="card-tags">
+        <span class="tag tag-genre">Sci-Fi Adventure</span>
+        <span class="tag tag-feel">Exciting</span>
+        <span class="tag tag-length">Complete</span>
+      </div>
+      <div class="card-desc">All of humanity is petrified for 3,700 years. One genius boy rebuilds civilization using science. Unique, clever, and hugely fun.</div>
+      <div class="heart">🧪</div>
+    </div>
+
+    <div class="manga-card">
+      <div class="card-num">No. 07</div>
+      <div class="card-title">Spy × Family</div>
+      <div class="card-jp">スパイファミリー</div>
+      <div class="card-tags">
+        <span class="tag tag-genre">Comedy</span>
+        <span class="tag tag-feel">Hilarious & Sweet</span>
+        <span class="tag tag-length">Ongoing</span>
+      </div>
+      <div class="card-desc">A spy, an assassin, and a telepathic girl pretend to be a family. None of them know each other's secrets. Brilliantly funny with genuine heart.</div>
+      <div class="heart">🕵️</div>
+    </div>
+
+    <div class="manga-card">
+      <div class="card-num">No. 08</div>
+      <div class="card-title">Kaoru Hana wa Rin to Saku</div>
+      <div class="card-jp">香る花は凛と咲く</div>
+      <div class="card-tags">
+        <span class="tag tag-genre">Romance</span>
+        <span class="tag tag-feel">Sweet</span>
+        <span class="tag tag-length">Ongoing</span>
+      </div>
+      <div class="card-desc">A quiet, slow romance between two students at neighboring schools. Gentle and beautifully drawn — perfect first romance manga.</div>
+      <div class="heart">🌸</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="divider">· · ·</div>
+
+<!-- TIER 2 -->
+<div class="tier-block">
+  <div class="tier-header">
+    <div class="tier-number">II</div>
+    <div class="tier-info">
+      <h2>Getting Deeper — Stories with Heart</h2>
+      <p>EMOTIONAL · CHARACTER-DRIVEN · SOME TEARS AHEAD</p>
+    </div>
+  </div>
+  <div class="manga-grid">
+
+    <div class="manga-card">
+      <div class="card-num">No. 09</div>
+      <div class="card-title">A Silent Voice</div>
+      <div class="card-jp">聲の形</div>
+      <div class="card-tags">
+        <span class="tag tag-genre">Drama</span>
+        <span class="tag tag-feel">Redemption</span>
+        <span class="tag tag-length">Complete</span>
+      </div>
+      <div class="card-desc">A former bully seeks forgiveness from a deaf girl he once tormented. Honest, painful, and one of the most moving stories about human connection.</div>
+      <div class="heart">💙</div>
+    </div>
+
+    <div class="manga-card">
+      <div class="card-num">No. 10</div>
+      <div class="card-title">Your Lie in April</div>
+      <div class="card-jp">四月は君の嘘</div>
+      <div class="card-tags">
+        <span class="tag tag-genre">Romance / Music</span>
+        <span class="tag tag-feel">Bittersweet</span>
+        <span class="tag tag-length">Complete</span>
+      </div>
+      <div class="card-desc">A pianist who can no longer hear his own music meets a violinist who changes everything. Beautiful and heartbreaking in equal measure.</div>
+      <div class="heart">🎹</div>
+    </div>
+
+    <div class="manga-card">
+      <div class="card-num">No. 11</div>
+      <div class="card-title">Fruits Basket</div>
+      <div class="card-jp">フルーツバスケット</div>
+      <div class="card-tags">
+        <span class="tag tag-genre">Romance / Fantasy</span>
+        <span class="tag tag-feel">Healing</span>
+        <span class="tag tag-length">Complete</span>
+      </div>
+      <div class="card-desc">A kind girl lives with a cursed family who transform into zodiac animals when hugged. Deeply emotional story about trauma, acceptance, and love.</div>
+      <div class="heart">🍊</div>
+    </div>
+
+    <div class="manga-card">
+      <div class="card-num">No. 12</div>
+      <div class="card-title">March Comes in Like a Lion</div>
+      <div class="card-jp">3月のライオン</div>
+      <div class="card-tags">
+        <span class="tag tag-genre">Slice of Life</span>
+        <span class="tag tag-feel">Melancholic</span>
+        <span class="tag tag-length">Ongoing</span>
+      </div>
+      <div class="card-desc">A teenage shogi prodigy battles loneliness and depression. Slow, tender, and achingly real — about finding warmth in unexpected places.</div>
+      <div class="heart">♟️</div>
+    </div>
+
+    <div class="manga-card">
+      <div class="card-num">No. 13</div>
+      <div class="card-title">Barakamon</div>
+      <div class="card-jp">ばらかもん</div>
+      <div class="card-tags">
+        <span class="tag tag-genre">Slice of Life</span>
+        <span class="tag tag-feel">Healing & Funny</span>
+        <span class="tag tag-length">Complete</span>
+      </div>
+      <div class="card-desc">A city calligrapher exiled to a rural island rediscovers himself through its simple-hearted villagers. Warm, funny, quietly wise.</div>
+      <div class="heart">🖌️</div>
+    </div>
+
+    <div class="manga-card">
+      <div class="card-num">No. 14</div>
+      <div class="card-title">Haikyuu!!</div>
+      <div class="card-jp">ハイキュー！！</div>
+      <div class="card-tags">
+        <span class="tag tag-genre">Sports</span>
+        <span class="tag tag-feel">Thrilling & Moving</span>
+        <span class="tag tag-length">Complete</span>
+      </div>
+      <div class="card-desc">High school volleyball. A short boy with an enormous heart fights for every point. The best sports manga ever made — guaranteed tears by the end.</div>
+      <div class="heart">🏐</div>
+    </div>
+
+    <div class="manga-card">
+      <div class="card-num">No. 15</div>
+      <div class="card-title">Blue Period</div>
+      <div class="card-jp">ブルーピリオド</div>
+      <div class="card-tags">
+        <span class="tag tag-genre">Art / Drama</span>
+        <span class="tag tag-feel">Passionate</span>
+        <span class="tag tag-length">Ongoing</span>
+      </div>
+      <div class="card-desc">A straight-A student with no passion discovers painting and falls completely. About obsession, craft, and the terrifying joy of making art.</div>
+      <div class="heart">🎨</div>
+    </div>
+
+    <div class="manga-card">
+      <div class="card-num">No. 16</div>
+      <div class="card-title">Solanin</div>
+      <div class="card-jp">ソラニン</div>
+      <div class="card-tags">
+        <span class="tag tag-genre">Josei / Music</span>
+        <span class="tag tag-feel">Nostalgic & Sad</span>
+        <span class="tag tag-length">Complete</span>
+      </div>
+      <div class="card-desc">Twenty-somethings in Tokyo try to figure out what to do with their lives. Inio Asano's most accessible work — gentle, realistic, and quietly devastating.</div>
+      <div class="heart">🎸</div>
+    </div>
+
+    <div class="manga-card">
+      <div class="card-num">No. 17</div>
+      <div class="card-title">Orange</div>
+      <div class="card-jp">オレンジ</div>
+      <div class="card-tags">
+        <span class="tag tag-genre">Romance / Sci-Fi</span>
+        <span class="tag tag-feel">Tearjerker</span>
+        <span class="tag tag-length">Complete</span>
+      </div>
+      <div class="card-desc">A girl receives letters from her future self, warning her to save a classmate from his fate. About regret, love, and the courage to act.</div>
+      <div class="heart">🍊</div>
+    </div>
+
+    <div class="manga-card">
+      <div class="card-num">No. 18</div>
+      <div class="card-title">Nana</div>
+      <div class="card-jp">ナナ</div>
+      <div class="card-tags">
+        <span class="tag tag-genre">Josei / Drama</span>
+        <span class="tag tag-feel">Intense & Real</span>
+        <span class="tag tag-length">On Hiatus</span>
+      </div>
+      <div class="card-desc">Two women named Nana share an apartment in Tokyo, living completely different lives. About friendship, love, and dreams — a masterpiece of emotional honesty.</div>
+      <div class="heart">🖤</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="divider">· · ·</div>
+
+<!-- TIER 3 -->
+<div class="tier-block">
+  <div class="tier-header">
+    <div class="tier-number">III</div>
+    <div class="tier-info">
+      <h2>Epic Journeys — Long-Form Wonders</h2>
+      <p>IMMERSIVE · WORLD-BUILDING · YEARS OF READING AHEAD</p>
+    </div>
+  </div>
+  <div class="manga-grid">
+
+    <div class="manga-card">
+      <div class="card-num">No. 19</div>
+      <div class="card-title">Fullmetal Alchemist</div>
+      <div class="card-jp">鋼の錬金術師</div>
+      <div class="card-tags">
+        <span class="tag tag-genre">Fantasy / Action</span>
+        <span class="tag tag-feel">Epic</span>
+        <span class="tag tag-length">Complete</span>
+      </div>
+      <div class="card-desc">Two brothers lose their bodies pursuing forbidden alchemy. A perfect story — thrilling, philosophically rich, and emotionally complete. One of the all-time greats.</div>
+      <div class="heart">⚗️</div>
+    </div>
+
+    <div class="manga-card">
+      <div class="card-num">No. 20</div>
+      <div class="card-title">Berserk</div>
+      <div class="card-jp">ベルセルク</div>
+      <div class="card-tags">
+        <span class="tag tag-genre">Dark Fantasy</span>
+        <span class="tag tag-feel">Devastating</span>
+        <span class="tag tag-length">Ongoing</span>
+      </div>
+      <div class="card-desc">The story of Guts — a man born into suffering who fights against a fate designed to break him. Brutal, beautiful, and unlike anything else in fiction.</div>
+      <div class="heart">⚔️</div>
+    </div>
+
+    <div class="manga-card">
+      <div class="card-num">No. 21</div>
+      <div class="card-title">Attack on Titan</div>
+      <div class="card-jp">進撃の巨人</div>
+      <div class="card-tags">
+        <span class="tag tag-genre">Dark Action</span>
+        <span class="tag tag-feel">Shocking</span>
+        <span class="tag tag-length">Complete</span>
+      </div>
+      <div class="card-desc">Humanity hides behind walls from giant humanoid monsters. What begins as survival horror becomes one of manga's most complex political narratives.</div>
+      <div class="heart">🧱</div>
+    </div>
+
+    <div class="manga-card">
+      <div class="card-num">No. 22</div>
+      <div class="card-title">Hunter × Hunter</div>
+      <div class="card-jp">HUNTER×HUNTER</div>
+      <div class="card-tags">
+        <span class="tag tag-genre">Adventure / Battle</span>
+        <span class="tag tag-feel">Unpredictable</span>
+        <span class="tag tag-length">Ongoing (Hiatus)</span>
+      </div>
+      <div class="card-desc">A boy searches for his absent hunter father. Relentlessly subversive — every arc reinvents itself. One of the most intelligent shonen ever written.</div>
+      <div class="heart">🦋</div>
+    </div>
+
+    <div class="manga-card">
+      <div class="card-num">No. 23</div>
+      <div class="card-title">Vinland Saga</div>
+      <div class="card-jp">ヴィンランド・サガ</div>
+      <div class="card-tags">
+        <span class="tag tag-genre">Historical</span>
+        <span class="tag tag-feel">Profound</span>
+        <span class="tag tag-length">Complete</span>
+      </div>
+      <div class="card-desc">A Viking warrior's son is consumed by revenge — until he questions if violence was ever the answer. A grand epic about war, peace, and what a true warrior is.</div>
+      <div class="heart">🛡️</div>
+    </div>
+
+    <div class="manga-card">
+      <div class="card-num">No. 24</div>
+      <div class="card-title">Vagabond</div>
+      <div class="card-jp">バガボンド</div>
+      <div class="card-tags">
+        <span class="tag tag-genre">Historical / Samurai</span>
+        <span class="tag tag-feel">Philosophical</span>
+        <span class="tag tag-length">On Hiatus</span>
+      </div>
+      <div class="card-desc">The fictionalized life of Miyamoto Musashi, Japan's greatest swordsman. Breathtaking artwork. A meditation on strength, emptiness, and what it means to truly live.</div>
+      <div class="heart">🌾</div>
+    </div>
+
+    <div class="manga-card">
+      <div class="card-num">No. 25</div>
+      <div class="card-title">Naruto</div>
+      <div class="card-jp">ナルト</div>
+      <div class="card-tags">
+        <span class="tag tag-genre">Ninja / Action</span>
+        <span class="tag tag-feel">Nostalgic</span>
+        <span class="tag tag-length">Complete</span>
+      </div>
+      <div class="card-desc">An orphaned outcast dreams of becoming Hokage. A generation-defining epic about loneliness, friendship, and never giving up — with one of manga's greatest rivalries.</div>
+      <div class="heart">🌀</div>
+    </div>
+
+    <div class="manga-card">
+      <div class="card-num">No. 26</div>
+      <div class="card-title">Kingdom</div>
+      <div class="card-jp">キングダム</div>
+      <div class="card-tags">
+        <span class="tag tag-genre">Historical War</span>
+        <span class="tag tag-feel">Heroic</span>
+        <span class="tag tag-length">Ongoing</span>
+      </div>
+      <div class="card-desc">A slave boy fights to become China's greatest general during the Warring States period. Massive, gripping, and deeply moving in its portrayal of leadership and loyalty.</div>
+      <div class="heart">🏯</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="divider">· · ·</div>
+
+<!-- TIER 4 -->
+<div class="tier-block">
+  <div class="tier-header">
+    <div class="tier-number">IV</div>
+    <div class="tier-info">
+      <h2>Quiet Masterworks — Literary Manga</h2>
+      <p>SLOW-BURN · ARTISTIC · DEEPLY MOVING IN SUBTLE WAYS</p>
+    </div>
+  </div>
+  <div class="manga-grid">
+
+    <div class="manga-card">
+      <div class="card-num">No. 27</div>
+      <div class="card-title">Mushishi</div>
+      <div class="card-jp">蟲師</div>
+      <div class="card-tags">
+        <span class="tag tag-genre">Fantasy / Folklore</span>
+        <span class="tag tag-feel">Haunting</span>
+        <span class="tag tag-length">Complete</span>
+      </div>
+      <div class="card-desc">A wanderer studies mysterious life forms that blur the line between life and death. Anthology-style — each story a quiet poem about nature, loss, and the invisible world.</div>
+      <div class="heart">🌫️</div>
+    </div>
+
+    <div class="manga-card">
+      <div class="card-num">No. 28</div>
+      <div class="card-title">Biomega</div>
+      <div class="card-jp">バイオメガ</div>
+      <div class="card-tags">
+        <span class="tag tag-genre">Sci-Fi</span>
+        <span class="tag tag-feel">Atmospheric</span>
+        <span class="tag tag-length">Complete</span>
+      </div>
+      <div class="card-desc">A synthetic human traverses a dying Earth in a post-apocalyptic world overrun by a zombie virus. Dense, cinematic, visually extraordinary.</div>
+      <div class="heart">🤖</div>
+    </div>
+
+    <div class="manga-card">
+      <div class="card-num">No. 29</div>
+      <div class="card-title">Goodnight Punpun</div>
+      <div class="card-jp">おやすみプンプン</div>
+      <div class="card-tags">
+        <span class="tag tag-genre">Psychological Drama</span>
+        <span class="tag tag-feel">Devastating</span>
+        <span class="tag tag-length">Complete</span>
+      </div>
+      <div class="card-desc">A boy depicted as a cartoon bird grows up in a broken world. Brutally honest about depression and self-destruction. One of the most affecting coming-of-age stories ever told — not for beginners.</div>
+      <div class="heart">🐤</div>
+    </div>
+
+    <div class="manga-card">
+      <div class="card-num">No. 30</div>
+      <div class="card-title">Aria</div>
+      <div class="card-jp">ARIA</div>
+      <div class="card-tags">
+        <span class="tag tag-genre">Sci-Fi / Slice of Life</span>
+        <span class="tag tag-feel">Serene</span>
+        <span class="tag tag-length">Complete</span>
+      </div>
+      <div class="card-desc">Gondoliers on a terraformed Mars-Venice. Slow, peaceful, and quietly transcendent — the most relaxing manga ever written. A masterpiece of "iyashikei" (healing) storytelling.</div>
+      <div class="heart">🌊</div>
+    </div>
+
+    <div class="manga-card">
+      <div class="card-num">No. 31</div>
+      <div class="card-title">The Flowers of Evil</div>
+      <div class="card-jp">惡の華</div>
+      <div class="card-tags">
+        <span class="tag tag-genre">Psychological</span>
+        <span class="tag tag-feel">Uncomfortable & Real</span>
+        <span class="tag tag-length">Complete</span>
+      </div>
+      <div class="card-desc">A middle-school boy is blackmailed by a classmate who considers them both "deviant." A uniquely unsettling coming-of-age story drawn in photorealistic style.</div>
+      <div class="heart">🌹</div>
+    </div>
+
+    <div class="manga-card">
+      <div class="card-num">No. 32</div>
+      <div class="card-title">Planetes</div>
+      <div class="card-jp">プラネテス</div>
+      <div class="card-tags">
+        <span class="tag tag-genre">Sci-Fi / Drama</span>
+        <span class="tag tag-feel">Thoughtful</span>
+        <span class="tag tag-length">Complete</span>
+      </div>
+      <div class="card-desc">Space debris collectors in the near future. A quiet, grounded meditation on dreams, work, relationships, and what we owe each other in a fragile world.</div>
+      <div class="heart">🛸</div>
+    </div>
+
+    <div class="manga-card">
+      <div class="card-num">No. 33</div>
+      <div class="card-title">A Bride's Story</div>
+      <div class="card-jp">乙嫁語り</div>
+      <div class="card-tags">
+        <span class="tag tag-genre">Historical</span>
+        <span class="tag tag-feel">Gentle & Rich</span>
+        <span class="tag tag-length">Ongoing</span>
+      </div>
+      <div class="card-desc">Life along the Silk Road in 19th-century Central Asia. Kaoru Mori's art is so detailed it feels like a historical artifact. Slow, intimate, extraordinary.</div>
+      <div class="heart">🏺</div>
+    </div>
+
+    <div class="manga-card">
+      <div class="card-num">No. 34</div>
+      <div class="card-title">I Am a Hero</div>
+      <div class="card-jp">アイアムアヒーロー</div>
+      <div class="card-tags">
+        <span class="tag tag-genre">Horror / Survival</span>
+        <span class="tag tag-feel">Tense & Sad</span>
+        <span class="tag tag-length">Complete</span>
+      </div>
+      <div class="card-desc">A manga artist with no confidence survives a zombie apocalypse. A psychological portrait of inadequacy and unlikely heroism told through body horror.</div>
+      <div class="heart">🔫</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="divider">· · ·</div>
+
+<!-- TIER 5 -->
+<div class="tier-block">
+  <div class="tier-header">
+    <div class="tier-number">V</div>
+    <div class="tier-info">
+      <h2>Crime, Thriller & Suspense</h2>
+      <p>PSYCHOLOGICAL · GRIPPING · IMPOSSIBLE TO PUT DOWN</p>
+    </div>
+  </div>
+  <div class="manga-grid">
+
+    <div class="manga-card">
+      <div class="card-num">No. 35</div>
+      <div class="card-title">Monster</div>
+      <div class="card-jp">モンスター</div>
+      <div class="card-tags">
+        <span class="tag tag-genre">Psychological Thriller</span>
+        <span class="tag tag-feel">Gripping</span>
+        <span class="tag tag-length">Complete</span>
+      </div>
+      <div class="card-desc">A German surgeon saves a boy's life — only to discover he became a serial killer. A decade-spanning hunt through Europe. The greatest thriller manga ever made.</div>
+      <div class="heart">👁️</div>
+    </div>
+
+    <div class="manga-card">
+      <div class="card-num">No. 36</div>
+      <div class="card-title">Death Note</div>
+      <div class="card-jp">デスノート</div>
+      <div class="card-tags">
+        <span class="tag tag-genre">Psychological Thriller</span>
+        <span class="tag tag-feel">Edge-of-Seat</span>
+        <span class="tag tag-length">Complete</span>
+      </div>
+      <div class="card-desc">A teenager finds a notebook that kills anyone whose name is written in it. A cat-and-mouse game of pure intellect that raises real questions about justice.</div>
+      <div class="heart">📓</div>
+    </div>
+
+    <div class="manga-card">
+      <div class="card-num">No. 37</div>
+      <div class="card-title">20th Century Boys</div>
+      <div class="card-jp">20世紀少年</div>
+      <div class="card-tags">
+        <span class="tag tag-genre">Mystery / Sci-Fi</span>
+        <span class="tag tag-feel">Epic Mystery</span>
+        <span class="tag tag-length">Complete</span>
+      </div>
+      <div class="card-desc">A childhood promise becomes a global conspiracy. Naoki Urasawa weaves a sprawling mystery across decades — about memory, friendship, and the stories we tell ourselves.</div>
+      <div class="heart">☢️</div>
+    </div>
+
+    <div class="manga-card">
+      <div class="card-num">No. 38</div>
+      <div class="card-title">Pluto</div>
+      <div class="card-jp">PLUTO</div>
+      <div class="card-tags">
+        <span class="tag tag-genre">Sci-Fi Mystery</span>
+        <span class="tag tag-feel">Emotional & Cerebral</span>
+        <span class="tag tag-length">Complete</span>
+      </div>
+      <div class="card-desc">Urasawa reimagines Astro Boy as a murder mystery about robot rights and the nature of hatred. Profound, moving, and a masterpiece of manga storytelling.</div>
+      <div class="heart">🤖</div>
+    </div>
+
+    <div class="manga-card">
+      <div class="card-num">No. 39</div>
+      <div class="card-title">Billy Bat</div>
+      <div class="card-jp">ビリーバット</div>
+      <div class="card-tags">
+        <span class="tag tag-genre">Historical Thriller</span>
+        <span class="tag tag-feel">Mind-Bending</span>
+        <span class="tag tag-length">Complete</span>
+      </div>
+      <div class="card-desc">A cartoon bat symbol appears throughout history — from the moon landing to JFK's assassination. A conspiracy thriller unlike anything else. Urasawa at his most ambitious.</div>
+      <div class="heart">🦇</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="divider">· · ·</div>
+
+<!-- TIER 6 -->
+<div class="tier-block">
+  <div class="tier-header">
+    <div class="tier-number">VI</div>
+    <div class="tier-info">
+      <h2>Genre Gems — Hidden & Essential</h2>
+      <p>VARIED · UNDERRATED · EACH UNLIKE THE OTHERS</p>
+    </div>
+  </div>
+  <div class="manga-grid">
+
+    <div class="manga-card">
+      <div class="card-num">No. 40</div>
+      <div class="card-title">Yokohama Kaidashi Kikou</div>
+      <div class="card-jp">ヨコハマ買い出し紀行</div>
+      <div class="card-tags">
+        <span class="tag tag-genre">Post-Apocalyptic / Calm</span>
+        <span class="tag tag-feel">Melancholy & Peace</span>
+        <span class="tag tag-length">Complete</span>
+      </div>
+      <div class="card-desc">A robot runs a coffee shop at the edge of a slowly sinking world. A beautiful, elegiac manga about appreciating existence as it fades. Uniquely moving.</div>
+      <div class="heart">☕</div>
+    </div>
+
+    <div class="manga-card">
+      <div class="card-num">No. 41</div>
+      <div class="card-title">Homunculus</div>
+      <div class="card-jp">ホムンクルス</div>
+      <div class="card-tags">
+        <span class="tag tag-genre">Psychological</span>
+        <span class="tag tag-feel">Disturbing & Deep</span>
+        <span class="tag tag-length">Complete</span>
+      </div>
+      <div class="card-desc">A man undergoes trepanation and gains the ability to see people's trauma as distorted forms. A disturbing but deeply empathetic exploration of hidden pain.</div>
+      <div class="heart">🧠</div>
+    </div>
+
+    <div class="manga-card">
+      <div class="card-num">No. 42</div>
+      <div class="card-title">Real</div>
+      <div class="card-jp">リアル</div>
+      <div class="card-tags">
+        <span class="tag tag-genre">Sports / Drama</span>
+        <span class="tag tag-feel">Raw & Honest</span>
+        <span class="tag tag-length">Ongoing</span>
+      </div>
+      <div class="card-desc">Wheelchair basketball. Three young men deal with disability, guilt, and the fight to reclaim their lives. Takehiko Inoue's most honest, devastating work.</div>
+      <div class="heart">🏀</div>
+    </div>
+
+    <div class="manga-card">
+      <div class="card-num">No. 43</div>
+      <div class="card-title">Slam Dunk</div>
+      <div class="card-jp">スラムダンク</div>
+      <div class="card-tags">
+        <span class="tag tag-genre">Sports</span>
+        <span class="tag tag-feel">Exhilarating</span>
+        <span class="tag tag-length">Complete</span>
+      </div>
+      <div class="card-desc">A delinquent joins basketball to impress a girl — and discovers the game of his life. The definitive sports manga; its final game is still talked about decades later.</div>
+      <div class="heart">🏀</div>
+    </div>
+
+    <div class="manga-card">
+      <div class="card-num">No. 44</div>
+      <div class="card-title">Blame!</div>
+      <div class="card-jp">ブラム！</div>
+      <div class="card-tags">
+        <span class="tag tag-genre">Sci-Fi / Architecture</span>
+        <span class="tag tag-feel">Awe-Inspiring</span>
+        <span class="tag tag-length">Complete</span>
+      </div>
+      <div class="card-desc">A silent wanderer journeys through a city that has grown to span the known universe. Almost wordless — pure visual storytelling on a cosmic scale. Unlike anything else.</div>
+      <div class="heart">🌆</div>
+    </div>
+
+    <div class="manga-card">
+      <div class="card-num">No. 45</div>
+      <div class="card-title">Kaguya-sama: Love is War</div>
+      <div class="card-jp">かぐや様は告らせたい</div>
+      <div class="card-tags">
+        <span class="tag tag-genre">Romance / Comedy</span>
+        <span class="tag tag-feel">Hilarious & Sweet</span>
+        <span class="tag tag-length">Complete</span>
+      </div>
+      <div class="card-desc">Two genius student council members refuse to confess — whoever falls first loses. A brilliant comedy that sneaks in enormous emotional depth when you least expect it.</div>
+      <div class="heart">💝</div>
+    </div>
+
+    <div class="manga-card">
+      <div class="card-num">No. 46</div>
+      <div class="card-title">Onanie Master Kurosawa</div>
+      <div class="card-jp">オナニーマスター黒沢</div>
+      <div class="card-tags">
+        <span class="tag tag-genre">Drama</span>
+        <span class="tag tag-feel">Surprisingly Moving</span>
+        <span class="tag tag-length">Complete</span>
+      </div>
+      <div class="card-desc">Deceptive title, deeply earnest story. A loner boy is blackmailed into helping a class outcast — and both are completely changed. Raw coming-of-age storytelling.</div>
+      <div class="heart">📝</div>
+    </div>
+
+    <div class="manga-card">
+      <div class="card-num">No. 47</div>
+      <div class="card-title">The Way of the Househusband</div>
+      <div class="card-jp">極主夫道</div>
+      <div class="card-tags">
+        <span class="tag tag-genre">Comedy</span>
+        <span class="tag tag-feel">Pure Fun</span>
+        <span class="tag tag-length">Ongoing</span>
+      </div>
+      <div class="card-desc">Japan's most feared yakuza boss retires to become a stay-at-home husband. Every chapter is a perfect comedy sketch. Impossible not to laugh out loud.</div>
+      <div class="heart">🧹</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="divider">· · ·</div>
+
+<!-- TIER 7 -->
+<div class="tier-block">
+  <div class="tier-header">
+    <div class="tier-number">VII</div>
+    <div class="tier-info">
+      <h2>The Final Three — Essential Summits</h2>
+      <p>LIFE-CHANGING · READ THESE BEFORE YOU DIE</p>
+    </div>
+  </div>
+  <div class="manga-grid">
+
+    <div class="manga-card">
+      <div class="card-num">No. 48</div>
+      <div class="card-title">Nausicaä of the Valley of the Wind</div>
+      <div class="card-jp">風の谷のナウシカ</div>
+      <div class="card-tags">
+        <span class="tag tag-genre">Sci-Fi / Ecology</span>
+        <span class="tag tag-feel">Transcendent</span>
+        <span class="tag tag-length">Complete</span>
+      </div>
+      <div class="card-desc">Miyazaki's manga is far darker and deeper than the film. A young princess navigates a dying world of warring civilizations and toxic jungles. The most visionary manga ever drawn.</div>
+      <div class="heart">🌬️</div>
+    </div>
+
+    <div class="manga-card">
+      <div class="card-num">No. 49</div>
+      <div class="card-title">Dororo</div>
+      <div class="card-jp">どろろ</div>
+      <div class="card-tags">
+        <span class="tag tag-genre">Historical / Dark Fantasy</span>
+        <span class="tag tag-feel">Haunting</span>
+        <span class="tag tag-length">Complete</span>
+      </div>
+      <div class="card-desc">A samurai born without limbs — sacrificed to demons by his father — fights to reclaim his body one demon at a time. Tezuka's most haunting, soulful masterwork.</div>
+      <div class="heart">🌑</div>
+    </div>
+
+    <div class="manga-card">
+      <div class="card-num">No. 50</div>
+      <div class="card-title">Phoenix</div>
+      <div class="card-jp">火の鳥</div>
+      <div class="card-tags">
+        <span class="tag tag-genre">Mythology / Sci-Fi</span>
+        <span class="tag tag-feel">Cosmic & Eternal</span>
+        <span class="tag tag-length">Incomplete (Tezuka died)</span>
+      </div>
+      <div class="card-desc">Osamu Tezuka's life work. An anthology tracing humanity across past and future through the immortal Phoenix. Each arc stands alone. Together, they form manga's greatest meditation on life and death.</div>
+      <div class="heart">🔥</div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <strong>Begin anywhere. Feel everything.</strong>
+  50 manga · 7 tiers · one reading life
+</footer>
+
+</body>
+</html>

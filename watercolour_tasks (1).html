@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Watercolour Journal — 30 Adult Painting Tasks</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:        #2c1f14;
+    --ink-soft:   #5a4535;
+    --parchment:  #f9f3e8;
+    --parchment2: #f2e9d5;
+    --parchment3: #ede0c4;
+    --rust:       #b5532a;
+    --sage:       #7a9e7e;
+    --dusty-blue: #7393a7;
+    --mauve:      #a07080;
+    --gold:       #c89b3c;
+    --gold-light: #e8c96a;
+    --cream-white:#fefaf3;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: var(--parchment);
+    color: var(--ink);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* Texture overlay */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Watercolour wash blobs in background */
+  .wash {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.18;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .wash-1 { width:600px;height:500px;background:radial-gradient(circle,#d4a0a0,transparent 70%); top:-100px;right:-150px; }
+  .wash-2 { width:500px;height:500px;background:radial-gradient(circle,#a0b8d4,transparent 70%); bottom:-100px;left:-100px; }
+  .wash-3 { width:350px;height:350px;background:radial-gradient(circle,#b8d4a0,transparent 70%); top:40%;left:55%; }
+  .wash-4 { width:280px;height:280px;background:radial-gradient(circle,#d4c4a0,transparent 70%); top:20%;left:15%; }
+
+  /* ── Header ──────────────────────────────────────────────────────────── */
+  .header {
+    position: relative; z-index:10;
+    text-align: center;
+    padding: 56px 24px 40px;
+    border-bottom: 1px solid rgba(44,31,20,0.12);
+  }
+
+  .header-eyebrow {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 14px;
+    font-weight: 400;
+  }
+
+  .header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(38px, 6vw, 68px);
+    font-weight: 400;
+    line-height: 1.1;
+    color: var(--ink);
+    margin-bottom: 10px;
+  }
+
+  .header h1 em {
+    font-style: italic;
+    color: var(--rust);
+  }
+
+  .header-sub {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 18px;
+    color: var(--ink-soft);
+    margin-bottom: 30px;
+    line-height: 1.5;
+  }
+
+  /* Progress bar */
+  .progress-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    background: rgba(255,255,255,0.5);
+    border: 1px solid rgba(44,31,20,0.12);
+    border-radius: 100px;
+    padding: 10px 22px;
+    backdrop-filter: blur(4px);
+  }
+  .progress-label {
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+  }
+  .progress-bar-outer {
+    width: 180px; height: 6px;
+    background: rgba(44,31,20,0.1);
+    border-radius: 100px;
+    overflow: hidden;
+  }
+  .progress-bar-inner {
+    height: 100%;
+    background: linear-gradient(90deg, var(--rust), var(--gold));
+    border-radius: 100px;
+    transition: width 0.5s ease;
+    width: 0%;
+  }
+  .progress-count {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    color: var(--rust);
+    min-width: 40px;
+  }
+
+  /* ── Filter tabs ─────────────────────────────────────────────────────── */
+  .filter-bar {
+    position: relative; z-index:10;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 28px 20px 16px;
+  }
+
+  .filter-btn {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding: 7px 18px;
+    border-radius: 100px;
+    border: 1px solid rgba(44,31,20,0.2);
+    background: transparent;
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: all 0.25s;
+  }
+  .filter-btn:hover { background: rgba(255,255,255,0.6); border-color: var(--rust); color: var(--rust); }
+  .filter-btn.active { background: var(--rust); border-color: var(--rust); color: white; }
+
+  /* ── Grid ───────────────────────────────────────────────────────────── */
+  .grid {
+    position: relative; z-index:10;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 22px;
+    padding: 20px 40px 60px;
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+
+  /* ── Card ───────────────────────────────────────────────────────────── */
+  .card {
+    background: var(--cream-white);
+    border: 1px solid rgba(44,31,20,0.09);
+    border-radius: 4px;
+    padding: 28px 26px 22px;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s, opacity 0.3s;
+    box-shadow: 0 2px 8px rgba(44,31,20,0.06), 0 0 0 0 transparent;
+    overflow: hidden;
+    animation: fadeUp 0.5s ease both;
+  }
+  .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 28px rgba(44,31,20,0.12);
+  }
+  .card.done {
+    background: linear-gradient(135deg, #f0ece2, #e8e0d0);
+    opacity: 0.75;
+  }
+  .card.done .card-title { text-decoration: line-through; color: var(--ink-soft); }
+
+  /* Watercolour swatch top strip */
+  .card-swatch {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 5px;
+    border-radius: 4px 4px 0 0;
+  }
+
+  /* Task number */
+  .card-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(44,31,20,0.35);
+    margin-bottom: 10px;
+  }
+
+  .card-category {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    padding: 4px 11px;
+    border-radius: 100px;
+    font-weight: 400;
+  }
+
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 1.35;
+    color: var(--ink);
+    margin-bottom: 10px;
+  }
+
+  .card-desc {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14.5px;
+    line-height: 1.7;
+    color: var(--ink-soft);
+    margin-bottom: 16px;
+  }
+
+  /* Skills/tools row */
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 16px;
+  }
+  .tag {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    padding: 3px 10px;
+    border-radius: 100px;
+    background: rgba(44,31,20,0.05);
+    color: var(--ink-soft);
+    border: 1px solid rgba(44,31,20,0.08);
+  }
+
+  /* Card footer */
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 14px;
+    border-top: 1px solid rgba(44,31,20,0.08);
+  }
+
+  .difficulty {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+  }
+  .diff-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: rgba(44,31,20,0.15);
+    transition: background 0.2s;
+  }
+  .diff-dot.filled { background: var(--rust); }
+
+  .diff-label {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(44,31,20,0.4);
+    margin-left: 6px;
+  }
+
+  .check-btn {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(44,31,20,0.2);
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    font-size: 14px;
+    color: transparent;
+  }
+  .check-btn:hover { border-color: var(--sage); background: rgba(122,158,126,0.1); color: var(--sage); }
+  .card.done .check-btn { background: var(--sage); border-color: var(--sage); color: white; }
+
+  /* Done ribbon */
+  .done-ribbon {
+    position: absolute;
+    top: 16px; right: -24px;
+    background: var(--sage);
+    color: white;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 4px 28px;
+    transform: rotate(35deg);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .card.done .done-ribbon { opacity: 1; }
+
+  /* Difficulty row */
+  .time-est {
+    font-size: 12px;
+    color: rgba(44,31,20,0.38);
+    font-style: italic;
+  }
+
+  /* Hidden filter */
+  .card.hidden { display: none; }
+
+  /* ── Animations ─────────────────────────────────────────────────────── */
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(18px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+
+  /* ── Completion banner ──────────────────────────────────────────────── */
+  .completion {
+    position: fixed;
+    bottom: 30px; left: 50%; transform: translateX(-50%);
+    background: var(--ink);
+    color: var(--parchment);
+    font-family: 'IM Fell English', serif;
+    font-size: 16px;
+    font-style: italic;
+    padding: 14px 30px;
+    border-radius: 4px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+    opacity: 0;
+    transition: opacity 0.4s;
+    z-index: 100;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+  .completion.show { opacity: 1; }
+
+  /* ── Section divider ────────────────────────────────────────────────── */
+  .section-divider {
+    position: relative; z-index:10;
+    text-align: center;
+    padding: 10px 40px 0;
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+  .divider-line {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    color: rgba(44,31,20,0.3);
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 15px;
+  }
+  .divider-line::before, .divider-line::after {
+    content:'';
+    flex:1;
+    height:1px;
+    background: rgba(44,31,20,0.12);
+  }
+
+  /* Scroll to top */
+  .scroll-top {
+    position: fixed;
+    bottom: 30px; right: 30px;
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--parchment);
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: 100;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+  }
+  .scroll-top.visible { opacity: 1; }
+</style>
+</head>
+<body>
+
+<div class="wash wash-1"></div>
+<div class="wash wash-2"></div>
+<div class="wash wash-3"></div>
+<div class="wash wash-4"></div>
+
+<!-- Header -->
+<header class="header">
+  <p class="header-eyebrow">A Personal Practice</p>
+  <h1>Watercolour <em>Journal</em></h1>
+  <p class="header-sub">30 contemplative painting tasks for the adult artist</p>
+  <div class="progress-wrap">
+    <span class="progress-label">Progress</span>
+    <div class="progress-bar-outer">
+      <div class="progress-bar-inner" id="progressBar"></div>
+    </div>
+    <span class="progress-count" id="progressCount">0 / 30</span>
+  </div>
+</header>
+
+<!-- Filter bar -->
+<div class="filter-bar">
+  <button class="filter-btn active" data-filter="all">All Tasks</button>
+  <button class="filter-btn" data-filter="nature">Nature</button>
+  <button class="filter-btn" data-filter="emotion">Emotion & Mood</button>
+  <button class="filter-btn" data-filter="light">Light & Atmosphere</button>
+  <button class="filter-btn" data-filter="urban">Urban & Travel</button>
+  <button class="filter-btn" data-filter="still-life">Still Life</button>
+  <button class="filter-btn" data-filter="abstract">Abstract</button>
+  <button class="filter-btn" data-filter="done">Completed ✓</button>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<div class="completion" id="completionMsg"></div>
+<button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+const TASKS = [
+  // NATURE
+  {
+    id:1, cat:"nature", title:"Wet Fog Over a Forest",
+    desc:"Paint a forest scene almost entirely obscured by morning fog. Let wet-on-wet bleed carry the work. Resist adding details — let absence tell the story.",
+    tags:["Wet-on-wet","Lost edges","Negative space"],
+    diff:2, time:"45–60 min",
+    swatch:"linear-gradient(90deg,#b0c4d8,#d4e0e8,#c8d8e4)",
+    palette:"Payne's Grey · Prussian Blue · Raw Umber"
+  },
+  {
+    id:2, cat:"nature", title:"A Single Ageing Leaf",
+    desc:"Choose a fallen leaf with texture and imperfection. Study it intimately. Paint it larger than life — every vein, blotch and curl deserves attention.",
+    tags:["Wet-on-dry","Botanical detail","Texture"],
+    diff:3, time:"60–90 min",
+    swatch:"linear-gradient(90deg,#c8a050,#b87040,#d4944a)",
+    palette:"Yellow Ochre · Burnt Sienna · Sap Green"
+  },
+  {
+    id:3, cat:"nature", title:"Tide Pool at Low Water",
+    desc:"Render the glassy, mirror-like surface of water trapped between rocks. Explore reflections, submerged colour, and the edge between wet and dry stone.",
+    tags:["Reflections","Masking fluid","Layering"],
+    diff:4, time:"75–90 min",
+    swatch:"linear-gradient(90deg,#6a9eb5,#8ab8c8,#5a8090)",
+    palette:"Cerulean Blue · Viridian · Neutral Tint"
+  },
+  {
+    id:4, cat:"nature", title:"Overripe Figs",
+    desc:"Paint three figs — one whole, one split open revealing its jewelled interior. Let the deep purples bleed into each other like bruised velvet.",
+    tags:["Still life","Soft edges","Deep colour"],
+    diff:2, time:"40–60 min",
+    swatch:"linear-gradient(90deg,#7a4a7a,#5a3060,#9a6090)",
+    palette:"Dioxazine Violet · Alizarin Crimson · Phthalo Blue"
+  },
+  {
+    id:5, cat:"nature", title:"Bamboo in Wind",
+    desc:"Using a single round brush, paint bamboo stalks bending in wind using controlled calligraphic strokes. Speed matters — let the brush decide.",
+    tags:["Calligraphic","Single brush","Speed painting"],
+    diff:3, time:"20–30 min",
+    swatch:"linear-gradient(90deg,#7a9e6a,#5a7e4a,#9ab88a)",
+    palette:"Sap Green · Viridian · Ivory Black"
+  },
+  {
+    id:6, cat:"nature", title:"Storm-lit Coastline",
+    desc:"Dark threatening sky, a slash of violent light on the horizon, waves with white crests. Paint the drama of a storm at sea using bold, fast washes.",
+    tags:["Dramatic lighting","Large washes","Speed"],
+    diff:4, time:"60–75 min",
+    swatch:"linear-gradient(90deg,#3a4a5a,#6a7a8a,#2a3040)",
+    palette:"Indigo · Payne's Grey · Cadmium Orange"
+  },
+
+  // EMOTION & MOOD
+  {
+    id:7, cat:"emotion", title:"A Colour That Feels Like Grief",
+    desc:"Without painting any object, use colour and wash alone to express grief. Work intuitively. Let colour bleed, pool and dry as it wishes. No corrections.",
+    tags:["Purely abstract","Emotion","No drawing"],
+    diff:2, time:"30–45 min",
+    swatch:"linear-gradient(90deg,#6a5a7a,#4a4060,#8a7a90)",
+    palette:"Any dark colours · trust instinct"
+  },
+  {
+    id:8, cat:"emotion", title:"The Feeling of Sunday Morning",
+    desc:"Render the particular quality of a slow Sunday — diffused light, warmth, stillness. It might be a window, a cup, a rumpled sheet. Let the mood guide you.",
+    tags:["Soft light","Atmosphere","Minimalist"],
+    diff:2, time:"45–60 min",
+    swatch:"linear-gradient(90deg,#e8d8b8,#d8c8a0,#f0e4c8)",
+    palette:"Yellow Ochre · Raw Sienna · Cerulean"
+  },
+  {
+    id:9, cat:"emotion", title:"Longing — Paint a Door",
+    desc:"A door slightly ajar, or firmly shut, or at the end of a long corridor. The door is a metaphor. What lies beyond it? Let the light tell us.",
+    tags:["Narrative","Light source","Perspective"],
+    diff:3, time:"60–75 min",
+    swatch:"linear-gradient(90deg,#a07060,#7a5040,#c09080)",
+    palette:"Burnt Umber · Raw Sienna · Ultramarine"
+  },
+  {
+    id:10, cat:"emotion", title:"A Memory of Childhood Rain",
+    desc:"Paint rain — not realistically but as you remember it as a child. Blurry windows, grey skies, the smell of it. Work entirely wet-on-wet.",
+    tags:["Wet-on-wet","Memory-based","Soft focus"],
+    diff:2, time:"30–45 min",
+    swatch:"linear-gradient(90deg,#8090a0,#606878,#9aa0b0)",
+    palette:"Payne's Grey · Cobalt Blue · Burnt Sienna"
+  },
+  {
+    id:11, cat:"emotion", title:"Joy in Yellow",
+    desc:"Paint something that makes you genuinely happy using yellows, warm golds and sunlight. Let the paper glow. Use as little dark tone as possible.",
+    tags:["Warm palette","Positive","Limited palette"],
+    diff:1, time:"30–40 min",
+    swatch:"linear-gradient(90deg,#e8c840,#d4a820,#f0d860)",
+    palette:"Lemon Yellow · Cadmium Yellow · Naples Yellow"
+  },
+  {
+    id:12, cat:"emotion", title:"The Hour Before Sleep",
+    desc:"Lamp light in a room at night. Deep shadows, warm pools of golden light, perhaps a book left open. Paint the intimacy of late evening solitude.",
+    tags:["Artificial light","Contrast","Interior"],
+    diff:3, time:"60–75 min",
+    swatch:"linear-gradient(90deg,#3a2810,#5a3a18,#2a1808)",
+    palette:"Burnt Umber · Yellow Ochre · Ultramarine"
+  },
+
+  // LIGHT & ATMOSPHERE
+  {
+    id:13, cat:"light", title:"Golden Hour — 10 Minutes of Light",
+    desc:"Go outside or sit by a window at golden hour. You have one real-time session — paint what the light does to a single scene. Speed, not perfection.",
+    tags:["En plein air","Timed","Observational"],
+    diff:3, time:"10–20 min (real time)",
+    swatch:"linear-gradient(90deg,#e8902a,#d87020,#f0aa40)",
+    palette:"Cadmium Orange · Quinacridone Gold · Cerulean"
+  },
+  {
+    id:14, cat:"light", title:"Dappled Light Through Leaves",
+    desc:"Render the impossibly complex dance of light through a canopy. Use masking fluid, lifted colour, and layered washes. Accept that chaos is the point.",
+    tags:["Masking fluid","Lifting","Layering"],
+    diff:5, time:"90–120 min",
+    swatch:"linear-gradient(90deg,#7ab07a,#5a9050,#9acc8a)",
+    palette:"Sap Green · Cadmium Yellow · Cobalt Blue"
+  },
+  {
+    id:15, cat:"light", title:"Candlelight Portrait Study",
+    desc:"Ask someone to sit for you lit only by candlelight, or use a reference photo. Paint the deep shadows and warm face — Rembrandt in watercolour.",
+    tags:["Portrait","Chiaroscuro","Warm light"],
+    diff:5, time:"90–120 min",
+    swatch:"linear-gradient(90deg,#c07828,#a05818,#d09040)",
+    palette:"Burnt Sienna · Yellow Ochre · Prussian Blue"
+  },
+  {
+    id:16, cat:"light", title:"Moonlight on Still Water",
+    desc:"A single stripe of moonlight reflected on dark still water. Use masking fluid or white gouache for the moon's reflection. Restraint is everything.",
+    tags:["Night scene","Masking","Restraint"],
+    diff:3, time:"45–60 min",
+    swatch:"linear-gradient(90deg,#282838,#404858,#181820)",
+    palette:"Indigo · Ultramarine · Ivory Black"
+  },
+  {
+    id:17, cat:"light", title:"Rain on a Window at Night",
+    desc:"Dark exterior, interior light reflected, rain streaks on glass. Use a dry brush for the rain tracks. This is a study in texture and reflected light.",
+    tags:["Dry brush","Texture","Night"],
+    diff:4, time:"60–90 min",
+    swatch:"linear-gradient(90deg,#1a2030,#303848,#0a1018)",
+    palette:"Payne's Grey · Cobalt Blue · Cadmium Yellow"
+  },
+  {
+    id:18, cat:"light", title:"Sunrise in Three Washes",
+    desc:"A genuine constraint: paint a sunrise using only three pours of colour, wet-into-wet. No corrections. Mix colours on the paper, not the palette.",
+    tags:["Limited washes","Wet-on-wet","Constraint"],
+    diff:2, time:"20–30 min",
+    swatch:"linear-gradient(90deg,#f07858,#e05828,#f8a060)",
+    palette:"Alizarin · Cadmium Orange · Cerulean"
+  },
+
+  // URBAN & TRAVEL
+  {
+    id:19, cat:"urban", title:"A Cafe Corner",
+    desc:"A small corner of a café — cups, chairs, the blur of a person reading, tiled floor. Work loosely. Suggest more than you state. Leave half the paper white.",
+    tags:["Loose style","Urban","Suggestion"],
+    diff:3, time:"45–60 min",
+    swatch:"linear-gradient(90deg,#b09070,#907050,#c8a888)",
+    palette:"Raw Umber · Burnt Sienna · Cerulean"
+  },
+  {
+    id:20, cat:"urban", title:"An Old Building Facade",
+    desc:"Find a building with character — peeling paint, old shutters, weathered stone. Map its imperfections honestly. Age is the subject, not the architecture.",
+    tags:["Texture","Architecture","Dry brush"],
+    diff:4, time:"75–90 min",
+    swatch:"linear-gradient(90deg,#a09078,#807060,#b8a890)",
+    palette:"Raw Sienna · Neutral Tint · Yellow Ochre"
+  },
+  {
+    id:21, cat:"urban", title:"A Night Market",
+    desc:"Coloured lanterns, steam, movement, food stalls. Use bright jewel colours against dark backgrounds. Let the scene be impressionistic and alive.",
+    tags:["Night","Colour","Impressionistic"],
+    diff:3, time:"60–75 min",
+    swatch:"linear-gradient(90deg,#d04030,#e08020,#4080c0)",
+    palette:"Cadmium Red · Cadmium Yellow · Prussian Blue"
+  },
+  {
+    id:22, cat:"urban", title:"An Empty Street After Rain",
+    desc:"A wet street reflecting streetlights, puddles mirroring everything above. The best wet-street scenes are about light, not architecture. Paint the reflections first.",
+    tags:["Reflections","Urban","Night"],
+    diff:4, time:"75–90 min",
+    swatch:"linear-gradient(90deg,#506070,#405060,#607888)",
+    palette:"Ultramarine · Burnt Sienna · Cadmium Yellow"
+  },
+  {
+    id:23, cat:"urban", title:"A Place You Miss",
+    desc:"Paint somewhere you no longer have access to — a childhood home, a city you lived in, a place from a trip. Work from memory or an old photograph.",
+    tags:["Memory","Narrative","Personal"],
+    diff:2, time:"60–75 min",
+    swatch:"linear-gradient(90deg,#9a8888,#787070,#b0a0a0)",
+    palette:"Any · trust memory over accuracy"
+  },
+
+  // STILL LIFE
+  {
+    id:24, cat:"still-life", title:"A Glass of Water",
+    desc:"One of the oldest challenges. A plain glass of water — render its transparency, refraction, and the shadows it casts. No colour but the colour of light.",
+    tags:["Transparency","Technical","Patience"],
+    diff:5, time:"90–120 min",
+    swatch:"linear-gradient(90deg,#c8d8e8,#a8b8c8,#d8e4f0)",
+    palette:"Cerulean · Cobalt Blue · Payne's Grey"
+  },
+  {
+    id:25, cat:"still-life", title:"Bread and a Knife",
+    desc:"Render the humble beauty of a torn loaf of bread and a knife on a linen cloth. Texture, warmth, the poetry of ordinary domestic objects.",
+    tags:["Texture","Warm palette","Compositional"],
+    diff:3, time:"60–75 min",
+    swatch:"linear-gradient(90deg,#d4b87a,#c0985a,#e0cc98)",
+    palette:"Yellow Ochre · Raw Sienna · Burnt Umber"
+  },
+  {
+    id:26, cat:"still-life", title:"Flowers in a Jar — Past Their Best",
+    desc:"Drooping, petals fallen, stems bent — choose flowers past their peak. The beauty of decay is a richer subject than perfect bloom.",
+    tags:["Botanical","Decay","Soft edges"],
+    diff:3, time:"60–90 min",
+    swatch:"linear-gradient(90deg,#d0887a,#e0a898,#b87068)",
+    palette:"Permanent Rose · Cadmium Red · Sap Green"
+  },
+  {
+    id:27, cat:"still-life", title:"Books Stacked on a Table",
+    desc:"A stack of well-read books — bent spines, worn covers, a bookmark hanging. Study the colour relationships between spines and the shadows between them.",
+    tags:["Geometric","Colour study","Interior"],
+    diff:2, time:"45–60 min",
+    swatch:"linear-gradient(90deg,#9a7a5a,#7a5a3a,#b89878)",
+    palette:"Raw Umber · Ultramarine · Any warm accents"
+  },
+
+  // ABSTRACT
+  {
+    id:28, cat:"abstract", title:"Paint to Music — No Drawing",
+    desc:"Put on a piece of music that moves you. Without drawing anything, pour and move colour across wet paper in response to what you hear. One track only.",
+    tags:["Intuitive","No drawing","Wet-on-wet"],
+    diff:1, time:"3–5 min per track",
+    swatch:"linear-gradient(90deg,#9060b0,#c06080,#6090c0)",
+    palette:"Intuitive — whatever calls to you"
+  },
+  {
+    id:29, cat:"abstract", title:"The Colour of a Scent",
+    desc:"Choose a scent — coffee, rain, old books, your garden after dark. Without thinking too long, paint the colour and sensation of that scent. No objects.",
+    tags:["Synaesthesia","Abstract","Intuitive"],
+    diff:1, time:"20–30 min",
+    swatch:"linear-gradient(90deg,#a09060,#806840,#c0b080)",
+    palette:"Intuitive — follow sensation"
+  },
+  {
+    id:30, cat:"abstract", title:"A Map of a Day",
+    desc:"At the end of a full day, paint it as an abstract map. Morning at the top, evening at the bottom. Let colours represent what happened, not what it looked like.",
+    tags:["Narrative","Abstract","Reflective"],
+    diff:2, time:"30–45 min",
+    swatch:"linear-gradient(90deg,#f0d090,#a07060,#303858)",
+    palette:"Your day · your colours"
+  },
+];
+
+const CAT_META = {
+  nature:      { label:"Nature",          color:"#5a8c6a", bg:"rgba(90,140,106,0.08)"  },
+  emotion:     { label:"Emotion & Mood",  color:"#9a6080", bg:"rgba(154,96,128,0.08)" },
+  light:       { label:"Light & Atmos.",  color:"#7a7a30", bg:"rgba(122,122,48,0.08)" },
+  urban:       { label:"Urban & Travel",  color:"#6a7a9a", bg:"rgba(106,122,154,0.08)"},
+  "still-life":{ label:"Still Life",      color:"#9a7040", bg:"rgba(154,112,64,0.08)" },
+  abstract:    { label:"Abstract",        color:"#7050a0", bg:"rgba(112,80,160,0.08)" },
+};
+
+let done = JSON.parse(localStorage.getItem('wc_done') || '[]');
+let activeFilter = 'all';
+
+function renderGrid() {
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+
+  TASKS.forEach((t, idx) => {
+    const isDone = done.includes(t.id);
+    const meta = CAT_META[t.cat];
+
+    const catMatch = activeFilter === 'all' ||
+                     activeFilter === t.cat ||
+                     (activeFilter === 'done' && isDone);
+
+    const card = document.createElement('div');
+    card.className = `card${isDone ? ' done' : ''}${catMatch ? '' : ' hidden'}`;
+    card.style.animationDelay = `${(idx % 10) * 0.05}s`;
+
+    const diffDots = [1,2,3,4,5].map(n =>
+      `<span class="diff-dot${n <= t.diff ? ' filled':''}" ></span>`
+    ).join('');
+    const diffLabels = ['','Beginner','Easy','Intermediate','Advanced','Master'];
+
+    card.innerHTML = `
+      <div class="done-ribbon">done</div>
+      <div class="card-swatch" style="background:${t.swatch}"></div>
+      <div class="card-number">Task ${String(t.id).padStart(2,'0')}</div>
+      <div class="card-category" style="color:${meta.color};background:${meta.bg};">
+        ${meta.label}
+      </div>
+      <div class="card-title">${t.title}</div>
+      <div class="card-desc">${t.desc}</div>
+      <div class="card-tags">
+        ${t.tags.map(tag=>`<span class="tag">${tag}</span>`).join('')}
+        <span class="tag" style="font-style:italic;color:${meta.color};border-color:${meta.color}20">${t.palette}</span>
+      </div>
+      <div class="card-footer">
+        <div>
+          <div class="difficulty">
+            ${diffDots}
+            <span class="diff-label">${diffLabels[t.diff]}</span>
+          </div>
+          <div class="time-est">${t.time}</div>
+        </div>
+        <button class="check-btn" title="${isDone?'Mark undone':'Mark done'}">✓</button>
+      </div>
+    `;
+
+    card.querySelector('.check-btn').addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleDone(t.id);
+    });
+
+    grid.appendChild(card);
+  });
+
+  updateProgress();
+}
+
+function toggleDone(id) {
+  if (done.includes(id)) {
+    done = done.filter(d => d !== id);
+  } else {
+    done.push(id);
+    showToast(getToast(done.length));
+  }
+  localStorage.setItem('wc_done', JSON.stringify(done));
+  renderGrid();
+}
+
+function getToast(n) {
+  const msgs = {
+    1:  "First stroke laid — a journey begins ✦",
+    5:  "Five paintings complete. You are a watercolourist now.",
+    10: "Ten paintings. Your brush is learning to trust you.",
+    15: "Halfway through. Look back at what you have made.",
+    20: "Twenty. Few things worth doing are easy — keep going.",
+    25: "Twenty-five. Almost there. One last sprint.",
+    30: "All 30 complete. You have made something real. 🎨",
+  };
+  return msgs[n] || `Task ${n} complete — the paper remembers everything.`;
+}
+
+function showToast(msg) {
+  const el = document.getElementById('completionMsg');
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 3200);
+}
+
+function updateProgress() {
+  const count = done.length;
+  const pct = (count / 30) * 100;
+  document.getElementById('progressBar').style.width = pct + '%';
+  document.getElementById('progressCount').textContent = `${count} / 30`;
+}
+
+// Filter buttons
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeFilter = btn.dataset.filter;
+    renderGrid();
+  });
+});
+
+// Scroll-to-top
+window.addEventListener('scroll', () => {
+  const st = document.getElementById('scrollTop');
+  st.classList.toggle('visible', window.scrollY > 400);
+});
+
+renderGrid();
+</script>
+</body>
+</html>

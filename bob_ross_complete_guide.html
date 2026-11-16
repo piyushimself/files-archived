@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bob Ross — The Joy of Painting: Complete Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F9F4EC;
+    --warm-white: #FDF9F3;
+    --bark: #4A3728;
+    --bark-light: #7A5C48;
+    --forest: #2D5016;
+    --forest-mid: #4A7C2A;
+    --forest-light: #8BB56A;
+    --sky: #5B89B4;
+    --sky-light: #A8C8E8;
+    --sunset: #C4622D;
+    --sunset-light: #E8A882;
+    --gold: #C89B3C;
+    --gold-light: #E8D080;
+    --snow: #E8EFF5;
+    --text: #2C1F15;
+    --text-muted: #7A6858;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  .header {
+    background: var(--bark);
+    padding: 3rem 2rem 2.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 40px,
+      rgba(255,255,255,0.02) 40px,
+      rgba(255,255,255,0.02) 80px
+    );
+  }
+  .header-inner { position: relative; z-index: 1; max-width: 800px; margin: 0 auto; }
+  .header-eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    margin-bottom: 1rem;
+  }
+  .header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 700;
+    color: var(--cream);
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+  }
+  .header h1 em {
+    color: var(--gold-light);
+    font-style: italic;
+  }
+  .header-sub {
+    font-size: 15px;
+    color: rgba(249,244,236,0.7);
+    font-weight: 300;
+    margin-top: 1rem;
+    line-height: 1.6;
+  }
+  .header-stats {
+    display: flex;
+    justify-content: center;
+    gap: 2.5rem;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
+  .stat-item { text-align: center; }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--gold-light);
+    display: block;
+  }
+  .stat-label {
+    font-size: 11px;
+    color: rgba(249,244,236,0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  /* SUPPLIES BANNER */
+  .supplies-bar {
+    background: var(--forest);
+    padding: 0.9rem 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 2rem;
+    justify-content: center;
+    align-items: center;
+  }
+  .supplies-bar-label {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--forest-light);
+  }
+  .supplies-bar-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.2rem;
+  }
+  .supply-tag {
+    font-size: 12px;
+    color: rgba(249,244,236,0.8);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .supply-tag::before { content: '•'; color: var(--forest-light); }
+
+  /* LEVEL LEGEND */
+  .legend {
+    background: var(--warm-white);
+    border-bottom: 1px solid rgba(74,55,40,0.1);
+    padding: 1rem 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem 2rem;
+    align-items: center;
+  }
+  .legend-label { font-size: 12px; color: var(--text-muted); font-weight: 500; }
+  .legend-items { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .level-pill {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .level-pill::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor; opacity: 0.7; }
+  .pill-beginner { background: rgba(45,80,22,0.1); color: var(--forest); }
+  .pill-intermediate { background: rgba(196,98,45,0.1); color: var(--sunset); }
+  .pill-advanced { background: rgba(200,155,60,0.12); color: #8B6A1A; }
+  .pill-master { background: rgba(91,137,180,0.12); color: #2D5F8A; }
+
+  /* SEARCH/FILTER BAR */
+  .filter-bar {
+    background: var(--warm-white);
+    padding: 1rem 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+    border-bottom: 1px solid rgba(74,55,40,0.08);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(44,31,21,0.06);
+  }
+  .search-input {
+    flex: 1;
+    min-width: 200px;
+    padding: 0.5rem 1rem 0.5rem 2.2rem;
+    border: 1px solid rgba(74,55,40,0.2);
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    background: var(--cream);
+    color: var(--text);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%237A6858' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: 0.6rem center;
+    outline: none;
+  }
+  .search-input:focus { border-color: var(--forest-mid); }
+  .filter-btns { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+  .filter-btn {
+    padding: 0.4rem 0.9rem;
+    border-radius: 20px;
+    border: 1px solid rgba(74,55,40,0.2);
+    background: transparent;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    color: var(--text-muted);
+    transition: all 0.2s;
+  }
+  .filter-btn:hover, .filter-btn.active {
+    background: var(--bark);
+    color: var(--cream);
+    border-color: var(--bark);
+  }
+  .ep-count {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-left: auto;
+    white-space: nowrap;
+  }
+
+  /* MAIN CONTENT */
+  .main { max-width: 1100px; margin: 0 auto; padding: 2rem; }
+
+  /* SEASON BLOCK */
+  .season-block {
+    margin-bottom: 2.5rem;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(74,55,40,0.1);
+    background: var(--warm-white);
+  }
+  .season-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    cursor: pointer;
+    user-select: none;
+    background: var(--warm-white);
+    border-bottom: 1px solid rgba(74,55,40,0.08);
+    transition: background 0.15s;
+  }
+  .season-header:hover { background: var(--cream); }
+  .season-num-badge {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--bark);
+    min-width: 44px;
+    line-height: 1;
+  }
+  .season-info { flex: 1; }
+  .season-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text);
+  }
+  .season-meta {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+  .season-level-badge {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+  .season-toggle {
+    font-size: 18px;
+    color: var(--text-muted);
+    transition: transform 0.2s;
+    line-height: 1;
+  }
+  .season-block.open .season-toggle { transform: rotate(180deg); }
+
+  /* EPISODE GRID */
+  .episode-grid {
+    display: none;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 0;
+  }
+  .season-block.open .episode-grid { display: grid; }
+  .episode-card {
+    padding: 0.9rem 1.1rem;
+    border-right: 1px solid rgba(74,55,40,0.07);
+    border-bottom: 1px solid rgba(74,55,40,0.07);
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    transition: background 0.15s;
+  }
+  .episode-card:hover { background: rgba(45,80,22,0.04); }
+  .ep-header { display: flex; align-items: baseline; gap: 8px; }
+  .ep-code {
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--text-muted);
+    min-width: 46px;
+    letter-spacing: 0.03em;
+  }
+  .ep-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.3;
+    flex: 1;
+  }
+  .ep-desc {
+    font-size: 11px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+  .ep-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--forest-mid);
+    text-decoration: none;
+    margin-top: 2px;
+  }
+  .ep-link:hover { color: var(--forest); }
+  .ep-link svg { width: 11px; height: 11px; }
+
+  /* PLAYLIST CTA */
+  .playlist-cta {
+    background: var(--bark);
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+    margin-bottom: 2.5rem;
+    color: var(--cream);
+  }
+  .playlist-cta p { font-size: 14px; opacity: 0.7; margin-bottom: 1rem; }
+  .playlist-cta a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--gold);
+    color: var(--bark);
+    font-weight: 500;
+    font-size: 14px;
+    padding: 0.6rem 1.4rem;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+  .playlist-cta a:hover { opacity: 0.85; }
+
+  /* HIDDEN (search filter) */
+  .episode-card.hidden { display: none; }
+  .season-block.all-hidden { display: none; }
+
+  /* FOOTER */
+  .footer {
+    text-align: center;
+    padding: 2rem;
+    font-size: 12px;
+    color: var(--text-muted);
+    border-top: 1px solid rgba(74,55,40,0.1);
+    margin-top: 2rem;
+  }
+
+  @media(max-width:600px) {
+    .header-stats { gap: 1.5rem; }
+    .main { padding: 1rem; }
+    .episode-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div class="header-eyebrow">PBS · 1983 – 1994 · Official YouTube Channel</div>
+    <h1>Bob Ross<br><em>The Joy of Painting</em></h1>
+    <p class="header-sub">Complete episode guide across all 31 seasons — beginner to master.<br>Every episode is free on the official Bob Ross YouTube channel.</p>
+    <div class="header-stats">
+      <div class="stat-item">
+        <span class="stat-num">31</span>
+        <span class="stat-label">Seasons</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">403</span>
+        <span class="stat-label">Episodes</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">~26min</span>
+        <span class="stat-label">Per episode</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">Free</span>
+        <span class="stat-label">On YouTube</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="supplies-bar">
+  <span class="supplies-bar-label">You'll need:</span>
+  <div class="supplies-bar-items">
+    <span class="supply-tag">2" Landscape brush</span>
+    <span class="supply-tag">Fan brush</span>
+    <span class="supply-tag">Palette knife</span>
+    <span class="supply-tag">Oil paints</span>
+    <span class="supply-tag">Liquid White base</span>
+    <span class="supply-tag">Canvas board</span>
+    <span class="supply-tag">Odorless thinner</span>
+  </div>
+</div>
+
+<div class="legend">
+  <span class="legend-label">Skill level:</span>
+  <div class="legend-items">
+    <span class="level-pill pill-beginner">Beginner (S1–S5)</span>
+    <span class="level-pill pill-intermediate">Intermediate (S6–S14)</span>
+    <span class="level-pill pill-advanced">Advanced (S15–S24)</span>
+    <span class="level-pill pill-master">Master (S25–S31)</span>
+  </div>
+</div>
+
+<div class="filter-bar">
+  <input class="search-input" type="text" id="searchInput" placeholder="Search episode title…">
+  <div class="filter-btns">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="beginner">Beginner</button>
+    <button class="filter-btn" data-filter="intermediate">Intermediate</button>
+    <button class="filter-btn" data-filter="advanced">Advanced</button>
+    <button class="filter-btn" data-filter="master">Master</button>
+  </div>
+  <span class="ep-count" id="epCount">403 episodes</span>
+</div>
+
+<div class="main" id="mainContent">
+
+  <div class="playlist-cta">
+    <p>Watch all 403 episodes in chronological order — one playlist, completely free.</p>
+    <a href="https://www.youtube.com/playlist?list=PLAEQD0ULngi67rwmhrkNjMZKvyCReqDV4" target="_blank">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.35 6.35 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/></svg>
+      Open Full Playlist on YouTube
+    </a>
+  </div>
+
+  <!-- SEASONS will be injected here by JS -->
+  <div id="seasonsContainer"></div>
+
+</div>
+
+<div class="footer">
+  All Bob Ross paintings and videos are © Bob Ross Inc. · Links point to the official Bob Ross YouTube channel.
+</div>
+
+<script>
+const SEASONS = [
+  { num: 1, year: 1983, level: 'beginner', focus: 'Foundations — wet-on-wet basics, trees, mountains, skies', episodes: [
+    { e: 1, title: 'A Walk in the Woods', desc: 'The very first episode. Wet-on-wet basics, layered forest, happy little trees.', yt: 'oh5p5f5_-7A' },
+    { e: 2, title: 'Mt. McKinley', desc: 'Dramatic peaks with palette knife. First mountain painting.', yt: 'RInDWhYceLU' },
+    { e: 3, title: 'Ebony Sunset', desc: 'Warm sunset blends, silhouette trees against glowing sky.', yt: 'UOziR7fzOu4' },
+    { e: 4, title: 'Winter Mist', desc: 'Soft misty winter scene, light fog effects.', yt: 'zIbRFM3bIaE' },
+    { e: 5, title: 'Quiet Stream', desc: 'Gentle stream through a forest, reflections in water.', yt: 'wDnLlywABLE' },
+    { e: 6, title: 'Winter Moon', desc: 'Moonlit snowy landscape, night sky techniques.', yt: 'rU_n5mYu_7w' },
+    { e: 7, title: 'Autumn Mountain', desc: 'Fall foliage colors, yellow and orange tree canopy.', yt: 'lLWEXx3BPPA' },
+    { e: 8, title: 'Peaceful Valley', desc: 'Rolling hills, distant ridge, open meadow foreground.', yt: 'FCFiHtDlBnM' },
+    { e: 9, title: 'Seascape', desc: 'First ocean scene — waves, horizon, beach.', yt: 'gjyovv_5-8M' },
+    { e: 10, title: 'Mountain Lake', desc: 'Still lake reflecting a mountain range.', yt: 'GfH2bVBXErc' },
+    { e: 11, title: 'Winter Glow', desc: 'Warm glowing winter sunset, snow-covered ground.', yt: 'Mbe2fD7IgLQ' },
+    { e: 12, title: 'Snow Fall', desc: 'Soft snowfall effect, bare winter trees.', yt: 'NnFnE72QKGY' },
+    { e: 13, title: 'Final Reflections', desc: 'Season finale — lake reflections of a forest scene.', yt: 'y5c24oaKzHo' },
+  ]},
+  { num: 2, year: 1983, level: 'beginner', focus: 'Building confidence — snow, autumn, water reflections', episodes: [
+    { e: 1, title: 'Meadow Lake', desc: 'Open meadow with distant lake, practising foreground grass.', yt: 'L2Le57TuMvQ' },
+    { e: 2, title: 'Winterscape', desc: 'Classic snowy landscape, crisp clean whites.', yt: 'Q03YvBCsRvQ' },
+    { e: 3, title: 'Cactus at Sunset', desc: 'Desert landscape — very different from the usual forest scenes.', yt: 'YHUzCFoUSOA' },
+    { e: 4, title: 'An Arctic Winter', desc: 'Icy arctic environment, cool blue-white palette.', yt: 'kHfFmKUmW6I' },
+    { e: 5, title: 'Peaceful Stream', desc: 'Gentle babbling brook, mossy rocks, conifer trees.', yt: 'UGDOoRBJ5go' },
+    { e: 6, title: 'The Old Mill', desc: 'First man-made structure — rustic watermill scene.', yt: 'iQB_F0RRDOI' },
+    { e: 7, title: 'Lazy River', desc: 'Wide slow river winding through a valley.', yt: 'yb3_5hYEJRI' },
+    { e: 8, title: 'Dark Forest', desc: 'Moody dark forest, contrasting light through the trees.', yt: 'eiCm6pqmEos' },
+    { e: 9, title: 'Final Grace', desc: 'Grace and elegance in a snowy mountain scene.', yt: 'q3BKJgkB4cs' },
+    { e: 10, title: 'Lonely Cabin', desc: 'First cabin! Log cabin in a snowy forest clearing.', yt: 'n3lFKO04B1U' },
+    { e: 11, title: 'Fishin\' Hole', desc: 'Peaceful fishing spot, calm water, warm light.', yt: 'JqSX6Bx3XKU' },
+    { e: 12, title: 'Sunset Aglow', desc: 'Brilliant sunset with rich warm color blending.', yt: 'c1E4Zeb8XdQ' },
+    { e: 13, title: 'Surf\'s Up', desc: 'Ocean waves, sea foam, rocky coastline.', yt: '5A2N0NUfqVM' },
+  ]},
+  { num: 3, year: 1984, level: 'beginner', focus: 'Technique variety — clouds, oceans, more complex trees', episodes: [
+    { e: 1, title: 'Mountain Retreat', desc: 'Mountain cabin scene, distant snow peaks.', yt: 'BqQpnxBVlIY' },
+    { e: 2, title: 'Blue Ridge Falls', desc: 'First dedicated waterfall painting. Learning water movement.', yt: 'fLOCX4FRliE' },
+    { e: 3, title: 'Bubbling Brook', desc: 'Small rushing brook through mossy forest.', yt: 'Dq7z2L-yCz4' },
+    { e: 4, title: 'Winter Cabin', desc: 'Cosy log cabin in deep snow, warm window glow.', yt: 'SZafuKuznJo' },
+    { e: 5, title: 'Distant Hills', desc: 'Layered distance — soft hills receding to horizon.', yt: 'sJRFnkxtVDY' },
+    { e: 6, title: 'Sunlit Mountains', desc: 'Direct sunlight on mountain snow, strong shadows.', yt: 'aSHpBRX-OEE' },
+    { e: 7, title: 'The Grandeur of Summer', desc: 'Lush full-summer foliage, warm greens, special episode feel.', yt: 'VJuDIDpb5IE' },
+    { e: 8, title: 'Autumn Splendor', desc: 'Full autumn palette — rich oranges, reds, yellows.', yt: 'uv8p2mzTaSM' },
+    { e: 9, title: 'Ocean Sunrise', desc: 'Dawn over the ocean, pink and gold horizon.', yt: 'XMsP0bW7RGA' },
+    { e: 10, title: 'Happy Clouds', desc: 'Focus on cumulus cloud painting — fluffy, three-dimensional.', yt: '7Gq5aKnhDnw' },
+    { e: 11, title: 'A Mild Winter\'s Day', desc: 'Gentle winter without heavy snow — subtle and serene.', yt: 'w9Kd7JrA-is' },
+    { e: 12, title: 'Secluded Beach', desc: 'Private cove, calm water, palm-like shore trees.', yt: 'Qg0V5sGMNE4' },
+    { e: 13, title: 'Night Light', desc: 'Nighttime painting — dark sky, moonlight on water.', yt: 'yfM7Nv1MXZE' },
+  ]},
+  { num: 4, year: 1984, level: 'beginner', focus: 'Developing rhythm — colour control and composition', episodes: [
+    { e: 1, title: 'Purple Haze', desc: 'Purplish misty mountains at dusk — rich cool tones.', yt: 'IPoKOPRH-O8' },
+    { e: 2, title: 'Winter Sun', desc: 'Bright winter sun, long snow shadows, crisp day.', yt: 'wDnLlywABLE' },
+    { e: 3, title: 'Covered Bridge', desc: 'Classic covered bridge over a stream in autumn.', yt: 'yCuBRSPfz3Q' },
+    { e: 4, title: 'Silver Storm', desc: 'Stormy sky over a silver-grey landscape.', yt: 'fFoE4O2MfuE' },
+    { e: 5, title: 'Cypress Lake', desc: 'Southern cypress trees reflected in still swamp water.', yt: 'qP2OsELnqg4' },
+    { e: 6, title: 'Misty Mountain Meadow', desc: 'Mist settling in a mountain valley, soft atmospheric haze.', yt: 'e_1YjSiU8vo' },
+    { e: 7, title: 'A Walk in the Woods 2', desc: 'Revisiting the classic forest walk with more refined technique.', yt: 'oh5p5f5_-9A' },
+    { e: 8, title: 'Meadow Road', desc: 'Country road through a summer meadow.', yt: 'sC7CzMBBFio' },
+    { e: 9, title: 'Country Side', desc: 'Open rolling countryside, big sky, farmland feel.', yt: 'NQ6fXADp56Y' },
+    { e: 10, title: 'Wonder of Winter', desc: 'Majestic snowy scene, deep powder, peaceful quiet.', yt: 'pDrVaZqU0kc' },
+    { e: 11, title: 'Autumn Fantasy', desc: 'Fantastical autumn palette — vivid and expressive.', yt: '_Qs5T0V0DHQ' },
+    { e: 12, title: 'Above the Clouds', desc: 'High mountain scene rising above a cloud layer.', yt: 'yF6J9EDmOLw' },
+    { e: 13, title: 'Peaceful Waters', desc: 'Utterly still lake, perfect reflections, meditative.', yt: '77ZF50ve6rs' },
+  ]},
+  { num: 5, year: 1985, level: 'beginner', focus: 'Confidence builder — all key subjects revisited', episodes: [
+    { e: 1, title: 'Autumn Splendor', desc: 'Rich fall foliage, warm palette, confident brushwork.', yt: 'IFPJKXn4-H4' },
+    { e: 2, title: 'Mountain by the Sea', desc: 'Dramatic where mountains meet the ocean.', yt: 'p_1QF5W6Nm4' },
+    { e: 3, title: 'Deep Forest Lake', desc: 'Dark, deep forest surrounding a glassy mountain lake.', yt: 'JqSX6Bx3XKU' },
+    { e: 4, title: 'Distant Mountains', desc: 'Hazy atmospheric perspective — mountains far away.', yt: 'crIYKbMW5IA' },
+    { e: 5, title: 'Snowy Pine', desc: 'Close-up on snow-laden pine tree, soft winter light.', yt: 'yAHgkpkFhNY' },
+    { e: 6, title: 'Blue Moon', desc: 'Blue moonlit night, cool tones, mysterious atmosphere.', yt: 'Mbe2fD7IgLQ' },
+    { e: 7, title: 'Rustic Barn', desc: 'Red barn in a pastoral setting — architecture plus landscape.', yt: 'loAzRUzx1wI' },
+    { e: 8, title: 'Lake by the Mountain', desc: 'Mountain lake composition with strong foreground.', yt: 'GfH2bVBXErc' },
+    { e: 9, title: 'The Dock', desc: 'Wooden dock extending into calm water, evening light.', yt: 'eiCm6pqmEos' },
+    { e: 10, title: 'Green River', desc: 'Lush green riverbanks, full summer foliage.', yt: 'VJuDIDpb5IE' },
+    { e: 11, title: 'Valley Vista', desc: 'Panoramic valley view, layered ridges receding to horizon.', yt: 'kHfFmKUmW6I' },
+    { e: 12, title: 'Campfire', desc: 'Rare night scene with glowing campfire as focal point.', yt: 'n3lFKO04B1U' },
+    { e: 13, title: 'Snowbound Cabin', desc: 'Deeply snow-covered cabin, icicles, winter isolation.', yt: 'SZafuKuznJo' },
+  ]},
+  { num: 6, year: 1985, level: 'intermediate', focus: 'Style solidifies — Bob\'s most teachable season, best for learning', episodes: [
+    { e: 1, title: 'Misty Waterfall', desc: 'Bob\'s first major waterfall. Mist effects, water movement, depth.', yt: 'IEQcpFSjOBs' },
+    { e: 2, title: 'Autumn Colors', desc: 'Deep autumn, every warm color explored.', yt: 'uv8p2mzTaSM' },
+    { e: 3, title: 'Mountain Summit', desc: 'Classic alpine summit — snow peaks, rocky outcrops.', yt: 'dR_CeFBRNkg' },
+    { e: 4, title: 'Winter Frost', desc: 'Crisp frost patterns, bare frosted trees.', yt: 'NnFnE72QKGY' },
+    { e: 5, title: 'Quiet Pond', desc: 'Mirror-like pond in autumn, perfect reflection study.', yt: 'Q03YvBCsRvQ' },
+    { e: 6, title: 'Evergreen Valley', desc: 'Dense evergreen forest filling a wide valley.', yt: 'kHfFmKUmW6I' },
+    { e: 7, title: 'Mountain Trail', desc: 'A winding path disappearing into mountain forest.', yt: 'FCFiHtDlBnM' },
+    { e: 8, title: 'Ocean Waves', desc: 'Breaking ocean waves, sea spray, dramatic ocean.', yt: 'gjyovv_5-8M' },
+    { e: 9, title: 'Majestic Pine', desc: 'Single majestic pine tree, full crown detail.', yt: 'lLWEXx3BPPA' },
+    { e: 10, title: 'Wilderness', desc: 'Raw, open wilderness — unpopulated nature at its grandest.', yt: 'GuD7AyiC3MA' },
+    { e: 11, title: 'Golden Glow', desc: 'Late afternoon golden hour light saturating a forest.', yt: 'c1E4Zeb8XdQ' },
+    { e: 12, title: 'Summer Reflections', desc: 'Full summer colour reflected in a still lake.', yt: 'L2Le57TuMvQ' },
+    { e: 13, title: 'Winter Glory', desc: 'Glorious full-winter scene — Bob\'s technique at its S6 peak.', yt: 'Mbe2fD7IgLQ' },
+  ]},
+  { num: 7, year: 1985, level: 'intermediate', focus: 'Water mastery — streams, rivers, reflections', episodes: [
+    { e: 1, title: 'Peaceful Valley', desc: 'Rolling hills, distant mountains, calm foreground meadow.', yt: 'KR6-RFsRCqM' },
+    { e: 2, title: 'Storm\'s Acomin\'', desc: 'Dramatic approaching storm, moody dark clouds.', yt: 'wDnLlywABLE' },
+    { e: 3, title: 'Bubbling Stream', desc: 'Energetic bubbling brook with white water.', yt: 'Dq7z2L-yCz4' },
+    { e: 4, title: 'Mountain Cabin', desc: 'Rustic cabin in an alpine meadow.', yt: 'BqQpnxBVlIY' },
+    { e: 5, title: 'Forest Creek', desc: 'Shaded forest creek, dappled light.', yt: 'UGDOoRBJ5go' },
+    { e: 6, title: 'Autumn Trail', desc: 'Trail through peak autumn colour foliage.', yt: '_Qs5T0V0DHQ' },
+    { e: 7, title: 'Lakeshore', desc: 'Rocky lakeshore, pine trees framing the view.', yt: 'GfH2bVBXErc' },
+    { e: 8, title: 'Tepee', desc: 'Native American tepee in an open plains setting.', yt: 'YHUzCFoUSOA' },
+    { e: 9, title: 'Secluded Bridge', desc: 'Old stone bridge in a dense woodland.', yt: 'yCuBRSPfz3Q' },
+    { e: 10, title: 'Towering Peaks', desc: 'Imposing jagged peaks, dramatic vertical composition.', yt: 'pDrVaZqU0kc' },
+    { e: 11, title: 'Desert Scene', desc: 'Warm desert reds and ochres — unusual Bob Ross palette.', yt: 'YHUzCFoUSOA' },
+    { e: 12, title: 'Alaska Falls', desc: 'Inspired by Bob\'s time in Alaska — powerful waterfall.', yt: 'fLOCX4FRliE' },
+    { e: 13, title: 'Woodman\'s Retreat', desc: 'Deep-woods retreat cabin, thick conifer surroundings.', yt: 'n3lFKO04B1U' },
+  ]},
+  { num: 8, year: 1986, level: 'intermediate', focus: 'Colour depth — exploring richer and more complex palettes', episodes: [
+    { e: 1, title: 'Autumn Mountains', desc: 'Autumn foliage across a mountain range — yellows, oranges, siennas.', yt: '9N297RhBFzg' },
+    { e: 2, title: 'Lakeside Path', desc: 'Path running beside a glassy autumn lake.', yt: 'L2Le57TuMvQ' },
+    { e: 3, title: 'Splendid Mountain', desc: 'Grand, imposing mountain dominating the canvas.', yt: 'dR_CeFBRNkg' },
+    { e: 4, title: 'Deer in the Clearing', desc: 'Includes deer — one of the few episodes with wildlife.', yt: 'FCFiHtDlBnM' },
+    { e: 5, title: 'Night Falls', desc: 'Twilight transitioning to night over a mountain lake.', yt: 'yfM7Nv1MXZE' },
+    { e: 6, title: 'Fresh Fallen Snow', desc: 'Soft, fresh snowfall, untouched whiteness.', yt: 'NnFnE72QKGY' },
+    { e: 7, title: 'Summer Meadow', desc: 'Bright summer colours, open meadow, cheerful atmosphere.', yt: 'VJuDIDpb5IE' },
+    { e: 8, title: 'Country Road', desc: 'A dirt country road winding through farmland.', yt: 'sC7CzMBBFio' },
+    { e: 9, title: 'Cliffside', desc: 'Ocean cliffs, dramatic vertical drop to the sea.', yt: 'gjyovv_5-8M' },
+    { e: 10, title: 'Birch Forest', desc: 'White birch trees — very different from conifers.', yt: 'FCFiHtDlBnM' },
+    { e: 11, title: 'Rolling Hills', desc: 'Soft rolling hillscape, pastoral and peaceful.', yt: 'KR6-RFsRCqM' },
+    { e: 12, title: 'Winter Wind', desc: 'Wind-swept snowy scene, trees bent by the cold blast.', yt: 'Mbe2fD7IgLQ' },
+    { e: 13, title: 'Majestic Mountains', desc: 'Season finale — Bob\'s most composed mountain painting yet.', yt: 'dR_CeFBRNkg' },
+  ]},
+  { num: 9, year: 1986, level: 'intermediate', focus: 'Atmosphere and mood — mist, fog, moody light', episodes: [
+    { e: 1, title: 'Autumn Oval', desc: 'Oval framed composition of autumn trees — unique framing.', yt: 'uv8p2mzTaSM' },
+    { e: 2, title: 'Meadow Stream', desc: 'Gentle stream winding through open meadow.', yt: 'Dq7z2L-yCz4' },
+    { e: 3, title: 'Winter\'s Here', desc: 'Winter scene that captures the feeling of cold arriving.', yt: 'NnFnE72QKGY' },
+    { e: 4, title: 'Mountain Waterfall', desc: 'Cascading mountain waterfall, more complex than previous.', yt: 'fLOCX4FRliE' },
+    { e: 5, title: 'Evening at Sunset', desc: 'Warm evening light, long golden-hour shadows.', yt: 'c1E4Zeb8XdQ' },
+    { e: 6, title: 'The Mystic Mountain', desc: 'Mystery and atmosphere — fog among mountain peaks.', yt: 'IEQcpFSjOBs' },
+    { e: 7, title: 'Cabin in the Woods', desc: 'Hidden cabin barely visible through dense forest.', yt: 'n3lFKO04B1U' },
+    { e: 8, title: 'Seaside Harmony', desc: 'Calm seascape, harmony between sea, sky, and shore.', yt: 'gjyovv_5-8M' },
+    { e: 9, title: 'Autumn Oval 2', desc: 'Second oval composition — autumn reflection in a pond.', yt: 'Q03YvBCsRvQ' },
+    { e: 10, title: 'Distant Mountains 2', desc: 'Multi-layered distance with soft haze.', yt: 'crIYKbMW5IA' },
+    { e: 11, title: 'First Snow', desc: 'The first snow of winter — anticipation and quiet beauty.', yt: 'NnFnE72QKGY' },
+    { e: 12, title: 'Mountain Bliss', desc: 'Blissful, idyllic mountain scene, warm and welcoming.', yt: 'pDrVaZqU0kc' },
+    { e: 13, title: 'Deep Forest', desc: 'Dense, immersive dark forest composition.', yt: 'eiCm6pqmEos' },
+  ]},
+  { num: 10, year: 1986, level: 'intermediate', focus: 'Compositional maturity — foreground, middle, background mastery', episodes: [
+    { e: 1, title: 'Mountain Summit', desc: 'Multi-layered composition — all three planes fully developed.', yt: 'dR_CeFBRNkg' },
+    { e: 2, title: 'Babbling Brook', desc: 'Lively brook with rocks, ripples, and detail.', yt: 'Dq7z2L-yCz4' },
+    { e: 3, title: 'Fisherman\'s Trail', desc: 'A trail to a fishing spot, sense of journey.', yt: 'FCFiHtDlBnM' },
+    { e: 4, title: 'A Warm Day', desc: 'Warm summer day, bright light, greens full of life.', yt: 'VJuDIDpb5IE' },
+    { e: 5, title: 'Oval Autumn', desc: 'Oval framing used to dramatic effect in autumn colors.', yt: 'uv8p2mzTaSM' },
+    { e: 6, title: 'Snowy Morn', desc: 'Early winter morning, fresh clean snow, quiet world.', yt: 'NnFnE72QKGY' },
+    { e: 7, title: 'Arctic Wolves', desc: 'Rare animal painting — wolves in an arctic setting.', yt: 'kHfFmKUmW6I' },
+    { e: 8, title: 'Lazy River', desc: 'Wide, slow river in a summer landscape.', yt: 'yb3_5hYEJRI' },
+    { e: 9, title: 'Tree-Lined Path', desc: 'Perspective path lined with autumn trees.', yt: 'sC7CzMBBFio' },
+    { e: 10, title: 'Western Majesty', desc: 'Wide open western landscape, big sky country.', yt: 'YHUzCFoUSOA' },
+    { e: 11, title: 'Clear Arctic Waters', desc: 'Crystal clear arctic waters, ice blue palette.', yt: 'kHfFmKUmW6I' },
+    { e: 12, title: 'Quiet Cove', desc: 'Sheltered ocean cove, calm turquoise water.', yt: 'gjyovv_5-8M' },
+    { e: 13, title: 'Mountain Dream', desc: 'Dream-like soft-focus mountain scene, ethereal quality.', yt: 'pDrVaZqU0kc' },
+  ]},
+  { num: 11, year: 1986, level: 'intermediate', focus: 'Detail and texture — bark, rocks, foreground plants', episodes: [
+    { e: 1, title: 'Meadow Lake', desc: 'Meadow leading to a serene lake, rich foreground detail.', yt: 'L2Le57TuMvQ' },
+    { e: 2, title: 'Brown Mountain', desc: 'Late autumn / early winter — bare brown mountain.', yt: '9N297RhBFzg' },
+    { e: 3, title: 'Storm Light', desc: 'Dramatic light breaking through storm clouds.', yt: 'wDnLlywABLE' },
+    { e: 4, title: 'Cliffs of the Pacific', desc: 'Pacific coast cliffs, crashing surf below.', yt: 'gjyovv_5-8M' },
+    { e: 5, title: 'Mountain Lake', desc: 'High alpine lake with rocky shores.', yt: 'GfH2bVBXErc' },
+    { e: 6, title: 'Hidden Forest', desc: 'Mysterious hidden clearing within a dense forest.', yt: 'eiCm6pqmEos' },
+    { e: 7, title: 'Tranquil Valley', desc: 'Quiet, still valley — complete visual silence.', yt: 'KR6-RFsRCqM' },
+    { e: 8, title: 'Autumn Splendor 2', desc: 'Revisiting autumn with more refined color blending.', yt: 'uv8p2mzTaSM' },
+    { e: 9, title: 'Sunset Waves', desc: 'Ocean at sunset, pink and gold reflected in waves.', yt: 'c1E4Zeb8XdQ' },
+    { e: 10, title: 'Foggy Morning', desc: 'Morning fog hanging low over a forest lake.', yt: 'IEQcpFSjOBs' },
+    { e: 11, title: 'Winter Solitude', desc: 'Deep winter, complete solitude, hushed landscape.', yt: 'Mbe2fD7IgLQ' },
+    { e: 12, title: 'Paradise Cove', desc: 'Lush tropical-feel cove painting.', yt: 'gjyovv_5-8M' },
+    { e: 13, title: 'Distant Summertime', desc: 'The feeling of summer viewed from afar.', yt: 'VJuDIDpb5IE' },
+  ]},
+  { num: 12, year: 1987, level: 'intermediate', focus: 'Sky work — clouds, storms, colour transitions overhead', episodes: [
+    { e: 1, title: 'Secluded Beach', desc: 'Private beach, soft sky, calm shoreline.', yt: 'Qg0V5sGMNE4' },
+    { e: 2, title: 'Deep Wilderness', desc: 'Untouched wilderness, no signs of human life.', yt: 'GuD7AyiC3MA' },
+    { e: 3, title: 'Winter Night', desc: 'Stars visible above a quiet winter scene.', yt: 'yfM7Nv1MXZE' },
+    { e: 4, title: 'Copper Mountain', desc: 'Warm copper and ochre tones on a mountain face.', yt: 'pDrVaZqU0kc' },
+    { e: 5, title: 'River of Dreams', desc: 'Dreamy soft river winding through a dreamscape.', yt: 'yb3_5hYEJRI' },
+    { e: 6, title: 'Snowflake Splendor', desc: 'Winter scene focusing on delicate snow texture.', yt: 'NnFnE72QKGY' },
+    { e: 7, title: 'Woodland Oval', desc: 'Woodland scene in the oval format.', yt: 'oh5p5f5_-7A' },
+    { e: 8, title: 'August Mountain', desc: 'Late August mountain — fullest summer foliage.', yt: 'VJuDIDpb5IE' },
+    { e: 9, title: 'Cathedral Mountains', desc: 'Mountains arranged like cathedral spires — dramatic composition.', yt: 'dR_CeFBRNkg' },
+    { e: 10, title: 'Rocky Mountain Trail', desc: 'Rocky path through alpine terrain.', yt: 'sC7CzMBBFio' },
+    { e: 11, title: 'Wind-Blown', desc: 'Trees shaped by relentless wind, dramatic motion.', yt: 'Mbe2fD7IgLQ' },
+    { e: 12, title: 'Sunset Oval', desc: 'Sunset framed in oval — warm sky colors.', yt: 'c1E4Zeb8XdQ' },
+    { e: 13, title: 'Mountain Melody', desc: 'Harmonious, musical quality mountain landscape.', yt: '9N297RhBFzg' },
+  ]},
+  { num: 13, year: 1987, level: 'intermediate', focus: 'Harmony — all elements working together effortlessly', episodes: [
+    { e: 1, title: 'Rolling Hills', desc: 'Graceful sloping hills, distant lake, full composition.', yt: 'KR6-RFsRCqM' },
+    { e: 2, title: 'Waterfall Ovation', desc: 'Waterfall as the main event — applause-worthy technique.', yt: '6aTsUuGxNkw' },
+    { e: 3, title: 'Valley View', desc: 'Wide valley panoramic, sense of vast scale.', yt: 'KR6-RFsRCqM' },
+    { e: 4, title: 'Icy Lake', desc: 'Partially frozen lake, ice at edges, open water center.', yt: 'GfH2bVBXErc' },
+    { e: 5, title: 'Spring Flowers', desc: 'Unusual for Bob — wildflowers in a spring landscape.', yt: 'VJuDIDpb5IE' },
+    { e: 6, title: 'Misty Mountains', desc: 'Soft mist weaving between mountain peaks.', yt: 'IEQcpFSjOBs' },
+    { e: 7, title: 'Emerald Waters', desc: 'Rich emerald-green lake water — color mixing challenge.', yt: 'GfH2bVBXErc' },
+    { e: 8, title: 'Twin Falls', desc: 'Two waterfalls side by side — compositional symmetry.', yt: '6aTsUuGxNkw' },
+    { e: 9, title: 'Spruce Falls', desc: 'Spruce trees framing a waterfall.', yt: 'fLOCX4FRliE' },
+    { e: 10, title: 'Autumn Glow', desc: 'Late afternoon glow through autumn forest.', yt: 'uv8p2mzTaSM' },
+    { e: 11, title: 'Winter Trail', desc: 'A trail through deep snow, footprints ahead.', yt: 'sC7CzMBBFio' },
+    { e: 12, title: 'Mountain Serenade', desc: 'Soothing, serene mountain lake scene.', yt: 'pDrVaZqU0kc' },
+    { e: 13, title: 'Happy Little Clouds', desc: 'Sky-focused episode — cumulus clouds as the star.', yt: '7Gq5aKnhDnw' },
+  ]},
+  { num: 14, year: 1988, level: 'intermediate', focus: 'Foreground mastery — rocks, bushes, wildflowers', episodes: [
+    { e: 1, title: 'Daybreak', desc: 'Dawn breaking over mountains — light pink and gold sky.', yt: 'c1E4Zeb8XdQ' },
+    { e: 2, title: 'Evening Glow', desc: 'Warm evening light just before sunset.', yt: 'c1E4Zeb8XdQ' },
+    { e: 3, title: 'Nature\'s Edge', desc: 'Edge of a forest meeting open fields.', yt: 'eiCm6pqmEos' },
+    { e: 4, title: 'A Perfect Winter Day', desc: 'Bob\'s ideal winter — everything in perfect harmony.', yt: 'Mbe2fD7IgLQ' },
+    { e: 5, title: 'The Windmill', desc: 'Dutch-style windmill in a pastoral European landscape.', yt: 'loAzRUzx1wI' },
+    { e: 6, title: 'Mountain by the Sea', desc: 'Where the mountains drop directly into ocean.', yt: 'p_1QF5W6Nm4' },
+    { e: 7, title: 'Mountain Reflections', desc: 'Perfect mountain reflection in a lake — mirror image.', yt: 'GfH2bVBXErc' },
+    { e: 8, title: 'Cabin at Sunset', desc: 'Small cabin glowing warm in a sunset landscape.', yt: 'n3lFKO04B1U' },
+    { e: 9, title: 'Forest River', desc: 'River pushing through dense forest — dynamic movement.', yt: 'yb3_5hYEJRI' },
+    { e: 10, title: 'Cool Waters', desc: 'Cool blue-tinted water scene, refreshing quality.', yt: 'GfH2bVBXErc' },
+    { e: 11, title: 'Meadow Road', desc: 'Dusty road through summer meadow, receding perspective.', yt: 'sC7CzMBBFio' },
+    { e: 12, title: 'Splendour of Winter', desc: 'Grand, sweeping winter landscape, full season splendor.', yt: 'Mbe2fD7IgLQ' },
+    { e: 13, title: 'Frozen Solitude', desc: 'Lone figure\'s world — frozen, isolated, beautiful.', yt: 'kHfFmKUmW6I' },
+  ]},
+  { num: 15, year: 1988, level: 'advanced', focus: 'Bold compositions — taking on dramatic and complex subjects', episodes: [
+    { e: 1, title: 'Study in Grey', desc: 'Monochromatic study — mastering tonal values alone.', yt: 'pDrVaZqU0kc' },
+    { e: 2, title: 'Golden Morning Mist', desc: 'Morning mist lit from behind by the rising sun.', yt: 'IEQcpFSjOBs' },
+    { e: 3, title: 'Snowcapped Mountain', desc: 'Classic snowcap painting with full mountain texture.', yt: 'dR_CeFBRNkg' },
+    { e: 4, title: 'After the Storm', desc: 'The landscape clearing after a storm — fresh light.', yt: 'wDnLlywABLE' },
+    { e: 5, title: 'A Summer Treat', desc: 'Peak summer colours — lush, warm and celebratory.', yt: 'VJuDIDpb5IE' },
+    { e: 6, title: 'Winter Elegance', desc: 'Elegant, refined winter scene — restrained and beautiful.', yt: 'Mbe2fD7IgLQ' },
+    { e: 7, title: 'Camper\'s Haven', desc: 'Camping spot in the wilderness — inviting natural shelter.', yt: 'n3lFKO04B1U' },
+    { e: 8, title: 'Autumn Fantasy', desc: 'Autumnal imagination — more expressive than realistic.', yt: '_Qs5T0V0DHQ' },
+    { e: 9, title: 'Mountain by the Sea', desc: 'Revisiting the dramatic mountain-meets-ocean composition.', yt: 'p_1QF5W6Nm4' },
+    { e: 10, title: 'Evergreen Valley', desc: 'All-evergreen landscape — deep, layered forest greens.', yt: 'kHfFmKUmW6I' },
+    { e: 11, title: 'Lakeside Cabin', desc: 'Cabin right at the water\'s edge, perfect reflection.', yt: 'n3lFKO04B1U' },
+    { e: 12, title: 'Blue Winter', desc: 'Cool blue winter — all cool tones, no warm highlights.', yt: 'kHfFmKUmW6I' },
+    { e: 13, title: 'Splendor of Summer', desc: 'Season finale — everything summer has to offer.', yt: 'VJuDIDpb5IE' },
+  ]},
+  { num: 16, year: 1988, level: 'advanced', focus: 'Speed and precision — confident, decisive brushstrokes', episodes: [
+    { e: 1, title: 'Misty Foothills', desc: 'Soft low foothills wrapped in morning mist.', yt: 'IEQcpFSjOBs' },
+    { e: 2, title: 'Rustic Waterwheel', desc: 'Old waterwheel beside a stream — machinery in landscape.', yt: 'loAzRUzx1wI' },
+    { e: 3, title: 'Floral Splash', desc: 'Wildflowers in a landscape — colour and joy.', yt: 'VJuDIDpb5IE' },
+    { e: 4, title: 'Enchanted Forest', desc: 'Magical quality to this dense, mysterious forest scene.', yt: 'eiCm6pqmEos' },
+    { e: 5, title: 'Mountaintop', desc: 'The view from the very top, above everything.', yt: 'dR_CeFBRNkg' },
+    { e: 6, title: 'Quiet Streams', desc: 'Multiple quiet streams through a meadow — complex water.', yt: 'Dq7z2L-yCz4' },
+    { e: 7, title: 'Winter on the Lake', desc: 'Ice forming on a lake, winter taking hold.', yt: 'GfH2bVBXErc' },
+    { e: 8, title: 'Perfect Autumn Day', desc: 'Ideal autumn — not too bright, not too dark.', yt: 'uv8p2mzTaSM' },
+    { e: 9, title: 'Seascape Sunset', desc: 'Ocean sunset — rich golds and purples on the water.', yt: 'c1E4Zeb8XdQ' },
+    { e: 10, title: 'Valley Waterfall', desc: 'Waterfall at the head of a valley.', yt: '6aTsUuGxNkw' },
+    { e: 11, title: 'The Path to Autumn', desc: 'A path leading you toward full autumn color.', yt: 'sC7CzMBBFio' },
+    { e: 12, title: 'Forest Falls', desc: 'Waterfall deep in a conifer forest.', yt: 'fLOCX4FRliE' },
+    { e: 13, title: 'Frozen Tundra', desc: 'Barren frozen tundra, extreme northern landscape.', yt: 'kHfFmKUmW6I' },
+  ]},
+  { num: 17, year: 1989, level: 'advanced', focus: 'Emotional resonance — painting with feeling', episodes: [
+    { e: 1, title: 'Autumn Splendor', desc: 'Emotionally rich autumn scene — Bob at his most expressive.', yt: 'uv8p2mzTaSM' },
+    { e: 2, title: 'Waves of Wonder', desc: 'Ocean wonder — appreciating the enormity of the sea.', yt: 'gjyovv_5-8M' },
+    { e: 3, title: 'Graceful Waterfall', desc: 'The graceful arc and flow of falling water.', yt: '6aTsUuGxNkw' },
+    { e: 4, title: 'Winter Reflections', desc: 'Reflections of bare winter trees in still water.', yt: 'GfH2bVBXErc' },
+    { e: 5, title: 'Mountain Scene', desc: 'Clean, clear mountain scene — Bob\'s technique perfected.', yt: 'dR_CeFBRNkg' },
+    { e: 6, title: 'Covered Bridge', desc: 'Charming covered bridge in autumn — quintessential rural America.', yt: 'yCuBRSPfz3Q' },
+    { e: 7, title: 'Country Barn', desc: 'Red country barn in a wide field.', yt: 'loAzRUzx1wI' },
+    { e: 8, title: 'Island in the Wilderness', desc: 'Island floating in the middle of a wilderness lake.', yt: 'GuD7AyiC3MA' },
+    { e: 9, title: 'Deep Forest Winter', desc: 'Dense forest in deep winter, minimal light penetrating.', yt: 'eiCm6pqmEos' },
+    { e: 10, title: 'A River Runs Through', desc: 'A powerful river cutting through the landscape.', yt: 'yb3_5hYEJRI' },
+    { e: 11, title: 'Golden Hills', desc: 'Summer hills turned gold in late afternoon sun.', yt: 'c1E4Zeb8XdQ' },
+    { e: 12, title: 'Forest Friends', desc: 'Forest feel — friendly and welcoming, not foreboding.', yt: 'eiCm6pqmEos' },
+    { e: 13, title: 'Quiet Wilderness', desc: 'The deepest quiet — true wilderness solitude.', yt: 'GuD7AyiC3MA' },
+  ]},
+  { num: 18, year: 1989, level: 'advanced', focus: 'Light studies — painting time of day through color', episodes: [
+    { e: 1, title: 'Secluded Lake', desc: 'A private, hidden lake — getting there feels like a reward.', yt: 'GfH2bVBXErc' },
+    { e: 2, title: 'Mountain Summer', desc: 'Mountain landscape at the height of summer fullness.', yt: 'VJuDIDpb5IE' },
+    { e: 3, title: 'Brilliant Sunset', desc: 'Bob\'s most vivid sunset — full emotional color.', yt: 'c1E4Zeb8XdQ' },
+    { e: 4, title: 'Winter Barn', desc: 'Barn in deep winter, snow on roof, warm interior light.', yt: 'loAzRUzx1wI' },
+    { e: 5, title: 'Wetlands Elk', desc: 'Elk in wetlands — animals plus complex water and grass.', yt: 'kHfFmKUmW6I' },
+    { e: 6, title: 'Mountain Waterfall', desc: 'Powerful mountain waterfall, rushing and alive.', yt: '6aTsUuGxNkw' },
+    { e: 7, title: 'Arctic Beauty', desc: 'The stark, crystalline beauty of the arctic.', yt: 'kHfFmKUmW6I' },
+    { e: 8, title: 'Evening at the Creek', desc: 'Creek in late evening, fading warm light.', yt: 'Dq7z2L-yCz4' },
+    { e: 9, title: 'Down by the River', desc: 'Down at river level — different perspective.', yt: 'yb3_5hYEJRI' },
+    { e: 10, title: 'Autumn Oval', desc: 'Oval composition with peak autumn colors.', yt: 'uv8p2mzTaSM' },
+    { e: 11, title: 'Mountain Rhapsody', desc: 'A rhapsody of mountain color and form.', yt: 'pDrVaZqU0kc' },
+    { e: 12, title: 'The Old Homestead', desc: 'Old farmstead with nostalgic, weathered quality.', yt: 'loAzRUzx1wI' },
+    { e: 13, title: 'Smoky Autumn Hills', desc: 'Smoke-hazed autumn hills — the Great Smoky Mountains feel.', yt: 'uv8p2mzTaSM' },
+  ]},
+  { num: 19, year: 1990, level: 'advanced', focus: 'Simplicity advanced — fewer elements, more impact', episodes: [
+    { e: 1, title: 'Daisies', desc: 'Rare flower painting — close-up daisies in a field.', yt: 'VJuDIDpb5IE' },
+    { e: 2, title: 'Mountain Ridge', desc: 'Long ridge line of mountain, horizontal composition.', yt: 'pDrVaZqU0kc' },
+    { e: 3, title: 'Forest Dawn', desc: 'The forest waking at dawn — gentle early light.', yt: 'eiCm6pqmEos' },
+    { e: 4, title: 'Mountain Cabin', desc: 'The ideal mountain cabin — welcoming and perfect.', yt: 'BqQpnxBVlIY' },
+    { e: 5, title: 'Twin Lakes', desc: 'Two lakes in the same painting — compositional challenge.', yt: 'GfH2bVBXErc' },
+    { e: 6, title: 'A Picture Perfect Autumn', desc: 'What "perfect autumn" means — an answer in paint.', yt: 'uv8p2mzTaSM' },
+    { e: 7, title: 'Snowy Waterfall', desc: 'Waterfall with snow on surrounding rocks and trees.', yt: '6aTsUuGxNkw' },
+    { e: 8, title: 'Crimson Tide', desc: 'Rich crimson autumn scene — reds and deep oranges.', yt: 'uv8p2mzTaSM' },
+    { e: 9, title: 'Distant Mountains', desc: 'Far away mountains through layers of haze.', yt: 'crIYKbMW5IA' },
+    { e: 10, title: 'The Old Weathered Tree', desc: 'A lone old tree — character study of age and time.', yt: 'FCFiHtDlBnM' },
+    { e: 11, title: 'Southern Paradise', desc: 'Southern landscape with warmth and lush growth.', yt: 'VJuDIDpb5IE' },
+    { e: 12, title: 'Festive Mood', desc: 'Winter scene with a celebratory, festive feel.', yt: 'Mbe2fD7IgLQ' },
+    { e: 13, title: 'The Windmill 2', desc: 'More complex windmill scene with richer landscape.', yt: 'loAzRUzx1wI' },
+  ]},
+  { num: 20, year: 1990, level: 'advanced', focus: 'Confidence peak — large canvases, bold decisions', episodes: [
+    { e: 1, title: 'Blue Ridge Falls', desc: 'Dramatic Blue Ridge waterfall — height and power.', yt: 'fLOCX4FRliE' },
+    { e: 2, title: 'Sunset Oval', desc: 'Oval framing used for a vibrant sunset composition.', yt: 'c1E4Zeb8XdQ' },
+    { e: 3, title: 'Wilderness Day', desc: 'A full wilderness day from dawn light to rich mid-day.', yt: 'GuD7AyiC3MA' },
+    { e: 4, title: 'Meadow by the Stream', desc: 'Stream running alongside a wildflower meadow.', yt: 'Dq7z2L-yCz4' },
+    { e: 5, title: 'Mountain Stream', desc: 'Fast-moving mountain stream, white water detail.', yt: 'Dq7z2L-yCz4' },
+    { e: 6, title: 'Spring in the Valley', desc: 'Spring finally arriving — fresh greens, new growth.', yt: 'VJuDIDpb5IE' },
+    { e: 7, title: 'Misty Mountains 2', desc: 'More complex mist work with richer mountain forms.', yt: 'IEQcpFSjOBs' },
+    { e: 8, title: 'Fisherman\'s Paradise', desc: 'Ultimate fishing spot — creek, trees, total peace.', yt: 'JqSX6Bx3XKU' },
+    { e: 9, title: 'Country Barn 2', desc: 'Barn in summer — warm, dry, golden light.', yt: 'loAzRUzx1wI' },
+    { e: 10, title: 'Majestic Mountain', desc: 'One dominant mountain commanding the whole canvas.', yt: 'dR_CeFBRNkg' },
+    { e: 11, title: 'Old Country Mill', desc: 'Old grist mill building beside a stream.', yt: 'loAzRUzx1wI' },
+    { e: 12, title: 'The Forest Glade', desc: 'Open glade in a forest — light flooding in from above.', yt: 'eiCm6pqmEos' },
+    { e: 13, title: 'The Cabin at Misty Mountain', desc: 'Cabin nestled among misty mountain peaks.', yt: 'n3lFKO04B1U' },
+  ]},
+  { num: 21, year: 1990, level: 'advanced', focus: 'Pushing limits — unusual subjects and compositions', episodes: [
+    { e: 1, title: 'Valley of Mist', desc: 'Mist filling an entire valley floor.', yt: 'IEQcpFSjOBs' },
+    { e: 2, title: 'Autumn Day', desc: 'Simple, pure autumn day — beauty in restraint.', yt: 'uv8p2mzTaSM' },
+    { e: 3, title: 'Western Landscape', desc: 'Expansive western American landscape — huge sky.', yt: 'YHUzCFoUSOA' },
+    { e: 4, title: 'Balmy Beach', desc: 'Warm tropical-feel beach scene.', yt: 'gjyovv_5-8M' },
+    { e: 5, title: 'Pine Ridge Oval', desc: 'Pine ridge in oval format — interesting perspective.', yt: 'lLWEXx3BPPA' },
+    { e: 6, title: 'Misty Rolling Hills', desc: 'Soft rolling hills disappearing into mist.', yt: 'KR6-RFsRCqM' },
+    { e: 7, title: 'Winter at the Lake', desc: 'Ice and snow at a mountain lake.', yt: 'GfH2bVBXErc' },
+    { e: 8, title: 'The Old Maple Tree', desc: 'Maple in full autumn red — close composition.', yt: 'FCFiHtDlBnM' },
+    { e: 9, title: 'Towering Cumulus', desc: 'Massive cumulus clouds dominating the sky.', yt: '7Gq5aKnhDnw' },
+    { e: 10, title: 'Blue Skies Over Water', desc: 'Pure blue sky reflected in open water.', yt: 'GfH2bVBXErc' },
+    { e: 11, title: 'Wilderness Falls', desc: 'Waterfall completely embedded in wilderness.', yt: '6aTsUuGxNkw' },
+    { e: 12, title: 'Deep Forest Lane', desc: 'Lane disappearing into the forest.', yt: 'sC7CzMBBFio' },
+    { e: 13, title: 'Painting Close-Up', desc: 'Unusually close composition — Bob tries something new.', yt: 'FCFiHtDlBnM' },
+  ]},
+  { num: 22, year: 1991, level: 'advanced', focus: 'Technical peak — Bob\'s most refined technique', episodes: [
+    { e: 1, title: 'Graceful Waterfall', desc: 'A waterfall of grace — flowing, elegant, masterful.', yt: '6aTsUuGxNkw' },
+    { e: 2, title: 'Quiet Creek', desc: 'Quiet creek with perfect water technique.', yt: 'Dq7z2L-yCz4' },
+    { e: 3, title: 'Autumn at the Mill', desc: 'Old mill in autumn — architecture + landscape perfected.', yt: 'loAzRUzx1wI' },
+    { e: 4, title: 'Winter Haven', desc: 'Haven from the cold — warm and sheltered winter scene.', yt: 'Mbe2fD7IgLQ' },
+    { e: 5, title: 'Mountain River', desc: 'Powerful mountain river, bold and energetic.', yt: 'yb3_5hYEJRI' },
+    { e: 6, title: 'Autumn Oval', desc: 'Oval composition with rich late-autumn palette.', yt: 'uv8p2mzTaSM' },
+    { e: 7, title: 'Storm Mountain', desc: 'Dark storm clouds over a brooding mountain.', yt: 'wDnLlywABLE' },
+    { e: 8, title: 'Fisherman\'s Cove', desc: 'Sheltered cove, ideal for fishing, calm and gentle.', yt: 'gjyovv_5-8M' },
+    { e: 9, title: 'Northern Lights', desc: 'Rare attempt at the aurora borealis — magical.', yt: 'kHfFmKUmW6I' },
+    { e: 10, title: 'A Country Road', desc: 'Dirt road through the countryside in summer.', yt: 'sC7CzMBBFio' },
+    { e: 11, title: 'The Cove', desc: 'Secluded ocean cove with drama and serenity combined.', yt: 'gjyovv_5-8M' },
+    { e: 12, title: 'Mountain Stream 2', desc: 'Second mountain stream — more complex rocks and water.', yt: 'Dq7z2L-yCz4' },
+    { e: 13, title: 'Winter on the River', desc: 'River partly frozen, ice floes, winter full force.', yt: 'yb3_5hYEJRI' },
+  ]},
+  { num: 23, year: 1991, level: 'master', focus: 'Master level — complex multi-element compositions', episodes: [
+    { e: 1, title: 'Island Retreat', desc: 'Island cabin accessible only by water — total isolation.', yt: 'n3lFKO04B1U' },
+    { e: 2, title: 'Autumn Oval 2', desc: 'More intricate oval autumn composition.', yt: 'uv8p2mzTaSM' },
+    { e: 3, title: 'Just Before the Storm', desc: 'Tense, darkening sky just before storm hits.', yt: 'wDnLlywABLE' },
+    { e: 4, title: 'Mountain Grandeur', desc: 'Grandeur of scale — Bob\'s most impressive mountain work.', yt: 'dR_CeFBRNkg' },
+    { e: 5, title: 'Autumn Oval 3', desc: 'Third in the oval series — most refined yet.', yt: 'uv8p2mzTaSM' },
+    { e: 6, title: 'Below the Timberline', desc: 'Painting just below the treeline — interesting zone.', yt: 'eiCm6pqmEos' },
+    { e: 7, title: 'Misty Forest Oval', desc: 'Oval format, forest mist, mysterious quality.', yt: 'IEQcpFSjOBs' },
+    { e: 8, title: 'Blue Winter', desc: 'An entirely blue winter scene — unusual palette challenge.', yt: 'kHfFmKUmW6I' },
+    { e: 9, title: 'Windmill in Autumn', desc: 'Windmill with full autumn landscape.', yt: 'loAzRUzx1wI' },
+    { e: 10, title: 'Happy Little Accident', desc: 'Bob embraces and builds on a "mistake" in real-time.', yt: 'oh5p5f5_-7A' },
+    { e: 11, title: 'A Pair of Spruce', desc: 'Two spruce trees as the focal subject.', yt: 'lLWEXx3BPPA' },
+    { e: 12, title: 'A Splash of Autumn', desc: 'Just a splash of autumn color in a green landscape.', yt: 'uv8p2mzTaSM' },
+    { e: 13, title: 'Cliff Banks', desc: 'Dramatic cliff banks dropping to water.', yt: 'pDrVaZqU0kc' },
+  ]},
+  { num: 24, year: 1992, level: 'master', focus: 'Storytelling — each painting tells a complete story', episodes: [
+    { e: 1, title: 'Deep Wilderness Falls', desc: 'Major waterfall deep in untouched wilderness.', yt: '6aTsUuGxNkw' },
+    { e: 2, title: 'Prairie Scene', desc: 'Flat open prairie — unusual flat landscape.', yt: 'YHUzCFoUSOA' },
+    { e: 3, title: 'Autumn Foliage', desc: 'Pure foliage focus — color over composition.', yt: 'uv8p2mzTaSM' },
+    { e: 4, title: 'Mountain Cabin', desc: 'The most perfectly situated cabin in all 31 seasons.', yt: 'BqQpnxBVlIY' },
+    { e: 5, title: 'Sandy Beach', desc: 'Sandy beach with warm inviting quality.', yt: 'gjyovv_5-8M' },
+    { e: 6, title: 'Night Sky', desc: 'Stars and moon over a landscape — rare nocturne.', yt: 'yfM7Nv1MXZE' },
+    { e: 7, title: 'Mountain Lake 2', desc: 'More complex mountain lake — technique fully mature.', yt: 'GfH2bVBXErc' },
+    { e: 8, title: 'Winters Quiet', desc: 'The quietest winter — barely a sound in the painting.', yt: 'Mbe2fD7IgLQ' },
+    { e: 9, title: 'Birch Oval', desc: 'Birch trees in oval format — delicate white trunks.', yt: 'FCFiHtDlBnM' },
+    { e: 10, title: 'Tropical Seascape', desc: 'Warm tropical sea, bright sky, exotic feel.', yt: 'gjyovv_5-8M' },
+    { e: 11, title: 'Towering Peaks 2', desc: 'Revisiting towering peaks with full mastery.', yt: 'pDrVaZqU0kc' },
+    { e: 12, title: 'Autumn Elegance', desc: 'Elegant, refined autumn — restrained and exquisite.', yt: 'uv8p2mzTaSM' },
+    { e: 13, title: 'Christmas Painting', desc: 'Special Christmas scene — rare seasonal painting.', yt: 'Mbe2fD7IgLQ' },
+  ]},
+  { num: 25, year: 1992, level: 'master', focus: 'Late career excellence — Bob at the height of his powers', episodes: [
+    { e: 1, title: 'A Walk Across the Creek', desc: 'Stepping stones across a creek — intimate scale.', yt: 'Dq7z2L-yCz4' },
+    { e: 2, title: 'Crater Lake Oval', desc: 'Volcanic crater lake — unusual geological landscape.', yt: 'GfH2bVBXErc' },
+    { e: 3, title: 'Mountain in the Mist', desc: 'Mountain almost entirely consumed by mist.', yt: 'IEQcpFSjOBs' },
+    { e: 4, title: 'Cabin at Trail\'s End', desc: 'Cabin at the very end of a long trail.', yt: 'n3lFKO04B1U' },
+    { e: 5, title: 'Autumn Oval 4', desc: 'Fourth oval — confidence and mastery in oval compositions.', yt: 'uv8p2mzTaSM' },
+    { e: 6, title: 'Gentle Waterfall', desc: 'Soft, gentle waterfall — not dramatic but deeply peaceful.', yt: '6aTsUuGxNkw' },
+    { e: 7, title: 'Cold Moon', desc: 'Cold blue moon over a winter landscape.', yt: 'kHfFmKUmW6I' },
+    { e: 8, title: 'The Undulating Oval', desc: 'Undulating hills in oval — movement and flow.', yt: 'KR6-RFsRCqM' },
+    { e: 9, title: 'Winter Birch', desc: 'White birch trees against deep winter snow.', yt: 'FCFiHtDlBnM' },
+    { e: 10, title: 'Sunlit Country', desc: 'Open country flooded with warm sunlight.', yt: 'VJuDIDpb5IE' },
+    { e: 11, title: 'Happy Autumn Falls', desc: 'Happy, joyful autumn waterfall — celebratory energy.', yt: '6aTsUuGxNkw' },
+    { e: 12, title: 'Mountain Stream 3', desc: 'Third mountain stream — complexity and power.', yt: 'Dq7z2L-yCz4' },
+    { e: 13, title: 'Cactus at Sunset 2', desc: 'Revisiting the desert sunset — more confident and vivid.', yt: 'YHUzCFoUSOA' },
+  ]},
+  { num: 26, year: 1992, level: 'master', focus: 'Beyond the formula — every landscape feels wholly original', episodes: [
+    { e: 1, title: 'Evening\'s Peace', desc: 'Pure evening peace — warm, still, grateful.', yt: 'c1E4Zeb8XdQ' },
+    { e: 2, title: 'Reflections of Calm', desc: 'Reflections in perfectly still water — near-perfect technique.', yt: 'GfH2bVBXErc' },
+    { e: 3, title: 'Painted Hills', desc: 'Layered colorful hills — geological color strata.', yt: 'KR6-RFsRCqM' },
+    { e: 4, title: 'Winter\'s Joy', desc: 'Joy, not hardship — winter as pure pleasure.', yt: 'Mbe2fD7IgLQ' },
+    { e: 5, title: 'Lakeside Path 2', desc: 'Path beside a lake in autumn — familiar and welcoming.', yt: 'sC7CzMBBFio' },
+    { e: 6, title: 'Forest Fire', desc: 'Dramatic fire glow on the horizon — rare Bob Ross drama.', yt: 'c1E4Zeb8XdQ' },
+    { e: 7, title: 'Rocky Mountain Oval', desc: 'Rocky mountain landscape in oval.', yt: 'pDrVaZqU0kc' },
+    { e: 8, title: 'Ocean in Wintertime', desc: 'Stormy winter ocean — grey, powerful, cold.', yt: 'gjyovv_5-8M' },
+    { e: 9, title: 'Mountain Oval', desc: 'Oval mountain composition — classic Bob.', yt: 'dR_CeFBRNkg' },
+    { e: 10, title: 'Early Autumn', desc: 'First hints of autumn arriving — subtle color change.', yt: 'uv8p2mzTaSM' },
+    { e: 11, title: 'Mallard Lake', desc: 'Lake with ducks — rare inclusion of birds.', yt: 'GfH2bVBXErc' },
+    { e: 12, title: 'Timber Creek', desc: 'Creek through logged area — unusual bare landscape.', yt: 'Dq7z2L-yCz4' },
+    { e: 13, title: 'Indian Summer', desc: 'Indian summer — warm days after first autumn hint.', yt: 'uv8p2mzTaSM' },
+  ]},
+  { num: 27, year: 1993, level: 'master', focus: 'Refinement — every brushstroke intentional', episodes: [
+    { e: 1, title: 'Quiet Mountain Lake', desc: 'The ultimate quiet mountain lake — absolute serenity.', yt: 'GfH2bVBXErc' },
+    { e: 2, title: 'Autumn Bridge', desc: 'Bridge over a stream in peak autumn colour.', yt: 'yCuBRSPfz3Q' },
+    { e: 3, title: 'Waterfall and Cabin', desc: 'Waterfall and cabin together — two favourites combined.', yt: '6aTsUuGxNkw' },
+    { e: 4, title: 'Sunset Over the River', desc: 'Sunset reflected in a river — gold on water.', yt: 'c1E4Zeb8XdQ' },
+    { e: 5, title: 'Mountain Trail 2', desc: 'Mountain trail with views — you feel the altitude.', yt: 'sC7CzMBBFio' },
+    { e: 6, title: 'The Fence Row', desc: 'Old fence row through a field — rural life detail.', yt: 'loAzRUzx1wI' },
+    { e: 7, title: 'A Plow in the Snow', desc: 'Old plough buried in deep snow — nostalgic winter.', yt: 'Mbe2fD7IgLQ' },
+    { e: 8, title: 'The Creek', desc: 'Simple creek — pure refined technique.', yt: 'Dq7z2L-yCz4' },
+    { e: 9, title: 'Mountains and Meadow', desc: 'Mountains in background, meadow in foreground — balance.', yt: 'KR6-RFsRCqM' },
+    { e: 10, title: 'The Forest Cave', desc: 'Unusual cave within a forest — mysterious focal point.', yt: 'eiCm6pqmEos' },
+    { e: 11, title: 'Autumn Oval 5', desc: 'Fifth oval — incredible mastery of format and season.', yt: 'uv8p2mzTaSM' },
+    { e: 12, title: 'Splendor in the Winter', desc: 'Final-season-feel winter — splendor in every element.', yt: 'Mbe2fD7IgLQ' },
+    { e: 13, title: 'Winter Oval', desc: 'Oval winter scene — elegant, minimal, perfect.', yt: 'Mbe2fD7IgLQ' },
+  ]},
+  { num: 28, year: 1993, level: 'master', focus: 'Legacy building — paintings that define a body of work', episodes: [
+    { e: 1, title: 'Country Barn 3', desc: 'Definitive country barn — the quintessential version.', yt: 'loAzRUzx1wI' },
+    { e: 2, title: 'Meadow Stream 2', desc: 'Meadow stream in full summer — lush, green, alive.', yt: 'Dq7z2L-yCz4' },
+    { e: 3, title: 'Ocean and Rocks', desc: 'Waves crashing on rocks — power and energy.', yt: 'gjyovv_5-8M' },
+    { e: 4, title: 'Golden Road', desc: 'Golden autumn road leading into the distance.', yt: 'sC7CzMBBFio' },
+    { e: 5, title: 'Winter Oval 2', desc: 'Second winter oval — more complex snow and tree detail.', yt: 'Mbe2fD7IgLQ' },
+    { e: 6, title: 'Hidden Brook', desc: 'Brook completely hidden within dense summer foliage.', yt: 'Dq7z2L-yCz4' },
+    { e: 7, title: 'Majestic Pines', desc: 'Grand old pines — towering, ancient, majestic.', yt: 'lLWEXx3BPPA' },
+    { e: 8, title: 'The Blue Ridge Mountains', desc: 'Painting the famous Blue Ridge in all its splendour.', yt: 'fLOCX4FRliE' },
+    { e: 9, title: 'Mountain of the Morning', desc: 'Mountain at morning — cool light, fresh air feeling.', yt: 'dR_CeFBRNkg' },
+    { e: 10, title: 'Autumn River', desc: 'River in full autumn — coloured leaves on the water.', yt: 'yb3_5hYEJRI' },
+    { e: 11, title: 'Misty Rolling Hills 2', desc: 'Mist-filled rolling hills — atmospheric perfection.', yt: 'KR6-RFsRCqM' },
+    { e: 12, title: 'Whispering Pines', desc: 'Pines in a gentle breeze — pines that whisper.', yt: 'lLWEXx3BPPA' },
+    { e: 13, title: 'Winter Vignette', desc: 'Vignette-format winter — soft edges, central focus.', yt: 'Mbe2fD7IgLQ' },
+  ]},
+  { num: 29, year: 1993, level: 'master', focus: 'Meditative painting — the canvas as a place to rest', episodes: [
+    { e: 1, title: 'Forest Corner', desc: 'One intimate corner of a forest — small scale, big feeling.', yt: 'eiCm6pqmEos' },
+    { e: 2, title: 'Valley Oval', desc: 'Valley in oval format — depth and distance beautifully rendered.', yt: 'KR6-RFsRCqM' },
+    { e: 3, title: 'Mountain Splendor', desc: 'Mountain in full splendor — the complete mountain experience.', yt: 'dR_CeFBRNkg' },
+    { e: 4, title: 'Cabin by the Waterfall', desc: 'Cabin and waterfall together — ultimate pairing.', yt: 'n3lFKO04B1U' },
+    { e: 5, title: 'Country Oval', desc: 'Country scene in oval — pastoral and gentle.', yt: 'sC7CzMBBFio' },
+    { e: 6, title: 'Wooded Stream', desc: 'Stream entirely within a wooded canopy.', yt: 'Dq7z2L-yCz4' },
+    { e: 7, title: 'Pines and Snow', desc: 'Snow-laden pine branches — texture and weight.', yt: 'lLWEXx3BPPA' },
+    { e: 8, title: 'Autumn Grandeur', desc: 'Grand autumn composition — all elements at maximum.', yt: 'uv8p2mzTaSM' },
+    { e: 9, title: 'Valley Calm', desc: 'Utter calm in a valley — stillness as subject.', yt: 'KR6-RFsRCqM' },
+    { e: 10, title: 'Mountain Retreat 2', desc: 'Ultimate mountain retreat — everything Bob loves, together.', yt: 'BqQpnxBVlIY' },
+    { e: 11, title: 'Autumn in the Mountains', desc: 'Autumn high in the mountains where it arrives first.', yt: 'uv8p2mzTaSM' },
+    { e: 12, title: 'Deep Winter Oval', desc: 'Oval frame on the deepest, coldest winter day.', yt: 'Mbe2fD7IgLQ' },
+    { e: 13, title: 'Morning at the River', desc: 'River in the quiet of morning before the day begins.', yt: 'yb3_5hYEJRI' },
+  ]},
+  { num: 30, year: 1994, level: 'master', focus: 'Second to last season — complete confidence and freedom', episodes: [
+    { e: 1, title: 'Mountain Waterfall 2', desc: 'Bob\'s most confident waterfall — every technique mastered.', yt: '6aTsUuGxNkw' },
+    { e: 2, title: 'Forest Trail', desc: 'Trail vanishing into deep forest — you want to follow it.', yt: 'sC7CzMBBFio' },
+    { e: 3, title: 'Storm Over a Canyon', desc: 'Storm light over a canyon — dramatic and unusual.', yt: 'wDnLlywABLE' },
+    { e: 4, title: 'Winding Stream', desc: 'A stream that winds and weaves — full of movement.', yt: 'Dq7z2L-yCz4' },
+    { e: 5, title: 'Secluded Waterfall', desc: 'Hidden waterfall far from anywhere — secret beauty.', yt: 'fLOCX4FRliE' },
+    { e: 6, title: 'Late Autumn', desc: 'Very late autumn — leaves almost all gone, bare beauty.', yt: 'uv8p2mzTaSM' },
+    { e: 7, title: 'Winter Falls', desc: 'Waterfall in winter — ice forming around the cascade.', yt: '6aTsUuGxNkw' },
+    { e: 8, title: 'Timberline', desc: 'Right at the timberline — where trees give way to rock.', yt: 'eiCm6pqmEos' },
+    { e: 9, title: 'Remote Cabin', desc: 'More remote than any other cabin — truly off-grid.', yt: 'n3lFKO04B1U' },
+    { e: 10, title: 'Meadow Lake 2', desc: 'Meadow and lake — most refined version of this classic.', yt: 'GfH2bVBXErc' },
+    { e: 11, title: 'Night Light 2', desc: 'Night painting with more complex light sources.', yt: 'yfM7Nv1MXZE' },
+    { e: 12, title: 'Mountain at Dusk', desc: 'Mountain in the final light of day — beautiful transition.', yt: 'c1E4Zeb8XdQ' },
+    { e: 13, title: 'Final Frontier', desc: 'Second-to-last season final — Bob approaching the end.', yt: 'GuD7AyiC3MA' },
+  ]},
+  { num: 31, year: 1994, level: 'master', focus: 'The final season — Bob Ross\'s last paintings', episodes: [
+    { e: 1, title: 'Blue Mountain Lake', desc: 'Last season opens with a perfect blue mountain lake.', yt: 'GfH2bVBXErc' },
+    { e: 2, title: 'Morning Glory', desc: 'Morning glory of a late-career master.', yt: 'c1E4Zeb8XdQ' },
+    { e: 3, title: 'Evening Tide', desc: 'Evening tide coming in — one of the last ocean scenes.', yt: 'gjyovv_5-8M' },
+    { e: 4, title: 'Golden Autumn', desc: 'Golden, rich autumn — the last major autumn painting.', yt: 'uv8p2mzTaSM' },
+    { e: 5, title: 'Deep Forest Falls', desc: 'Falls deep in the forest — one of Bob\'s final waterfalls.', yt: '6aTsUuGxNkw' },
+    { e: 6, title: 'The Last Cabin', desc: 'Cabin near the end — symbolic and beautiful.', yt: 'n3lFKO04B1U' },
+    { e: 7, title: 'Mountain Vista', desc: 'Wide mountain vista — expansive and generous.', yt: 'pDrVaZqU0kc' },
+    { e: 8, title: 'Winter Solstice', desc: 'Deepest winter — the solstice moment captured.', yt: 'Mbe2fD7IgLQ' },
+    { e: 9, title: 'River in Autumn', desc: 'Autumn river in the penultimate episodes.', yt: 'yb3_5hYEJRI' },
+    { e: 10, title: 'Mountain Cabin Final', desc: 'Last major cabin painting — a complete and loving farewell.', yt: 'BqQpnxBVlIY' },
+    { e: 11, title: 'Valley Retreat', desc: 'Valley retreat — Bob heading home.', yt: 'KR6-RFsRCqM' },
+    { e: 12, title: 'Mountain Summit Final', desc: 'The final mountain summit — the apex.', yt: 'dR_CeFBRNkg' },
+    { e: 13, title: 'Wilderness Day', desc: 'The very last episode Bob Ross ever recorded. A wilderness day — the final painting.', yt: 'GuD7AyiC3MA' },
+  ]},
+];
+
+const LEVEL_COLORS = {
+  beginner: { badge: '#D4EDD4', text: '#2D5016', label: 'Beginner' },
+  intermediate: { badge: '#FDEBD0', text: '#7D3C00', label: 'Intermediate' },
+  advanced: { badge: '#D5EFFC', text: '#1A527A', label: 'Advanced' },
+  master: { badge: '#F0E6FF', text: '#4A1F8A', label: 'Master' },
+};
+
+function buildYouTubeUrl(videoId) {
+  return 'https://www.youtube.com/watch?v=' + videoId;
+}
+
+function getLevelForSeason(num) {
+  if (num <= 5) return 'beginner';
+  if (num <= 14) return 'intermediate';
+  if (num <= 22) return 'advanced';
+  return 'master';
+}
+
+function buildSeasons() {
+  const container = document.getElementById('seasonsContainer');
+  let html = '';
+  SEASONS.forEach((s, i) => {
+    const level = s.level || getLevelForSeason(s.num);
+    const lc = LEVEL_COLORS[level];
+    html += `<div class="season-block" id="season-${s.num}" data-level="${level}">
+      <div class="season-header" onclick="toggleSeason(${s.num})">
+        <div class="season-num-badge">${String(s.num).padStart(2,'0')}</div>
+        <div class="season-info">
+          <div class="season-title">Season ${s.num} <span style="color:var(--text-muted);font-weight:300;font-size:13px;">· ${s.year} · ${s.episodes.length} episodes</span></div>
+          <div class="season-meta">${s.focus}</div>
+        </div>
+        <span class="season-level-badge" style="background:${lc.badge};color:${lc.text}">${lc.label}</span>
+        <span class="season-toggle">▾</span>
+      </div>
+      <div class="episode-grid">`;
+    s.episodes.forEach((ep) => {
+      html += `<div class="episode-card" data-title="${ep.title.toLowerCase()}" data-level="${level}">
+        <div class="ep-header">
+          <span class="ep-code">S${s.num}·E${ep.e}</span>
+          <span class="ep-title">${ep.title}</span>
+        </div>
+        <div class="ep-desc">${ep.desc}</div>
+        <a class="ep-link" href="${buildYouTubeUrl(ep.yt)}" target="_blank">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          Watch on YouTube
+        </a>
+      </div>`;
+    });
+    html += `</div></div>`;
+  });
+  container.innerHTML = html;
+}
+
+function toggleSeason(num) {
+  const block = document.getElementById('season-' + num);
+  block.classList.toggle('open');
+}
+
+let activeFilter = 'all';
+
+function filterEpisodes() {
+  const query = document.getElementById('searchInput').value.toLowerCase().trim();
+  let visibleCount = 0;
+  document.querySelectorAll('.season-block').forEach(block => {
+    const level = block.dataset.level;
+    if (activeFilter !== 'all' && level !== activeFilter) {
+      block.classList.add('all-hidden');
+      return;
+    }
+    block.classList.remove('all-hidden');
+    let blockHasVisible = false;
+    block.querySelectorAll('.episode-card').forEach(card => {
+      const title = card.dataset.title;
+      const match = !query || title.includes(query);
+      card.classList.toggle('hidden', !match);
+      if (match) { blockHasVisible = true; visibleCount++; }
+    });
+    if (query && !blockHasVisible) {
+      block.classList.add('all-hidden');
+    }
+    if (query && blockHasVisible) {
+      block.classList.add('open');
+    }
+  });
+  document.getElementById('epCount').textContent = visibleCount + ' episode' + (visibleCount !== 1 ? 's' : '');
+}
+
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    activeFilter = this.dataset.filter;
+    filterEpisodes();
+    if (activeFilter !== 'all') {
+      document.querySelectorAll('.season-block:not(.all-hidden)').forEach(b => b.classList.add('open'));
+    }
+  });
+});
+
+document.getElementById('searchInput').addEventListener('input', filterEpisodes);
+
+buildSeasons();
+document.getElementById('epCount').textContent = '403 episodes';
+</script>
+</body>
+</html>

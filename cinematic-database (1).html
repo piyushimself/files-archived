@@ -1,0 +1,2043 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CINÉMA OBSCURA — Global Film Database</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Mono:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#09080a;--bg2:#130f14;--bg3:#1c1520;
+  --gold:#c9a84c;--gold2:#e8c97a;--cream:#f0e8d8;
+  --muted:#7a6e5e;--violet:#a78bfa;--rose:#e06090;
+  --teal:#3abaa8;--amber:#f59e0b;--green:#4ade80;
+  --border:rgba(201,168,76,0.18);--border2:rgba(201,168,76,0.07);
+  --red:#f87171;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--cream);font-family:'DM Mono',monospace;font-size:13px;min-height:100vh}
+
+/* HEADER */
+header{padding:48px 48px 32px;border-bottom:1px solid var(--border);background:linear-gradient(160deg,#130c1e 0%,var(--bg) 100%)}
+.hi{max-width:1600px;margin:0 auto}
+.ey{font-size:9px;letter-spacing:.45em;color:var(--gold);text-transform:uppercase;margin-bottom:12px;opacity:.8}
+h1{font-family:'Playfair Display',serif;font-size:clamp(42px,7vw,88px);font-weight:900;font-style:italic;line-height:.88;letter-spacing:-2px}
+h1 em{color:var(--gold);font-style:inherit}
+.tl{font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic;color:var(--muted);margin-top:12px}
+.sts{display:flex;gap:32px;margin-top:24px;flex-wrap:wrap;align-items:flex-end}
+.sn{font-family:'Playfair Display',serif;font-size:30px;font-weight:700;color:var(--gold);display:block}
+.sl{font-size:8px;letter-spacing:.3em;color:var(--muted);text-transform:uppercase}
+.hdr-btns{margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+
+/* CONTROLS */
+.ctrl{position:sticky;top:0;z-index:200;background:rgba(9,8,10,.97);backdrop-filter:blur(16px);border-bottom:1px solid var(--border2);padding:10px 48px}
+.ci{max-width:1600px;margin:0 auto;display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+.sb{flex:1 1 200px;position:relative}
+.sb::before{content:'⌕';position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--gold);font-size:16px;pointer-events:none}
+input[type=text]{width:100%;background:var(--bg2);border:1px solid var(--border);color:var(--cream);padding:8px 10px 8px 34px;font-family:'DM Mono',monospace;font-size:12px;outline:none;transition:border .2s;border-radius:2px}
+input[type=text]:focus{border-color:var(--gold)}
+input[type=text]::placeholder{color:var(--muted)}
+select{background:var(--bg2);border:1px solid var(--border);color:var(--muted);padding:8px 10px;font-family:'DM Mono',monospace;font-size:10px;outline:none;cursor:pointer;appearance:none;-webkit-appearance:none;border-radius:2px;min-width:110px;transition:border .2s}
+select:focus,select:hover{border-color:var(--gold);color:var(--cream)}
+.fb{background:var(--bg2);border:1px solid var(--border);color:var(--muted);padding:7px 12px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;transition:all .18s;border-radius:2px;white-space:nowrap}
+.fb:hover{border-color:var(--gold);color:var(--gold)}
+.fb[data-g=all].on{background:var(--gold);border-color:var(--gold);color:#0a0804;font-weight:600}
+.fb[data-g=art].on{background:var(--teal);border-color:var(--teal);color:#030e0c;font-weight:600}
+.fb[data-g=ero].on{background:var(--rose);border-color:var(--rose);color:#18040e;font-weight:600}
+.fb[data-g=ind].on{background:var(--violet);border-color:var(--violet);color:#0e0618;font-weight:600}
+.fb[data-g=anim].on{background:var(--amber);border-color:var(--amber);color:#0a0600;font-weight:600}
+.fb.multi-on{border-color:var(--gold)!important;color:var(--gold)!important;background:rgba(201,168,76,.12)!important;font-weight:600}
+.bdg{font-size:9px;letter-spacing:.18em;color:var(--gold);white-space:nowrap;padding:4px 0}
+
+/* UTILITY BUTTONS */
+.ubtn{background:var(--bg2);border:1px solid var(--border);color:var(--muted);padding:7px 12px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;transition:all .18s;border-radius:2px;white-space:nowrap;display:inline-flex;align-items:center;gap:5px}
+.ubtn:hover{border-color:var(--gold);color:var(--gold)}
+.ubtn.active{border-color:var(--rose);color:var(--rose);background:rgba(224,96,144,.1)}
+.ubtn.export{border-color:var(--teal);color:var(--teal)}
+.ubtn.export:hover{background:rgba(58,186,168,.1)}
+.ubtn.clr{border-color:var(--muted);color:var(--muted);font-size:8px}
+.ubtn.clr:hover{border-color:var(--red);color:var(--red)}
+
+/* MAIN */
+main{max-width:1600px;margin:0 auto;padding:22px 48px 80px}
+
+/* WATCHLIST BANNER */
+.wl-banner{background:rgba(224,96,144,.08);border:1px solid rgba(224,96,144,.25);padding:10px 16px;margin-bottom:16px;display:none;align-items:center;gap:12px;border-radius:2px;flex-wrap:wrap}
+.wl-banner.vis{display:flex}
+.wl-count{color:var(--rose);font-size:10px;letter-spacing:.2em}
+.wl-actions{display:flex;gap:6px;margin-left:auto}
+
+/* LEGEND */
+.leg{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--border2);align-items:center}
+.ll{font-size:8px;letter-spacing:.28em;color:var(--muted);text-transform:uppercase}
+
+/* TAGS */
+.tag{display:inline-block;padding:2px 8px;font-size:7px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;border:1px solid;border-radius:2px;white-space:nowrap}
+.ta{color:var(--teal);border-color:var(--teal);background:rgba(58,186,168,.1)}
+.te{color:var(--rose);border-color:var(--rose);background:rgba(224,96,144,.1)}
+.ti{color:var(--violet);border-color:var(--violet);background:rgba(167,139,250,.1)}
+.tn{color:var(--amber);border-color:var(--amber);background:rgba(245,158,11,.1)}
+.tm{color:var(--gold2);border-color:var(--gold2);background:rgba(232,201,122,.1)}
+
+/* TABLE */
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;table-layout:fixed;min-width:800px}
+col.c0{width:42px}
+col.c1{width:3%}   /* watchlist */
+col.c2{width:20%}  /* title */
+col.c3{width:5%}   /* year */
+col.c4{width:11%}  /* country */
+col.c5{width:9%}   /* language */
+col.c6{width:14%}  /* director */
+col.c7{width:10%}  /* genre */
+col.c8{width:7%}   /* imdb */
+col.c9{width:21%}  /* description */
+thead tr{border-bottom:1px solid var(--border)}
+th{font-size:8px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);padding:10px 8px;text-align:left;cursor:pointer;white-space:nowrap;user-select:none}
+th:hover{color:var(--gold2)}
+th .si{opacity:.25;margin-left:3px;font-size:10px}
+th.sorted .si{opacity:1;color:var(--gold2)}
+th.no-sort{cursor:default}
+td{padding:9px 8px;vertical-align:middle}
+td.el{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+td.nc{overflow:visible;white-space:normal}
+td.desc-cell{color:var(--muted);font-size:11px;font-family:'Cormorant Garamond',serif;font-style:italic;line-height:1.4;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;white-space:normal}
+tbody tr{border-bottom:1px solid var(--border2);transition:background .1s}
+tbody tr:hover{background:rgba(201,168,76,.04)}
+tbody tr.in-wl{background:rgba(224,96,144,.05)}
+.c-n{color:var(--muted);font-size:10px;font-variant-numeric:tabular-nums}
+.c-t{font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--cream);line-height:1.25}
+.c-to{font-size:11px;color:var(--muted);font-style:italic;display:block;margin-top:1px}
+.c-dir-link{cursor:pointer;text-decoration:none;transition:color .15s}
+.c-dir-link:hover{color:var(--gold2)}
+tbody tr:hover .c-t{color:var(--gold2)}
+.c-y{color:var(--muted);font-size:11px}
+.c-co{color:var(--cream);font-size:11px}
+.c-la{color:var(--muted);font-size:11px}
+.c-d{font-family:'Cormorant Garamond',serif;font-size:14px;color:var(--cream)}
+.imdb-hi{color:var(--amber);font-weight:700;font-size:11px}
+.imdb-mid{color:var(--gold);font-weight:600;font-size:11px}
+.imdb-lo{color:var(--muted);font-size:11px}
+.imdb-na{color:var(--muted);font-size:10px;opacity:.5}
+.star{font-size:9px;margin-right:2px}
+
+/* WATCHLIST HEART */
+.wl-btn{background:none;border:none;cursor:pointer;font-size:14px;padding:2px 4px;transition:transform .15s;line-height:1;opacity:.35;color:var(--rose)}
+.wl-btn:hover{opacity:.7;transform:scale(1.2)}
+.wl-btn.wl-on{opacity:1;transform:scale(1.1)}
+
+/* ACTIVE FILTER TAG */
+.active-filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;min-height:0}
+.af-tag{display:inline-flex;align-items:center;gap:5px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.3);color:var(--gold);font-size:9px;padding:3px 8px;border-radius:2px;letter-spacing:.1em}
+.af-tag button{background:none;border:none;cursor:pointer;color:var(--gold);font-size:11px;padding:0;line-height:1;opacity:.7}
+.af-tag button:hover{opacity:1}
+
+/* PAGINATION */
+.pg{display:flex;align-items:center;gap:5px;justify-content:center;margin-top:30px;flex-wrap:wrap}
+.pb{background:var(--bg2);border:1px solid var(--border);color:var(--muted);padding:6px 12px;font-family:'DM Mono',monospace;font-size:10px;cursor:pointer;transition:all .18s;border-radius:2px;min-width:34px;text-align:center}
+.pb:hover{border-color:var(--gold);color:var(--gold)}
+.pb.on{background:var(--gold);border-color:var(--gold);color:#09080a;font-weight:700}
+.pb:disabled{opacity:.2;cursor:not-allowed;pointer-events:none}
+.nores{text-align:center;padding:60px 20px;color:var(--muted);font-family:'Cormorant Garamond',serif;font-size:20px;font-style:italic}
+
+/* DIRECTOR CHIP (active filter) */
+.dir-filter-chip{display:inline-flex;align-items:center;gap:6px;background:rgba(167,139,250,.12);border:1px solid rgba(167,139,250,.4);color:var(--violet);padding:3px 10px;border-radius:2px;font-size:9px;letter-spacing:.1em;margin-left:4px}
+.dir-filter-chip button{background:none;border:none;cursor:pointer;color:var(--violet);font-size:12px;padding:0;opacity:.7}
+.dir-filter-chip button:hover{opacity:1}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--bg3);border:1px solid var(--border);color:var(--cream);padding:10px 16px;font-size:11px;border-radius:3px;z-index:999;opacity:0;transform:translateY(8px);transition:all .3s;pointer-events:none}
+.toast.show{opacity:1;transform:translateY(0)}
+.toast.success{border-color:var(--teal);color:var(--teal)}
+.toast.info{border-color:var(--gold);color:var(--gold)}
+
+@media(max-width:1100px){
+  header,.ctrl,main{padding-left:18px;padding-right:18px}
+  h1{font-size:42px}
+  col.c4,col.c5,col.c9{width:0}
+  td:nth-child(5),th:nth-child(5),td:nth-child(6),th:nth-child(6),td:nth-child(10),th:nth-child(10){display:none}
+  col.c2{width:28%}col.c6{width:20%}
+}
+@media(max-width:640px){
+  col.c6{width:0}td:nth-child(7),th:nth-child(7){display:none}
+  col.c2{width:44%}
+}
+</style>
+</head>
+<body>
+<div class="toast" id="toast"></div>
+
+<header>
+  <div class="hi">
+    <p class="ey">Global Cinematic Archive &middot; Art House &middot; Erotic Drama &middot; Independent &middot; Animation</p>
+    <h1>CINÉM<em>A</em><br>OBSCURA</h1>
+    <p class="tl">A curated world cinema database &mdash; entertaining, sensual, artful &amp; alive. No horror. No gore. Pure cinema.</p>
+    <div class="sts">
+      <div><span class="sn" id="s-total">0</span><span class="sl">Films</span></div>
+      <div><span class="sn">70+</span><span class="sl">Countries</span></div>
+      <div><span class="sn">50+</span><span class="sl">Languages</span></div>
+      <div><span class="sn">1920&ndash;2024</span><span class="sl">Era</span></div>
+      <div class="hdr-btns">
+        <button class="ubtn export" onclick="exportCSV()">&#x2B07; Export CSV</button>
+        <button class="ubtn active" id="wl-toggle-btn" onclick="toggleWatchlistView()">&#x2665; Watchlist <span id="wl-hdr-count"></span></button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="ctrl">
+  <div class="ci">
+    <div class="sb"><input type="text" id="q" placeholder="Search title, director, country, language, description&hellip;"></div>
+    <div style="display:flex;gap:5px;flex-wrap:wrap" id="genre-btns">
+      <button class="fb on" data-g="all">All</button>
+      <button class="fb" data-g="art">Art House</button>
+      <button class="fb" data-g="ero">Erotic Drama</button>
+      <button class="fb" data-g="ind">Independent</button>
+      <button class="fb" data-g="anim">Animation</button>
+    </div>
+    <select id="sc"><option value="">All Countries</option></select>
+    <select id="sd">
+      <option value="">All Decades</option>
+      <option value="1920">1920s</option><option value="1930">1930s</option>
+      <option value="1940">1940s</option><option value="1950">1950s</option>
+      <option value="1960">1960s</option><option value="1970">1970s</option>
+      <option value="1980">1980s</option><option value="1990">1990s</option>
+      <option value="2000">2000s</option><option value="2010">2010s</option>
+      <option value="2020">2020s</option>
+    </select>
+    <select id="ss">
+      <option value="imdb-d">IMDB &#x2193;</option>
+      <option value="year-d">Year &#x2193;</option>
+      <option value="year-a">Year &#x2191;</option>
+      <option value="title-a">Title A&ndash;Z</option>
+      <option value="title-d">Title Z&ndash;A</option>
+      <option value="dir-a">Director A&ndash;Z</option>
+      <option value="country-a">Country A&ndash;Z</option>
+    </select>
+    <button class="ubtn clr" onclick="clearAll()">&#x2715; Clear</button>
+    <span class="bdg" id="bdg">loading&hellip;</span>
+  </div>
+</div>
+
+<main>
+  <div class="wl-banner" id="wl-banner">
+    <span class="wl-count" id="wl-count-txt">0 films in watchlist</span>
+    <div class="wl-actions">
+      <button class="ubtn export" onclick="exportWatchlist()">&#x2B07; Export Watchlist</button>
+      <button class="ubtn clr" onclick="clearWatchlist()">&#x2715; Clear All</button>
+    </div>
+  </div>
+
+  <div class="active-filters" id="active-filters"></div>
+
+  <div class="leg">
+    <span class="ll">Genres:</span>
+    <span class="tag ta">Art House</span>
+    <span class="tag te">Erotic Drama</span>
+    <span class="tag ti">Independent</span>
+    <span class="tag tn">Animation</span>
+    <span class="tag tm">Mixed</span>
+    <span style="margin-left:auto;font-size:9px;color:var(--muted);letter-spacing:.1em">Click director name to filter &bull; &#x2665; to watchlist</span>
+  </div>
+
+  <div class="tw">
+    <table>
+      <colgroup>
+        <col class="c0"><col class="c1"><col class="c2"><col class="c3">
+        <col class="c4"><col class="c5"><col class="c6"><col class="c7">
+        <col class="c8"><col class="c9">
+      </colgroup>
+      <thead><tr>
+        <th data-col="idx" class="sorted"># <span class="si">&#x21D5;</span></th>
+        <th class="no-sort" title="Add to Watchlist">&#x2665;</th>
+        <th data-col="title">Title <span class="si">&#x21D5;</span></th>
+        <th data-col="year">Year <span class="si">&#x21D5;</span></th>
+        <th data-col="country">Country <span class="si">&#x21D5;</span></th>
+        <th data-col="language">Language <span class="si">&#x21D5;</span></th>
+        <th data-col="director">Director <span class="si">&#x21D5;</span></th>
+        <th class="no-sort">Genre</th>
+        <th data-col="imdb">IMDB <span class="si">&#x21D5;</span></th>
+        <th class="no-sort">Synopsis</th>
+      </tr></thead>
+      <tbody id="tb"></tbody>
+    </table>
+    <div class="nores" id="nr" style="display:none">No films found.</div>
+  </div>
+  <div class="pg" id="pg"></div>
+</main>
+<script>
+// ── IMDB RATINGS LOOKUP {title|year: rating} ─────────────
+const IR={"breathless|1960":8.0,"contempt|1963":7.9,"pierrot le fou|1965":7.8,"band of outsiders|1964":7.7,"vivre sa vie|1962":7.9,"masculine feminine|1966":7.7,"the 400 blows|1959":8.1,"jules and jim|1962":8.0,"shoot the piano player|1960":7.7,"day for night|1973":8.0,"stolen kisses|1968":7.8,"small change|1976":7.8,"two english girls|1971":7.6,"cleo from 5 to 7|1962":7.8,"vagabond|1985":7.7,"the gleaners and i|2000":7.7,"le bonheur|1965":7.6,"faces places|2017":7.9,"hiroshima mon amour|1959":8.0,"last year at marienbad|1961":7.8,"mon oncle d'amérique|1980":7.8,"wild grass|2009":7.4,"pickpocket|1959":8.0,"au hasard balthazar|1966":8.2,"mouchette|1967":7.9,"a man escaped|1956":8.3,"l'argent|1983":8.0,"diary of a country priest|1951":8.1,"the umbrellas of cherbourg|1964":8.0,"the young girls of rochefort|1967":7.6,"lola|1961":7.6,"donkey skin|1970":7.6,"ma nuit chez maud|1969":8.0,"claire's knee|1970":7.8,"the green ray|1986":7.8,"pauline at the beach|1983":7.6,"a summer's tale|1996":7.7,"autumn tale|1998":7.7,"love in the afternoon|1972":7.7,"full moon in paris|1984":7.6,"the rules of the game|1939":8.1,"grand illusion|1937":8.2,"the crime of monsieur lange|1936":7.6,"l'atalante|1934":8.0,"children of paradise|1945":8.4,"port of shadows|1938":7.9,"beauty and the beast|1946":8.1,"orpheus|1950":7.9,"rififi|1955":8.1,"pépé le moko|1937":7.8,"elevator to the gallows|1958":7.8,"murmur of the heart|1971":7.7,"my dinner with andré|1981":7.9,"atlantic city|1980":7.6,"au revoir les enfants|1987":8.2,"damage|1992":7.0,"le samouraï|1967":8.1,"army of shadows|1969":8.2,"bob le flambeur|1956":7.7,"le cercle rouge|1970":8.1,"betty blue|1986":7.8,"diva|1981":7.7,"mauvais sang|1986":7.7,"the lovers on the bridge|1991":7.8,"holy motors|2012":7.4,"annette|2021":6.7,"swimming pool|2003":7.0,"8 women|2002":7.4,"in the house|2012":7.6,"water drops on burning rocks|2000":7.5,"blue is the warmest colour|2013":7.7,"raw|2016":7.1,"titane|2021":6.9,"portrait of a lady on fire|2019":8.1,"girlhood|2014":7.3,"water lilies|2007":7.0,"petite maman|2021":7.5,"tomboy|2011":7.6,"look at me|2004":7.6,"the taste of others|2000":7.6,"polisse|2011":7.4,"of gods and men|2010":7.9,"bpm (beats per minute)|2017":7.5,"caché|2005":7.8,"the piano teacher|2001":7.5,"amour|2012":7.9,"code unknown|2000":7.7,"amélie|2001":8.3,"delicatessen|1991":7.9,"the city of lost children|1995":7.7,"a very long engagement|2004":7.7,"mon oncle|1958":8.0,"playtime|1967":8.0,"mr. hulot's holiday|1953":7.9,"the intouchables|2011":8.5,"la vie en rose|2007":7.6,"the artist|2011":7.9,"a prophet|2009":7.9,"rust and bone|2012":7.5,"dheepan|2015":7.4,"emilia pérez|2024":6.9,"wild strawberries|1957":8.2,"the seventh seal|1957":8.2,"persona|1966":8.1,"scenes from a marriage|1973":8.2,"cries and whispers|1972":8.1,"fanny and alexander|1982":8.1,"autumn sonata|1978":8.0,"smiles of a summer night|1955":7.9,"summer with monika|1953":7.6,"the magician|1958":7.8,"winter light|1963":8.0,"through a glass darkly|1961":8.0,"the virgin spring|1960":8.0,"sawdust and tinsel|1953":7.8,"saraband|2003":7.9,"force majeure|2014":7.5,"the square|2017":7.2,"triangle of sadness|2022":7.3,"songs from the second floor|2000":7.7,"you, the living|2007":7.6,"a pigeon sat on a branch reflecting on existence|2014":7.1,"about endlessness|2019":7.2,"my life as a dog|1985":7.9,"elvira madigan|1967":7.3,"the sacrifice|1986":8.0,"oslo, august 31st|2011":7.8,"the worst person in the world|2021":8.0,"reprise|2006":8.0,"thelma|2017":7.4,"le havre|2011":7.7,"the match factory girl|1990":7.4,"ariel|1988":7.7,"the man without a past|2002":7.7,"drifting clouds|1996":7.6,"the other side of hope|2017":7.5,"fallen leaves|2023":7.6,"shadows in paradise|1986":7.7,"babette's feast|1987":8.0,"the celebration|1998":8.1,"the hunt|2012":8.3,"another round|2020":7.7,"pelle the conqueror|1987":8.0,"italian for beginners|2000":7.3,"on body and soul|2017":7.7,"the story of my wife|2021":6.8,"bicycle thieves|1948":8.3,"umberto d.|1952":7.9,"shoeshine|1946":7.8,"la dolce vita|1960":8.0,"8½|1963":8.0,"amarcord|1973":8.0,"la strada|1954":8.2,"the nights of cabiria|1957":8.0,"i vitelloni|1953":8.0,"juliet of the spirits|1965":7.6,"and the ship sails on|1983":7.4,"city of women|1980":7.1,"casanova|1976":7.0,"satyricon|1969":7.0,"l'avventura|1960":8.0,"l'eclisse|1962":8.0,"red desert|1964":7.8,"blow-up|1966":7.8,"the passenger|1975":7.9,"zabriskie point|1970":6.9,"beyond the clouds|1995":6.6,"the leopard|1963":8.2,"rocco and his brothers|1960":8.4,"death in venice|1971":8.0,"white nights|1957":7.8,"the innocent|1976":7.5,"the conformist|1970":8.1,"last tango in paris|1972":7.3,"the dreamers|2003":7.3,"the last emperor|1987":8.0,"1900|1976":7.6,"stealing beauty|1996":6.7,"rome, open city|1945":8.0,"voyage in italy|1954":7.7,"the great beauty|2013":7.9,"youth|2015":7.2,"the hand of god|2021":7.3,"i am love|2009":7.3,"a bigger splash|2015":6.9,"call me by your name|2017":7.9,"suspiria|2018":6.8,"bones and all|2022":7.3,"challengers|2024":7.3,"the best of youth|2003":8.5,"cinema paradiso|1988":8.5,"malèna|2000":7.5,"the postman|1994":7.7,"swept away|1974":7.2,"seven beauties|1975":7.8,"we all loved each other so much|1974":7.9,"good morning night|2003":7.5,"the fist in the pocket|1965":8.0,"vincere|2009":7.3,"the traitor|2019":7.6,"divorce italian style|1961":7.9,"the good, the bad and the ugly|1966":8.8,"once upon a time in the west|1968":8.5,"once upon a time in america|1984":8.3,"a fistful of dollars|1964":8.0,"for a few dollars more|1965":8.2,"duck, you sucker!|1971":7.9,"the battle of algiers|1966":8.1,"the night porter|1974":6.9,"dear diary|1993":7.6,"the son's room|2001":7.3,"cinema paradiso|1988":8.5,"volver|2006":7.7,"all about my mother|1999":8.0,"talk to her|2002":8.0,"women on the verge of a nervous breakdown|1988":7.7,"tie me up! tie me down!|1990":7.0,"matador|1986":7.3,"law of desire|1987":7.3,"bad education|2004":7.3,"pain and glory|2019":7.7,"parallel mothers|2021":7.0,"julieta|2016":7.1,"broken embraces|2009":7.3,"the skin i live in|2011":7.6,"belle époque|1992":7.7,"jamón, jamón|1992":7.1,"pan's labyrinth|2006":8.2,"the devil's backbone|2001":7.9,"the shape of water|2017":7.3,"cronos|1993":7.1,"belle de jour|1967":7.9,"that obscure object of desire|1977":7.8,"the discreet charm of the bourgeoisie|1972":7.9,"tristana|1970":7.4,"viridiana|1961":8.1,"the phantom of liberty|1974":7.8,"the exterminating angel|1962":8.0,"the diary of a chambermaid|1964":7.5,"los olvidados|1950":8.0,"un chien andalou|1929":8.0,"y tu mamá también|2001":7.7,"roma|2018":7.7,"children of men|2006":7.9,"gravity|2013":7.7,"amores perros|2000":8.1,"biutiful|2010":7.5,"like water for chocolate|1992":7.4,"wild tales|2014":8.1,"nine queens|2000":7.8,"la ciénaga|2001":7.3,"zama|2017":7.1,"the clan|2015":7.6,"neruda|2016":7.1,"no|2012":7.6,"a fantastic woman|2017":7.4,"the maid|2009":7.3,"embrace of the serpent|2015":7.8,"birds of passage|2018":7.7,"memoria|2021":6.9,"the motorcycle diaries|2004":7.8,"central station|1998":7.9,"black orpheus|1959":7.7,"city of god|2002":8.6,"kiss of the spider woman|1985":7.4,"the second mother|2015":7.7,"aquarius|2016":7.4,"bacurau|2019":7.4,"memories of underdevelopment|1968":8.0,"strawberry and chocolate|1994":7.6,"i am cuba|1964":8.5,"whisky|2004":7.3,"seven samurai|1954":8.6,"rashomon|1950":8.2,"ikiru|1952":8.3,"yojimbo|1961":8.2,"ran|1985":8.2,"kagemusha|1980":8.0,"the hidden fortress|1958":8.0,"dersu uzala|1975":8.1,"dreams|1990":7.8,"sanjuro|1962":8.1,"high and low|1963":8.4,"tokyo story|1953":8.2,"late spring|1949":8.1,"floating weeds|1959":7.9,"an autumn afternoon|1962":8.0,"early summer|1951":8.0,"good morning|1959":7.9,"ugetsu|1953":8.2,"sansho the bailiff|1954":8.4,"the life of oharu|1952":7.9,"sisters of the gion|1936":7.7,"woman in the dunes|1964":8.1,"harakiri|1962":8.6,"kwaidan|1964":8.1,"ballad of narayama|1983":7.8,"the eel|1997":7.5,"dr. akagi|1998":7.3,"warm water under a red bridge|2001":7.1,"in the realm of the senses|1976":7.4,"empire of passion|1978":7.3,"hana-bi|1997":8.0,"sonatine|1993":7.9,"kikujiro|1999":8.0,"kids return|1996":7.9,"dolls|2002":7.2,"like father, like son|2013":7.9,"shoplifters|2018":8.0,"nobody knows|2004":8.2,"still walking|2008":7.8,"after life|1998":7.9,"our little sister|2015":7.7,"after the storm|2016":7.4,"monster|2023":8.2,"broker|2022":7.0,"drive my car|2021":8.0,"wheel of fortune and fantasy|2021":7.8,"happy hour|2015":8.0,"evil does not exist|2023":7.7,"all about lily chou-chou|2001":7.6,"love letter|1995":7.8,"sweet bean|2015":7.5,"house|1977":7.8,"onibaba|1964":7.9,"kuroneko|1968":7.8,"double suicide|1969":7.7,"battle royale|2000":7.6,"odd obsession|1959":7.4,"in the mood for love|2000":8.1,"chungking express|1994":8.1,"2046|2004":7.5,"happy together|1997":7.7,"fallen angels|1995":7.6,"days of being wild|1990":7.7,"the grandmaster|2013":7.1,"raise the red lantern|1991":8.1,"ju dou|1990":7.7,"to live|1994":8.3,"hero|2002":7.9,"house of flying daggers|2004":7.6,"still life|2006":7.4,"a touch of sin|2013":7.5,"farewell my concubine|1993":8.1,"yellow earth|1984":7.8,"blue kite|1993":8.1,"springtime in a small town|1948":8.0,"spring fever|2009":7.2,"black coal, thin ice|2014":7.1,"the killer|1989":7.6,"hard boiled|1992":7.8,"a better tomorrow|1986":7.6,"a chinese ghost story|1987":7.6,"drug war|2012":7.3,"election|2005":7.7,"rouge|1987":7.7,"a brighter summer day|1991":8.2,"yi yi|2000":8.1,"taipei story|1985":8.0,"city of sadness|1989":8.0,"flowers of shanghai|1998":7.8,"three times|2005":7.6,"the assassin|2015":6.9,"goodbye dragon inn|2003":7.3,"what time is it there?|2001":7.5,"vive l'amour|1994":7.7,"the wayward cloud|2005":6.8,"crouching tiger hidden dragon|2000":7.9,"eat drink man woman|1994":7.8,"the wedding banquet|1993":7.8,"lust, caution|2007":7.6,"sense and sensibility|1995":7.7,"brokeback mountain|2005":7.7,"the ice storm|1997":7.4,"life of pi|2012":7.9,"parasite|2019":8.5,"memories of murder|2003":8.1,"mother|2009":7.8,"the host|2006":7.9,"snowpiercer|2013":7.1,"okja|2017":7.3,"oldboy|2003":8.4,"lady vengeance|2005":7.6,"thirst|2009":7.2,"the handmaiden|2016":8.1,"decision to leave|2022":7.4,"spring summer fall winter and spring|2003":8.0,"3-iron|2004":8.0,"burning|2018":7.5,"poetry|2010":7.9,"secret sunshine|2007":7.7,"oasis|2002":8.0,"right now wrong then|2015":7.6,"a tale of two sisters|2003":7.5,"a bittersweet life|2005":7.8,"the good the bad the weird|2008":7.3,"uncle boonmee who can recall his past lives|2010":6.9,"tropical malady|2004":7.3,"syndromes and a century|2006":7.4,"cemetery of splendour|2015":7.0,"taste of cherry|1997":7.8,"close-up|1990":8.4,"where is the friend's home?|1987":8.0,"the wind will carry us|1999":8.0,"certified copy|2010":7.4,"like someone in love|2012":7.2,"a separation|2011":8.3,"the salesman|2016":7.8,"about elly|2009":8.0,"a hero|2021":7.1,"the past|2013":7.9,"offside|2006":7.6,"the circle|2000":7.7,"the white balloon|1995":7.7,"children of heaven|1997":8.1,"the color of paradise|1999":8.1,"gabbeh|1996":7.2,"a moment of innocence|1996":8.0,"time for drunken horses|2000":7.5,"joyland|2022":7.4,"a girl walks home alone at night|2014":7.0,"pather panchali|1955":8.4,"aparajito|1956":8.2,"the world of apu|1959":8.4,"charulata|1964":8.3,"the music room|1958":8.1,"mahanagar|1963":8.0,"distant thunder|1973":8.1,"days and nights in the forest|1970":7.9,"pyaasa|1957":8.2,"kaagaz ke phool|1959":8.0,"mother india|1957":8.0,"do bigha zamin|1953":8.2,"ankur|1974":8.0,"nishant|1975":7.9,"fire|1996":7.1,"earth|1998":7.4,"water|2005":7.8,"monsoon wedding|2001":7.3,"salaam bombay!|1988":7.9,"the lunchbox|2013":7.8,"masaan|2015":8.2,"court|2014":8.1,"ship of theseus|2012":8.4,"gangs of wasseypur|2012":8.2,"dev d|2009":8.1,"haider|2014":8.0,"aligarh|2015":8.1,"stalker|1979":8.1,"solaris|1972":8.1,"andrei rublev|1966":8.3,"mirror|1975":8.1,"ivan's childhood|1962":8.2,"nostalghia|1983":8.0,"the color of pomegranates|1969":7.9,"shadows of forgotten ancestors|1965":8.0,"come and see|1985":8.4,"the cranes are flying|1957":8.0,"battleship potemkin|1925":8.0,"the return|2003":7.7,"elena|2011":7.2,"leviathan|2014":7.6,"loveless|2017":7.5,"a short film about love|1988":8.2,"the double life of véronique|1991":7.8,"three colors: blue|1993":8.0,"three colors: white|1994":7.9,"three colors: red|1994":8.1,"camera buff|1979":8.2,"dekalog|1988":9.1,"man of iron|1981":7.8,"ashes and diamonds|1958":8.2,"ida|2013":7.4,"cold war|2018":7.7,"my summer of love|2004":7.2,"closely observed trains|1966":8.2,"daisies|1966":7.7,"valerie and her week of wonders|1970":7.4,"loves of a blonde|1965":7.8,"the firemen's ball|1967":7.8,"the turin horse|2011":7.8,"werckmeister harmonies|2000":8.1,"sátántangó|1994":8.2,"mephisto|1981":7.9,"white god|2014":7.2,"4 months 3 weeks and 2 days|2007":8.0,"beyond the hills|2012":7.6,"the death of mr. lazarescu|2005":7.9,"aferim!|2015":7.5,"bad luck banging or loony porn|2021":6.8,"underground|1995":8.1,"black cat white cat|1998":8.0,"time of the gypsies|1988":8.1,"arizona dream|1993":8.1,"when father was away on business|1985":8.1,"life is a miracle|2004":7.9,"wings of desire|1987":8.1,"paris texas|1984":8.1,"alice in the cities|1974":8.0,"kings of the road|1976":8.2,"the marriage of maria braun|1979":8.1,"ali fear eats the soul|1974":8.1,"the bitter tears of petra von kant|1972":7.7,"fox and his friends|1975":7.9,"aguirre the wrath of god|1972":8.0,"fitzcarraldo|1982":8.0,"stroszek|1977":8.0,"the tin drum|1979":8.0,"run lola run|1998":7.6,"toni erdmann|2016":7.7,"metropolis|1927":8.3,"m|1931":8.3,"nosferatu|1922":7.9,"sunrise|1927":8.2,"pandora's box|1929":7.9,"the white ribbon|2009":7.9,"amadeus|1984":8.4,"one flew over the cuckoo's nest|1975":8.7,"dogtooth|2009":7.4,"the lobster|2015":7.1,"the favourite|2018":7.5,"poor things|2023":7.8,"kinds of kindness|2024":6.1,"landscape in the mist|1988":8.1,"eternity and a day|1998":8.1,"the travelling players|1975":8.3,"winter sleep|2014":8.1,"once upon a time in anatolia|2011":8.1,"the wild pear tree|2018":8.1,"distant|2002":7.6,"waltz with bashir|2008":8.0,"the band's visit|2007":7.8,"footnote|2011":7.5,"capernaum|2018":8.2,"where do we go now?|2011":7.4,"and then we danced|2019":7.5,"tangerines|2013":8.1,"touki bouki|1973":7.6,"yeelen|1987":7.7,"tilaï|1990":7.8,"moolaadé|2004":7.8,"timbuktu|2014":7.7,"atlantic|2019":6.6,"tsotsi|2005":7.5,"félicité|2017":7.1,"cairo station|1958":7.7,"rosetta|1999":7.8,"l'enfant|2005":7.7,"the son|2002":7.9,"the kid with a bike|2011":7.7,"two days one night|2014":7.8,"tori and lokita|2022":7.4,"la promesse|1996":7.9,"naked|1993":7.7,"secrets and lies|1996":7.9,"vera drake|2004":7.6,"happy-go-lucky|2008":7.4,"another year|2010":7.6,"mr. turner|2014":7.2,"kes|1969":8.1,"the wind that shakes the barley|2006":7.5,"i daniel blake|2016":7.8,"hunger|2008":7.8,"shame|2011":7.2,"12 years a slave|2013":8.1,"ratcatcher|1999":7.5,"morvern callar|2002":7.0,"you were never really here|2017":7.0,"fish tank|2009":7.5,"american honey|2016":7.1,"weekend|2011":7.6,"45 years|2015":7.2,"the zone of interest|2023":7.9,"under the skin|2013":6.3,"the piano|1993":7.6,"bright star|2009":7.4,"the power of the dog|2021":6.9,"holy smoke|1999":6.5,"picnic at hanging rock|1975":7.7,"walkabout|1971":7.4,"don't look now|1973":7.4,"bad timing|1980":7.1,"a room with a view|1985":7.4,"maurice|1987":7.6,"howards end|1992":7.7,"the remains of the day|1993":7.7,"the banshees of inisherin|2022":7.6,"three billboards outside ebbing missouri|2017":8.2,"in bruges|2008":7.9,"calvary|2014":7.6,"god's own country|2017":7.2,"ammonite|2020":6.3,"orlando|1992":7.2,"the english patient|1996":7.4,"the talented mr. ripley|1999":7.4,"an education|2009":7.3,"my beautiful laundrette|1985":7.4,"the grifters|1990":7.8,"dirty pretty things|2002":7.4,"philomena|2013":7.6,"dangerous liaisons|1988":7.6,"the crying game|1992":7.3,"mona lisa|1986":7.5,"the end of the affair|1999":6.9,"billy elliot|2000":7.7,"the hours|2002":7.6,"the reader|2008":7.6,"atonement|2007":7.8,"pride and prejudice|2005":7.8,"anna karenina|2012":6.6,"belfast|2021":7.3,"much ado about nothing|1993":7.3,"henry v|1989":7.6,"the full monty|1997":7.7,"four weddings and a funeral|1994":7.1,"notting hill|1999":7.1,"about a boy|2002":7.1,"love actually|2003":7.0,"brooklyn|2015":7.4,"once|2006":7.9,"sing street|2016":8.1,"gosford park|2001":7.4,"if....|1968":7.9,"badlands|1973":7.8,"days of heaven|1978":7.9,"the thin red line|1998":7.6,"the tree of life|2011":6.8,"a hidden life|2019":7.3,"song to song|2017":5.5,"taxi driver|1976":8.2,"raging bull|1980":8.2,"the king of comedy|1982":7.8,"after hours|1985":7.6,"goodfellas|1990":8.7,"the last temptation of christ|1988":7.5,"silence|2016":7.7,"the age of innocence|1993":7.2,"the irishman|2019":7.8,"killers of the flower moon|2023":7.6,"casino|1995":8.2,"nashville|1975":8.0,"mccabe and mrs. miller|1971":7.7,"short cuts|1993":8.0,"the long goodbye|1973":8.0,"3 women|1977":7.8,"boogie nights|1997":7.9,"magnolia|1999":8.0,"punch-drunk love|2002":7.3,"there will be blood|2007":8.2,"the master|2012":7.1,"phantom thread|2017":7.5,"licorice pizza|2021":7.4,"inherent vice|2014":6.8,"lost in translation|2003":7.8,"the virgin suicides|1999":7.2,"marie antoinette|2006":6.7,"priscilla|2023":6.7,"the conversation|1974":7.9,"apocalypse now|1979":8.4,"the godfather|1972":9.2,"the godfather part ii|1974":9.0,"the last picture show|1971":8.0,"midnight cowboy|1969":7.8,"easy rider|1969":7.3,"blue velvet|1986":7.7,"mulholland drive|2001":8.0,"lost highway|1997":7.6,"eraserhead|1977":7.4,"wild at heart|1990":7.2,"eyes wide shut|1999":7.3,"a clockwork orange|1971":8.3,"2001: a space odyssey|1968":8.3,"barry lyndon|1975":8.1,"paths of glory|1957":8.4,"dr. strangelove|1964":8.4,"lolita|1962":7.7,"chinatown|1974":8.1,"rosemary's baby|1968":8.0,"the tenant|1976":7.6,"cabaret|1972":7.9,"all that jazz|1979":7.8,"the graduate|1967":8.0,"who's afraid of virginia woolf?|1966":8.1,"carnal knowledge|1971":7.3,"closer|2004":7.2,"annie hall|1977":8.0,"manhattan|1979":7.9,"stardust memories|1980":7.4,"crimes and misdemeanors|1989":8.0,"husbands and wives|1992":7.6,"midnight in paris|2011":7.7,"match point|2005":7.6,"sweet and lowdown|1999":7.8,"vicky cristina barcelona|2008":7.2,"blue jasmine|2013":7.3,"secretary|2002":7.0,"the lover|1992":6.8,"the unbearable lightness of being|1988":7.2,"henry and june|1990":6.8,"9 and a half weeks|1986":5.8,"unfaithful|2002":6.9,"indecent proposal|1993":6.3,"basic instinct|1992":6.9,"elle|2016":7.1,"benedetta|2021":6.9,"black book|2006":7.7,"body heat|1981":7.3,"bound|1996":7.2,"women in love|1969":7.3,"the devils|1971":7.5,"crash|1996":7.2,"dead ringers|1988":7.5,"a history of violence|2005":7.5,"eastern promises|2007":7.5,"naked lunch|1991":7.0,"possession|1981":7.4,"love|2015":5.9,"irréversible|2002":7.3,"climax|2018":6.9,"enter the void|2009":7.1,"american gigolo|1980":6.6,"first reformed|2017":7.8,"cat people|1982":6.5,"klute|1971":7.3,"sophie's choice|1982":7.7,"magic mike|2012":6.1,"emmanuelle|1974":5.6,"sex lies and videotape|1989":7.3,"stranger than paradise|1984":7.6,"dead man|1995":7.5,"night on earth|1991":8.0,"ghost dog: the way of the samurai|1999":7.7,"broken flowers|2005":7.3,"paterson|2016":7.4,"only lovers left alive|2013":7.1,"down by law|1986":7.9,"mystery train|1989":7.9,"pi|1998":7.5,"requiem for a dream|2000":8.3,"the fountain|2006":7.3,"the wrestler|2008":7.9,"black swan|2010":8.0,"blood simple|1984":7.5,"raising arizona|1987":7.5,"miller's crossing|1990":7.7,"barton fink|1991":7.7,"fargo|1996":8.1,"the big lebowski|1998":8.1,"no country for old men|2007":8.1,"a serious man|2009":7.0,"inside llewyn davis|2013":7.5,"o brother where art thou?|2000":7.8,"burn after reading|2008":7.0,"reservoir dogs|1992":8.3,"pulp fiction|1994":8.9,"jackie brown|1997":7.5,"kill bill: vol. 1|2003":8.2,"kill bill: vol. 2|2004":8.0,"inglourious basterds|2009":8.3,"django unchained|2012":8.5,"once upon a time in hollywood|2019":7.6,"drugstore cowboy|1989":7.5,"my own private idaho|1991":7.2,"good will hunting|1997":8.3,"milk|2008":7.5,"traffic|2000":7.6,"slacker|1990":7.1,"dazed and confused|1993":7.8,"before sunrise|1995":8.1,"before sunset|2004":8.1,"before midnight|2013":7.9,"waking life|2001":7.8,"boyhood|2014":7.9,"a scanner darkly|2006":7.1,"adaptation|2002":7.7,"being john malkovich|1999":7.7,"her|2013":8.0,"eternal sunshine of the spotless mind|2004":8.3,"the science of sleep|2006":7.4,"you can count on me|2000":7.7,"manchester by the sea|2016":7.8,"moonlight|2016":7.4,"if beale street could talk|2018":7.3,"lady bird|2017":7.4,"little women|2019":7.8,"barbie|2023":6.9,"frances ha|2012":7.4,"the squid and the whale|2005":7.3,"marriage story|2019":7.9,"the meyerowitz stories|2017":7.3,"wendy and lucy|2008":7.2,"first cow|2019":7.1,"certain women|2016":7.4,"winter's bone|2010":7.5,"leave no trace|2018":7.8,"short term 12|2013":7.7,"blue valentine|2010":7.4,"the florida project|2017":7.6,"tangerine|2015":7.1,"red rocket|2021":7.2,"beasts of the southern wild|2012":7.1,"fruitvale station|2013":7.5,"sorry to bother you|2018":6.9,"the last black man in san francisco|2019":7.4,"waves|2019":7.4,"everything everywhere all at once|2022":7.8,"whiplash|2014":8.5,"la la land|2016":8.0,"babylon|2022":7.1,"first man|2018":7.3,"hereditary|2018":7.3,"midsommar|2019":7.1,"beau is afraid|2023":6.0,"the witch|2015":6.9,"the lighthouse|2019":7.5,"primer|2004":6.9,"upstream color|2013":6.8,"the royal tenenbaums|2001":7.5,"rushmore|1998":7.7,"the grand budapest hotel|2014":8.1,"moonrise kingdom|2012":7.6,"the darjeeling limited|2007":7.2,"the life aquatic with steve zissou|2004":7.3,"the french dispatch|2021":7.2,"asteroid city|2023":6.6,"incendies|2010":8.2,"prisoners|2013":8.1,"enemy|2013":7.0,"arrival|2016":7.9,"i killed my mother|2009":7.2,"heartbeats|2010":7.2,"laurence anyways|2012":7.6,"mommy|2014":8.2,"stories we tell|2012":7.9,"away from her|2006":7.6,"take this waltz|2011":6.8,"20th century women|2016":7.3,"beginners|2010":7.4,"c'mon c'mon|2021":7.0,"shotgun stories|2007":7.2,"mud|2012":7.5,"take shelter|2011":7.3,"loving|2016":7.0,"blue ruin|2013":6.8,"wanda|1970":7.8,"george washington|2000":7.5,"the diary of a teenage girl|2015":7.2,"booksmart|2019":7.2,"the edge of seventeen|2016":7.5,"mudbound|2017":7.3,"selma|2014":7.5,"el mariachi|1992":7.0,"following|1998":7.5,"memento|2000":8.4,"two-lane blacktop|1971":7.7,"the wild bunch|1969":7.9,"all the president's men|1976":8.0,"pig|2021":7.2,"mean streets|1973":7.3,"synecdoche new york|2008":7.5,"anomalisa|2015":7.2,"welcome to the dollhouse|1995":7.3,"happiness|1998":7.0,"spirited away|2001":8.6,"my neighbor totoro|1988":8.1,"princess mononoke|1997":8.4,"nausicaä of the valley of the wind|1984":8.1,"castle in the sky|1986":8.0,"kiki's delivery service|1989":7.8,"howl's moving castle|2004":8.2,"the wind rises|2013":7.8,"porco rosso|1992":7.8,"the castle of cagliostro|1979":7.9,"ponyo|2008":7.7,"the boy and the heron|2023":7.6,"grave of the fireflies|1988":8.5,"only yesterday|1991":8.0,"pom poko|1994":7.5,"the tale of princess kaguya|2013":8.1,"my neighbors the yamadas|1999":7.4,"when marnie was there|2014":7.7,"the secret world of arrietty|2010":7.5,"wolf children|2012":8.0,"summer wars|2009":7.7,"belle|2021":7.4,"the girl who leapt through time|2006":7.7,"mirai|2018":7.2,"the boy and the beast|2015":7.6,"millennium actress|2001":8.2,"tokyo godfathers|2003":8.0,"perfect blue|1997":8.0,"paprika|2006":7.7,"akira|1988":8.0,"ghost in the shell|1995":8.0,"ghost in the shell 2: innocence|2004":7.5,"your name|2016":8.4,"weathering with you|2019":7.5,"5 centimeters per second|2007":7.7,"the garden of words|2013":7.5,"suzume|2022":7.8,"night is short walk on girl|2017":7.6,"the red turtle|2016":7.5,"ernest and celestine|2012":7.9,"the triplets of belleville|2003":7.8,"the illusionist|2010":7.6,"persepolis|2007":8.0,"flee|2021":8.0,"the breadwinner|2017":7.7,"song of the sea|2014":8.1,"the secret of kells|2009":7.8,"wolfwalkers|2020":8.1,"i lost my body|2019":7.8,"loving vincent|2017":6.8,"my life as a courgette|2016":7.7,"azur and asmar|2006":7.5,"kirikou and the sorceress|1998":7.5,"anomalisa|2015":7.2,"fantastic mr. fox|2009":7.9,"isle of dogs|2018":7.9,"watership down|1978":7.7,"fantastic planet|1973":7.8,"yellow submarine|1968":7.4,"belladonna of sadness|1973":6.9,"a letter to momo|2011":7.3,"children of the sea|2019":6.9,"barefoot gen|1983":7.8,"from up on poppy hill|2011":7.2,"the cat returns|2002":7.2,"the night of the galactic railroad|1985":7.4,"the beast must die|2021":6.5,"ducktales the movie|1990":6.8,"jujutsu kaisen 0|2021":7.9,"demon slayer: mugen train|2020":8.2,"your lie in april|2015":7.8,"a silent voice|2016":8.1,"i want to eat your pancreas|2018":7.9,"made in abyss|2019":8.1,"violet evergarden|2018":8.5,"given|2019":7.9,"banana fish|2018":8.2,"neon genesis evangelion|1997":8.5,"end of evangelion|1997":7.9,"revolutionary girl utena|1997":8.3};
+// ── FILM DESCRIPTIONS ─────────────────────────────────────
+const DESC={
+"breathless|1960":"A petty thief steals a car and shoots a policeman, then hides out with his American girlfriend in Paris. Godard's debut defined the French New Wave with jump cuts and existential cool.",
+"contempt|1963":"A screenwriter watches his marriage dissolve on the set of a Fritz Lang film. A meditation on love, cinema, and the corruption of art by commerce.",
+"pierrot le fou|1965":"A man abandons his bourgeois life and runs off with his former babysitter, leading to an anarchic, visually explosive road trip across France.",
+"band of outsiders|1964":"Two young men and a woman plan a heist while dancing in cafés and running through the Louvre. Crime as poetry, romance as rebellion.",
+"vivre sa vie|1962":"A young Parisian woman drifts into prostitution while maintaining her dignity and philosophical curiosity. Twelve chapters in the life of a soul.",
+"masculine feminine|1966":"Young love between a socialist dreamer and a would-be pop star in 1960s Paris. A portrait of the generation between Marx and Coca-Cola.",
+"the 400 blows|1959":"A misunderstood 12-year-old in Paris skips school, lies, steals, and finally runs away to the sea. One of cinema's most honest portraits of childhood.",
+"jules and jim|1962":"Two best friends—one French, one German—both fall for the same free-spirited woman across two decades and two world wars.",
+"shoot the piano player|1960":"A former concert pianist now playing in a dive bar gets drawn into his brothers' criminal troubles. A tender, funny, melancholy genre hybrid.",
+"day for night|1973":"The making of a film within a film—love affairs, accidents, and the beautiful chaos of cinema production. Truffaut's love letter to movies.",
+"cleo from 5 to 7|1962":"A singer waits two hours for medical test results that may reveal cancer. Real-time anxiety becomes a lyrical portrait of a woman awakening.",
+"vagabond|1985":"The frozen body of a young woman is found in a ditch. Told in reverse through those who knew her, a fierce and unsentimental study of freedom.",
+"the gleaners and i|2000":"Varda wanders France filming those who glean—leftovers from fields, markets, society—including herself as an aging woman.",
+"le bonheur|1965":"A young carpenter has a happy family and a happy mistress, and sees no reason why he can't have both. Varda's most unsettling, sunlit provocation.",
+"hiroshima mon amour|1959":"A French actress filming in Hiroshima has an affair with a Japanese architect while memories of wartime atrocity and personal loss converge.",
+"last year at marienbad|1961":"At a baroque hotel, a man insists to a woman that they had an affair the previous year. She neither remembers nor denies it. Memory as labyrinth.",
+"pickpocket|1959":"A young Parisian begins pickpocketing as a philosophical act, only to be drawn into something beyond crime. Bresson's most kinetic film.",
+"au hasard balthazar|1966":"The life of a donkey passed between owners—a saint's journey through human cruelty and kindness. Many consider it the greatest film ever made.",
+"a man escaped|1956":"A French Resistance member meticulously plans his escape from a Nazi prison. One of cinema's most gripping portraits of patience and will.",
+"the umbrellas of cherbourg|1964":"All dialogue is sung in this heartbreaking story of young love interrupted by war, set against candy-colored interiors. Demy's purest masterwork.",
+"ma nuit chez maud|1969":"On a snowy night in Clermont-Ferrand, a devout Catholic spends the night talking philosophy with a divorced woman who challenges his convictions.",
+"claire's knee|1970":"A man about to marry meets a family and becomes fixated on touching the knee of their teenage daughter. Rohmer's comedy of self-deception.",
+"the green ray|1986":"A lonely Parisian woman spends her summer holidays searching for connection. Made with non-actors in a semi-improvisational style, intimate and true.",
+"the rules of the game|1939":"A weekend party at a country estate reveals the moral bankruptcy of French upper-class society. Renoir's great social comedy, banned on release.",
+"grand illusion|1937":"Three French POWs—an aristocrat, a bourgeois, and a working-class mechanic—attempt escape. A humanist anti-war masterpiece.",
+"children of paradise|1945":"In 19th-century Paris, four men love the same woman—a mime, an actor, a criminal, and an aristocrat. France's greatest epic film.",
+"beauty and the beast|1946":"Cocteau's fairy tale: a merchant's daughter goes to live with a frightening but gentle beast. Dreamlike imagery created without modern technology.",
+"amélie|2001":"A shy Montmartre waitress secretly orchestrates the happiness of those around her while searching for love herself. Pure cinematic joy.",
+"delicatessen|1991":"In a post-apocalyptic apartment building, a former circus clown moves in as the new handyman—unaware the landlord serves tenants for dinner.",
+"the intouchables|2011":"A wealthy quadriplegic hires a young man from the projects as his caretaker. Their unlikely friendship becomes a study in human dignity.",
+"a prophet|2009":"A young Arab man enters French prison as nobody and emerges as a criminal kingpin. The great French gangster film of the 21st century.",
+"le samouraï|1967":"A professional hitman operates by a strict code of solitude and method. Melville's purest distillation of cool—the film that defined noir style.",
+"army of shadows|1969":"The French Resistance in occupied France. Neither heroic nor cynical—just the terrible weight of loyalty and murder in wartime.",
+"betty blue|1986":"A volatile young woman's passionate, destructive love affair in the South of France. One of cinema's great portraits of desire undone by madness.",
+"holy motors|2012":"A man travels Paris in a white limousine, inhabiting different lives and bodies through the day. What is performance? What is a human being?",
+"swimming pool|2003":"A British crime novelist retreats to her publisher's French villa, where a young woman appears and murders begin. Seduction by ambiguity.",
+"blue is the warmest colour|2013":"A teenage girl's passionate love affair with an older art student unfolds over years. Raw, intimate, controversial, and deeply felt.",
+"portrait of a lady on fire|2019":"A painter is commissioned to secretly paint the portrait of a woman who refuses to be painted. A love story told entirely through the female gaze.",
+"petite maman|2021":"An 8-year-old girl, grieving her grandmother, meets another little girl in the woods—who turns out to be her own mother as a child.",
+"wild strawberries|1957":"An elderly professor, en route to receive an honorary degree, reflects on his failures of love and warmth. Bergman's most accessible masterpiece.",
+"the seventh seal|1957":"A crusader knight returning from the Crusades plays chess with Death while wandering through plague-ravaged Sweden. Cinema's most iconic image.",
+"persona|1966":"A nurse cares for an actress who has stopped speaking. Their identities begin to merge in ways neither can control. Bergman at his most radical.",
+"scenes from a marriage|1973":"A couple's marriage, separation, divorce, and reunion over many years. The most honest portrait of long-term love in all of cinema.",
+"cries and whispers|1972":"Three sisters tend to a dying woman in a Swedish manor. Red rooms, white dresses, whispered agonies. Bergman's most formally beautiful film.",
+"fanny and alexander|1982":"A theatrical family in early 20th-century Sweden, seen through the eyes of two children. Bergman's farewell to cinema—warm, dark, magnificent.",
+"autumn sonata|1978":"A concert pianist visits her estranged daughter. Seven decades of resentment and love surface in one excruciating evening.",
+"force majeure|2014":"An avalanche at a ski resort—a man flees, leaving wife and children behind. The crisis exposes the lie at the center of their marriage.",
+"the square|2017":"The curator of a contemporary art museum navigates the gap between his institution's ideals and his own moral compromises. A sharp social satire.",
+"triangle of sadness|2022":"A fashion-model couple wins a cruise on a superyacht. When it sinks, hierarchies of class and gender are hilariously inverted.",
+"oslo, august 31st|2011":"A recovering addict spends one day in Oslo—visiting family, old friends, a café where he once lived. The last day of a life slipping away.",
+"the worst person in the world|2021":"A 30-year-old Oslo woman drifts through relationships, careers, and identities. Funny, wise, and achingly real about modern romantic paralysis.",
+"babette's feast|1987":"Two pious sisters in a remote Norwegian village allow their mysterious French housekeeper to cook one magnificent meal for the community.",
+"the celebration|1998":"At a family patriarch's 60th birthday dinner, his eldest son stands to make a toast—and reveals a devastating secret. Filmed on handheld video.",
+"the hunt|2012":"A kindergarten teacher in a small Danish town is falsely accused of child abuse. A devastating study of how quickly a community can destroy a man.",
+"bicycle thieves|1948":"A poor man's bicycle is stolen on his first day of work in postwar Rome. He and his young son search the city for it. The soul of Italian neorealism.",
+"la dolce vita|1960":"A gossip journalist drifts through Rome's celebrity and aristocratic circles over seven nights. Fellini's portrait of spiritual emptiness amid excess.",
+"8½|1963":"A film director suffering creative block retreats into fantasy, memory, and desire while trying to make his next film. Cinema's greatest meditation on creativity.",
+"amarcord|1973":"A year in the life of a small Italian town in the 1930s, seen through the eyes of its eccentric, lusty, funny inhabitants. Fellini's warmest film.",
+"la strada|1954":"A brutal strongman buys a simple-minded girl to be his circus assistant. She learns to love him. He destroys her. Heartbreaking and perfect.",
+"the nights of cabiria|1957":"A naive prostitute on the outskirts of Rome is repeatedly betrayed but never loses her faith in love and happiness. Giulietta Masina's masterpiece.",
+"l'avventura|1960":"A woman disappears on a volcanic island. Her lover and best friend search for her—and fall into their own affair. Plot as pure mood.",
+"the conformist|1970":"A man who had a traumatic childhood becomes a Fascist assassin to gain the normalcy he craves. Bertolucci at his most visually intoxicating.",
+"last tango in paris|1972":"Two strangers—a grieving American widower and a young Frenchwoman—have a brutal, wordless sexual relationship in an empty Paris apartment.",
+"the last emperor|1987":"The story of Puyi, the last emperor of China, from his coronation at age three to his humble death as a gardener. Grand humanism.",
+"the great beauty|2013":"A Roman socialite and journalist, approaching 65, wanders through the night life of his city reflecting on beauty, time, and missed opportunities.",
+"cinema paradiso|1988":"A famous film director returns home for a funeral and recalls his childhood friendship with the village cinema's projectionist. A love letter to movies.",
+"call me by your name|2017":"In northern Italy one summer, a 17-year-old falls in love with his father's American graduate student. First love as a permanent wound.",
+"the best of youth|2003":"Two Italian brothers navigate politics, love, madness, and history over 40 years. The richest, most emotionally generous film ever made for television.",
+"the good, the bad and the ugly|1966":"Three gunslingers compete across the Civil War-torn American Southwest to find a buried cache of Confederate gold. The pinnacle of the spaghetti western.",
+"once upon a time in the west|1968":"A mysterious harmonica-playing stranger, a ruthless hired gun, a widow, and a bandit converge at a railroad junction. Leone's operatic masterpiece.",
+"once upon a time in america|1984":"A former Jewish gangster from New York's Lower East Side reflects on his life, his crimes, and his betrayal of his best friend. Nearly 4 hours of elegy.",
+"volver|2006":"A woman returns to her hometown for a family funeral and gradually discovers that her dead mother may actually be alive. Almodóvar at his most tender.",
+"all about my mother|1999":"After her son dies, a woman travels to Barcelona to find his father—a transgender woman she knew 18 years before. An opera of female solidarity.",
+"talk to her|2002":"Two men watch over women in comas. One is in love with a dancer; one is a nurse devoted to a bullfighter. A film about loneliness and obsession.",
+"pain and glory|2019":"An aging film director reflects on his past work, his childhood, his loves, and his body's decay. Almodóvar's most autobiographical and tender film.",
+"pan's labyrinth|2006":"In 1944 Franco-era Spain, a girl escapes into a fairy-tale world of fauns and labyrinths while her stepfather wages war on the resistance.",
+"belle de jour|1967":"A bourgeois housewife works afternoons in a Parisian brothel. Buñuel's most elegant exploration of desire, fantasy, and the unconscious.",
+"the discreet charm of the bourgeoisie|1972":"Six bourgeois friends keep trying to have dinner together but are interrupted by increasingly surreal events. Buñuel's funniest film.",
+"y tu mamá también|2001":"Two teenage boys and an older Spanish woman take a road trip to a mythical beach. A comedy of desire that turns into something devastating.",
+"roma|2018":"A year in the life of a middle-class Mexico City family through the eyes of their indigenous housekeeper. Shot in black and white, heartbreakingly intimate.",
+"amores perros|2000":"Three stories connected by a car accident in Mexico City: a young man, a model, and a hitman. Iñárritu's raw, explosive debut.",
+"wild tales|2014":"Six stories of revenge and rage in contemporary Argentina. Funny, furious, and perfectly crafted. The most entertaining film about violence ever made.",
+"nine queens|2000":"Two con men team up for a day to pull off an elaborate stamp scam in Buenos Aires. A perfect crime thriller that turns on itself.",
+"central station|1998":"A retired schoolteacher who writes letters for illiterate travelers reluctantly escorts a young orphan boy across Brazil to find his father.",
+"city of god|2002":"Two boys grow up in a Rio de Janeiro housing project in the 1960s-80s. One becomes a photographer. One becomes a drug lord. Both are true.",
+"seven samurai|1954":"Seven wandering samurai defend a poor farming village from bandits. The template for almost every team-action film that followed. Endlessly alive.",
+"rashomon|1950":"A murder in medieval Japan is recounted from four different perspectives. A film about the impossibility of objective truth. Kurosawa's breakthrough.",
+"ikiru|1952":"A Tokyo bureaucrat learns he has stomach cancer and spends his last months trying to build a park for children. The most life-affirming film about death.",
+"yojimbo|1961":"A wandering samurai arrives in a town controlled by two criminal gangs and plays them against each other. Kurosawa's coolest film.",
+"ran|1985":"An aging warlord divides his kingdom among his three sons—a Japanese King Lear of fire, beauty, and familial destruction. Kurosawa's last great film.",
+"tokyo story|1953":"An elderly couple visits their grown children in Tokyo, only to find them too busy to spend time with them. The saddest film about getting old.",
+"ugetsu|1953":"Two peasants leave their families during wartime to seek fortune and are seduced—one by wealth, one by a ghostly aristocratic woman.",
+"sansho the bailiff|1954":"A noble governor is exiled, and his wife and children are sold into slavery in medieval Japan. One of cinema's most devastating moral epics.",
+"woman in the dunes|1964":"An entomologist misses the last bus and is trapped by villagers in a sand pit with a woman who must shovel sand each night. Kafka as erotic parable.",
+"harakiri|1962":"A masterless samurai arrives at a powerful clan's home to perform ritual suicide. The story he tells upends everything.",
+"in the realm of the senses|1976":"Based on a true 1930s case: a couple's sexual obsession becomes total—excluding the world, excluding survival. The most extreme art film about love.",
+"in the mood for love|2000":"Two neighbors in 1962 Hong Kong discover their spouses are having an affair. Their own unspoken love becomes a film about longing and restraint.",
+"chungking express|1994":"Two Hong Kong policemen, both nursing heartbreak, encounter women who enter their apartments uninvited. Wong's most playful, vital work.",
+"raise the red lantern|1991":"A young woman becomes the fourth wife of a feudal lord and enters a household of brutal rituals and female rivalry. Zhang Yimou's visual masterpiece.",
+"farewell my concubine|1993":"The 50-year friendship of two Peking Opera stars—one straight, one gay—through revolution, occupation, and the Cultural Revolution.",
+"a brighter summer day|1991":"A 14-year-old boy in 1960s Taiwan drifts into gang involvement and falls in love. Based on a true case of a teenager who committed murder. 4-hour epic.",
+"yi yi|2000":"A middle-class Taipei family faces a mid-life crisis, first love, aging, and death over one year. Edward Yang's monumental portrait of modern life.",
+"in the mood for love|2000":"Two neighbors in 1962 Hong Kong discover their spouses are having an affair. Their unspoken love becomes a meditation on restraint and loss.",
+"parasite|2019":"A poor Korean family con their way into working for a wealthy family—until a hidden secret in the house upends everything. The surprise Oscar winner.",
+"memories of murder|2003":"Two detectives investigate South Korea's first serial murders in a rural town in the 1980s. A masterpiece of procedural despair and dark comedy.",
+"oldboy|2003":"A man imprisoned for 15 years with no explanation is suddenly released and given five days to find out who imprisoned him and why.",
+"the handmaiden|2016":"In 1930s Japanese-occupied Korea, a con man hires a pickpocket to pose as a Japanese heiress's maid to help swindle her. Then the con unravels twice.",
+"burning|2018":"A young man reconnects with a childhood friend who introduces him to a wealthy acquaintance. Then she vanishes. Adapted from Murakami. Oblique, haunting.",
+"taste of cherry|1997":"A middle-aged man drives through the hills outside Tehran asking strangers if they will bury him after his suicide. Kiarostami's Nobel-level minimalism.",
+"close-up|1990":"A real Iranian man was arrested for impersonating the director Mohsen Makhmalbaf. Kiarostami reconstructed the trial and the fraud. Truth as film.",
+"a separation|2011":"A Tehran couple separate after the wife wants to emigrate and the husband refuses. What follows involves a caretaker, an accusation, and devastating consequences.",
+"pather panchali|1955":"Extreme poverty in a Bengali village: a boy and his sister grow up in beauty and hardship. The first of Ray's Apu Trilogy, and one of cinema's greatest debuts.",
+"charulata|1864":"A neglected wife in 19th-century Bengal develops an intellectual and romantic attachment to her husband's cousin. Ray's most aesthetically perfect film.",
+"the music room|1958":"An impoverished Bengali aristocrat spends his last savings on a magnificent musical soiree. Satyajit Ray's meditation on decline and devotion.",
+"stalker|1979":"A guide leads two men—a writer and a scientist—through a mysterious Zone to a Room that grants wishes. Tarkovsky's slowest, most transcendent film.",
+"solaris|1972":"A psychologist is sent to a space station orbiting a sentient ocean planet that materializes his dead wife. Tarkovsky's 'inner space' epic.",
+"andrei rublev|1966":"The life of Russia's greatest medieval icon painter—through Tatar invasions, famines, and catastrophic loss of faith. Tarkovsky's most epic work.",
+"mirror|1975":"A dying man's memories, dreams, and newsreel footage interweave. Tarkovsky's most personal film—about his father, his mother, Russia, time.",
+"come and see|1985":"A teenage boy joins the Byelorussian partisans during WWII and witnesses atrocity upon atrocity. The most devastating anti-war film ever made.",
+"a short film about love|1988":"A 19-year-old boy spies obsessively on the woman across the courtyard. Then she notices. Kieślowski on desire, voyeurism, and transformation.",
+"three colors: blue|1993":"A woman loses her husband and daughter in a car crash and attempts to create a life without attachments, without music, without memory. Deep sorrow.",
+"three colors: red|1994":"A young model befriends a retired judge who eavesdrops on his neighbors' phone calls. About chance, fate, and the connections we can't see.",
+"dekalog|1988":"Ten one-hour films about the Ten Commandments, set in a Warsaw apartment block. Kieślowski's towering moral achievement and greatest work.",
+"ida|2013":"A young Polish nun about to take her vows visits her Jewish aunt before doing so—and discovers a terrible family secret from the war.",
+"cold war|2018":"A passionate love affair between a musician and a singer unfolds and collapses across the Iron Curtain over 15 years. Black and white, devastating.",
+"4 months 3 weeks and 2 days|2007":"A student helps her roommate get an illegal abortion in Ceaușescu's Romania. A suffocating, real-time procedural of totalitarian absurdity.",
+"underground|1995":"Yugoslavia's history from WWII to the present, embodied by two best friends whose lives become increasingly hallucinatory. Kusturica's most ambitious film.",
+"black cat white cat|1998":"A river-bank patriarch's chaotic attempt to repay a debt gets tangled with romance, crime, and extraordinary animal performances. Pure comic exuberance.",
+"wings of desire|1987":"Angels walk through Berlin—invisible, compassionate, weary. One falls in love with a trapeze artist and chooses to become mortal.",
+"paris texas|1984":"A man emerges from the desert after years of wandering and tries to reconnect with his son and his wife, who lives in a peep-show booth.",
+"the marriage of maria braun|1979":"A German woman marries a soldier who immediately goes to war. She becomes a successful businesswoman. A portrait of the German economic miracle.",
+"ali fear eats the soul|1974":"A lonely cleaning woman and a young Moroccan immigrant fall in love in Munich. Society closes in from every side. Fassbinder's most humane film.",
+"aguirre the wrath of god|1972":"A mad Spanish conquistador leads an expedition into the Amazon in search of El Dorado. Kinski is terrifying. Herzog almost died making it.",
+"fitzcarraldo|1982":"An opera-loving eccentric attempts to drag a large steamship over a mountain in the Peruvian jungle to build an opera house in the Amazon.",
+"metropolis|1927":"In a futuristic city divided between workers underground and privileged elites above, a woman leads a workers' rebellion. Lang's expressionist vision.",
+"m|1931":"A child murderer terrorizes a German city, hunted by both police and the criminal underworld. The first great sound film. Peter Lorre unforgettable.",
+"amadeus|1984":"The tale of Mozart's genius and his rival Salieri's jealous destruction—or is it? Miloš Forman's grand, operatic account of mediocrity's war on greatness.",
+"one flew over the cuckoo's nest|1975":"A criminal fakes insanity to avoid prison labor and is sent to a mental institution, where he disrupts the oppressive order. Jack Nicholson at his peak.",
+"dogtooth|2009":"Parents raise three children on their isolated property, teaching them a completely false language and world. A fable of totalitarian family control.",
+"poor things|2023":"A young woman brought back to life with a baby's brain discovers sex, philosophy, and her own agency as she journeys across late Victorian Europe.",
+"landscape in the mist|1988":"Two young children run away to find their father, who may not exist. Greece's most poetic road movie—mud, fog, and barely surviving grace.",
+"winter sleep|2014":"A former actor and hotelier in Cappadocia clashes with his young wife and his sister during the long Turkish winter. Chekhov transposed to modern Turkey.",
+"waltz with bashir|2008":"A man can't remember anything about his military service in the 1982 Lebanon War. An animated documentary about trauma and war crime.",
+"the band's visit|2007":"An Egyptian police orchestra arrives in Israel and ends up stranded in a small desert town. A gentle comedy about the absurdity of enmity.",
+"capernaum|2018":"A 12-year-old Lebanese street child sues his parents for bringing him into the world. Harrowing, beautiful, and deeply humane.",
+"touki bouki|1973":"Two young lovers in Dakar dream of escaping to Paris. Africa's first modernist film—raw, joyful, and prophetic.",
+"timbuktu|2014":"An Islamist militia occupies a small Malian town. A cattle farmer refuses to be intimidated. Quiet, devastating, and deeply dignified.",
+"rosetta|1999":"A young Belgian woman fights desperately to keep any job she can find. No pity, no distance—just absolute proximity to precarity.",
+"the kid with a bike|2011":"An 11-year-old boy abandoned by his father is taken in on weekends by a hairdresser he barely knows. The Dardennes at their most hopeful.",
+"naked|1993":"A brilliant, vicious, homeless young man from Manchester arrives in London and argues the end of the world with everyone he meets.",
+"secrets and lies|1996":"A successful Black optometrist searches for her biological mother and finds a white working-class woman who barely held her life together.",
+"hunger|2008":"Bobby Sands and the 1981 Irish hunger strike in the Maze Prison. Steve McQueen's debut: formal, unsparing, and politically charged.",
+"ratcatcher|1999":"A 12-year-old boy in 1970s Glasgow, during a garbage strike, carries the guilt of a friend's drowning. One of cinema's most lyrical debut films.",
+"the piano|1993":"A mute Scottish woman and her daughter are sent to New Zealand as a mail-order bride. She communicates only through her piano. Wild and erotic.",
+"bright star|2009":"The love story of poet John Keats and Fanny Brawne, set against the poet's failing health and fierce dedication. Campion's most emotionally open film.",
+"a room with a view|1985":"A young Edwardian Englishwoman on holiday in Florence falls in love with a passionate free-thinker, complicating her polite, corseted life.",
+"the banshees of inisherin|2022":"On a remote Irish island, one man ends his decades-long friendship with another, with devastating escalating consequences. A parable of senseless conflict.",
+"in bruges|2008":"Two hitmen hide in Bruges after a job goes wrong. One falls in love with the city. One wants to leave. Their boss wants them both dead.",
+"the english patient|1996":"A badly burned man in a Tuscan villa at the end of WWII. His memories of a love affair in the North African desert fill the screen.",
+"the crying game|1992":"An IRA member becomes friends with a British soldier he's been tasked to guard, then falls for the soldier's girlfriend. A film of dramatic reversals.",
+"billy elliot|2000":"An 11-year-old boy in a Durham mining community discovers ballet while his father and brother are on strike. About defying the world's expectations.",
+"the hours|2002":"Three women across three eras—Woolf writing Mrs. Dalloway, a 1950s housewife reading it, a contemporary New York woman living it—in one day.",
+"atonement|2007":"A 13-year-old girl misinterprets what she sees and destroys two people's lives with one false accusation. The damage of storytelling.",
+"in bruges|2008":"Two hitmen hiding in the medieval Belgian city of Bruges await orders from their boss after a job gone wrong. Dark comedy at its most precise.",
+"gosford park|2001":"A weekend house party at an English country estate in the 1930s, seen simultaneously from above and below stairs. Altman's most intricate film.",
+"badlands|1973":"Based on the Starkweather-Fugate murders: a teenage girl follows her boyfriend on a killing spree across the Midwest. Beautiful, disturbing, mythic.",
+"days of heaven|1978":"Farm laborers in early 20th-century Texas. Love, greed, fire, and locusts. Nestor Almendros shot it in the 'magic hour'—no other film looks like this.",
+"the tree of life|2011":"A 1950s Waco family and the origin of the universe. A son's grief for his brother moves through time to the birth of existence. Malick's masterwork.",
+"taxi driver|1976":"A mentally unstable Vietnam vet drives a cab through New York's seedy streets and fixates on saving a 12-year-old prostitute. Scorsese and De Niro's creation myth.",
+"raging bull|1980":"The rise and fall of middleweight boxer Jake LaMotta—a portrait of violent self-destruction in black and white. The greatest sports film ever made.",
+"goodfellas|1990":"Henry Hill narrates his 25 years as a Mafia associate in New York. The most pleasurable film about crime ever made—and a thorough moral indictment.",
+"the irishman|2019":"An elderly hitman recalls his decades of working for the mob and his friendship with Jimmy Hoffa. Scorsese's most reflective, elegiac film.",
+"nashville|1975":"Twenty-four characters converge on Nashville, Tennessee during a political campaign. Altman's most ambitious American mosaic.",
+"boogie nights|1997":"The rise and fall of a young man in the San Fernando Valley porn industry of the 1970s-80s. PTA's exuberant, heartfelt, devastating debut.",
+"there will be blood|2007":"An oil prospector in turn-of-the-century California builds a ruthless empire. An operatic portrait of greed, religion, and the American origin story.",
+"the master|2012":"A drifter is taken in by the charismatic founder of a philosophical movement. About the hunger for meaning and the manipulation that feeds it.",
+"phantom thread|2017":"A 1950s London couturier meets his match in a young waitress who becomes both his muse and his adversary in a dark romantic power struggle.",
+"lost in translation|2003":"An aging actor and a young neglected wife have a gentle, unconsummated love affair in the disorienting lobby-light of a Tokyo hotel.",
+"apocalypse Now|1979":"A special operations officer is sent into the Cambodian jungle to terminate a rogue colonel. Based on Conrad. A hallucinatory account of American hubris.",
+"the godfather|1972":"The Corleone Mafia family navigates war, betrayal, and succession. The most perfect American film ever made—and the most quotable.",
+"the godfather part ii|1974":"The young Vito Corleone becomes a man of power in early 20th-century New York, parallel to his son Michael's cold consolidation. As great as part I.",
+"blue velvet|1986":"A college student finds a severed ear in a field and discovers a terrifying netherworld beneath the pleasant surface of his small town.",
+"mulholland drive|2001":"An aspiring actress and an amnesiac woman explore the underbelly of Hollywood. Lynch's most complete vision—dream logic as pure cinema.",
+"eyes wide shut|1999":"A New York doctor, after his wife confesses a fantasy, wanders through one night of escalating sexual encounter and threat. Kubrick's final film.",
+"a clockwork orange|1971":"A violent teenage gang leader is imprisoned and subjected to aversion therapy in a near-future Britain. Kubrick's most controversial and brilliant film.",
+"2001: a space odyssey|1968":"An evolutionary parable: from ape to astronaut to transcendence. The HAL 9000. The bone. The stargate. Cinema as pure experience.",
+"barry lyndon|1975":"An 18th-century Irish adventurer cheats and duels his way to wealth and a noble title, then watches everything fall apart. Shot by candlelight.",
+"dr. strangelove|1964":"A mad general orders a nuclear strike on the USSR. The president convenes the War Room. Nobody can stop it. The funniest film about the end of the world.",
+"chinatown|1974":"A 1930s Los Angeles private detective uncovers a vast water conspiracy and a family secret even darker. The greatest American crime film.",
+"annie hall|1977":"A neurotic New York comedian's on-again, off-again relationship with the woman of the title. Woody Allen reinvents the romantic comedy.",
+"crimes and misdemeanors|1989":"A successful ophthalmologist arranges his mistress's murder while a documentary filmmaker dreams of his cousin's empty success. Allen's darkest work.",
+"magnolia|1999":"Nine interconnected characters in the San Fernando Valley on one rainy day. Love, regret, frogs from the sky, and Aimee Mann. PTA's most operatic film.",
+"punch-drunk love|2002":"A lonely, emotionally stunted man who sells novelty items falls in love and discovers his inner strength. Sandler in the performance of his life.",
+"pulp fiction|1994":"Three interlocking stories of hitmen, boxers, and a gangster's wife in Los Angeles. Reinvented American cinema with nonlinear structure and dialogue.",
+"reservoir dogs|1992":"The aftermath of a diamond heist—when one of the robbers turns out to be a police informant. Tarantino's debut: cool, violent, and totally original.",
+"inglourious basterds|2009":"In occupied France, a group of Jewish-American soldiers and a young cinema owner plot to assassinate Hitler. Tarantino's most playful and subversive film.",
+"django unchained|2012":"A freed slave, guided by a German bounty hunter, rescues his wife from a brutal Mississippi plantation owner. A revenge fantasy as Western.",
+"before sunrise|1995":"An American man and a French woman meet on a train to Vienna and spend one night talking, walking, and almost falling in love.",
+"before sunset|2004":"Nine years later, the same couple meets in a Paris bookshop. They have one afternoon before her flight. Real time, real feelings, no safety net.",
+"before midnight|2013":"Eighteen years after Vienna, the couple is in Greece. The idealism is gone. The film is a long argument about whether love can survive life.",
+"boyhood|2014":"Filmed over 12 years with the same cast, the childhood and adolescence of a Texas boy. The only film that literally grows up before your eyes.",
+"being john malkovich|1999":"A puppeteer discovers a portal into the mind of John Malkovich. Kaufman's debut is the funniest, strangest metaphysical comedy ever made.",
+"her|2013":"A man falls in love with his AI operating system. A warm, melancholy film about loneliness, intimacy, and what it means to feel understood.",
+"eternal sunshine of the spotless mind|2004":"A couple erases each other from their memories after a breakup. While being erased, he tries to hide her. One of cinema's greatest love stories.",
+"moonlight|2016":"Three chapters in the life of a Black boy and man in Miami—childhood, adolescence, adulthood—discovering identity and sexuality under crushing pressure.",
+"lady bird|2017":"A Sacramento teenager applies to colleges on the East Coast against her mother's wishes. A perfect film about ambition, class, and love disguised as conflict.",
+"little women|2019":"Louisa May Alcott's novel reimagined with a fractured timeline. About women's work, ambition, and the story of what women's lives can be.",
+"marriage story|2019":"A theater director and his actress wife separate while touring their show. The divorce that follows is a portrait of two people who were once one.",
+"the florida project|2017":"Six-year-old Moonee lives in a budget motel outside Disney World with her struggling young mother. Children's joy amid adult precarity.",
+"whiplash|2014":"A jazz drummer at a conservatory is pushed to the edge by a sadistic conductor. About the cost of greatness and the cruelty that may demand it.",
+"la la land|2016":"An aspiring actress and a jazz pianist fall in love in Los Angeles, then watch their dreams pull them in opposite directions.",
+"requiem for a dream|2000":"Four people in Brooklyn descend into addiction simultaneously—heroin, diet pills, television. The most harrowing film about addiction ever made.",
+"black swan|2010":"A ballerina preparing for Swan Lake begins to lose her mind. Aronofsky's most viscerally disturbing portrait of artistic perfectionism.",
+"the big lebowski|1998":"A case of mistaken identity sends a lazy Los Angeles bowler into a kidnapping scheme. The Coen Brothers' funniest and most beloved film.",
+"fargo|1996":"A desperate car salesman hires two criminals to kidnap his wife for ransom. Things go wrong immediately. The incomparable Marge Gunderson investigates.",
+"no country for old men|2007":"A hunter finds $2 million from a drug deal gone wrong and is pursued across the Texas desert by the most terrifying hitman in film history.",
+"inside llewyn davis|2013":"A week in the life of a struggling folk musician in 1961 New York. A film about talent without luck, and how close failure is to greatness.",
+"the royal tenenbaums|2001":"A family of former child prodigies—scattered by failure and disappointment—is reunited when their father announces he is dying. Anderson's richest film.",
+"the grand budapest hotel|2014":"The adventures of a legendary hotel concierge and his lobby boy, framed within frames across decades. Pure Wes Anderson—precise, funny, and unexpectedly moving.",
+"incendies|2010":"Twins travel from Montreal to the Middle East to fulfill their dead mother's mysterious will. Each clue leads deeper into a devastating truth.",
+"prisoners|2013":"Two girls disappear on Thanksgiving. Their father takes matters into his own hands. A film about the moral cost of certainty.",
+"arrival|2016":"A linguist is recruited to communicate with alien visitors. What she discovers changes her understanding of time, language, and love.",
+"mommy|2014":"A widow takes her explosive ADHD teenage son home from a special institution. A love story about the impossible weight of care.",
+"gone with the wind|1939":"The American Civil War and Reconstruction through the eyes of a selfish but formidable Southern woman. Hollywood's most excessive epic.",
+"secretary|2002":"A young woman becomes a legal secretary for a demanding lawyer and discovers her own submissive desires in an erotic power relationship.",
+"the unbearable lightness of being|1988":"A Czech surgeon with an unquenchable appetite for women falls in love—set against the Prague Spring of 1968. Milan Kundera's novel given beautiful flesh.",
+"basic instinct|1992":"A San Francisco detective investigates a rock star's murder and becomes entangled with the bisexual novelist who may be the killer. Sharon Stone. The ice pick.",
+"elle|2016":"A Parisian businesswoman is raped in her own home and responds with cool, disturbing ambiguity. Verhoeven and Huppert in their greatest collaboration.",
+"the shape of water|2017":"A mute cleaning woman in 1960s Cold War America falls in love with an aquatic creature held in a government laboratory.",
+"body heat|1981":"A Florida lawyer is seduced by a married woman into helping murder her husband. Classic noir updated with explicit sexuality.",
+"women in love|1969":"Two sisters and two men in D.H. Lawrence's England tangle in erotic and intellectual combat. Ken Russell at his most controlled and beautiful.",
+"crash|1996":"A group of people develop a sexual fetish for car crashes. Based on Ballard's novel. Cronenberg at his most deliberately alienating.",
+"a history of violence|2005":"A small-town diner owner kills two criminals in self-defense and is suddenly visited by gangsters who know him from another life.",
+"possession|1981":"A Berlin couple separates violently. The wife has a monstrous secret lover. An allegorical horror film about divorce and political division.",
+"dead man|1995":"A mild accountant named William Blake arrives in the West to find his job gone and quickly becomes a wanted killer. Jim Jarmusch's most spiritual film.",
+"night on earth|1991":"Five taxi rides in five cities on one night: Los Angeles, New York, Paris, Rome, Helsinki. Five perfect vignettes of human encounter.",
+"paterson|2016":"A bus driver and poet named Paterson in Paterson, NJ. He writes poems in a notebook. He walks his dog. Each day is beautiful. Jarmusch's quietest gift.",
+"before sunset|2004":"Nine years later, Céline and Jesse meet again at his Paris book reading. They walk and talk for 80 minutes. If they say goodbye now, they'll never see each other.",
+"hereditary|2018":"A family begins to unravel after the grandmother's death reveals a horrifying legacy. A family trauma film wearing the mask of horror.",
+"midsommar|2019":"After a family tragedy, a young woman accompanies her boyfriend to a Swedish midsummer festival that becomes increasingly strange and violent.",
+"the witch|2015":"A Puritan family is banished from their New England plantation and settles near a woods. Something begins to prey on them. A theological horror film.",
+"the lighthouse|2019":"Two lighthouse keepers on a remote New England island—a veteran and his assistant—slowly go mad. Shot in black and white, 4:3. Mythological dread.",
+"spirited away|2001":"A 10-year-old girl's parents are turned into pigs after eating spirit food. She must work in a bathhouse for spirits to free them. Miyazaki's masterpiece.",
+"my neighbor totoro|1988":"Two sisters move to the countryside to be near their hospitalized mother and encounter the gentle spirit Totoro in the nearby forest. Pure joy.",
+"princess mononoke|1997":"A young warrior is caught between a forest god war and a mining town that needs to destroy the forest. Miyazaki's most epic and morally complex film.",
+"howl's moving castle|2004":"A young hat-maker is cursed into the body of a 90-year-old woman and takes refuge in a wizard's moving castle. About war, aging, and love.",
+"grave of the fireflies|1988":"Two orphaned siblings—a teenage brother and his 4-year-old sister—try to survive in Japan after the firebombing of Kobe. The saddest film ever made.",
+"only yesterday|1991":"A Tokyo office worker recalls her childhood self during a harvest holiday in the countryside. Takahata's most personal and emotionally generous film.",
+"millennium actress|2001":"A film crew interviews a reclusive actress, and her memories of a lifetime pursuing an artist she loved once become indistinguishable from her films.",
+"tokyo godfathers|2003":"Three homeless people in Tokyo find a baby on Christmas Eve and set out to find its parents. The most warm-hearted film Satoshi Kon ever made.",
+"perfect blue|1997":"A pop idol retires to become an actress, and the line between her real life and her role begins to dissolve. The anime that inspired Black Swan.",
+"paprika|2006":"A therapist uses a device that allows her to enter patients' dreams, but a stolen device begins blending the dream world with reality.",
+"akira|1988":"In 2019 Neo-Tokyo, a biker gang member's psychic powers grow beyond all control. The film that brought anime to Western consciousness.",
+"ghost in the shell|1995":"A cybernetic special agent hunts a hacker called the Puppet Master and questions whether she is human, machine, or something new.",
+"your name|2016":"A boy in Tokyo and a girl in a rural town begin to mysteriously swap bodies in their sleep and fall in love before a catastrophe separates them.",
+"the tale of princess kaguya|2013":"A tiny girl found inside a bamboo shoot grows up to be a great beauty and is courted by noblemen—but yearns for her simple forest life.",
+"wolfwalkers|2020":"A hunter's daughter in 17th-century Ireland befriends a wild girl who runs with wolves. Moore's most beautiful film, drawn in ecstatic hand-drawn style.",
+"persepolis|2007":"A young Iranian girl grows up during and after the Islamic Revolution—funny, furious, and one of the great political coming-of-age stories.",
+"flee|2021":"An Afghan man, now a respected scholar, reveals for the first time the story of his flight from Kabul. Told in animation to protect his identity.",
+"song of the sea|2014":"A boy whose mother disappeared into the sea must help his mute sister discover she's a selkie. Irish mythology in stunning hand-drawn animation.",
+"watership down|1978":"A colony of rabbits flee their threatened warren and journey to found a new home. Darker and more mythic than any other animated film.",
+"fantastic planet|1973":"On a faraway planet, giant blue aliens keep tiny human-like creatures as pets. The pets revolt. French surrealist sci-fi animation.",
+"the triplets of belleville|2003":"A grandmother chases her Tour de France cyclist grandson, kidnapped by the mob, to New York. Nearly dialogue-free, fully eccentric.",
+"i lost my body|2019":"A severed hand escapes the laboratory where it has been kept and crosses Paris to find its owner. Melancholy, beautiful, and formally daring.",
+"loving vincent|2017":"The world's first fully oil-painted animated feature investigates Van Gogh's mysterious death through 65,000 hand-painted frames.",
+"anomalisa|2015":"A motivational speaker stays at a Cincinnati hotel and feels the same crushing loneliness he always does—until he meets one woman with a different voice.",
+"fantastic mr. fox|2009":"Roald Dahl's story: a clever fox steals from three horrible farmers, who retaliate by digging up the countryside. Wes Anderson's funniest film.",
+"the breadwinner|2017":"In Taliban-controlled Kabul, a young Afghan girl disguises herself as a boy to support her imprisoned father. Brave and beautiful.",
+"the secret of kells|2009":"A young boy in a medieval Irish monastery is drawn to the enchanted forest and a forest spirit to complete an illuminated manuscript.",
+"ernest and celestine|2012":"A bear and a mouse become unlikely friends in a world of strict separation between their species. Tender, funny, and visually enchanting.",
+"the red turtle|2016":"A man is shipwrecked on a desert island and repeatedly tries to escape—until a giant red turtle intervenes. No dialogue. Pure parable.",
+"waking life|2001":"A young man drifts through a series of philosophical conversations in a world that may be a dream. Linklater's most experimental film, rotoscoped.",
+"synecdoche new york|2008":"A theater director receives a MacArthur Grant and spends the rest of his life building an increasingly vast replica of New York inside a warehouse.",
+};
+// ── FILM DATA [title, orig|null, year, country, language, director, genre] ─
+const RAW=[
+["Breathless","À bout de souffle",1960,"France","French","Jean-Luc Godard","art"],
+["Contempt","Le Mépris",1963,"France","French","Jean-Luc Godard","art"],
+["Pierrot le Fou",null,1965,"France","French","Jean-Luc Godard","art"],
+["Band of Outsiders","Bande à part",1964,"France","French","Jean-Luc Godard","art"],
+["Vivre sa vie",null,1962,"France","French","Jean-Luc Godard","art"],
+["Masculine Feminine","Masculin féminin",1966,"France","French","Jean-Luc Godard","art"],
+["The 400 Blows","Les Quatre Cents Coups",1959,"France","French","François Truffaut","art"],
+["Jules and Jim","Jules et Jim",1962,"France","French","François Truffaut","art"],
+["Shoot the Piano Player","Tirez sur le pianiste",1960,"France","French","François Truffaut","art"],
+["Day for Night","La Nuit américaine",1973,"France","French","François Truffaut","art"],
+["Stolen Kisses","Baisers volés",1968,"France","French","François Truffaut","art"],
+["Small Change","L'Argent de poche",1976,"France","French","François Truffaut","art"],
+["Two English Girls","Les Deux Anglaises et le Continent",1971,"France","French","François Truffaut","art-ero"],
+["The Story of Adele H.","L'Histoire d'Adèle H.",1975,"France","French","François Truffaut","art"],
+["Love on the Run","L'Amour en fuite",1979,"France","French","François Truffaut","art"],
+["Cleo from 5 to 7","Cléo de 5 à 7",1962,"France","French","Agnès Varda","art"],
+["Vagabond","Sans toit ni loi",1985,"France","French","Agnès Varda","art"],
+["The Gleaners and I","Les Glaneurs et la glaneuse",2000,"France","French","Agnès Varda","art"],
+["Le Bonheur",null,1965,"France","French","Agnès Varda","art"],
+["Faces Places","Visages Villages",2017,"France","French","Agnès Varda","art"],
+["One Sings the Other Doesn't","L'une chante l'autre pas",1977,"France","French","Agnès Varda","art"],
+["Hiroshima Mon Amour",null,1959,"France","French/Japanese","Alain Resnais","art"],
+["Last Year at Marienbad","L'Année dernière à Marienbad",1961,"France","French","Alain Resnais","art"],
+["Mon Oncle d'Amérique",null,1980,"France","French","Alain Resnais","art"],
+["Wild Grass","Les Herbes folles",2009,"France","French","Alain Resnais","art"],
+["Pickpocket",null,1959,"France","French","Robert Bresson","art"],
+["Au Hasard Balthazar",null,1966,"France","French","Robert Bresson","art"],
+["Mouchette",null,1967,"France","French","Robert Bresson","art"],
+["A Man Escaped","Un condamné à mort s'est échappé",1956,"France","French","Robert Bresson","art"],
+["L'Argent",null,1983,"France","French","Robert Bresson","art"],
+["Diary of a Country Priest","Journal d'un curé de campagne",1951,"France","French","Robert Bresson","art"],
+["The Umbrellas of Cherbourg","Les Parapluies de Cherbourg",1964,"France","French","Jacques Demy","art"],
+["The Young Girls of Rochefort","Les Demoiselles de Rochefort",1967,"France","French","Jacques Demy","art"],
+["Lola",null,1961,"France","French","Jacques Demy","art"],
+["Donkey Skin","Peau d'âne",1970,"France","French","Jacques Demy","art"],
+["Ma Nuit chez Maud","My Night at Maud's",1969,"France","French","Éric Rohmer","art"],
+["Claire's Knee","Le Genou de Claire",1970,"France","French","Éric Rohmer","art"],
+["The Green Ray","Le Rayon vert",1986,"France","French","Éric Rohmer","art"],
+["Pauline at the Beach","Pauline à la plage",1983,"France","French","Éric Rohmer","art"],
+["A Summer's Tale","Conte d'été",1996,"France","French","Éric Rohmer","art"],
+["Autumn Tale","Conte d'automne",1998,"France","French","Éric Rohmer","art"],
+["Love in the Afternoon","L'Amour l'après-midi",1972,"France","French","Éric Rohmer","art"],
+["The Aviator's Wife","La Femme de l'aviateur",1981,"France","French","Éric Rohmer","art"],
+["Full Moon in Paris","Les Nuits de la pleine lune",1984,"France","French","Éric Rohmer","art"],
+["The Rules of the Game","La Règle du jeu",1939,"France","French","Jean Renoir","art"],
+["Grand Illusion","La Grande Illusion",1937,"France","French","Jean Renoir","art"],
+["The Crime of Monsieur Lange","Le Crime de Monsieur Lange",1936,"France","French","Jean Renoir","art"],
+["Boudu Saved from Drowning","Boudu sauvé des eaux",1932,"France","French","Jean Renoir","art"],
+["L'Atalante",null,1934,"France","French","Jean Vigo","art"],
+["Zero for Conduct","Zéro de conduite",1933,"France","French","Jean Vigo","art"],
+["Children of Paradise","Les Enfants du paradis",1945,"France","French","Marcel Carné","art"],
+["Port of Shadows","Quai des brumes",1938,"France","French","Marcel Carné","art"],
+["Beauty and the Beast","La Belle et la Bête",1946,"France","French","Jean Cocteau","art"],
+["Orpheus","Orphée",1950,"France","French","Jean Cocteau","art"],
+["Rififi","Du rififi chez les hommes",1955,"France","French","Jules Dassin","art"],
+["Pépé le Moko",null,1937,"France","French","Julien Duvivier","art"],
+["Elevator to the Gallows","Ascenseur pour l'échafaud",1958,"France","French","Louis Malle","art"],
+["Murmur of the Heart","Le Souffle au cœur",1971,"France","French","Louis Malle","art-ero"],
+["My Dinner with André",null,1981,"USA","English","Louis Malle","art"],
+["Atlantic City",null,1980,"Canada/France","English","Louis Malle","art"],
+["Au revoir les enfants",null,1987,"France","French","Louis Malle","art"],
+["Damage",null,1992,"UK/France","English/French","Louis Malle","ero"],
+["Le Samouraï",null,1967,"France","French","Jean-Pierre Melville","art"],
+["Army of Shadows","L'Armée des ombres",1969,"France","French","Jean-Pierre Melville","art"],
+["Bob le flambeur",null,1956,"France","French","Jean-Pierre Melville","art"],
+["Le Cercle Rouge",null,1970,"France","French","Jean-Pierre Melville","art"],
+["Betty Blue","37°2 le matin",1986,"France","French","Jean-Jacques Beineix","art-ero"],
+["Diva",null,1981,"France","French","Jean-Jacques Beineix","art"],
+["Mauvais Sang","Bad Blood",1986,"France","French","Leos Carax","art"],
+["The Lovers on the Bridge","Les Amants du Pont-Neuf",1991,"France","French","Leos Carax","art"],
+["Holy Motors",null,2012,"France","French","Leos Carax","art"],
+["Annette",null,2021,"France","French/English","Leos Carax","art"],
+["Swimming Pool",null,2003,"France","French/English","François Ozon","art-ero"],
+["8 Women","8 femmes",2002,"France","French","François Ozon","art"],
+["In the House","Dans la maison",2012,"France","French","François Ozon","art"],
+["Under the Sand","Sous le sable",2000,"France","French","François Ozon","art"],
+["Water Drops on Burning Rocks","Gouttes d'eau sur pierres brûlantes",2000,"France","French","François Ozon","art-ero"],
+["Time to Leave","Le Temps qui reste",2005,"France","French","François Ozon","art"],
+["Blue Is the Warmest Colour","La vie d'Adèle",2013,"France","French","Abdellatif Kechiche","art-ero"],
+["Mektoub, My Love","Mektoub, My Love: Canto Uno",2017,"France","French","Abdellatif Kechiche","art-ero"],
+["Raw","Grave",2016,"France","French","Julia Ducournau","art"],
+["Titane",null,2021,"France","French","Julia Ducournau","art-ero"],
+["Portrait of a Lady on Fire","Portrait de la jeune fille en feu",2019,"France","French","Céline Sciamma","art"],
+["Girlhood","Bande de filles",2014,"France","French","Céline Sciamma","art"],
+["Water Lilies","Naissance des pieuvres",2007,"France","French","Céline Sciamma","art-ero"],
+["Petite Maman",null,2021,"France","French","Céline Sciamma","art"],
+["Tomboy",null,2011,"France","French","Céline Sciamma","art"],
+["Look at Me","Comme une image",2004,"France","French","Agnès Jaoui","art"],
+["The Taste of Others","Le Goût des autres",2000,"France","French","Agnès Jaoui","art"],
+["Polisse",null,2011,"France","French","Maïwenn","art"],
+["Of Gods and Men","Des hommes et des dieux",2010,"France","French/Arabic","Xavier Beauvois","art"],
+["BPM (Beats Per Minute)","120 battements par minute",2017,"France","French","Robin Campillo","art"],
+["Caché","Hidden",2005,"France","French","Michael Haneke","art"],
+["The Piano Teacher","La Pianiste",2001,"France","French","Michael Haneke","art-ero"],
+["Amour",null,2012,"France","French","Michael Haneke","art"],
+["Code Unknown","Code inconnu",2000,"France","French","Michael Haneke","art"],
+["Amélie","Le Fabuleux Destin d'Amélie Poulain",2001,"France","French","Jean-Pierre Jeunet","art"],
+["Delicatessen",null,1991,"France","French","Jean-Pierre Jeunet","art"],
+["The City of Lost Children","La Cité des enfants perdus",1995,"France","French","Jean-Pierre Jeunet","art"],
+["A Very Long Engagement","Un long dimanche de fiançailles",2004,"France","French","Jean-Pierre Jeunet","art"],
+["Mon Oncle",null,1958,"France","French","Jacques Tati","art"],
+["Playtime",null,1967,"France","French","Jacques Tati","art"],
+["Mr. Hulot's Holiday","Les Vacances de Monsieur Hulot",1953,"France","French","Jacques Tati","art"],
+["The Intouchables","Intouchables",2011,"France","French","Olivier Nakache","art"],
+["La Vie en rose","La Môme",2007,"France","French","Olivier Dahan","art"],
+["The Artist",null,2011,"France","French (silent)","Michel Hazanavicius","art"],
+["A Prophet","Un prophète",2009,"France","French","Jacques Audiard","art"],
+["Rust and Bone","De rouille et d'os",2012,"France","French","Jacques Audiard","art"],
+["Dheepan",null,2015,"France","French/Tamil","Jacques Audiard","art"],
+["The Beat That My Heart Skipped","De battre mon coeur s'est arrêté",2005,"France","French","Jacques Audiard","art"],
+["Emilia Pérez",null,2024,"France","Spanish","Jacques Audiard","art"],
+["Va Savoir","Va savoir",2001,"France","French","Jacques Rivette","art"],
+["Céline and Julie Go Boating","Céline et Julie vont en bateau",1974,"France","French","Jacques Rivette","art"],
+["La Belle Noiseuse",null,1991,"France","French","Jacques Rivette","art-ero"],
+["The Nun","La Religieuse",1966,"France","French","Jacques Rivette","art-ero"],
+["Ma Mère",null,2004,"France/Portugal","French","Christophe Honoré","art-ero"],
+["Love Songs","Les Chansons d'amour",2007,"France","French","Christophe Honoré","art"],
+["Wild Strawberries","Smultronstället",1957,"Sweden","Swedish","Ingmar Bergman","art"],
+["The Seventh Seal","Det sjunde inseglet",1957,"Sweden","Swedish","Ingmar Bergman","art"],
+["Persona",null,1966,"Sweden","Swedish","Ingmar Bergman","art"],
+["Scenes from a Marriage","Scener ur ett äktenskap",1973,"Sweden","Swedish","Ingmar Bergman","art"],
+["Cries and Whispers","Viskningar och rop",1972,"Sweden","Swedish","Ingmar Bergman","art"],
+["Fanny and Alexander","Fanny och Alexander",1982,"Sweden","Swedish","Ingmar Bergman","art"],
+["Autumn Sonata","Höstsonaten",1978,"Sweden","Swedish","Ingmar Bergman","art"],
+["Smiles of a Summer Night","Sommarnattens leende",1955,"Sweden","Swedish","Ingmar Bergman","art"],
+["Summer with Monika","Sommaren med Monika",1953,"Sweden","Swedish","Ingmar Bergman","art-ero"],
+["The Magician","Ansiktet",1958,"Sweden","Swedish","Ingmar Bergman","art"],
+["Winter Light","Nattvardsgästerna",1963,"Sweden","Swedish","Ingmar Bergman","art"],
+["Through a Glass Darkly","Såsom i en spegel",1961,"Sweden","Swedish","Ingmar Bergman","art"],
+["The Virgin Spring","Jungfrukällan",1960,"Sweden","Swedish","Ingmar Bergman","art"],
+["Sawdust and Tinsel","Gycklarnas afton",1953,"Sweden","Swedish","Ingmar Bergman","art"],
+["Saraband",null,2003,"Sweden","Swedish","Ingmar Bergman","art"],
+["Force Majeure","Turist",2014,"Sweden","Swedish","Ruben Östlund","art"],
+["The Square",null,2017,"Sweden","Swedish/English","Ruben Östlund","art"],
+["Triangle of Sadness",null,2022,"Sweden","English","Ruben Östlund","art"],
+["Songs from the Second Floor","Sångar från andra våningen",2000,"Sweden","Swedish","Roy Andersson","art"],
+["You, the Living","Du levande",2007,"Sweden","Swedish","Roy Andersson","art"],
+["A Pigeon Sat on a Branch Reflecting on Existence","En duva satt på en gren",2014,"Sweden","Swedish","Roy Andersson","art"],
+["About Endlessness","Om det oändliga",2019,"Sweden","Swedish","Roy Andersson","art"],
+["My Life as a Dog","Mitt liv som hund",1985,"Sweden","Swedish","Lasse Hallström","art"],
+["Elvira Madigan",null,1967,"Sweden","Swedish","Bo Widerberg","art"],
+["The Sacrifice","Offret",1986,"Sweden","Swedish/French","Andrei Tarkovsky","art"],
+["Oslo, August 31st","Oslo, 31. august",2011,"Norway","Norwegian","Joachim Trier","art"],
+["The Worst Person in the World","Verdens verste menneske",2021,"Norway","Norwegian","Joachim Trier","art"],
+["Reprise",null,2006,"Norway","Norwegian","Joachim Trier","art"],
+["Thelma",null,2017,"Norway","Norwegian","Joachim Trier","art"],
+["Le Havre",null,2011,"Finland","French","Aki Kaurismäki","art"],
+["The Match Factory Girl","Tulitikkutehtaan tyttö",1990,"Finland","Finnish","Aki Kaurismäki","art"],
+["Ariel",null,1988,"Finland","Finnish","Aki Kaurismäki","art"],
+["The Man Without a Past","Mies vailla menneisyyttä",2002,"Finland","Finnish","Aki Kaurismäki","art"],
+["Drifting Clouds","Kauas pilvet karkaavat",1996,"Finland","Finnish","Aki Kaurismäki","art"],
+["The Other Side of Hope","Toivon tuolla puolen",2017,"Finland","Finnish","Aki Kaurismäki","art"],
+["Fallen Leaves","Kuolleet lehdet",2023,"Finland","Finnish","Aki Kaurismäki","art"],
+["Shadows in Paradise","Varjoja paratiisissa",1986,"Finland","Finnish","Aki Kaurismäki","art"],
+["Babette's Feast","Babettes gæstebud",1987,"Denmark","Danish","Gabriel Axel","art"],
+["The Celebration","Festen",1998,"Denmark","Danish","Thomas Vinterberg","art"],
+["The Hunt","Jagten",2012,"Denmark","Danish","Thomas Vinterberg","art"],
+["Another Round","Druk",2020,"Denmark","Danish","Thomas Vinterberg","art"],
+["Pelle the Conqueror","Pelle Erobreren",1987,"Denmark","Danish","Bille August","art"],
+["Italian for Beginners","Italiensk for begyndere",2000,"Denmark","Danish","Lone Scherfig","art"],
+["On Body and Soul","Testről és lélekről",2017,"Hungary","Hungarian","Ildikó Enyedi","art-ero"],
+["The Story of My Wife","A feleségem története",2021,"Hungary","French/Dutch","Ildikó Enyedi","art"],
+["My Twentieth Century","Az én XX. századom",1989,"Hungary","Hungarian","Ildikó Enyedi","art"],
+["Bicycle Thieves","Ladri di biciclette",1948,"Italy","Italian","Vittorio De Sica","art"],
+["Umberto D.",null,1952,"Italy","Italian","Vittorio De Sica","art"],
+["Shoeshine","Sciuscià",1946,"Italy","Italian","Vittorio De Sica","art"],
+["Miracle in Milan","Miracolo a Milano",1951,"Italy","Italian","Vittorio De Sica","art"],
+["La Dolce Vita",null,1960,"Italy","Italian","Federico Fellini","art"],
+["8½","Otto e mezzo",1963,"Italy","Italian","Federico Fellini","art"],
+["Amarcord",null,1973,"Italy","Italian","Federico Fellini","art"],
+["La Strada",null,1954,"Italy","Italian","Federico Fellini","art"],
+["The Nights of Cabiria","Le notti di Cabiria",1957,"Italy","Italian","Federico Fellini","art"],
+["I Vitelloni",null,1953,"Italy","Italian","Federico Fellini","art"],
+["Juliet of the Spirits","Giulietta degli spiriti",1965,"Italy","Italian","Federico Fellini","art"],
+["Roma",null,1972,"Italy","Italian","Federico Fellini","art"],
+["And the Ship Sails On","E la nave va",1983,"Italy","Italian","Federico Fellini","art"],
+["City of Women","La città delle donne",1980,"Italy","Italian","Federico Fellini","art-ero"],
+["Casanova","Il Casanova di Federico Fellini",1976,"Italy","Italian","Federico Fellini","art-ero"],
+["Satyricon","Fellini Satyricon",1969,"Italy","Italian","Federico Fellini","art-ero"],
+["L'Avventura",null,1960,"Italy","Italian","Michelangelo Antonioni","art"],
+["L'Eclisse",null,1962,"Italy","Italian","Michelangelo Antonioni","art"],
+["Red Desert","Il deserto rosso",1964,"Italy","Italian","Michelangelo Antonioni","art"],
+["Blow-Up",null,1966,"UK/Italy","English","Michelangelo Antonioni","art"],
+["The Passenger","Professione: reporter",1975,"Italy","English/Spanish","Michelangelo Antonioni","art"],
+["Zabriskie Point",null,1970,"USA","English","Michelangelo Antonioni","art-ero"],
+["Beyond the Clouds","Al di là delle nuvole",1995,"Italy/France","Italian/French","Michelangelo Antonioni","art-ero"],
+["The Leopard","Il gattopardo",1963,"Italy","Italian","Luchino Visconti","art"],
+["Rocco and His Brothers","Rocco e i suoi fratelli",1960,"Italy","Italian","Luchino Visconti","art"],
+["Death in Venice","Morte a Venezia",1971,"Italy","Italian","Luchino Visconti","art-ero"],
+["White Nights","Le notti bianche",1957,"Italy","Italian","Luchino Visconti","art"],
+["The Innocent","L'innocente",1976,"Italy","Italian","Luchino Visconti","art-ero"],
+["The Conformist","Il conformista",1970,"Italy","Italian","Bernardo Bertolucci","art"],
+["Last Tango in Paris","Ultimo tango a Parigi",1972,"Italy/France","French/Italian","Bernardo Bertolucci","art-ero"],
+["The Dreamers",null,2003,"UK/France","French/English","Bernardo Bertolucci","art-ero"],
+["The Last Emperor",null,1987,"UK/Italy","English/Mandarin","Bernardo Bertolucci","art"],
+["1900","Novecento",1976,"Italy","Italian","Bernardo Bertolucci","art"],
+["Stealing Beauty","Io ballo da sola",1996,"Italy","English/Italian","Bernardo Bertolucci","art-ero"],
+["Rome, Open City","Roma città aperta",1945,"Italy","Italian","Roberto Rossellini","art"],
+["Voyage in Italy","Viaggio in Italia",1954,"Italy","Italian","Roberto Rossellini","art"],
+["The Great Beauty","La grande bellezza",2013,"Italy","Italian","Paolo Sorrentino","art"],
+["Youth","La giovinezza",2015,"Italy","English/Italian","Paolo Sorrentino","art"],
+["The Hand of God","È stata la mano di Dio",2021,"Italy","Italian","Paolo Sorrentino","art"],
+["I Am Love","Io sono l'amore",2009,"Italy","Italian","Luca Guadagnino","art-ero"],
+["A Bigger Splash",null,2015,"Italy","English/Italian","Luca Guadagnino","art-ero"],
+["Call Me by Your Name","Chiamami col tuo nome",2017,"Italy","English/Italian","Luca Guadagnino","art-ero"],
+["Suspiria",null,2018,"Italy","Italian/English","Luca Guadagnino","art"],
+["Bones and All",null,2022,"Italy","English","Luca Guadagnino","art"],
+["Challengers",null,2024,"Italy/USA","English","Luca Guadagnino","art"],
+["The Best of Youth","La meglio gioventù",2003,"Italy","Italian","Marco Tullio Giordana","art"],
+["Cinema Paradiso","Nuovo Cinema Paradiso",1988,"Italy","Italian","Giuseppe Tornatore","art"],
+["Malèna",null,2000,"Italy","Italian","Giuseppe Tornatore","art-ero"],
+["The Legend of 1900","La leggenda del pianista sull'oceano",1998,"Italy","Italian","Giuseppe Tornatore","art"],
+["The Postman","Il Postino",1994,"Italy","Italian","Michael Radford","art"],
+["Swept Away","Travolti da un insolito destino nell'azzurro mare d'agosto",1974,"Italy","Italian","Lina Wertmüller","art-ero"],
+["Seven Beauties","Pasqualino Settebellezze",1975,"Italy","Italian","Lina Wertmüller","art"],
+["Love and Anarchy","Film d'amore e d'anarchia",1973,"Italy","Italian","Lina Wertmüller","art-ero"],
+["We All Loved Each Other So Much","C'eravamo tanto amati",1974,"Italy","Italian","Ettore Scola","art"],
+["A Special Day","Una giornata particolare",1977,"Italy","Italian","Ettore Scola","art-ero"],
+["Good Morning Night","Buongiorno, notte",2003,"Italy","Italian","Marco Bellocchio","art"],
+["The Fist in the Pocket","I pugni in tasca",1965,"Italy","Italian","Marco Bellocchio","art"],
+["Vincere",null,2009,"Italy","Italian","Marco Bellocchio","art"],
+["The Traitor","Il traditore",2019,"Italy","Italian","Marco Bellocchio","art"],
+["Divorce Italian Style","Divorzio all'italiana",1961,"Italy","Italian","Pietro Germi","art"],
+["The Good, the Bad and the Ugly","Il buono, il brutto, il cattivo",1966,"Italy","Italian","Sergio Leone","art"],
+["Once Upon a Time in the West","C'era una volta il West",1968,"Italy","Italian","Sergio Leone","art"],
+["Once Upon a Time in America","C'era una volta in America",1984,"Italy","English/Italian","Sergio Leone","art"],
+["A Fistful of Dollars","Per un pugno di dollari",1964,"Italy","Italian","Sergio Leone","art"],
+["For a Few Dollars More","Per qualche dollaro in più",1965,"Italy","Italian","Sergio Leone","art"],
+["Duck, You Sucker!","Giù la testa",1971,"Italy","Italian","Sergio Leone","art"],
+["The Battle of Algiers","La battaglia di Algeri",1966,"Italy/Algeria","French/Arabic","Gillo Pontecorvo","art"],
+["The Night Porter","Il portiere di notte",1974,"Italy","Italian","Liliana Cavani","art-ero"],
+["Dear Diary","Caro diario",1993,"Italy","Italian","Nanni Moretti","art"],
+["The Son's Room","La stanza del figlio",2001,"Italy","Italian","Nanni Moretti","art"],
+["We Have a Pope","Habemus Papam",2011,"Italy","Italian","Nanni Moretti","art"],
+["Mia madre","Mia madre",2015,"Italy","Italian","Nanni Moretti","art"],
+["Il sol dell'avvenire","Il sol dell'avvenire",2023,"Italy","Italian","Nanni Moretti","art"],
+["Respiro",null,2002,"Italy","Italian/Sicilian","Emanuele Crialese","art"],
+["The Cook, the Thief, His Wife & Her Lover",null,1989,"UK","English","Peter Greenaway","art-ero"],
+["The Draughtsman's Contract",null,1982,"UK","English","Peter Greenaway","art"],
+["The Pillow Book",null,1996,"Netherlands","English/Japanese","Peter Greenaway","art-ero"],
+["Volver",null,2006,"Spain","Spanish","Pedro Almodóvar","art"],
+["All About My Mother","Todo sobre mi madre",1999,"Spain","Spanish","Pedro Almodóvar","art"],
+["Talk to Her","Hable con ella",2002,"Spain","Spanish","Pedro Almodóvar","art"],
+["Women on the Verge of a Nervous Breakdown","Mujeres al borde de un ataque de nervios",1988,"Spain","Spanish","Pedro Almodóvar","art"],
+["Tie Me Up! Tie Me Down!","¡Átame!",1990,"Spain","Spanish","Pedro Almodóvar","art-ero"],
+["Matador",null,1986,"Spain","Spanish","Pedro Almodóvar","art-ero"],
+["Law of Desire","La ley del deseo",1987,"Spain","Spanish","Pedro Almodóvar","art-ero"],
+["Bad Education","La mala educación",2004,"Spain","Spanish","Pedro Almodóvar","art-ero"],
+["Pain and Glory","Dolor y gloria",2019,"Spain","Spanish","Pedro Almodóvar","art"],
+["Parallel Mothers","Madres paralelas",2021,"Spain","Spanish","Pedro Almodóvar","art"],
+["Julieta",null,2016,"Spain","Spanish","Pedro Almodóvar","art"],
+["Broken Embraces","Los abrazos rotos",2009,"Spain","Spanish","Pedro Almodóvar","art"],
+["The Skin I Live In","La piel que habito",2011,"Spain","Spanish","Pedro Almodóvar","art-ero"],
+["The Human Voice","La voz humana",2020,"Spain","Spanish","Pedro Almodóvar","art"],
+["Dark Habits","Entre tinieblas",1983,"Spain","Spanish","Pedro Almodóvar","art"],
+["Belle Époque",null,1992,"Spain","Spanish","Fernando Trueba","art-ero"],
+["Jamón, Jamón","Jamón jamón",1992,"Spain","Spanish","Bigas Luna","art-ero"],
+["Pan's Labyrinth","El laberinto del fauno",2006,"Spain/Mexico","Spanish","Guillermo del Toro","art"],
+["The Devil's Backbone","El espinazo del diablo",2001,"Spain/Mexico","Spanish","Guillermo del Toro","art"],
+["The Shape of Water",null,2017,"USA","English","Guillermo del Toro","art-ero"],
+["Cronos",null,1993,"Mexico","Spanish","Guillermo del Toro","art"],
+["Belle de Jour","Belle de jour",1967,"France","French","Luis Buñuel","art-ero"],
+["That Obscure Object of Desire","Cet obscur objet du désir",1977,"France","French","Luis Buñuel","art-ero"],
+["The Discreet Charm of the Bourgeoisie","Le Charme discret de la bourgeoisie",1972,"France","French","Luis Buñuel","art"],
+["Tristana",null,1970,"France/Spain","Spanish","Luis Buñuel","art-ero"],
+["Viridiana",null,1961,"Spain","Spanish","Luis Buñuel","art-ero"],
+["The Phantom of Liberty","Le Fantôme de la liberté",1974,"France","French","Luis Buñuel","art"],
+["The Exterminating Angel","El ángel exterminador",1962,"Mexico","Spanish","Luis Buñuel","art"],
+["The Diary of a Chambermaid","Le Journal d'une femme de chambre",1964,"France","French","Luis Buñuel","art-ero"],
+["Los Olvidados",null,1950,"Mexico","Spanish","Luis Buñuel","art"],
+["Un Chien Andalou","Un chien andalou",1929,"France","French (silent)","Luis Buñuel","art"],
+["Y Tu Mamá También",null,2001,"Mexico","Spanish","Alfonso Cuarón","art-ero"],
+["Roma",null,2018,"Mexico","Spanish","Alfonso Cuarón","art"],
+["Children of Men",null,2006,"USA/UK","English","Alfonso Cuarón","art"],
+["Gravity",null,2013,"USA","English","Alfonso Cuarón","art"],
+["Amores Perros",null,2000,"Mexico","Spanish","Alejandro González Iñárritu","art"],
+["Biutiful",null,2010,"Spain/Mexico","Spanish","Alejandro González Iñárritu","art"],
+["Battle in Heaven","Batalla en el cielo",2005,"Mexico","Spanish","Carlos Reygadas","art-ero"],
+["Silent Light","Stellet licht",2007,"Mexico","Plautdietsch","Carlos Reygadas","art"],
+["Like Water for Chocolate","Como agua para chocolate",1992,"Mexico","Spanish","Alfonso Arau","art"],
+["Wild Tales","Relatos salvajes",2014,"Argentina","Spanish","Damián Szifron","art-ind"],
+["Nine Queens","Nueve reinas",2000,"Argentina","Spanish","Fabián Bielinsky","art-ind"],
+["La Ciénaga",null,2001,"Argentina","Spanish","Lucrecia Martel","art"],
+["The Holy Girl","La niña santa",2004,"Argentina","Spanish","Lucrecia Martel","art"],
+["Zama",null,2017,"Argentina","Spanish","Lucrecia Martel","art"],
+["The Clan","El clan",2015,"Chile","Spanish","Pablo Larraín","art"],
+["Neruda",null,2016,"Chile","Spanish","Pablo Larraín","art"],
+["No",null,2012,"Chile","Spanish","Pablo Larraín","art"],
+["A Fantastic Woman","Una mujer fantástica",2017,"Chile","Spanish","Sebastián Lelio","art"],
+["The Maid","La nana",2009,"Chile","Spanish","Sebastián Silva","art"],
+["Embrace of the Serpent","El abrazo de la serpiente",2015,"Colombia","Spanish","Ciro Guerra","art"],
+["Birds of Passage","Pájaros de verano",2018,"Colombia","Spanish","Ciro Guerra","art"],
+["Memoria",null,2021,"Colombia/Thailand","Spanish/Thai","Apichatpong Weerasethakul","art"],
+["The Motorcycle Diaries","Diarios de motocicleta",2004,"Brazil/Argentina","Spanish","Walter Salles","art"],
+["Central Station","Central do Brasil",1998,"Brazil","Portuguese","Walter Salles","art"],
+["Black Orpheus","Orfeu Negro",1959,"France/Brazil","Portuguese","Marcel Camus","art"],
+["City of God","Cidade de Deus",2002,"Brazil","Portuguese","Fernando Meirelles","art"],
+["Kiss of the Spider Woman","O Beijo da Mulher-Aranha",1985,"Brazil","Portuguese/English","Hector Babenco","art-ero"],
+["Pixote",null,1980,"Brazil","Portuguese","Hector Babenco","art"],
+["The Second Mother","Que Horas Ela Volta?",2015,"Brazil","Portuguese","Anna Muylaert","art"],
+["Invisible Life","A Vida Invisível",2019,"Brazil","Portuguese","Karim Aïnouz","art-ero"],
+["Aquarius",null,2016,"Brazil","Portuguese","Kleber Mendonça Filho","art"],
+["Bacurau",null,2019,"Brazil","Portuguese","Kleber Mendonça Filho","art"],
+["Neighbouring Sounds","O Som ao Redor",2012,"Brazil","Portuguese","Kleber Mendonça Filho","art"],
+["Memories of Underdevelopment","Memorias del subdesarrollo",1968,"Cuba","Spanish","Tomás Gutiérrez Alea","art"],
+["Strawberry and Chocolate","Fresa y chocolate",1994,"Cuba","Spanish","Tomás Gutiérrez Alea","art"],
+["I Am Cuba","Yo soy Cuba",1964,"Cuba/Soviet Union","Spanish","Mikhail Kalatozov","art"],
+["Whisky",null,2004,"Uruguay","Spanish","Juan Pablo Rebella","art"],
+["Lost Embrace","El abrazo partido",2003,"Argentina","Spanish","Daniel Burman","art"],
+["Seven Samurai","Shichinin no samurai",1954,"Japan","Japanese","Akira Kurosawa","art"],
+["Rashomon","Rashōmon",1950,"Japan","Japanese","Akira Kurosawa","art"],
+["Ikiru",null,1952,"Japan","Japanese","Akira Kurosawa","art"],
+["Yojimbo","Yōjinbō",1961,"Japan","Japanese","Akira Kurosawa","art"],
+["Ran",null,1985,"Japan","Japanese","Akira Kurosawa","art"],
+["Kagemusha",null,1980,"Japan","Japanese","Akira Kurosawa","art"],
+["The Hidden Fortress","Kakushi-toride no san-akunin",1958,"Japan","Japanese","Akira Kurosawa","art"],
+["Dersu Uzala",null,1975,"Japan/Soviet Union","Russian","Akira Kurosawa","art"],
+["Dreams","Yume",1990,"Japan","Japanese","Akira Kurosawa","art"],
+["Sanjuro","Tsubaki Sanjūrō",1962,"Japan","Japanese","Akira Kurosawa","art"],
+["High and Low","Tengoku to jigoku",1963,"Japan","Japanese","Akira Kurosawa","art"],
+["Tokyo Story","Tōkyō Monogatari",1953,"Japan","Japanese","Yasujiro Ozu","art"],
+["Late Spring","Banshun",1949,"Japan","Japanese","Yasujiro Ozu","art"],
+["Floating Weeds","Ukigusa",1959,"Japan","Japanese","Yasujiro Ozu","art"],
+["An Autumn Afternoon","Sanma no aji",1962,"Japan","Japanese","Yasujiro Ozu","art"],
+["Early Summer","Bakushū",1951,"Japan","Japanese","Yasujiro Ozu","art"],
+["Good Morning","Ohayō",1959,"Japan","Japanese","Yasujiro Ozu","art"],
+["Ugetsu","Ugetsu monogatari",1953,"Japan","Japanese","Kenji Mizoguchi","art"],
+["Sansho the Bailiff","Sanshō dayū",1954,"Japan","Japanese","Kenji Mizoguchi","art"],
+["The Life of Oharu","Saikaku ichidai onna",1952,"Japan","Japanese","Kenji Mizoguchi","art"],
+["Sisters of the Gion","Gion no shimai",1936,"Japan","Japanese","Kenji Mizoguchi","art"],
+["Woman in the Dunes","Suna no onna",1964,"Japan","Japanese","Hiroshi Teshigahara","art"],
+["Harakiri","Seppuku",1962,"Japan","Japanese","Masaki Kobayashi","art"],
+["Kwaidan","Kaidan",1964,"Japan","Japanese","Masaki Kobayashi","art"],
+["Ballad of Narayama","Narayama Bushikō",1983,"Japan","Japanese","Shōhei Imamura","art"],
+["The Eel","Unagi",1997,"Japan","Japanese","Shōhei Imamura","art"],
+["Dr. Akagi","Kanzo sensei",1998,"Japan","Japanese","Shōhei Imamura","art"],
+["Warm Water Under a Red Bridge","Akai hashi no shita no nurui mizu",2001,"Japan","Japanese","Shōhei Imamura","art-ero"],
+["In the Realm of the Senses","Ai no corrida",1976,"Japan/France","Japanese","Nagisa Oshima","art-ero"],
+["Empire of Passion","Ai no borei",1978,"Japan","Japanese","Nagisa Oshima","art-ero"],
+["Hana-bi","HANA-BI",1997,"Japan","Japanese","Takeshi Kitano","art"],
+["Sonatine",null,1993,"Japan","Japanese","Takeshi Kitano","art"],
+["Kikujiro","Kikujirō no natsu",1999,"Japan","Japanese","Takeshi Kitano","art"],
+["Kids Return","Kizzu ritān",1996,"Japan","Japanese","Takeshi Kitano","art"],
+["Dolls","Dōruzu",2002,"Japan","Japanese","Takeshi Kitano","art"],
+["Like Father, Like Son","Soshite chichi ni naru",2013,"Japan","Japanese","Hirokazu Kore-eda","art"],
+["Shoplifters","Manbiki kazoku",2018,"Japan","Japanese","Hirokazu Kore-eda","art"],
+["Nobody Knows","Dare mo shiranai",2004,"Japan","Japanese","Hirokazu Kore-eda","art"],
+["Still Walking","Aruitemo aruitemo",2008,"Japan","Japanese","Hirokazu Kore-eda","art"],
+["After Life","Wandāfuru raifu",1998,"Japan","Japanese","Hirokazu Kore-eda","art"],
+["Our Little Sister","Umimachi Diary",2015,"Japan","Japanese","Hirokazu Kore-eda","art"],
+["After the Storm","Umi yori mo mada fukaku",2016,"Japan","Japanese","Hirokazu Kore-eda","art"],
+["Monster","Kaibutsu",2023,"Japan","Japanese","Hirokazu Kore-eda","art"],
+["Broker","Beurokeo",2022,"South Korea","Korean","Hirokazu Kore-eda","art"],
+["Drive My Car","Doraibu mai kā",2021,"Japan","Japanese","Ryusuke Hamaguchi","art"],
+["Wheel of Fortune and Fantasy","Gūzen to sozō",2021,"Japan","Japanese","Ryusuke Hamaguchi","art"],
+["Happy Hour","Happī Awā",2015,"Japan","Japanese","Ryusuke Hamaguchi","art"],
+["Evil Does Not Exist","Aku wa sonzai shinai",2023,"Japan","Japanese","Ryusuke Hamaguchi","art"],
+["All About Lily Chou-Chou","Riri Shushu no subete",2001,"Japan","Japanese","Shunji Iwai","art"],
+["Love Letter","Rabu retā",1995,"Japan","Japanese","Shunji Iwai","art"],
+["Sweet Bean","An",2015,"Japan","Japanese","Naomi Kawase","art"],
+["House","Hausu",1977,"Japan","Japanese","Nobuhiko Obayashi","art"],
+["Onibaba",null,1964,"Japan","Japanese","Kaneto Shindo","art"],
+["Kuroneko","Yabu no naka no kuroneko",1968,"Japan","Japanese","Kaneto Shindo","art"],
+["Double Suicide","Shinjū: Ten no Amijima",1969,"Japan","Japanese","Masahiro Shinoda","art"],
+["Battle Royale","Batoru rowaiaru",2000,"Japan","Japanese","Kinji Fukasaku","art"],
+["Odd Obsession","Kagi",1959,"Japan","Japanese","Kon Ichikawa","art-ero"],
+["The Burmese Harp","Biruma no tategoto",1956,"Japan","Japanese","Kon Ichikawa","art"],
+["In the Mood for Love","Fa yeung nin wa",2000,"Hong Kong","Cantonese/Mandarin","Wong Kar-wai","art"],
+["Chungking Express","Chong qing sen lin",1994,"Hong Kong","Cantonese","Wong Kar-wai","art"],
+["2046",null,2004,"Hong Kong","Cantonese/Mandarin","Wong Kar-wai","art"],
+["Happy Together","Chun gwong cha sit",1997,"Hong Kong","Cantonese","Wong Kar-wai","art"],
+["Fallen Angels","Duo luo tian shi",1995,"Hong Kong","Cantonese","Wong Kar-wai","art"],
+["Days of Being Wild","A Fei zheng chuan",1990,"Hong Kong","Cantonese","Wong Kar-wai","art"],
+["The Grandmaster","Yi dai zong shi",2013,"Hong Kong","Cantonese/Mandarin","Wong Kar-wai","art"],
+["Raise the Red Lantern","Da hong deng long gao gao gua",1991,"China","Mandarin","Zhang Yimou","art"],
+["Ju Dou",null,1990,"China","Mandarin","Zhang Yimou","art-ero"],
+["To Live","Huo zhe",1994,"China","Mandarin","Zhang Yimou","art"],
+["Hero","Ying xiong",2002,"China","Mandarin","Zhang Yimou","art"],
+["House of Flying Daggers","Shi mian mai fu",2004,"China","Mandarin","Zhang Yimou","art"],
+["Still Life","San xia hao ren",2006,"China","Mandarin","Jia Zhangke","art"],
+["A Touch of Sin","Tian zhu ding",2013,"China","Mandarin","Jia Zhangke","art"],
+["Mountains May Depart","Shan he gu ren",2015,"China","Mandarin","Jia Zhangke","art"],
+["Ash Is Purest White","Jiang hu er nü",2018,"China","Mandarin","Jia Zhangke","art"],
+["Farewell My Concubine","Ba wang bie ji",1993,"China","Mandarin","Chen Kaige","art"],
+["Yellow Earth","Huang tu di",1984,"China","Mandarin","Chen Kaige","art"],
+["Blue Kite","Lan feng zheng",1993,"China","Mandarin","Tian Zhuangzhuang","art"],
+["Springtime in a Small Town","Xiao cheng zhi chun",1948,"China","Mandarin","Fei Mu","art"],
+["Spring Fever","Chun feng chen zui de ye wan",2009,"China","Mandarin","Lou Ye","art-ero"],
+["Suzhou River","Suzhou he",2000,"China","Mandarin","Lou Ye","art"],
+["Summer Palace","Yi he yuan",2006,"China","Mandarin","Lou Ye","art-ero"],
+["Black Coal, Thin Ice","Bai ri yan huo",2014,"China","Mandarin","Diao Yinan","art"],
+["Wild Goose Lake","Nan fang che zhan de ju hui",2019,"China","Mandarin","Diao Yinan","art"],
+["The Killer","Dip huet seung hung",1989,"Hong Kong","Cantonese","John Woo","art"],
+["Hard Boiled","Lat sau san taam",1992,"Hong Kong","Cantonese","John Woo","art"],
+["A Better Tomorrow","Ying hung boon sik",1986,"Hong Kong","Cantonese","John Woo","art"],
+["A Chinese Ghost Story","Qian nü you hun",1987,"Hong Kong","Cantonese","Ching Siu-tung","art"],
+["Drug War","Du zhan",2012,"China","Mandarin","Johnnie To","art"],
+["Election","Hak se wui",2005,"Hong Kong","Cantonese","Johnnie To","art"],
+["Rouge","Yanzhi kou",1987,"Hong Kong","Cantonese","Stanley Kwan","art"],
+["A Brighter Summer Day","Guling jie shaonian sha ren shijian",1991,"Taiwan","Mandarin","Edward Yang","art"],
+["Yi Yi","Yi Yi",2000,"Taiwan","Mandarin/Japanese","Edward Yang","art"],
+["Taipei Story","Qingmei zhuma",1985,"Taiwan","Mandarin","Edward Yang","art"],
+["City of Sadness","Beiqing chengshi",1989,"Taiwan","Min Nan/Mandarin","Hou Hsiao-hsien","art"],
+["Flowers of Shanghai","Hai shang hua",1998,"Taiwan","Shanghainese","Hou Hsiao-hsien","art"],
+["Millennium Mambo","Qianxi manbo",2001,"Taiwan","Mandarin","Hou Hsiao-hsien","art"],
+["Three Times","Zui hao de shi guang",2005,"Taiwan","Taiwanese/Mandarin","Hou Hsiao-hsien","art"],
+["The Assassin","Nie yin niang",2015,"Taiwan","Mandarin","Hou Hsiao-hsien","art"],
+["Goodbye Dragon Inn","Bu san",2003,"Taiwan","Mandarin","Tsai Ming-liang","art"],
+["What Time Is It There?","Ni na bian ji dian",2001,"Taiwan","Mandarin","Tsai Ming-liang","art"],
+["Vive L'Amour","Ai qing wan sui",1994,"Taiwan","Mandarin","Tsai Ming-liang","art"],
+["The Wayward Cloud","Tian bian yi duo yun",2005,"Taiwan","Mandarin","Tsai Ming-liang","art-ero"],
+["Crouching Tiger Hidden Dragon","Wòhǔ Cánglóng",2000,"Taiwan","Mandarin","Ang Lee","art"],
+["Eat Drink Man Woman","Yǐn shí nán nǚ",1994,"Taiwan","Mandarin","Ang Lee","art"],
+["The Wedding Banquet","Xǐyàn",1993,"USA/Taiwan","Mandarin","Ang Lee","art"],
+["Lust, Caution","Se, jie",2007,"USA/China","Mandarin","Ang Lee","art-ero"],
+["Sense and Sensibility",null,1995,"UK","English","Ang Lee","art"],
+["Brokeback Mountain",null,2005,"USA","English","Ang Lee","art"],
+["The Ice Storm",null,1997,"USA","English","Ang Lee","art-ero"],
+["Life of Pi",null,2012,"USA","English/Tamil/Hindi","Ang Lee","art"],
+["Parasite","Gisaengchung",2019,"South Korea","Korean","Bong Joon-ho","art"],
+["Memories of Murder","Salinui chueok",2003,"South Korea","Korean","Bong Joon-ho","art"],
+["Mother","Madeo",2009,"South Korea","Korean","Bong Joon-ho","art"],
+["The Host","Gwoemul",2006,"South Korea","Korean","Bong Joon-ho","art"],
+["Snowpiercer","Seolguk yeolcha",2013,"South Korea","Korean/English","Bong Joon-ho","art"],
+["Okja",null,2017,"South Korea","Korean/English","Bong Joon-ho","art"],
+["Oldboy","Oldeuboi",2003,"South Korea","Korean","Park Chan-wook","art"],
+["Lady Vengeance","Chinjeolhan geumjassi",2005,"South Korea","Korean","Park Chan-wook","art"],
+["Thirst","Bakjwi",2009,"South Korea","Korean","Park Chan-wook","art-ero"],
+["The Handmaiden","Ah-ga-ssi",2016,"South Korea","Korean/Japanese","Park Chan-wook","art-ero"],
+["Decision to Leave","Heojil kyolshim",2022,"South Korea","Korean","Park Chan-wook","art"],
+["Sympathy for Mr. Vengeance","Boksuneun naui geot",2002,"South Korea","Korean","Park Chan-wook","art"],
+["Spring Summer Fall Winter and Spring","Bom yeoreum gaeul gyeoul geurigo bom",2003,"South Korea","Korean","Kim Ki-duk","art"],
+["3-Iron","Bin-jip",2004,"South Korea","Korean","Kim Ki-duk","art"],
+["Burning","Beoning",2018,"South Korea","Korean","Lee Chang-dong","art"],
+["Poetry","Shi",2010,"South Korea","Korean","Lee Chang-dong","art"],
+["Secret Sunshine","Milyang",2007,"South Korea","Korean","Lee Chang-dong","art"],
+["Oasis",null,2002,"South Korea","Korean","Lee Chang-dong","art"],
+["Peppermint Candy","Bakha satang",2000,"South Korea","Korean","Lee Chang-dong","art"],
+["Right Now Wrong Then","Jigeum eun matgo geuraeyo",2015,"South Korea","Korean","Hong Sang-soo","art"],
+["Woman Is the Future of Man","Yeojaneun namjaui miraeda",2004,"South Korea","Korean","Hong Sang-soo","art"],
+["In Another Country","Da-reun na-ra-e-seo",2012,"South Korea","Korean/French","Hong Sang-soo","art"],
+["A Tale of Two Sisters","Janghwa Hongnyeon",2003,"South Korea","Korean","Kim Jee-woon","art"],
+["A Bittersweet Life","Dalkomhan insaeng",2005,"South Korea","Korean","Kim Jee-woon","art"],
+["The Good the Bad the Weird","Joheunnom nabbeunnom isanghannom",2008,"South Korea","Korean","Kim Jee-woon","art"],
+["Uncle Boonmee Who Can Recall His Past Lives","Loong Boonmee raleuk chat",2010,"Thailand","Thai","Apichatpong Weerasethakul","art"],
+["Tropical Malady","Sud pralad",2004,"Thailand","Thai","Apichatpong Weerasethakul","art"],
+["Syndromes and a Century","Sang sattawat",2006,"Thailand","Thai","Apichatpong Weerasethakul","art"],
+["Cemetery of Splendour","Rak ti Khon Kaen",2015,"Thailand","Thai","Apichatpong Weerasethakul","art"],
+["Taste of Cherry","Ta'm e guilass",1997,"Iran","Persian","Abbas Kiarostami","art"],
+["Close-Up","Nema-ye Nazdik",1990,"Iran","Persian","Abbas Kiarostami","art"],
+["Where Is the Friend's Home?","Khane-ye doust kodjast?",1987,"Iran","Persian","Abbas Kiarostami","art"],
+["The Wind Will Carry Us","Bad ma ra khahad bord",1999,"Iran","Persian","Abbas Kiarostami","art"],
+["Through the Olive Trees","Zir-e darakhtan-e zeyton",1994,"Iran","Persian","Abbas Kiarostami","art"],
+["Certified Copy","Copie conforme",2010,"France/Iran","French/Italian","Abbas Kiarostami","art"],
+["Like Someone in Love",null,2012,"France/Japan","Japanese","Abbas Kiarostami","art"],
+["A Separation","Jodaeiye Nader az Simin",2011,"Iran","Persian","Asghar Farhadi","art"],
+["The Salesman","Forushande",2016,"Iran","Persian","Asghar Farhadi","art"],
+["About Elly","Darbareye Elly",2009,"Iran","Persian","Asghar Farhadi","art"],
+["A Hero","Ghahreman",2021,"Iran","Persian","Asghar Farhadi","art"],
+["The Past","Le Passé",2013,"France","French/Persian","Asghar Farhadi","art"],
+["Everybody Knows","Todos lo saben",2018,"Spain","Spanish","Asghar Farhadi","art"],
+["Offside",null,2006,"Iran","Persian","Jafar Panahi","art"],
+["The Circle","Dayereh",2000,"Iran","Persian","Jafar Panahi","art"],
+["The White Balloon","Badkonake sefid",1995,"Iran","Persian","Jafar Panahi","art"],
+["This Is Not a Film","In film nist",2011,"Iran","Persian","Jafar Panahi","art"],
+["Children of Heaven","Bacheha-Ye aseman",1997,"Iran","Persian","Majid Majidi","art"],
+["The Color of Paradise","Rang-e khoda",1999,"Iran","Persian","Majid Majidi","art"],
+["Baran",null,2001,"Iran","Persian/Dari","Majid Majidi","art"],
+["Gabbeh",null,1996,"Iran","Persian","Mohsen Makhmalbaf","art"],
+["A Moment of Innocence","Nun va Goldoon",1996,"Iran","Persian","Mohsen Makhmalbaf","art"],
+["The Apple","Sib",1998,"Iran","Persian","Samira Makhmalbaf","art"],
+["Time for Drunken Horses","Zamani barayé masti asbha",2000,"Iran","Kurdish","Bahman Ghobadi","art"],
+["Joyland",null,2022,"Pakistan","Urdu/Punjabi","Saim Sadiq","art-ero"],
+["A Girl Walks Home Alone at Night",null,2014,"Iran/USA","Persian","Ana Lily Amirpour","art-ind"],
+["Pather Panchali",null,1955,"India","Bengali","Satyajit Ray","art"],
+["Aparajito",null,1956,"India","Bengali","Satyajit Ray","art"],
+["The World of Apu","Apur Sansar",1959,"India","Bengali","Satyajit Ray","art"],
+["Charulata",null,1964,"India","Bengali","Satyajit Ray","art"],
+["The Music Room","Jalsaghar",1958,"India","Bengali","Satyajit Ray","art"],
+["Devi",null,1960,"India","Bengali","Satyajit Ray","art"],
+["Mahanagar",null,1963,"India","Bengali","Satyajit Ray","art"],
+["Ghare Baire","The Home and the World",1984,"India","Bengali","Satyajit Ray","art"],
+["Distant Thunder","Ashani Sanket",1973,"India","Bengali","Satyajit Ray","art"],
+["Days and Nights in the Forest","Aranyer din Ratri",1970,"India","Bengali","Satyajit Ray","art"],
+["Agantuk",null,1991,"India","Bengali","Satyajit Ray","art"],
+["Pyaasa",null,1957,"India","Hindi","Guru Dutt","art"],
+["Kaagaz Ke Phool","Paper Flowers",1959,"India","Hindi","Guru Dutt","art"],
+["Sahib Bibi Aur Ghulam",null,1962,"India","Hindi","Abrar Alvi","art"],
+["Mother India","Bharat Mata",1957,"India","Hindi","Mehboob Khan","art"],
+["Awaara",null,1951,"India","Hindi","Raj Kapoor","art"],
+["Do Bigha Zamin",null,1953,"India","Hindi","Bimal Roy","art"],
+["Devdas",null,1955,"India","Hindi","Bimal Roy","art"],
+["Bandini",null,1963,"India","Hindi","Bimal Roy","art"],
+["Ankur",null,1974,"India","Hindi","Shyam Benegal","art"],
+["Nishant",null,1975,"India","Hindi","Shyam Benegal","art"],
+["Bhumika",null,1977,"India","Hindi","Shyam Benegal","art"],
+["Elippathayam",null,1981,"India","Malayalam","Adoor Gopalakrishnan","art"],
+["Piravi",null,1988,"India","Malayalam","Shaji N. Karun","art"],
+["Fire",null,1996,"India/Canada","Hindi","Deepa Mehta","art-ero"],
+["Earth","1947: Earth",1998,"India/Canada","Hindi","Deepa Mehta","art"],
+["Water",null,2005,"India/Canada","Hindi","Deepa Mehta","art"],
+["Monsoon Wedding",null,2001,"India","Hindi/Punjabi","Mira Nair","art-ind"],
+["Salaam Bombay!",null,1988,"India","Hindi","Mira Nair","art"],
+["The Namesake",null,2006,"USA/India","English/Bengali","Mira Nair","art-ind"],
+["The Lunchbox","Dabba",2013,"India","Hindi","Ritesh Batra","art-ind"],
+["Masaan",null,2015,"India","Hindi","Neeraj Ghaywan","art"],
+["Court",null,2014,"India","Marathi","Chaitanya Tamhane","art"],
+["The Disciple",null,2020,"India","Marathi","Chaitanya Tamhane","art"],
+["Ship of Theseus",null,2012,"India","Hindi/English","Anand Gandhi","art"],
+["Gangs of Wasseypur",null,2012,"India","Hindi","Anurag Kashyap","art-ind"],
+["Dev D",null,2009,"India","Hindi","Anurag Kashyap","art-ero"],
+["Haider",null,2014,"India","Hindi","Vishal Bhardwaj","art"],
+["Aligarh",null,2015,"India","Hindi","Hansal Mehta","art"],
+["Dhobi Ghat",null,2011,"India","Hindi","Aamir Khan","art-ind"],
+["Sankarabharanam",null,1980,"India","Telugu","K. Viswanath","art"],
+["Stalker",null,1979,"Soviet Union","Russian","Andrei Tarkovsky","art"],
+["Solaris","Solyaris",1972,"Soviet Union","Russian","Andrei Tarkovsky","art"],
+["Andrei Rublev","Andrey Rublyov",1966,"Soviet Union","Russian","Andrei Tarkovsky","art"],
+["Mirror","Zerkalo",1975,"Soviet Union","Russian","Andrei Tarkovsky","art"],
+["Ivan's Childhood","Ivanovo detstvo",1962,"Soviet Union","Russian","Andrei Tarkovsky","art"],
+["Nostalghia",null,1983,"Italy","Italian/Russian","Andrei Tarkovsky","art"],
+["The Color of Pomegranates","Sayat Nova",1969,"Soviet Union","Armenian","Sergei Parajanov","art"],
+["Shadows of Forgotten Ancestors","Tini zabutykh predkiv",1965,"Soviet Union","Ukrainian","Sergei Parajanov","art"],
+["Come and See","Idi i smotri",1985,"Soviet Union","Russian","Elem Klimov","art"],
+["The Cranes Are Flying","Letiat zhuravli",1957,"Soviet Union","Russian","Mikhail Kalatozov","art"],
+["Battleship Potemkin","Bronenosets Potyomkin",1925,"Soviet Union","Silent","Sergei Eisenstein","art"],
+["Man with a Movie Camera","Chelovek s kino-apparatom",1929,"Soviet Union","Silent","Dziga Vertov","art"],
+["Earth","Zemlya",1930,"Soviet Union","Ukrainian","Alexander Dovzhenko","art"],
+["The Return","Vozvrashcheniye",2003,"Russia","Russian","Andrey Zvyagintsev","art"],
+["Elena",null,2011,"Russia","Russian","Andrey Zvyagintsev","art"],
+["Leviathan","Leviafan",2014,"Russia","Russian","Andrey Zvyagintsev","art"],
+["Loveless","Nelyubov",2017,"Russia","Russian","Andrey Zvyagintsev","art"],
+["A Short Film About Love","Krótki film o miłości",1988,"Poland","Polish","Krzysztof Kieślowski","art"],
+["The Double Life of Véronique","La Double Vie de Véronique",1991,"Poland/France","French/Polish","Krzysztof Kieślowski","art"],
+["Three Colors: Blue","Trois couleurs: Bleu",1993,"France","French","Krzysztof Kieślowski","art"],
+["Three Colors: White","Trois couleurs: Blanc",1994,"France","French","Krzysztof Kieślowski","art"],
+["Three Colors: Red","Trois couleurs: Rouge",1994,"France","French","Krzysztof Kieślowski","art"],
+["Camera Buff","Amator",1979,"Poland","Polish","Krzysztof Kieślowski","art"],
+["Dekalog","Dekalog",1988,"Poland","Polish","Krzysztof Kieślowski","art"],
+["Blind Chance","Przypadek",1987,"Poland","Polish","Krzysztof Kieślowski","art"],
+["Man of Iron","Czlowiek z zelaza",1981,"Poland","Polish","Andrzej Wajda","art"],
+["Ashes and Diamonds","Popiol i diament",1958,"Poland","Polish","Andrzej Wajda","art"],
+["Kanal","Kanal",1957,"Poland","Polish","Andrzej Wajda","art"],
+["Promised Land","Ziemia obiecana",1975,"Poland","Polish","Andrzej Wajda","art"],
+["Ida",null,2013,"Poland","Polish","Paweł Pawlikowski","art"],
+["Cold War","Zimna wojna",2018,"Poland","Polish","Paweł Pawlikowski","art"],
+["My Summer of Love",null,2004,"UK","English","Paweł Pawlikowski","art-ero"],
+["Closely Observed Trains","Ostře sledované vlaky",1966,"Czechoslovakia","Czech","Jiří Menzel","art"],
+["Daisies","Sedmikrásky",1966,"Czechoslovakia","Czech","Věra Chytilová","art"],
+["Valerie and Her Week of Wonders","Valerie a týden divů",1970,"Czechoslovakia","Czech","Jaromil Jireš","art-ero"],
+["Loves of a Blonde","Lásky jedné plavovlásky",1965,"Czechoslovakia","Czech","Miloš Forman","art"],
+["The Firemen's Ball","Hoří má panenko",1967,"Czechoslovakia","Czech","Miloš Forman","art"],
+["Marketa Lazarová",null,1967,"Czechoslovakia","Czech","František Vláčil","art"],
+["The Turin Horse","A torinói ló",2011,"Hungary","Hungarian","Béla Tarr","art"],
+["Werckmeister Harmonies","Werckmeister harmóniák",2000,"Hungary","Hungarian","Béla Tarr","art"],
+["Sátántangó",null,1994,"Hungary","Hungarian","Béla Tarr","art"],
+["Mephisto",null,1981,"Hungary","German","István Szabó","art"],
+["White God","Fehér isten",2014,"Hungary","Hungarian","Kornél Mundruczó","art"],
+["On Body and Soul","Testről és lélekről",2017,"Hungary","Hungarian","Ildikó Enyedi","art-ero"],
+["4 Months 3 Weeks and 2 Days","4 luni 3 saptamani si 2 zile",2007,"Romania","Romanian","Cristian Mungiu","art"],
+["Beyond the Hills","Dupa dealuri",2012,"Romania","Romanian","Cristian Mungiu","art"],
+["R.M.N.",null,2022,"Romania","Romanian","Cristian Mungiu","art"],
+["The Death of Mr. Lazarescu","Moartea domnului Lazarescu",2005,"Romania","Romanian","Cristi Puiu","art"],
+["Police Adjective","Politist adjectiv",2009,"Romania","Romanian","Corneliu Porumboiu","art"],
+["Aferim!",null,2015,"Romania","Romanian","Radu Jude","art"],
+["Bad Luck Banging or Loony Porn","Babardeala cu bucluc sau porno balamuc",2021,"Romania","Romanian","Radu Jude","art-ero"],
+["Underground",null,1995,"Yugoslavia","Serbian","Emir Kusturica","art"],
+["Black Cat White Cat","Crna macka beli macor",1998,"Yugoslavia","Serbian","Emir Kusturica","art"],
+["Time of the Gypsies","Dom za vesanje",1988,"Yugoslavia","Romani/Serbian","Emir Kusturica","art"],
+["Arizona Dream",null,1993,"USA/France","English","Emir Kusturica","art"],
+["When Father Was Away on Business","Otac na sluzbenom putu",1985,"Yugoslavia","Serbian","Emir Kusturica","art"],
+["Life Is a Miracle","Zivot je cudo",2004,"Serbia","Serbian","Emir Kusturica","art"],
+["Tangerines","Mandariinid",2013,"Estonia/Georgia","Estonian/Georgian","Zaza Urushadze","art"],
+["Wings of Desire","Der Himmel über Berlin",1987,"Germany","German","Wim Wenders","art"],
+["Paris Texas",null,1984,"Germany/France","English","Wim Wenders","art"],
+["Alice in the Cities","Alice in den Städten",1974,"Germany","German","Wim Wenders","art"],
+["Kings of the Road","Im Lauf der Zeit",1976,"Germany","German","Wim Wenders","art"],
+["The Marriage of Maria Braun","Die Ehe der Maria Braun",1979,"Germany","German","Rainer Werner Fassbinder","art"],
+["Ali Fear Eats the Soul","Angst essen Seele auf",1974,"Germany","German","Rainer Werner Fassbinder","art"],
+["The Bitter Tears of Petra von Kant","Die bitteren Tränen der Petra von Kant",1972,"Germany","German","Rainer Werner Fassbinder","art"],
+["Fox and His Friends","Faustrecht der Freiheit",1975,"Germany","German","Rainer Werner Fassbinder","art"],
+["Querelle",null,1982,"Germany","German/French","Rainer Werner Fassbinder","art-ero"],
+["Veronika Voss","Die Sehnsucht der Veronika Voss",1982,"Germany","German","Rainer Werner Fassbinder","art"],
+["Aguirre the Wrath of God","Aguirre der Zorn Gottes",1972,"Germany","German","Werner Herzog","art"],
+["Fitzcarraldo",null,1982,"Germany","German","Werner Herzog","art"],
+["Stroszek",null,1977,"Germany","German/English","Werner Herzog","art"],
+["Nosferatu the Vampyre","Nosferatu Phantom der Nacht",1979,"Germany","German","Werner Herzog","art"],
+["The Tin Drum","Die Blechtrommel",1979,"Germany","German","Volker Schlöndorff","art"],
+["Run Lola Run","Lola rennt",1998,"Germany","German","Tom Tykwer","ind"],
+["Toni Erdmann",null,2016,"Germany","German","Maren Ade","art"],
+["Metropolis",null,1927,"Germany","German (silent)","Fritz Lang","art"],
+["M",null,1931,"Germany","German","Fritz Lang","art"],
+["Nosferatu",null,1922,"Germany","German (silent)","F.W. Murnau","art"],
+["Sunrise",null,1927,"USA","Silent","F.W. Murnau","art"],
+["Pandora's Box","Die Büchse der Pandora",1929,"Germany","German (silent)","G.W. Pabst","art-ero"],
+["The White Ribbon","Das weisse Band",2009,"Germany","German","Michael Haneke","art"],
+["Amadeus",null,1984,"USA","English","Miloš Forman","art"],
+["One Flew Over the Cuckoo's Nest",null,1975,"USA","English","Miloš Forman","art"],
+["Hair",null,1979,"USA","English","Miloš Forman","art"],
+["Man on the Moon",null,1999,"USA","English","Miloš Forman","art"],
+["Dogtooth","Kynodontas",2009,"Greece","Greek","Giorgos Lanthimos","art"],
+["The Lobster",null,2015,"UK/Greece","English","Giorgos Lanthimos","art"],
+["The Favourite",null,2018,"UK","English","Giorgos Lanthimos","art-ero"],
+["Poor Things",null,2023,"UK/Ireland","English","Giorgos Lanthimos","art-ero"],
+["The Killing of a Sacred Deer",null,2017,"UK/Greece","English","Giorgos Lanthimos","art"],
+["Kinds of Kindness",null,2024,"UK","English","Giorgos Lanthimos","art"],
+["Landscape in the Mist","Topio stin omichli",1988,"Greece","Greek","Theo Angelopoulos","art"],
+["Eternity and a Day","Mia aioniotita kai mia mera",1998,"Greece","Greek","Theo Angelopoulos","art"],
+["The Travelling Players","O Thiassos",1975,"Greece","Greek","Theo Angelopoulos","art"],
+["Winter Sleep","Kis Uykusu",2014,"Turkey","Turkish","Nuri Bilge Ceylan","art"],
+["Once Upon a Time in Anatolia","Bir Zamanlar Anadolu da",2011,"Turkey","Turkish","Nuri Bilge Ceylan","art"],
+["The Wild Pear Tree","Ahlat Agaci",2018,"Turkey","Turkish","Nuri Bilge Ceylan","art"],
+["Distant","Uzak",2002,"Turkey","Turkish","Nuri Bilge Ceylan","art"],
+["Climates","Iklimler",2006,"Turkey","Turkish","Nuri Bilge Ceylan","art"],
+["Waltz with Bashir","Vals Im Bashir",2008,"Israel","Hebrew","Ari Folman","art-anim"],
+["The Band's Visit","Bikur Ha-Tizmoret",2007,"Israel","Arabic/Hebrew","Eran Kolirin","art"],
+["Footnote","Hearet Shulayim",2011,"Israel","Hebrew","Joseph Cedar","art"],
+["Capernaum","Cafarnaum",2018,"Lebanon","Arabic","Nadine Labaki","art"],
+["Where Do We Go Now?","Et maintenant on va ou?",2011,"Lebanon","Arabic/French","Nadine Labaki","art"],
+["And Then We Danced",null,2019,"Sweden/Georgia","Georgian","Levan Akin","art-ero"],
+["Beginning","Dasatskisi",2020,"Georgia","Georgian","Dea Kulumbegashvili","art"],
+["Touki Bouki",null,1973,"Senegal","Wolof/French","Djibril Diop Mambéty","art"],
+["Yeelen",null,1987,"Mali","Bambara","Souleymane Cissé","art"],
+["Tilaï",null,1990,"Burkina Faso","Mooré","Idrissa Ouédraogo","art"],
+["Yaaba",null,1989,"Burkina Faso","Mooré","Idrissa Ouédraogo","art"],
+["Moolaadé",null,2004,"Senegal","French/Bambara","Ousmane Sembène","art"],
+["Black Girl","La Noire de",1966,"Senegal","French","Ousmane Sembène","art"],
+["Timbuktu",null,2014,"Mauritania/France","Arabic/French","Abderrahmane Sissako","art"],
+["Atlantic","Atlantique",2019,"France/Senegal","French/Wolof","Mati Diop","art"],
+["Tsotsi",null,2005,"South Africa","Zulu/English","Gavin Hood","art"],
+["Teza",null,2008,"Ethiopia/Germany","Amharic","Haile Gerima","art"],
+["Félicité",null,2017,"DRC/Belgium","Lingala/French","Alain Gomis","art"],
+["Cairo Station","Bab el hadid",1958,"Egypt","Arabic","Youssef Chahine","art"],
+["Destiny","Al Massir",1997,"Egypt","Arabic","Youssef Chahine","art"],
+["Alexandria Why?","Iskanderija lih?",1978,"Egypt","Arabic","Youssef Chahine","art"],
+["Rosetta",null,1999,"Belgium","French","Jean-Pierre & Luc Dardenne","art"],
+["L'Enfant",null,2005,"Belgium","French","Jean-Pierre & Luc Dardenne","art"],
+["The Son","Le Fils",2002,"Belgium","French","Jean-Pierre & Luc Dardenne","art"],
+["The Kid with a Bike","Le Gamin au vélo",2011,"Belgium","French","Jean-Pierre & Luc Dardenne","art"],
+["Two Days One Night","Deux jours une nuit",2014,"Belgium","French","Jean-Pierre & Luc Dardenne","art"],
+["Tori and Lokita","Tori et Lokita",2022,"Belgium","French","Jean-Pierre & Luc Dardenne","art"],
+["La Promesse","La Promesse",1996,"Belgium","French","Jean-Pierre & Luc Dardenne","art"],
+["Naked",null,1993,"UK","English","Mike Leigh","art"],
+["Secrets and Lies",null,1996,"UK","English","Mike Leigh","art"],
+["Vera Drake",null,2004,"UK","English","Mike Leigh","art"],
+["Happy-Go-Lucky",null,2008,"UK","English","Mike Leigh","art"],
+["Another Year",null,2010,"UK","English","Mike Leigh","art"],
+["Mr. Turner",null,2014,"UK","English","Mike Leigh","art"],
+["Life Is Sweet",null,1990,"UK","English","Mike Leigh","art"],
+["High Hopes",null,1988,"UK","English","Mike Leigh","art"],
+["Kes",null,1969,"UK","English","Ken Loach","art"],
+["The Wind That Shakes the Barley",null,2006,"UK","English","Ken Loach","art"],
+["I Daniel Blake",null,2016,"UK","English","Ken Loach","art"],
+["Sorry We Missed You",null,2019,"UK","English","Ken Loach","art"],
+["Hunger",null,2008,"UK","English","Steve McQueen","art"],
+["Shame",null,2011,"UK","English","Steve McQueen","art-ero"],
+["12 Years a Slave",null,2013,"USA/UK","English","Steve McQueen","art"],
+["Lovers Rock",null,2020,"UK","English","Steve McQueen","art"],
+["Ratcatcher",null,1999,"UK","English","Lynne Ramsay","art"],
+["Morvern Callar",null,2002,"UK","English","Lynne Ramsay","art"],
+["We Need to Talk About Kevin",null,2011,"UK","English","Lynne Ramsay","art"],
+["You Were Never Really Here",null,2017,"UK","English","Lynne Ramsay","art"],
+["Fish Tank",null,2009,"UK","English","Andrea Arnold","art-ind"],
+["American Honey",null,2016,"UK/USA","English","Andrea Arnold","art-ind"],
+["Red Road",null,2006,"UK","English","Andrea Arnold","art"],
+["Weekend",null,2011,"UK","English","Andrew Haigh","art"],
+["45 Years",null,2015,"UK","English","Andrew Haigh","art"],
+["Lean on Pete",null,2017,"UK","English","Andrew Haigh","ind"],
+["The Zone of Interest",null,2023,"UK/USA","German","Jonathan Glazer","art"],
+["Under the Skin",null,2013,"UK","English","Jonathan Glazer","art"],
+["Sexy Beast",null,2000,"UK","English","Jonathan Glazer","ind"],
+["The Piano",null,1993,"New Zealand","English","Jane Campion","art-ero"],
+["An Angel at My Table",null,1990,"New Zealand","English","Jane Campion","art"],
+["Bright Star",null,2009,"UK","English","Jane Campion","art"],
+["The Power of the Dog",null,2021,"New Zealand","English","Jane Campion","art"],
+["Holy Smoke",null,1999,"Australia","English","Jane Campion","art-ero"],
+["In the Cut",null,2003,"USA","English","Jane Campion","art-ero"],
+["Sweetie",null,1989,"Australia","English","Jane Campion","art"],
+["Picnic at Hanging Rock",null,1975,"Australia","English","Peter Weir","art"],
+["Walkabout",null,1971,"Australia","English","Nicolas Roeg","art"],
+["Don't Look Now",null,1973,"UK","English","Nicolas Roeg","art-ero"],
+["The Man Who Fell to Earth",null,1976,"UK","English","Nicolas Roeg","art"],
+["Bad Timing",null,1980,"UK","English","Nicolas Roeg","art-ero"],
+["A Room with a View",null,1985,"UK","English","James Ivory","art"],
+["Maurice",null,1987,"UK","English","James Ivory","art-ero"],
+["Howards End",null,1992,"UK","English","James Ivory","art"],
+["The Remains of the Day",null,1993,"UK","English","James Ivory","art"],
+["The Bostonians",null,1984,"UK","English","James Ivory","art"],
+["The Banshees of Inisherin",null,2022,"Ireland","English","Martin McDonagh","art-ind"],
+["Three Billboards Outside Ebbing Missouri",null,2017,"USA","English","Martin McDonagh","ind"],
+["In Bruges",null,2008,"UK","English","Martin McDonagh","ind"],
+["Calvary",null,2014,"Ireland","English","John Michael McDonagh","ind"],
+["The Guard",null,2011,"Ireland","English","John Michael McDonagh","ind"],
+["God's Own Country",null,2017,"UK","English","Francis Lee","art-ind"],
+["Ammonite",null,2020,"UK","English","Francis Lee","art-ero"],
+["Orlando",null,1992,"UK","English","Sally Potter","art"],
+["The Party",null,2017,"UK","English","Sally Potter","art"],
+["The Tango Lesson",null,1997,"UK","English/Spanish","Sally Potter","art"],
+["The English Patient",null,1996,"UK","English","Anthony Minghella","art-ero"],
+["The Talented Mr. Ripley",null,1999,"USA","English","Anthony Minghella","art"],
+["Cold Mountain",null,2003,"USA","English","Anthony Minghella","art"],
+["Truly Madly Deeply",null,1990,"UK","English","Anthony Minghella","art"],
+["An Education",null,2009,"UK","English","Lone Scherfig","ind"],
+["My Beautiful Laundrette",null,1985,"UK","English","Stephen Frears","art-ind"],
+["The Grifters",null,1990,"USA","English","Stephen Frears","ind"],
+["Dirty Pretty Things",null,2002,"UK","English","Stephen Frears","ind"],
+["Philomena",null,2013,"UK","English","Stephen Frears","ind"],
+["Dangerous Liaisons",null,1988,"USA","English","Stephen Frears","art-ero"],
+["Mrs Henderson Presents",null,2005,"UK","English","Stephen Frears","art-ero"],
+["The Crying Game",null,1992,"UK","English","Neil Jordan","art"],
+["Mona Lisa",null,1986,"UK","English","Neil Jordan","art-ero"],
+["The End of the Affair",null,1999,"UK","English","Neil Jordan","art-ero"],
+["Ondine",null,2009,"Ireland","English","Neil Jordan","art"],
+["Breakfast on Pluto",null,2005,"Ireland","English","Neil Jordan","art"],
+["Billy Elliot",null,2000,"UK","English","Stephen Daldry","art"],
+["The Hours",null,2002,"USA","English","Stephen Daldry","art"],
+["The Reader","Der Vorleser",2008,"USA/Germany","German/English","Stephen Daldry","art-ero"],
+["Atonement",null,2007,"UK","English","Joe Wright","art-ero"],
+["Pride and Prejudice",null,2005,"UK","English","Joe Wright","art"],
+["Anna Karenina",null,2012,"UK","English","Joe Wright","art"],
+["Belfast",null,2021,"UK","English","Kenneth Branagh","art"],
+["Much Ado About Nothing",null,1993,"UK","English","Kenneth Branagh","art"],
+["Henry V",null,1989,"UK","English","Kenneth Branagh","art"],
+["The Full Monty",null,1997,"UK","English","Peter Cattaneo","ind"],
+["Brassed Off",null,1996,"UK","English","Mark Herman","art"],
+["Four Weddings and a Funeral",null,1994,"UK","English","Mike Newell","ind"],
+["Notting Hill",null,1999,"UK","English","Roger Michell","ind"],
+["About a Boy",null,2002,"UK","English","Chris Weitz","ind"],
+["Love Actually",null,2003,"UK","English","Richard Curtis","ind"],
+["Brooklyn",null,2015,"Ireland/UK","English","John Crowley","ind"],
+["Once",null,2006,"Ireland","English","John Carney","ind"],
+["Sing Street",null,2016,"Ireland","English","John Carney","ind"],
+["Begin Again",null,2013,"USA","English","John Carney","ind"],
+["Gosford Park",null,2001,"UK","English","Robert Altman","art"],
+["If....",null,1968,"UK","English","Lindsay Anderson","art"],
+["O Lucky Man!",null,1973,"UK","English","Lindsay Anderson","art"],
+["Badlands",null,1973,"USA","English","Terrence Malick","art"],
+["Days of Heaven",null,1978,"USA","English","Terrence Malick","art"],
+["The Thin Red Line",null,1998,"USA","English","Terrence Malick","art"],
+["The Tree of Life",null,2011,"USA","English","Terrence Malick","art"],
+["A Hidden Life",null,2019,"USA","English","Terrence Malick","art"],
+["Song to Song",null,2017,"USA","English","Terrence Malick","art-ero"],
+["Taxi Driver",null,1976,"USA","English","Martin Scorsese","art"],
+["Raging Bull",null,1980,"USA","English","Martin Scorsese","art"],
+["The King of Comedy",null,1982,"USA","English","Martin Scorsese","art"],
+["After Hours",null,1985,"USA","English","Martin Scorsese","art"],
+["Goodfellas",null,1990,"USA","English","Martin Scorsese","art"],
+["The Last Temptation of Christ",null,1988,"USA","English","Martin Scorsese","art"],
+["Silence",null,2016,"USA","English/Japanese","Martin Scorsese","art"],
+["The Age of Innocence",null,1993,"USA","English","Martin Scorsese","art"],
+["The Irishman",null,2019,"USA","English","Martin Scorsese","art"],
+["Killers of the Flower Moon",null,2023,"USA","English","Martin Scorsese","art"],
+["Casino",null,1995,"USA","English","Martin Scorsese","art-ero"],
+["Kundun",null,1997,"USA","English","Martin Scorsese","art"],
+["Nashville",null,1975,"USA","English","Robert Altman","art"],
+["McCabe and Mrs. Miller",null,1971,"USA","English","Robert Altman","art"],
+["Short Cuts",null,1993,"USA","English","Robert Altman","art"],
+["The Long Goodbye",null,1973,"USA","English","Robert Altman","art"],
+["3 Women",null,1977,"USA","English","Robert Altman","art"],
+["Boogie Nights",null,1997,"USA","English","Paul Thomas Anderson","art-ero"],
+["Magnolia",null,1999,"USA","English","Paul Thomas Anderson","art"],
+["Punch-Drunk Love",null,2002,"USA","English","Paul Thomas Anderson","art"],
+["There Will Be Blood",null,2007,"USA","English","Paul Thomas Anderson","art"],
+["The Master",null,2012,"USA","English","Paul Thomas Anderson","art"],
+["Phantom Thread",null,2017,"USA","English","Paul Thomas Anderson","art"],
+["Licorice Pizza",null,2021,"USA","English","Paul Thomas Anderson","art-ind"],
+["Inherent Vice",null,2014,"USA","English","Paul Thomas Anderson","art"],
+["Hard Eight",null,1996,"USA","English","Paul Thomas Anderson","art"],
+["Lost in Translation",null,2003,"USA","English","Sofia Coppola","art"],
+["The Virgin Suicides",null,1999,"USA","English","Sofia Coppola","art"],
+["Marie Antoinette",null,2006,"USA","English/French","Sofia Coppola","art"],
+["Somewhere",null,2010,"USA","English","Sofia Coppola","art"],
+["Priscilla",null,2023,"USA","English","Sofia Coppola","art"],
+["On the Rocks",null,2020,"USA","English","Sofia Coppola","art"],
+["The Bling Ring",null,2013,"USA","English","Sofia Coppola","art"],
+["The Conversation",null,1974,"USA","English","Francis Ford Coppola","art"],
+["Apocalypse Now",null,1979,"USA","English","Francis Ford Coppola","art"],
+["The Godfather",null,1972,"USA","English","Francis Ford Coppola","art"],
+["The Godfather Part II",null,1974,"USA","English","Francis Ford Coppola","art"],
+["The Last Picture Show",null,1971,"USA","English","Peter Bogdanovich","art-ind"],
+["Midnight Cowboy",null,1969,"USA","English","John Schlesinger","art-ind"],
+["Easy Rider",null,1969,"USA","English","Dennis Hopper","art-ind"],
+["Five Easy Pieces",null,1970,"USA","English","Bob Rafelson","art-ind"],
+["Blue Velvet",null,1986,"USA","English","David Lynch","art-ero"],
+["Mulholland Drive",null,2001,"USA","English","David Lynch","art"],
+["Lost Highway",null,1997,"USA","English","David Lynch","art"],
+["Eraserhead",null,1977,"USA","English","David Lynch","art"],
+["Wild at Heart",null,1990,"USA","English","David Lynch","art-ero"],
+["Twin Peaks: Fire Walk with Me",null,1992,"USA","English","David Lynch","art"],
+["Eyes Wide Shut",null,1999,"USA","English","Stanley Kubrick","art-ero"],
+["A Clockwork Orange",null,1971,"UK","English","Stanley Kubrick","art-ero"],
+["2001: A Space Odyssey",null,1968,"USA","English","Stanley Kubrick","art"],
+["Barry Lyndon",null,1975,"UK","English","Stanley Kubrick","art"],
+["Paths of Glory",null,1957,"USA","English","Stanley Kubrick","art"],
+["Dr. Strangelove",null,1964,"UK","English","Stanley Kubrick","art"],
+["Lolita",null,1962,"UK","English","Stanley Kubrick","art-ero"],
+["Chinatown",null,1974,"USA","English","Roman Polanski","art"],
+["Rosemary's Baby",null,1968,"USA","English","Roman Polanski","art"],
+["The Tenant","Le Locataire",1976,"France","French","Roman Polanski","art"],
+["Repulsion",null,1965,"UK","English","Roman Polanski","art"],
+["Cabaret",null,1972,"USA","English","Bob Fosse","art"],
+["All That Jazz",null,1979,"USA","English","Bob Fosse","art"],
+["Lenny",null,1974,"USA","English","Bob Fosse","art"],
+["The Graduate",null,1967,"USA","English","Mike Nichols","art"],
+["Who's Afraid of Virginia Woolf?",null,1966,"USA","English","Mike Nichols","art"],
+["Carnal Knowledge",null,1971,"USA","English","Mike Nichols","ero"],
+["Closer",null,2004,"USA","English","Mike Nichols","ero"],
+["Annie Hall",null,1977,"USA","English","Woody Allen","art"],
+["Manhattan",null,1979,"USA","English","Woody Allen","art"],
+["Stardust Memories",null,1980,"USA","English","Woody Allen","art"],
+["Crimes and Misdemeanors",null,1989,"USA","English","Woody Allen","art"],
+["Husbands and Wives",null,1992,"USA","English","Woody Allen","ind"],
+["Midnight in Paris",null,2011,"USA/France","English/French","Woody Allen","ind"],
+["Match Point",null,2005,"UK","English","Woody Allen","ind"],
+["Deconstructing Harry",null,1997,"USA","English","Woody Allen","ind"],
+["Sweet and Lowdown",null,1999,"USA","English","Woody Allen","ind"],
+["Vicky Cristina Barcelona",null,2008,"USA","English/Spanish","Woody Allen","ero"],
+["Blue Jasmine",null,2013,"USA","English","Woody Allen","ind"],
+["The Purple Rose of Cairo",null,1985,"USA","English","Woody Allen","art"],
+["Hannah and Her Sisters",null,1986,"USA","English","Woody Allen","art"],
+["Secretary",null,2002,"USA","English","Steven Shainberg","ero"],
+["Damage",null,1992,"UK/France","English/French","Louis Malle","ero"],
+["The Lover","L'Amant",1992,"France","French","Jean-Jacques Annaud","ero"],
+["The Unbearable Lightness of Being",null,1988,"USA","English","Philip Kaufman","art-ero"],
+["Henry and June",null,1990,"USA","English","Philip Kaufman","art-ero"],
+["9 and a Half Weeks","9 1/2 Weeks",1986,"USA","English","Adrian Lyne","ero"],
+["Unfaithful",null,2002,"USA","English","Adrian Lyne","ero"],
+["Indecent Proposal",null,1993,"USA","English","Adrian Lyne","ero"],
+["Lolita",null,1997,"USA","English","Adrian Lyne","ero"],
+["Fatal Attraction",null,1987,"USA","English","Adrian Lyne","ero"],
+["Basic Instinct",null,1992,"USA","English","Paul Verhoeven","ero"],
+["Elle",null,2016,"France","French","Paul Verhoeven","art-ero"],
+["Benedetta",null,2021,"France","French","Paul Verhoeven","art-ero"],
+["Black Book","Zwartboek",2006,"Netherlands","Dutch/German","Paul Verhoeven","ero"],
+["Body Heat",null,1981,"USA","English","Lawrence Kasdan","ero"],
+["Bound",null,1996,"USA","English","The Wachowskis","ero"],
+["Dangerous Liaisons",null,1988,"USA","English","Stephen Frears","art-ero"],
+["Valmont",null,1989,"France","French","Miloš Forman","art-ero"],
+["Women in Love",null,1969,"UK","English","Ken Russell","art-ero"],
+["The Devils",null,1971,"UK","English","Ken Russell","art-ero"],
+["Crash",null,1996,"Canada","English","David Cronenberg","art-ero"],
+["Videodrome",null,1983,"Canada","English","David Cronenberg","art-ero"],
+["Dead Ringers",null,1988,"Canada","English","David Cronenberg","art-ero"],
+["A History of Violence",null,2005,"USA","English","David Cronenberg","art-ero"],
+["Eastern Promises",null,2007,"USA","English","David Cronenberg","art-ero"],
+["Naked Lunch",null,1991,"Canada","English","David Cronenberg","art-ero"],
+["Possession",null,1981,"France/Germany","French/German","Andrzej Zuławski","art-ero"],
+["Love",null,2015,"France","French","Gaspar Noé","art-ero"],
+["Enter the Void",null,2009,"France","French/English","Gaspar Noé","art"],
+["Irréversible",null,2002,"France","French","Gaspar Noé","art-ero"],
+["Climax",null,2018,"France","French","Gaspar Noé","art"],
+["American Gigolo",null,1980,"USA","English","Paul Schrader","ero"],
+["First Reformed",null,2017,"USA","English","Paul Schrader","art"],
+["The Card Counter",null,2021,"USA","English","Paul Schrader","art"],
+["Mishima: A Life in Four Chapters",null,1985,"USA","English/Japanese","Paul Schrader","art"],
+["Blue Collar",null,1978,"USA","English","Paul Schrader","art"],
+["Cat People",null,1982,"USA","English","Paul Schrader","art-ero"],
+["Klute",null,1971,"USA","English","Alan J. Pakula","ero"],
+["Sophie's Choice",null,1982,"USA","English","Alan J. Pakula","art-ero"],
+["All the President's Men",null,1976,"USA","English","Alan J. Pakula","art"],
+["Magic Mike",null,2012,"USA","English","Steven Soderbergh","ero"],
+["Behind the Candelabra",null,2013,"USA","English","Steven Soderbergh","ero"],
+["sex lies and videotape","sex, lies, and videotape",1989,"USA","English","Steven Soderbergh","art-ero"],
+["The Girlfriend Experience",null,2009,"USA","English","Steven Soderbergh","art-ero"],
+["Emmanuelle",null,1974,"France","French","Just Jaeckin","ero"],
+["Stranger Than Paradise",null,1984,"USA","English","Jim Jarmusch","art-ind"],
+["Dead Man",null,1995,"USA","English","Jim Jarmusch","art-ind"],
+["Night on Earth",null,1991,"USA","English","Jim Jarmusch","art-ind"],
+["Ghost Dog: The Way of the Samurai",null,1999,"USA","English","Jim Jarmusch","art-ind"],
+["Broken Flowers",null,2005,"USA","English","Jim Jarmusch","art-ind"],
+["Paterson",null,2016,"USA","English","Jim Jarmusch","art-ind"],
+["Only Lovers Left Alive",null,2013,"UK/Germany","English","Jim Jarmusch","art-ind"],
+["Down by Law",null,1986,"USA","English","Jim Jarmusch","art-ind"],
+["Mystery Train",null,1989,"USA","English","Jim Jarmusch","art-ind"],
+["The Limits of Control",null,2009,"USA","English","Jim Jarmusch","art-ind"],
+["Pi",null,1998,"USA","English","Darren Aronofsky","ind"],
+["Requiem for a Dream",null,2000,"USA","English","Darren Aronofsky","ind"],
+["The Fountain",null,2006,"USA","English","Darren Aronofsky","art"],
+["The Wrestler",null,2008,"USA","English","Darren Aronofsky","ind"],
+["Black Swan",null,2010,"USA","English","Darren Aronofsky","ind"],
+["Mother!",null,2017,"USA","English","Darren Aronofsky","art"],
+["Blood Simple",null,1984,"USA","English","Joel Coen","ind"],
+["Raising Arizona",null,1987,"USA","English","Joel Coen","ind"],
+["Miller's Crossing",null,1990,"USA","English","Joel Coen","ind"],
+["Barton Fink",null,1991,"USA","English","Joel Coen","ind"],
+["Fargo",null,1996,"USA","English","Joel Coen","ind"],
+["The Big Lebowski",null,1998,"USA","English","Joel Coen","ind"],
+["No Country for Old Men",null,2007,"USA","English","Joel Coen","ind"],
+["A Serious Man",null,2009,"USA","English","Joel Coen","ind"],
+["Inside Llewyn Davis",null,2013,"USA","English","Joel Coen","ind"],
+["The Man Who Wasn't There",null,2001,"USA","English","Joel Coen","art"],
+["O Brother Where Art Thou?",null,2000,"USA","English","Joel Coen","ind"],
+["Burn After Reading",null,2008,"USA","English","Joel Coen","ind"],
+["True Grit",null,2010,"USA","English","Joel Coen","ind"],
+["Reservoir Dogs",null,1992,"USA","English","Quentin Tarantino","ind"],
+["Pulp Fiction",null,1994,"USA","English","Quentin Tarantino","ind"],
+["Jackie Brown",null,1997,"USA","English","Quentin Tarantino","ind"],
+["Kill Bill: Vol. 1",null,2003,"USA","English","Quentin Tarantino","ind"],
+["Kill Bill: Vol. 2",null,2004,"USA","English","Quentin Tarantino","ind"],
+["Inglourious Basterds",null,2009,"USA","English/German/French","Quentin Tarantino","ind"],
+["Django Unchained",null,2012,"USA","English","Quentin Tarantino","ind"],
+["Once Upon a Time in Hollywood",null,2019,"USA","English","Quentin Tarantino","ind"],
+["The Hateful Eight",null,2015,"USA","English","Quentin Tarantino","ind"],
+["Drugstore Cowboy",null,1989,"USA","English","Gus Van Sant","ind"],
+["My Own Private Idaho",null,1991,"USA","English","Gus Van Sant","art-ind"],
+["Elephant",null,2003,"USA","English","Gus Van Sant","art-ind"],
+["Good Will Hunting",null,1997,"USA","English","Gus Van Sant","ind"],
+["Milk",null,2008,"USA","English","Gus Van Sant","ind"],
+["Paranoid Park",null,2007,"USA","English","Gus Van Sant","art-ind"],
+["Traffic",null,2000,"USA","English","Steven Soderbergh","ind"],
+["Erin Brockovich",null,2000,"USA","English","Steven Soderbergh","ind"],
+["Out of Sight",null,1998,"USA","English","Steven Soderbergh","ind"],
+["Slacker",null,1990,"USA","English","Richard Linklater","ind"],
+["Dazed and Confused",null,1993,"USA","English","Richard Linklater","ind"],
+["Before Sunrise",null,1995,"USA","English","Richard Linklater","art-ind"],
+["Before Sunset",null,2004,"USA","English","Richard Linklater","art-ind"],
+["Before Midnight",null,2013,"USA","English","Richard Linklater","art-ind"],
+["Waking Life",null,2001,"USA","English","Richard Linklater","art-anim"],
+["Boyhood",null,2014,"USA","English","Richard Linklater","art-ind"],
+["A Scanner Darkly",null,2006,"USA","English","Richard Linklater","art-anim"],
+["School of Rock",null,2003,"USA","English","Richard Linklater","ind"],
+["Adaptation",null,2002,"USA","English","Spike Jonze","ind"],
+["Being John Malkovich",null,1999,"USA","English","Spike Jonze","ind"],
+["Her",null,2013,"USA","English","Spike Jonze","ind"],
+["Where the Wild Things Are",null,2009,"USA","English","Spike Jonze","ind"],
+["Eternal Sunshine of the Spotless Mind",null,2004,"USA","English","Michel Gondry","art"],
+["The Science of Sleep","La Science des rêves",2006,"France","French/English","Michel Gondry","art"],
+["Mood Indigo","L'Écume des jours",2013,"France","French","Michel Gondry","art"],
+["You Can Count on Me",null,2000,"USA","English","Kenneth Lonergan","ind"],
+["Margaret",null,2011,"USA","English","Kenneth Lonergan","ind"],
+["Manchester by the Sea",null,2016,"USA","English","Kenneth Lonergan","ind"],
+["Moonlight",null,2016,"USA","English","Barry Jenkins","art-ind"],
+["If Beale Street Could Talk",null,2018,"USA","English","Barry Jenkins","art-ind"],
+["Medicine for Melancholy",null,2008,"USA","English","Barry Jenkins","ind"],
+["Lady Bird",null,2017,"USA","English","Greta Gerwig","ind"],
+["Little Women",null,2019,"USA","English","Greta Gerwig","ind"],
+["Barbie",null,2023,"USA","English","Greta Gerwig","ind"],
+["Frances Ha",null,2012,"USA","English","Noah Baumbach","ind"],
+["The Squid and the Whale",null,2005,"USA","English","Noah Baumbach","ind"],
+["Marriage Story",null,2019,"USA","English","Noah Baumbach","ind"],
+["The Meyerowitz Stories",null,2017,"USA","English","Noah Baumbach","ind"],
+["White Noise",null,2022,"USA","English","Noah Baumbach","ind"],
+["Greenberg",null,2010,"USA","English","Noah Baumbach","ind"],
+["Wendy and Lucy",null,2008,"USA","English","Kelly Reichardt","ind"],
+["First Cow",null,2019,"USA","English","Kelly Reichardt","ind"],
+["Certain Women",null,2016,"USA","English","Kelly Reichardt","ind"],
+["Night Moves",null,2013,"USA","English","Kelly Reichardt","ind"],
+["Meek's Cutoff",null,2010,"USA","English","Kelly Reichardt","ind"],
+["Old Joy",null,2006,"USA","English","Kelly Reichardt","ind"],
+["Winter's Bone",null,2010,"USA","English","Debra Granik","ind"],
+["Leave No Trace",null,2018,"USA","English","Debra Granik","ind"],
+["Short Term 12",null,2013,"USA","English","Destin Daniel Cretton","ind"],
+["Blue Valentine",null,2010,"USA","English","Derek Cianfrance","ind"],
+["The Florida Project",null,2017,"USA","English","Sean Baker","ind"],
+["Tangerine",null,2015,"USA","English","Sean Baker","ind"],
+["Red Rocket",null,2021,"USA","English","Sean Baker","ind"],
+["Beasts of the Southern Wild",null,2012,"USA","English","Benh Zeitlin","art-ind"],
+["Fruitvale Station",null,2013,"USA","English","Ryan Coogler","ind"],
+["Sorry to Bother You",null,2018,"USA","English","Boots Riley","ind"],
+["The Last Black Man in San Francisco",null,2019,"USA","English","Joe Talbot","ind"],
+["Waves",null,2019,"USA","English","Trey Edward Shults","ind"],
+["Everything Everywhere All at Once",null,2022,"USA","English/Mandarin","Daniels","ind"],
+["Swiss Army Man",null,2016,"USA","English","Daniels","ind"],
+["Whiplash",null,2014,"USA","English","Damien Chazelle","ind"],
+["La La Land",null,2016,"USA","English","Damien Chazelle","ind"],
+["Babylon",null,2022,"USA","English","Damien Chazelle","ind"],
+["First Man",null,2018,"USA","English","Damien Chazelle","ind"],
+["Hereditary",null,2018,"USA","English","Ari Aster","ind"],
+["Midsommar",null,2019,"USA","English","Ari Aster","ind"],
+["Beau Is Afraid",null,2023,"USA","English","Ari Aster","ind"],
+["The Witch",null,2015,"USA","English","Robert Eggers","ind"],
+["The Lighthouse",null,2019,"USA","English","Robert Eggers","ind"],
+["The Northman",null,2022,"USA","English","Robert Eggers","ind"],
+["Primer",null,2004,"USA","English","Shane Carruth","ind"],
+["Upstream Color",null,2013,"USA","English","Shane Carruth","ind"],
+["Welcome to the Dollhouse",null,1995,"USA","English","Todd Solondz","ind"],
+["Happiness",null,1998,"USA","English","Todd Solondz","art-ero"],
+["The Royal Tenenbaums",null,2001,"USA","English","Wes Anderson","art"],
+["Rushmore",null,1998,"USA","English","Wes Anderson","art"],
+["Bottle Rocket",null,1996,"USA","English","Wes Anderson","ind"],
+["The Grand Budapest Hotel",null,2014,"USA","English","Wes Anderson","art"],
+["Moonrise Kingdom",null,2012,"USA","English","Wes Anderson","art"],
+["The Darjeeling Limited",null,2007,"USA","English","Wes Anderson","art"],
+["The Life Aquatic with Steve Zissou",null,2004,"USA","English","Wes Anderson","art"],
+["The French Dispatch",null,2021,"USA","English","Wes Anderson","art"],
+["Asteroid City",null,2023,"USA","English","Wes Anderson","art"],
+["Incendies",null,2010,"Canada","French/Arabic","Denis Villeneuve","art"],
+["Polytechnique",null,2009,"Canada","French","Denis Villeneuve","art"],
+["Prisoners",null,2013,"USA","English","Denis Villeneuve","art"],
+["Enemy",null,2013,"Canada","English/Spanish","Denis Villeneuve","art"],
+["Arrival",null,2016,"USA","English","Denis Villeneuve","art"],
+["Sicario",null,2015,"USA","English","Denis Villeneuve","art"],
+["I Killed My Mother","J'ai tué ma mère",2009,"Canada","French","Xavier Dolan","art"],
+["Heartbeats","Les Amours imaginaires",2010,"Canada","French","Xavier Dolan","art-ero"],
+["Laurence Anyways",null,2012,"Canada","French","Xavier Dolan","art"],
+["Mommy",null,2014,"Canada","French","Xavier Dolan","art"],
+["It's Only the End of the World","Juste la fin du monde",2016,"Canada","French","Xavier Dolan","art"],
+["Stories We Tell",null,2012,"Canada","English","Sarah Polley","art-ind"],
+["Away from Her",null,2006,"Canada","English","Sarah Polley","art"],
+["Take This Waltz",null,2011,"Canada","English","Sarah Polley","art-ind"],
+["20th Century Women",null,2016,"USA","English","Mike Mills","ind"],
+["Beginners",null,2010,"USA","English","Mike Mills","ind"],
+["C'mon C'mon",null,2021,"USA","English","Mike Mills","ind"],
+["Thumbsucker",null,2005,"USA","English","Mike Mills","ind"],
+["Shotgun Stories",null,2007,"USA","English","Jeff Nichols","ind"],
+["Mud",null,2012,"USA","English","Jeff Nichols","ind"],
+["Take Shelter",null,2011,"USA","English","Jeff Nichols","ind"],
+["Loving",null,2016,"USA","English","Jeff Nichols","ind"],
+["Midnight Special",null,2016,"USA","English","Jeff Nichols","ind"],
+["Blue Ruin",null,2013,"USA","English","Jeremy Saulnier","ind"],
+["Green Room",null,2015,"USA","English","Jeremy Saulnier","ind"],
+["Hold the Dark",null,2018,"USA","English","Jeremy Saulnier","ind"],
+["Wanda",null,1970,"USA","English","Barbara Loden","art-ind"],
+["George Washington",null,2000,"USA","English","David Gordon Green","art-ind"],
+["All the Real Girls",null,2003,"USA","English","David Gordon Green","ind"],
+["Joe",null,2013,"USA","English","David Gordon Green","ind"],
+["The Diary of a Teenage Girl",null,2015,"USA","English","Marielle Heller","ind"],
+["Booksmart",null,2019,"USA","English","Olivia Wilde","ind"],
+["The Edge of Seventeen",null,2016,"USA","English","Kelly Fremon Craig","ind"],
+["Pariah",null,2011,"USA","English","Dee Rees","ind"],
+["Mudbound",null,2017,"USA","English","Dee Rees","ind"],
+["Selma",null,2014,"USA","English","Ava DuVernay","ind"],
+["El Mariachi",null,1992,"USA/Mexico","Spanish","Robert Rodriguez","ind"],
+["Following",null,1998,"UK","English","Christopher Nolan","ind"],
+["Memento",null,2000,"USA","English","Christopher Nolan","ind"],
+["The Wild Bunch",null,1969,"USA","English","Sam Peckinpah","art"],
+["Pat Garrett and Billy the Kid",null,1973,"USA","English","Sam Peckinpah","art"],
+["All the President's Men",null,1976,"USA","English","Alan J. Pakula","art"],
+["Two-Lane Blacktop",null,1971,"USA","English","Monte Hellman","art-ind"],
+["Pig",null,2021,"USA","English","Michael Sarnoski","ind"],
+["Mean Streets",null,1973,"USA","English","Martin Scorsese","art-ind"],
+["Bad Lieutenant",null,1992,"USA","English","Abel Ferrara","art-ero"],
+["King of New York",null,1990,"USA","English","Abel Ferrara","art"],
+["Synecdoche New York","Synecdoche, New York",2008,"USA","English","Charlie Kaufman","art"],
+["Anomalisa",null,2015,"USA","English","Charlie Kaufman","art-anim"],
+["I'm Thinking of Ending Things",null,2020,"USA","English","Charlie Kaufman","art"],
+["Welcome to the Dollhouse",null,1995,"USA","English","Todd Solondz","ind"],
+["Happiness",null,1998,"USA","English","Todd Solondz","art-ero"],
+["Life During Wartime",null,2009,"USA","English","Todd Solondz","art"],
+["Half Nelson",null,2006,"USA","English","Ryan Fleck","ind"],
+["Winter Passing",null,2005,"USA","English","Adam Rapp","ind"],
+["Frozen River",null,2008,"USA","English","Courtney Hunt","ind"],
+["Beasts of No Nation",null,2015,"USA/Ghana","English","Cary Joji Fukunaga","ind"],
+["True Grit",null,2010,"USA","English","Joel Coen","ind"],
+["The Hurt Locker",null,2008,"USA","English","Kathryn Bigelow","art"],
+["Zero Dark Thirty",null,2012,"USA","English","Kathryn Bigelow","art"],
+["Spirited Away","Sen to Chihiro no Kamikakushi",2001,"Japan","Japanese","Hayao Miyazaki","anim"],
+["My Neighbor Totoro","Tonari no Totoro",1988,"Japan","Japanese","Hayao Miyazaki","anim"],
+["Princess Mononoke","Mononoke-hime",1997,"Japan","Japanese","Hayao Miyazaki","anim"],
+["Nausicaä of the Valley of the Wind","Kaze no Tani no Naushika",1984,"Japan","Japanese","Hayao Miyazaki","anim"],
+["Castle in the Sky","Tenkū no Shiro Rapyuta",1986,"Japan","Japanese","Hayao Miyazaki","anim"],
+["Kiki's Delivery Service","Majo no Takkyūbin",1989,"Japan","Japanese","Hayao Miyazaki","anim"],
+["Howl's Moving Castle","Hauru no Ugoku Shiro",2004,"Japan","Japanese","Hayao Miyazaki","anim"],
+["The Wind Rises","Kaze Tachinu",2013,"Japan","Japanese","Hayao Miyazaki","anim"],
+["Porco Rosso","Kurenai no Buta",1992,"Japan","Japanese","Hayao Miyazaki","anim"],
+["The Castle of Cagliostro","Rupan Sansei: Kariosutoro no Shiro",1979,"Japan","Japanese","Hayao Miyazaki","anim"],
+["Ponyo","Gake no Ue no Ponyo",2008,"Japan","Japanese","Hayao Miyazaki","anim"],
+["The Boy and the Heron","Kimitachi wa Do Ikiru ka",2023,"Japan","Japanese","Hayao Miyazaki","anim"],
+["Grave of the Fireflies","Hotaru no Haka",1988,"Japan","Japanese","Isao Takahata","anim"],
+["Only Yesterday","Omohide Poro Poro",1991,"Japan","Japanese","Isao Takahata","anim"],
+["Pom Poko","Heisei Tanuki Gassen Ponpoko",1994,"Japan","Japanese","Isao Takahata","anim"],
+["The Tale of Princess Kaguya","Kaguyahime no Monogatari",2013,"Japan","Japanese","Isao Takahata","anim"],
+["My Neighbors the Yamadas","Hohokekyo Tonari no Yamada-kun",1999,"Japan","Japanese","Isao Takahata","anim"],
+["When Marnie Was There","Omoide no Mani",2014,"Japan","Japanese","Hiromasa Yonebayashi","anim"],
+["The Secret World of Arrietty","Kari-gurashi no Arietti",2010,"Japan","Japanese","Hiromasa Yonebayashi","anim"],
+["Mary and the Witch's Flower","Meari to Majo no Hana",2017,"Japan","Japanese","Hiromasa Yonebayashi","anim"],
+["Wolf Children","Okami Kodomo no Ame to Yuki",2012,"Japan","Japanese","Mamoru Hosoda","anim"],
+["Summer Wars","Sama Wozu",2009,"Japan","Japanese","Mamoru Hosoda","anim"],
+["Belle","Ryu to Sobakasu no Hime",2021,"Japan","Japanese","Mamoru Hosoda","anim"],
+["The Girl Who Leapt Through Time","Toki wo Kakeru Shojo",2006,"Japan","Japanese","Mamoru Hosoda","anim"],
+["Mirai","Mirai no Mirai",2018,"Japan","Japanese","Mamoru Hosoda","anim"],
+["The Boy and the Beast","Bakemono no Ko",2015,"Japan","Japanese","Mamoru Hosoda","anim"],
+["Millennium Actress","Sennen Joyu",2001,"Japan","Japanese","Satoshi Kon","anim"],
+["Tokyo Godfathers","Tokyo Goddofazazu",2003,"Japan","Japanese","Satoshi Kon","anim"],
+["Perfect Blue","Pafekuto Buru",1997,"Japan","Japanese","Satoshi Kon","anim"],
+["Paprika","Papurika",2006,"Japan","Japanese","Satoshi Kon","anim"],
+["Akira",null,1988,"Japan","Japanese","Katsuhiro Otomo","anim"],
+["Ghost in the Shell","Kokaku Kidotai",1995,"Japan","Japanese","Mamoru Oshii","anim"],
+["Ghost in the Shell 2: Innocence","Innocence",2004,"Japan","Japanese","Mamoru Oshii","anim"],
+["Your Name","Kimi no Na wa",2016,"Japan","Japanese","Makoto Shinkai","anim"],
+["Weathering with You","Tenki no Ko",2019,"Japan","Japanese","Makoto Shinkai","anim"],
+["5 Centimeters per Second","Byousoku 5 Centimeter",2007,"Japan","Japanese","Makoto Shinkai","anim"],
+["The Garden of Words","Kotonoha no Niwa",2013,"Japan","Japanese","Makoto Shinkai","anim"],
+["Suzume",null,2022,"Japan","Japanese","Makoto Shinkai","anim"],
+["The Place Promised in Our Early Days","Kumo no Mukou, Yakusoku no Basho",2004,"Japan","Japanese","Makoto Shinkai","anim"],
+["Night Is Short Walk On Girl","Yoru wa Mijikashi Aruke yo Otome",2017,"Japan","Japanese","Masaaki Yuasa","anim"],
+["Lu over the Wall","Yoake Tsugeru Ru no Uta",2017,"Japan","Japanese","Masaaki Yuasa","anim"],
+["Keep Your Hands Off Eizouken!","Eizouken ni wa Te wo Dasuna!",2020,"Japan","Japanese","Masaaki Yuasa","anim"],
+["The Red Turtle","La Tortue rouge",2016,"France/Japan","No dialogue","Michael Dudok de Wit","anim"],
+["Ernest and Celestine","Ernest et Célestine",2012,"France/Belgium","French","Stéphane Aubier","anim"],
+["The Triplets of Belleville","Les Triplettes de Belleville",2003,"France/Canada","French","Sylvain Chomet","art-anim"],
+["The Illusionist","L'Illusionniste",2010,"France/UK","No dialogue","Sylvain Chomet","art-anim"],
+["Persepolis",null,2007,"France","French/Persian","Marjane Satrapi","art-anim"],
+["Flee",null,2021,"Denmark","Danish/Afghan","Jonas Poher Rasmussen","art-anim"],
+["Waltz with Bashir","Vals Im Bashir",2008,"Israel","Hebrew","Ari Folman","art-anim"],
+["The Breadwinner",null,2017,"Ireland","English/Dari","Nora Twomey","art-anim"],
+["Song of the Sea","Amhran na Mara",2014,"Ireland","English","Tomm Moore","anim"],
+["The Secret of Kells","Brendan agus Run na Caille",2009,"Ireland","English","Tomm Moore","anim"],
+["Wolfwalkers",null,2020,"Ireland","English","Tomm Moore","anim"],
+["I Lost My Body","J'ai perdu mon corps",2019,"France","French","Jérémy Clapin","art-anim"],
+["Loving Vincent",null,2017,"Poland/UK","English","Dorota Kobiela","art-anim"],
+["My Life as a Courgette","Ma vie de Courgette",2016,"France/Switzerland","French","Claude Barras","art-anim"],
+["Azur and Asmar","Azur et Asmar",2006,"France","French/Arabic","Michel Ocelot","anim"],
+["Kirikou and the Sorceress","Kirikou et la Sorcière",1998,"France","French","Michel Ocelot","anim"],
+["Dilili in Paris","Dilili à Paris",2018,"France","French","Michel Ocelot","anim"],
+["Fantastic Mr. Fox",null,2009,"USA","English","Wes Anderson","art-anim"],
+["Isle of Dogs",null,2018,"USA","English","Wes Anderson","art-anim"],
+["Anomalisa",null,2015,"USA","English","Charlie Kaufman","art-anim"],
+["Watership Down",null,1978,"UK","English","Martin Rosen","anim"],
+["Fantastic Planet","La Planète sauvage",1973,"France/Czech","French","René Laloux","art-anim"],
+["Yellow Submarine",null,1968,"UK","English","George Dunning","art-anim"],
+["Heavy Metal",null,1981,"Canada","English","Gerald Potterton","art-anim"],
+["Belladonna of Sadness","Kanashimi no Belladonna",1973,"Japan","Japanese","Eiichi Yamamoto","art-anim"],
+["A Letter to Momo","Momo e no Tegami",2011,"Japan","Japanese","Hiroyuki Okiura","anim"],
+["Children of the Sea","Kaiju no Kodomo",2019,"Japan","Japanese","Ayumu Watanabe","anim"],
+["Barefoot Gen","Hadashi no Gen",1983,"Japan","Japanese","Mori Masaki","anim"],
+["The Cat Returns","Neko no Ongaeshi",2002,"Japan","Japanese","Hiroyuki Morita","anim"],
+["From Up on Poppy Hill","Kokuriko-zaka kara",2011,"Japan","Japanese","Goro Miyazaki","anim"],
+["The Night of the Galactic Railroad","Ginga Tetsudo no Yoru",1985,"Japan","Japanese","Gisaburo Sugii","anim"],
+["A Silent Voice","Koe no Katachi",2016,"Japan","Japanese","Naoko Yamada","anim"],
+["I Want to Eat Your Pancreas","Kimi no Suizo wo Tabetai",2018,"Japan","Japanese","Shinichiro Ushijima","anim"],
+["Demon Slayer: Mugen Train","Kimetsu no Yaiba: Mugen Ressha-Hen",2020,"Japan","Japanese","Haruo Sotozaki","anim"],
+["Jujutsu Kaisen 0","Gekijouban Jujutsu Kaisen 0",2021,"Japan","Japanese","Park Sunghoo","anim"],
+["The Wind Rises","Kaze Tachinu",2013,"Japan","Japanese","Hayao Miyazaki","anim"],
+];
+// ── BUILD DEDUPLICATED FILMS ─────────────────────────────
+const seen = new Set();
+const FILMS = RAW
+  .map(r => ({
+    title:    r[0],
+    orig:     (r[1] && r[1] !== r[0]) ? r[1] : '',
+    year:     parseInt(r[2]),
+    country:  r[3],
+    language: r[4],
+    director: r[5],
+    genre:    r[6],
+    imdb:     IR[(r[0].toLowerCase()+'|'+r[2])] || null,
+    desc:     DESC[(r[0].toLowerCase()+'|'+r[2])] || ''
+  }))
+  .filter(f => {
+    const k = f.title.toLowerCase()+'|'+f.year;
+    if (seen.has(k)) return false;
+    seen.add(k); return true;
+  })
+  .map((f,i) => ({...f, idx: i+1}));
+
+document.getElementById('s-total').textContent = FILMS.length.toLocaleString();
+
+// ── COUNTRY DROPDOWN ─────────────────────────────────────
+const ctries = [...new Set(
+  FILMS.flatMap(f => f.country.split('/').map(c => c.trim()))
+)].sort();
+const cSel = document.getElementById('sc');
+ctries.forEach(c => {
+  const o = document.createElement('option');
+  o.value = c; o.textContent = c; cSel.appendChild(o);
+});
+
+// ── WATCHLIST (localStorage with fallback) ───────────────
+let WL = new Set();
+try { WL = new Set(JSON.parse(localStorage.getItem('co_wl')||'[]')); } catch(e){}
+function saveWL(){ try{ localStorage.setItem('co_wl', JSON.stringify([...WL])); }catch(e){} }
+function isInWL(f){ return WL.has(f.title+'|'+f.year); }
+function toggleWL(f){
+  const k = f.title+'|'+f.year;
+  if(WL.has(k)) WL.delete(k); else WL.add(k);
+  saveWL(); updateWLUI(); render();
+}
+function updateWLUI(){
+  const n = WL.size;
+  document.getElementById('wl-hdr-count').textContent = n > 0 ? '('+n+')' : '';
+  document.getElementById('wl-count-txt').textContent = n+' film'+(n===1?'':'s')+' in watchlist';
+  const banner = document.getElementById('wl-banner');
+  const wlBtn = document.getElementById('wl-toggle-btn');
+  banner.classList.toggle('vis', n > 0 && state.wlOnly);
+  if(n > 0 && state.wlOnly) banner.classList.add('vis'); else banner.classList.remove('vis');
+  wlBtn.classList.toggle('active', state.wlOnly);
+}
+function clearWatchlist(){
+  if(!confirm('Clear all '+WL.size+' watchlist items?')) return;
+  WL.clear(); saveWL(); state.wlOnly=false; updateWLUI(); applyAll();
+  toast('Watchlist cleared','info');
+}
+function exportWatchlist(){
+  const wlFilms = FILMS.filter(f => isInWL(f));
+  if(!wlFilms.length){ toast('Watchlist is empty','info'); return; }
+  downloadCSV(wlFilms, 'cinema-watchlist.csv');
+}
+function toggleWatchlistView(){
+  state.wlOnly = !state.wlOnly;
+  updateWLUI();
+  applyAll();
+}
+
+// ── GENRE TAG ────────────────────────────────────────────
+function tagHTML(g){
+  const m={
+    'art':     ['Art House','ta'],
+    'ero':     ['Erotic Drama','te'],
+    'ind':     ['Independent','ti'],
+    'anim':    ['Animation','tn'],
+    'art-ero': ['Art + Erotic','tm'],
+    'art-ind': ['Art + Indie','tm'],
+    'art-anim':['Art + Anim','tm'],
+    'ind-anim':['Indie + Anim','tm'],
+  };
+  const [lbl,cls] = m[g] || ['Mixed','tm'];
+  return `<span class="tag ${cls}">${lbl}</span>`;
+}
+
+// ── IMDB ─────────────────────────────────────────────────
+function imdbHTML(v){
+  if(!v) return `<span class="imdb-na">—</span>`;
+  const cls = v>=8.0?'imdb-hi':v>=7.0?'imdb-mid':'imdb-lo';
+  return `<span class="${cls}"><span class="star">★</span>${v.toFixed(1)}</span>`;
+}
+
+// ── TOAST ─────────────────────────────────────────────────
+function toast(msg, type='info'){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast '+type+' show';
+  setTimeout(()=>{ t.classList.remove('show'); }, 2200);
+}
+
+// ── ACTIVE FILTER TAG ────────────────────────────────────
+function renderActiveFilters(){
+  const container = document.getElementById('active-filters');
+  const chips = [];
+  if(state.dirFilter){
+    chips.push(`<span class="af-tag" style="border-color:var(--violet);color:var(--violet);background:rgba(167,139,250,.1)">
+      Director: ${state.dirFilter}
+      <button onclick="clearDirFilter()" title="Remove">×</button>
+    </span>`);
+  }
+  if(state.wlOnly){
+    chips.push(`<span class="af-tag" style="border-color:var(--rose);color:var(--rose);background:rgba(224,96,144,.1)">
+      ♥ Watchlist only
+      <button onclick="toggleWatchlistView()" title="Remove">×</button>
+    </span>`);
+  }
+  container.innerHTML = chips.join('');
+}
+
+// ── STATE ─────────────────────────────────────────────────
+const PER = 50;
+let filtered = [];
+let page = 1;
+const state = {
+  q:'', genres: new Set(['all']), country:'', decade:'', sort:'imdb-d',
+  dirFilter:'', wlOnly: false
+};
+
+// ── GENRE MULTI-SELECT ───────────────────────────────────
+document.querySelectorAll('.fb').forEach(btn => {
+  btn.addEventListener('click', function(){
+    const g = this.dataset.g;
+    if(g === 'all'){
+      // clicking All resets to all
+      state.genres = new Set(['all']);
+      document.querySelectorAll('.fb').forEach(b => {
+        b.classList.remove('on','multi-on');
+        if(b.dataset.g==='all') b.classList.add('on');
+      });
+    } else {
+      // toggle this genre
+      if(state.genres.has('all')) state.genres = new Set();
+      if(state.genres.has(g)){
+        state.genres.delete(g);
+        this.classList.remove('on','multi-on');
+      } else {
+        state.genres.add(g);
+        this.classList.add('on');
+        // style differently from 'all' active
+        this.classList.remove('on');
+        this.classList.add('multi-on');
+        // actually use .on for color
+        this.classList.add('on');
+      }
+      // if nothing selected, go back to all
+      if(state.genres.size === 0){
+        state.genres = new Set(['all']);
+        document.querySelectorAll('.fb').forEach(b => {
+          b.classList.remove('on','multi-on');
+          if(b.dataset.g==='all') b.classList.add('on');
+        });
+      } else {
+        document.querySelector('.fb[data-g=all]').classList.remove('on','multi-on');
+      }
+    }
+    applyAll();
+  });
+});
+
+function clearDirFilter(){ state.dirFilter=''; renderActiveFilters(); applyAll(); }
+
+function clearAll(){
+  document.getElementById('q').value='';
+  document.getElementById('sc').value='';
+  document.getElementById('sd').value='';
+  document.getElementById('ss').value='imdb-d';
+  state.q=''; state.genres=new Set(['all']); state.country='';
+  state.decade=''; state.sort='imdb-d'; state.dirFilter=''; state.wlOnly=false;
+  document.querySelectorAll('.fb').forEach(b=>{
+    b.classList.remove('on','multi-on');
+    if(b.dataset.g==='all') b.classList.add('on');
+  });
+  updateWLUI(); renderActiveFilters(); applyAll();
+  toast('Filters cleared','info');
+}
+
+// ── APPLY ALL ────────────────────────────────────────────
+function applyAll(){
+  state.q    = document.getElementById('q').value.toLowerCase().trim();
+  state.country = document.getElementById('sc').value;
+  state.decade  = document.getElementById('sd').value;
+  state.sort    = document.getElementById('ss').value;
+
+  filtered = FILMS.filter(f => {
+    // watchlist filter
+    if(state.wlOnly && !isInWL(f)) return false;
+    // director filter
+    if(state.dirFilter && f.director !== state.dirFilter) return false;
+    // search
+    if(state.q){
+      const hay = (f.title+' '+f.orig+' '+f.director+' '+f.country+' '+f.language+' '+f.desc).toLowerCase();
+      if(!hay.includes(state.q)) return false;
+    }
+    // genre multi-select
+    if(!state.genres.has('all')){
+      const match = [...state.genres].some(g => f.genre.includes(g));
+      if(!match) return false;
+    }
+    // country
+    if(state.country && !f.country.includes(state.country)) return false;
+    // decade
+    if(state.decade && Math.floor(f.year/10)*10 !== parseInt(state.decade)) return false;
+    return true;
+  });
+
+  // sort
+  const [col,dir] = state.sort.split('-');
+  const asc = dir==='a';
+  filtered.sort((a,b)=>{
+    let av, bv;
+    if(col==='year')    { av=a.year;    bv=b.year; }
+    else if(col==='imdb')  { av=a.imdb||0; bv=b.imdb||0; }
+    else if(col==='dir')   { av=(a.director||'').toLowerCase(); bv=(b.director||'').toLowerCase(); }
+    else if(col==='country'){ av=(a.country||'').toLowerCase(); bv=(b.country||'').toLowerCase(); }
+    else { av=(a.title||'').toLowerCase(); bv=(b.title||'').toLowerCase(); }
+    if(av<bv) return asc?-1:1;
+    if(av>bv) return asc?1:-1;
+    return 0;
+  });
+
+  page=1;
+  renderActiveFilters();
+  updateWLUI();
+  render();
+}
+
+// ── RENDER TABLE ─────────────────────────────────────────
+function render(){
+  const tb  = document.getElementById('tb');
+  const nr  = document.getElementById('nr');
+  const bdg = document.getElementById('bdg');
+
+  bdg.textContent = filtered.length.toLocaleString()+' films';
+
+  if(!filtered.length){
+    tb.innerHTML=''; nr.style.display='';
+    document.getElementById('pg').innerHTML=''; return;
+  }
+  nr.style.display='none';
+
+  const start = (page-1)*PER;
+  const slice = filtered.slice(start, start+PER);
+
+  tb.innerHTML = slice.map((f,i) => {
+    const inWl = isInWL(f);
+    const origLine = f.orig ? `<span class="c-to">${f.orig}</span>` : '';
+    const descText = f.desc ? f.desc : '';
+    return `<tr class="${inWl?'in-wl':''}">
+      <td class="el c-n">${start+i+1}</td>
+      <td class="nc" style="text-align:center">
+        <button class="wl-btn ${inWl?'wl-on':''}"
+          onclick="toggleWL(FILMS[${f.idx-1}])"
+          title="${inWl?'Remove from watchlist':'Add to watchlist'}">&#x2665;</button>
+      </td>
+      <td class="el c-t" title="${f.title}${f.orig?' / '+f.orig:''}">${f.title}${origLine}</td>
+      <td class="el c-y">${f.year}</td>
+      <td class="el c-co" title="${f.country}">${f.country}</td>
+      <td class="el c-la" title="${f.language}">${f.language}</td>
+      <td class="el c-d">
+        <span class="c-dir-link" onclick="filterByDirector('${f.director.replace(/'/g,"\\'")}')">
+          ${f.director}
+        </span>
+      </td>
+      <td class="nc">${tagHTML(f.genre)}</td>
+      <td class="nc">${imdbHTML(f.imdb)}</td>
+      <td class="desc-cell" title="${descText}">${descText}</td>
+    </tr>`;
+  }).join('');
+
+  renderPager();
+}
+
+// ── DIRECTOR FILTER ───────────────────────────────────────
+function filterByDirector(dir){
+  state.dirFilter = dir;
+  renderActiveFilters();
+  applyAll();
+  toast('Showing films by '+dir,'info');
+}
+
+// ── PAGINATION ────────────────────────────────────────────
+function renderPager(){
+  const total = Math.ceil(filtered.length/PER);
+  const pg = document.getElementById('pg');
+  if(total<=1){ pg.innerHTML=''; return; }
+  const range=[];
+  for(let i=1;i<=total;i++){
+    if(i===1||i===total||Math.abs(i-page)<=2) range.push(i);
+    else if(range[range.length-1]!=='…') range.push('…');
+  }
+  let h=`<button class="pb" onclick="goPage(${page-1})" ${page===1?'disabled':''}>&larr; Prev</button>`;
+  range.forEach(p=>{
+    if(p==='…') h+=`<span class="pb" style="cursor:default;pointer-events:none">&hellip;</span>`;
+    else h+=`<button class="pb ${p===page?'on':''}" onclick="goPage(${p})">${p}</button>`;
+  });
+  h+=`<button class="pb" onclick="goPage(${page+1})" ${page===total?'disabled':''}>Next &rarr;</button>`;
+  pg.innerHTML=h;
+}
+
+function goPage(p){
+  const total=Math.ceil(filtered.length/PER);
+  if(p<1||p>total) return;
+  page=p; render();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+// ── COLUMN HEADER SORT ────────────────────────────────────
+document.querySelectorAll('th[data-col]').forEach(th=>{
+  th.addEventListener('click',()=>{
+    const c = th.dataset.col;
+    const ss = document.getElementById('ss');
+    const [cc,cd] = ss.value.split('-');
+    const nd = (cc===c && cd==='a') ? 'd' : 'a';
+    const colKey = c==='director'?'dir': c==='language'?'title': c;
+    const optVal = colKey+'-'+nd;
+    for(const o of ss.options){ if(o.value===optVal){ ss.value=optVal; break; } }
+    document.querySelectorAll('th').forEach(t=>t.classList.remove('sorted'));
+    th.classList.add('sorted');
+    applyAll();
+  });
+});
+
+// ── EXPORT CSV ────────────────────────────────────────────
+function downloadCSV(data, filename){
+  const headers = ['#','Title','Original Title','Year','Country','Language','Director','Genre','IMDB','Synopsis'];
+  const rows = data.map((f,i)=>[
+    i+1,
+    '"'+f.title.replace(/"/g,'""')+'"',
+    '"'+(f.orig||'').replace(/"/g,'""')+'"',
+    f.year,
+    '"'+f.country.replace(/"/g,'""')+'"',
+    '"'+f.language.replace(/"/g,'""')+'"',
+    '"'+f.director.replace(/"/g,'""')+'"',
+    f.genre,
+    f.imdb||'',
+    '"'+(f.desc||'').replace(/"/g,'""')+'"'
+  ].join(','));
+  const csv = [headers.join(','),...rows].join('\n');
+  const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href=url; a.download=filename; a.click();
+  URL.revokeObjectURL(url);
+  toast('CSV exported — '+data.length+' films','info');
+}
+function exportCSV(){ downloadCSV(filtered.length?filtered:FILMS,'cinema-obscura.csv'); }
+
+// ── WIRE OTHER CONTROLS ───────────────────────────────────
+document.getElementById('q').addEventListener('input', applyAll);
+document.getElementById('sc').addEventListener('change', applyAll);
+document.getElementById('sd').addEventListener('change', applyAll);
+document.getElementById('ss').addEventListener('change', applyAll);
+
+// ── INIT ─────────────────────────────────────────────────
+updateWLUI();
+applyAll();
+</script>
+</body>
+</html>

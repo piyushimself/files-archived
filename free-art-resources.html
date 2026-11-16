@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Creative Art Resources</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&family=Space+Mono&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0e0e0f;
+    --bg2: #161618;
+    --bg3: #1d1d20;
+    --border: rgba(255,255,255,0.07);
+    --border-hover: rgba(255,255,255,0.14);
+    --text: #f0ede8;
+    --text2: #9e9c97;
+    --text3: #5e5c58;
+    --accent: #c9a96e;
+    --accent2: #7eb8a4;
+    --accent3: #b58fd4;
+    --red: #d47070;
+    --blue: #7098d4;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 5rem 2rem 4rem;
+    max-width: 900px;
+    margin: 0 auto;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-eyebrow {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 1.2rem;
+  }
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2.4rem, 6vw, 4rem);
+    line-height: 1.1;
+    color: var(--text);
+    margin-bottom: 1.2rem;
+    max-width: 18ch;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .hero p {
+    color: var(--text2);
+    max-width: 52ch;
+    font-size: 16px;
+    line-height: 1.7;
+  }
+  .hero-stats {
+    display: flex;
+    gap: 2.5rem;
+    margin-top: 2.5rem;
+    flex-wrap: wrap;
+  }
+  .stat-item { display: flex; flex-direction: column; gap: 2px; }
+  .stat-n {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2rem;
+    color: var(--text);
+    line-height: 1;
+  }
+  .stat-l { font-size: 12px; color: var(--text3); letter-spacing: 0.04em; }
+
+  /* ── FILTERS ── */
+  .filter-wrap {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+  }
+  .filter-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .filter-inner::-webkit-scrollbar { display: none; }
+  .ftab {
+    background: none;
+    border: none;
+    padding: 1rem 1.1rem;
+    font-size: 13px;
+    color: var(--text3);
+    cursor: pointer;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: color 0.15s, border-color 0.15s;
+    font-family: inherit;
+  }
+  .ftab:hover { color: var(--text2); }
+  .ftab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* ── MAIN ── */
+  .main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 2rem 6rem;
+  }
+
+  .section { margin-top: 3.5rem; }
+
+  .section-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 1.25rem;
+  }
+  .section-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .section-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text3);
+  }
+
+  /* ── CARDS ── */
+  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; }
+
+  .card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.1rem 1.2rem;
+    text-decoration: none;
+    display: block;
+    transition: border-color 0.15s, background 0.15s, transform 0.15s;
+    position: relative;
+  }
+  .card:hover {
+    border-color: var(--border-hover);
+    background: var(--bg3);
+    transform: translateY(-2px);
+  }
+  .card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 0.5rem;
+  }
+  .card-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.3;
+  }
+  .card-link-icon {
+    color: var(--text3);
+    font-size: 11px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .card-desc {
+    font-size: 12.5px;
+    color: var(--text2);
+    line-height: 1.55;
+    margin-bottom: 0.75rem;
+  }
+  .tags { display: flex; flex-wrap: wrap; gap: 5px; }
+  .tag {
+    font-size: 10.5px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.02em;
+  }
+  .t-gold { background: rgba(201,169,110,0.12); color: var(--accent); border: 1px solid rgba(201,169,110,0.2); }
+  .t-teal { background: rgba(126,184,164,0.12); color: var(--accent2); border: 1px solid rgba(126,184,164,0.2); }
+  .t-purple { background: rgba(181,143,212,0.12); color: var(--accent3); border: 1px solid rgba(181,143,212,0.2); }
+  .t-red { background: rgba(212,112,112,0.12); color: var(--red); border: 1px solid rgba(212,112,112,0.2); }
+  .t-blue { background: rgba(112,152,212,0.12); color: var(--blue); border: 1px solid rgba(112,152,212,0.2); }
+  .t-dim { background: rgba(255,255,255,0.05); color: var(--text3); border: 1px solid var(--border); }
+
+  .free-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    font-size: 9px;
+    font-family: 'Space Mono', monospace;
+    padding: 2px 7px;
+    border-radius: 20px;
+    background: rgba(126,184,164,0.15);
+    color: var(--accent2);
+    border: 1px solid rgba(126,184,164,0.25);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  /* ── TIP BLOCK ── */
+  .tip-block {
+    margin-top: 3.5rem;
+    border: 1px solid rgba(201,169,110,0.2);
+    border-left: 3px solid var(--accent);
+    background: rgba(201,169,110,0.04);
+    border-radius: 0 8px 8px 0;
+    padding: 1.1rem 1.4rem;
+  }
+  .tip-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+  }
+  .tip-block p { font-size: 13.5px; color: var(--text2); line-height: 1.65; }
+  .tip-block strong { color: var(--text); font-weight: 500; }
+
+  /* ── HIDDEN ── */
+  .section.hidden { display: none; }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem;
+    text-align: center;
+    font-size: 12px;
+    color: var(--text3);
+    font-family: 'Space Mono', monospace;
+  }
+
+  @media (max-width: 600px) {
+    .hero { padding: 3rem 1.25rem 2.5rem; }
+    .main { padding: 0 1.25rem 4rem; }
+    .filter-wrap { padding: 0 1.25rem; }
+    .cards { grid-template-columns: 1fr; }
+    .hero-stats { gap: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <p class="hero-eyebrow">Free Resources · Every Medium</p>
+  <h1>Learn to make <em>art</em> — for free</h1>
+  <p>Watercolor, oil, pastel, sketching, digital, creative writing — every resource here is free or has a meaningful free tier. No paywalls to start.</p>
+  <div class="hero-stats">
+    <div class="stat-item"><span class="stat-n">40+</span><span class="stat-l">resources curated</span></div>
+    <div class="stat-item"><span class="stat-n">8</span><span class="stat-l">art mediums covered</span></div>
+    <div class="stat-item"><span class="stat-n">100%</span><span class="stat-l">free to start</span></div>
+  </div>
+</div>
+
+<div class="filter-wrap">
+  <div class="filter-inner">
+    <button class="ftab active" data-filter="all">All</button>
+    <button class="ftab" data-filter="painting">Painting</button>
+    <button class="ftab" data-filter="watercolor">Watercolor</button>
+    <button class="ftab" data-filter="oil">Oil</button>
+    <button class="ftab" data-filter="pastel">Pastel & Crayon</button>
+    <button class="ftab" data-filter="sketching">Sketching</button>
+    <button class="ftab" data-filter="digital">Digital Art</button>
+    <button class="ftab" data-filter="writing">Writing</button>
+    <button class="ftab" data-filter="youtube">YouTube</button>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- SECTION 1: WEBSITES -->
+  <div class="section" data-section="painting watercolor oil sketching">
+    <div class="section-head">
+      <div class="section-icon" style="background:rgba(201,169,110,0.1)">🖼️</div>
+      <span class="section-title">Painting & Drawing — Websites</span>
+    </div>
+    <div class="cards">
+
+      <a class="card" href="https://thevirtualinstructor.com" target="_blank" data-tags="painting watercolor oil sketching">
+        <span class="free-badge">Free</span>
+        <div class="card-top"><span class="card-name">The Virtual Instructor</span></div>
+        <p class="card-desc">Covers watercolor, oil, acrylic, graphite, color theory — all in beginner-friendly video lessons. One of the most complete free painting sites out there.</p>
+        <div class="tags">
+          <span class="tag t-teal">Watercolor</span>
+          <span class="tag t-gold">Oil</span>
+          <span class="tag t-blue">Acrylic</span>
+          <span class="tag t-dim">Beginner</span>
+        </div>
+      </a>
+
+      <a class="card" href="https://www.nga.gov/stories/articles/free-online-art-learning-resources-students-and-teachers" target="_blank" data-tags="painting watercolor oil">
+        <span class="free-badge">Free</span>
+        <div class="card-top"><span class="card-name">National Gallery of Art</span></div>
+        <p class="card-desc">Free lessons with videos from contemporary artists. Interactive painting tool — try painting like Van Gogh or Alma Thomas in your browser.</p>
+        <div class="tags">
+          <span class="tag t-teal">Watercolor</span>
+          <span class="tag t-gold">Oil</span>
+          <span class="tag t-purple">Interactive</span>
+        </div>
+      </a>
+
+      <a class="card" href="https://www.proko.com" target="_blank" data-tags="painting sketching">
+        <span class="free-badge">Free + Paid</span>
+        <div class="card-top"><span class="card-name">Proko</span></div>
+        <p class="card-desc">Led by Stan Prokopenko — specializes in figure drawing, anatomy, and character art. Classical technique with clear, detailed teaching.</p>
+        <div class="tags">
+          <span class="tag t-gold">Figure Drawing</span>
+          <span class="tag t-red">Anatomy</span>
+          <span class="tag t-dim">Intermediate</span>
+        </div>
+      </a>
+
+      <a class="card" href="https://drawspace.com" target="_blank" data-tags="sketching painting">
+        <span class="free-badge">Free + Paid</span>
+        <div class="card-top"><span class="card-name">Drawspace</span></div>
+        <p class="card-desc">Step-by-step pencil drawing, shading, and composition lessons. Very beginner-friendly with a clear structure from basics upward.</p>
+        <div class="tags">
+          <span class="tag t-gold">Pencil</span>
+          <span class="tag t-dim">Shading</span>
+          <span class="tag t-teal">Beginner</span>
+        </div>
+      </a>
+
+      <a class="card" href="https://www.nma.art" target="_blank" data-tags="painting oil sketching">
+        <span class="free-badge">Paid (trial free)</span>
+        <div class="card-top"><span class="card-name">New Masters Academy</span></div>
+        <p class="card-desc">Academic approach — classical fine art covering figure drawing, oil painting, and sculpture. For those who want art school depth.</p>
+        <div class="tags">
+          <span class="tag t-gold">Oil</span>
+          <span class="tag t-purple">Classical</span>
+          <span class="tag t-red">Advanced</span>
+        </div>
+      </a>
+
+      <a class="card" href="https://line-of-action.com" target="_blank" data-tags="sketching painting">
+        <span class="free-badge">Free</span>
+        <div class="card-top"><span class="card-name">Line of Action</span></div>
+        <p class="card-desc">Timed gesture drawing practice. Figures, hands, faces, animals — just set a timer and draw. Pure practice, no frills, extremely useful.</p>
+        <div class="tags">
+          <span class="tag t-teal">Gesture Drawing</span>
+          <span class="tag t-gold">Practice Tool</span>
+        </div>
+      </a>
+
+      <a class="card" href="https://quickposes.com" target="_blank" data-tags="sketching painting">
+        <span class="free-badge">Free</span>
+        <div class="card-top"><span class="card-name">Quickposes</span></div>
+        <p class="card-desc">Similar to Line of Action. Timed pose sessions with a large image library. Daily practice habit builder for figure and gesture drawing.</p>
+        <div class="tags">
+          <span class="tag t-teal">Figure Drawing</span>
+          <span class="tag t-dim">Timed</span>
+        </div>
+      </a>
+
+      <a class="card" href="https://www.posemaniacs.com" target="_blank" data-tags="sketching painting">
+        <span class="free-badge">Free</span>
+        <div class="card-top"><span class="card-name">Pose Maniacs</span></div>
+        <p class="card-desc">3D human figure reference in any angle and pose for sketching practice. Especially useful for understanding form and muscle structure.</p>
+        <div class="tags">
+          <span class="tag t-gold">3D Reference</span>
+          <span class="tag t-red">Anatomy</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- SECTION 2: WATERCOLOR YOUTUBE -->
+  <div class="section" data-section="watercolor youtube painting">
+    <div class="section-head">
+      <div class="section-icon" style="background:rgba(112,152,212,0.1)">💧</div>
+      <span class="section-title">Watercolor — YouTube</span>
+    </div>
+    <div class="cards">
+
+      <a class="card" href="https://www.youtube.com/user/angelafineart" target="_blank" data-tags="watercolor youtube painting">
+        <span class="free-badge">Free</span>
+        <div class="card-top"><span class="card-name">Angela Anderson</span></div>
+        <p class="card-desc">Top watercolor channel for beginners. Incredibly detailed, easy-to-follow tutorials — flowers, landscapes, seasons. Highly recommended starting point.</p>
+        <div class="tags">
+          <span class="tag t-blue">Watercolor</span>
+          <span class="tag t-teal">Beginner</span>
+          <span class="tag t-dim">YouTube</span>
+        </div>
+      </a>
+
+      <a class="card" href="https://www.youtube.com/@TimWilmot" target="_blank" data-tags="watercolor youtube painting">
+        <span class="free-badge">Free</span>
+        <div class="card-top"><span class="card-name">Tim Wilmot</span></div>
+        <p class="card-desc">In-depth watercolor demos of landscapes, seascapes, and urban scenes. Stunning work with useful commentary throughout. Essential watching.</p>
+        <div class="tags">
+          <span class="tag t-blue">Watercolor</span>
+          <span class="tag t-teal">Landscape</span>
+          <span class="tag t-dim">YouTube</span>
+        </div>
+      </a>
+
+      <a class="card" href="https://www.youtube.com/jamesgurney" target="_blank" data-tags="watercolor youtube painting">
+        <span class="free-badge">Free</span>
+        <div class="card-top"><span class="card-name">James Gurney</span></div>
+        <p class="card-desc">Legendary art educator. Deep knowledge of color, light, and plein air painting. Watercolor, gouache, and casein — for serious learners.</p>
+        <div class="tags">
+          <span class="tag t-blue">Watercolor</span>
+          <span class="tag t-purple">Color Theory</span>
+          <span class="tag t-dim">YouTube</span>
+        </div>
+      </a>
+
+      <a class="card" href="https://www.youtube.com/@Jean_Lurssen" target="_blank" data-tags="watercolor youtube painting">
+        <span class="free-badge">Free</span>
+        <div class="card-top"><span class="card-name">Jean Lurssen Watercolors</span></div>
+        <p class="card-desc">Full beginner-to-advanced watercolor lessons. Great for learning all aspects of watercolor systematically at your own pace.</p>
+        <div class="tags">
+          <span class="tag t-blue">Watercolor</span>
+          <span class="tag t-dim">Beginner → Advanced</span>
+        </div>
+      </a>
+
+      <a class="card" href="https://www.youtube.com/user/mindofwatercolor" target="_blank" data-tags="watercolor youtube painting">
+        <span class="free-badge">Free</span>
+        <div class="card-top"><span class="card-name">Mind of Watercolor</span></div>
+        <p class="card-desc">One of the biggest watercolor channels. Steve Mitchell teaches full-length demos — loose, expressive style with clear explanations.</p>
+        <div class="tags">
+          <span class="tag t-blue">Watercolor</span>
+          <span class="tag t-gold">Expressive</span>
+          <span class="tag t-dim">YouTube</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- SECTION 3: OIL YOUTUBE -->
+  <div class="section" data-section="oil youtube painting">
+    <div class="section-head">
+      <div class="section-icon" style="background:rgba(212,112,112,0.1)">🎨</div>
+      <span class="section-title">Oil Painting — YouTube</span>
+    </div>
+    <div class="cards">
+
+      <a class="card" href="https://www.youtube.com/channel/UCxcnsr1R5Ge_fbTu5ajt8DQ" target="_blank" data-tags="oil youtube painting">
+        <span class="free-badge">Free</span>
+        <div class="card-top"><span class="card-name">Bob Ross (Official)</span></div>
+        <p class="card-desc">6.4 million subscribers. Full oil painting episodes — landscapes, trees, mountains. The most calming way to learn oil painting ever made.</p>
+        <div class="tags">
+          <span class="tag t-gold">Oil</span>
+          <span class="tag t-teal">Landscape</span>
+          <span class="tag t-teal">Beginner</span>
+        </div>
+      </a>
+
+      <a class="card" href="https://www.youtube.com/@marcobucci" target="_blank" data-tags="oil youtube painting">
+        <span class="free-badge">Free</span>
+        <div class="card-top"><span class="card-name">Marco Bucci Art</span></div>
+        <p class="card-desc">Exceptional teacher for color theory and painting fundamentals. Works across oil and digital. One of the clearest art educators on YouTube.</p>
+        <div class="tags">
+          <span class="tag t-gold">Oil</span>
+          <span class="tag t-purple">Color Theory</span>
+          <span class="tag t-teal">Fundamentals</span>
+        </div>
+      </a>
+
+      <a class="card" href="https://www.youtube.com/@marcobucci" target="_blank" data-tags="oil youtube painting">
+        <span class="free-badge">Free</span>
+        <div class="card-top"><span class="card-name">Marco Bucci — Oil & Color Theory</span></div>
+        <p class="card-desc">Professional concept artist (Disney, LEGO, Hasbro). 15+ years experience. Color theory series is among the best free art content anywhere on YouTube.</p>
+        <div class="tags">
+          <span class="tag t-purple">Color Theory</span>
+          <span class="tag t-gold">Oil</span>
+          <span class="tag t-teal">Fundamentals</span>
+        </div>
+      </a>
+
+      <a class="card" href="https://www.youtube.com/@willkempartschool" target="_blank" data-tags="oil youtube painting sketching">
+        <span class="free-badge">Free + Paid</span>
+        <div class="card-top"><span class="card-name">Will Kemp Art School</span></div>
+        <p class="card-desc">UK artist with 300K+ subscribers. Classical painting techniques for acrylics and oils in simple step-by-step tutorials. Great for absolute beginners.</p>
+        <div class="tags">
+          <span class="tag t-gold">Oil</span>
+          <span class="tag t-blue">Acrylic</span>
+          <span class="tag t-teal">Beginner</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- SECTION 4: PASTEL & CRAYON -->
+  <div class="section" data-section="pastel">
+    <div class="section-head">
+      <div class="section-icon" style="background:rgba(181,143,212,0.1)">🖍️</div>
+      <span class="section-title">Pastel, Crayon & Charcoal</span>
+    </div>
+    <div class="cards">
+
+      <a class="card" href="https://www.youtube.com/channel/UCgoZdnwxQzre7zjApoBl7og" target="_blank" data-tags="pastel youtube painting">
+        <span class="free-badge">Free</span>
+        <div class="card-top"><span class="card-name">Lachri Fine Art</span></div>
+        <p class="card-desc">Lisa Clough covers oil painting, acrylic, colored pencil, PanPastel, charcoal, watercolor and more. Weekly beginner live lessons. One of the most all-round free channels out there.</p>
+        <div class="tags">
+          <span class="tag t-purple">Pastel</span>
+          <span class="tag t-gold">Oil</span>
+          <span class="tag t-teal">All Mediums</span>
+        </div>
+      </a>
+
+      <a class="card" href="https://www.youtube.com/channel/UC0zwwAab-asPErslX6NxDgg" target="_blank" data-tags="pastel youtube sketching">
+        <span class="free-badge">Free</span>
+        <div class="card-top"><span class="card-name">Leontine van Vliet</span></div>
+        <p class="card-desc">Dutch artist specializing in soft pastel, pastel pencils, colored pencil, and graphite. Realistic wildlife and pet portraits with real-time tutorials.</p>
+        <div class="tags">
+          <span class="tag t-purple">Soft Pastel</span>
+          <span class="tag t-dim">Pastel Pencil</span>
+          <span class="tag t-gold">Realism</span>
+        </div>
+      </a>
+
+      <a class="card" href="https://www.youtube.com/channel/UCM6vi2uJLTRYriGJeRGRBPA" target="_blank" data-tags="pastel youtube">
+        <span class="free-badge">Free</span>
+        <div class="card-top"><span class="card-name">Oil Pastel Drawing</span></div>
+        <p class="card-desc">Dedicated oil pastel channel with step-by-step scenery, landscape, and nature tutorials. Covers sunset, moonlight, waterfall, seasons — great for beginners exploring oil pastel.</p>
+        <div class="tags">
+          <span class="tag t-purple">Oil Pastel</span>
+          <span class="tag t-teal">Landscape</span>
+          <span class="tag t-dim">Beginner</span>
+        </div>
+      </a>
+
+      <a class="card" href="https://www.youtube.com/watch?v=Jwxvns0UrDc" target="_blank" data-tags="pastel youtube">
+        <span class="free-badge">Free</span>
+        <div class="card-top"><span class="card-name">21 Oil Pastel Techniques for Beginners</span></div>
+        <p class="card-desc">A single comprehensive video covering 21 tips, techniques and hacks for oil pastels — the best starting point if you've never touched oil pastels before.</p>
+        <div class="tags">
+          <span class="tag t-purple">Oil Pastel</span>
+          <span class="tag t-teal">Beginner</span>
+          <span class="tag t-dim">Single Video</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- SECTION 5: SKETCHING -->
+  <div class="section" data-section="sketching">
+    <div class="section-head">
+      <div class="section-icon" style="background:rgba(201,169,110,0.1)">✏️</div>
+      <span class="section-title">Sketching & Illustration</span>
+    </div>
+    <div class="cards">
+
+      <a class="card" href="https://www.ctrlpaint.com" target="_blank" data-tags="sketching digital">
+        <span class="free-badge">Free</span>
+        <div class="card-top"><span class="card-name">Ctrl+Paint</span></div>
+        <p class="card-desc">Art school-style fundamentals by Matt Kohr (SCAD grad). Drawing and painting basics that apply to both traditional and digital work.</p>
+        <div class="tags">
+          <span class="tag t-teal">Fundamentals</span>
+          <span class="tag t-gold">Form & Value</span>
+          <span class="tag t-dim">Free</span>
+        </div>
+      </a>
+
+      <a class="card" href="https://www.youtube.com/prokotv" target="_blank" data-tags="sketching youtube painting">
+        <span class="free-badge">Free</span>
+        <div class="card-top"><span class="card-name">Proko — YouTube</span></div>
+        <p class="card-desc">Figure drawing and anatomy tutorials with clear anatomical breakdowns. Essential if you want to draw humans convincingly from imagination.</p>
+        <div class="tags">
+          <span class="tag t-gold">Figure Drawing</span>
+          <span class="tag t-red">Anatomy</span>
+          <span class="tag t-dim">YouTube</span>
+        </div>
+      </a>
+
+      <a class="card" href="https://www.youtube.com/prokotv" target="_blank" data-tags="sketching youtube painting">
+        <span class="free-badge">Free</span>
+        <div class="card-top"><span class="card-name">Proko — YouTube</span></div>
+        <p class="card-desc">Figure drawing and anatomy tutorials with clear breakdowns by Stan Prokopenko. Essential if you want to draw humans convincingly from imagination.</p>
+        <div class="tags">
+          <span class="tag t-gold">Figure Drawing</span>
+          <span class="tag t-red">Anatomy</span>
+          <span class="tag t-dim">YouTube</span>
+        </div>
+      </a>
+
+      <a class="card" href="https://sketchbook.com" target="_blank" data-tags="sketching digital">
+        <span class="free-badge">Free</span>
+        <div class="card-top"><span class="card-name">Sketchbook (Autodesk)</span></div>
+        <p class="card-desc">Free professional sketching and drawing app for tablet, phone, or desktop. Clean interface, great for digital sketching practice.</p>
+        <div class="tags">
+          <span class="tag t-blue">Software</span>
+          <span class="tag t-teal">Sketching App</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- SECTION 6: DIGITAL ART -->
+  <div class="section" data-section="digital">
+    <div class="section-head">
+      <div class="section-icon" style="background:rgba(126,184,164,0.1)">💻</div>
+      <span class="section-title">Digital Art & Tools</span>
+    </div>
+    <div class="cards">
+
+      <a class="card" href="https://krita.org" target="_blank" data-tags="digital">
+        <span class="free-badge">Free</span>
+        <div class="card-top"><span class="card-name">Krita</span></div>
+        <p class="card-desc">Free, open-source professional digital painting software. Best free alternative to Photoshop for painters. Has built-in tutorials and brush packs.</p>
+        <div class="tags">
+          <span class="tag t-teal">Software</span>
+          <span class="tag t-gold">Digital Painting</span>
+          <span class="tag t-dim">Open Source</span>
+        </div>
+      </a>
+
+      <a class="card" href="https://www.iamag.co" target="_blank" data-tags="digital sketching">
+        <span class="free-badge">Free</span>
+        <div class="card-top"><span class="card-name">IAMAG</span></div>
+        <p class="card-desc">Online magazine for game, film, and animation artists. Rich tutorials and inspiration from top professionals in concept art and illustration.</p>
+        <div class="tags">
+          <span class="tag t-purple">Concept Art</span>
+          <span class="tag t-gold">Illustration</span>
+          <span class="tag t-dim">Inspiration</span>
+        </div>
+      </a>
+
+      <a class="card" href="https://www.deviantart.com" target="_blank" data-tags="digital sketching painting">
+        <span class="free-badge">Free</span>
+        <div class="card-top"><span class="card-name">DeviantArt</span></div>
+        <p class="card-desc">Massive community of artists — browse, get feedback, and find tutorials across all art forms. Great for motivation and seeing what's possible.</p>
+        <div class="tags">
+          <span class="tag t-blue">Community</span>
+          <span class="tag t-dim">Feedback</span>
+          <span class="tag t-teal">All Styles</span>
+        </div>
+      </a>
+
+      <a class="card" href="https://www.youtube.com/@marcobucci" target="_blank" data-tags="digital painting youtube">
+        <span class="free-badge">Free</span>
+        <div class="card-top"><span class="card-name">Marco Bucci — Digital/Traditional</span></div>
+        <p class="card-desc">Bridges traditional painting and digital tools. His 10-part color series on YouTube is widely considered the best free color theory resource available anywhere.</p>
+        <div class="tags">
+          <span class="tag t-purple">Color Theory</span>
+          <span class="tag t-blue">Digital</span>
+          <span class="tag t-dim">YouTube</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- SECTION 7: CREATIVE WRITING -->
+  <div class="section" data-section="writing">
+    <div class="section-head">
+      <div class="section-icon" style="background:rgba(181,143,212,0.1)">✍️</div>
+      <span class="section-title">Creative Writing</span>
+    </div>
+    <div class="cards">
+
+      <a class="card" href="https://www.coursera.org/specializations/creative-writing" target="_blank" data-tags="writing">
+        <span class="free-badge">Audit Free</span>
+        <div class="card-top"><span class="card-name">Wesleyan — Creative Writing</span></div>
+        <p class="card-desc">University-level specialization covering short story, memoir, and narrative essay. Choose "Audit" when enrolling — full video access, no payment needed.</p>
+        <div class="tags">
+          <span class="tag t-purple">Fiction</span>
+          <span class="tag t-teal">Memoir</span>
+          <span class="tag t-blue">University</span>
+        </div>
+      </a>
+
+      <a class="card" href="https://www.coursera.org/learn/write-your-first-novel" target="_blank" data-tags="writing">
+        <span class="free-badge">Audit Free</span>
+        <div class="card-top"><span class="card-name">Write Your First Novel</span></div>
+        <p class="card-desc">Michigan State University. Guides you step by step to write a 50,000-word novel. One of Coursera's most popular courses — audit it free.</p>
+        <div class="tags">
+          <span class="tag t-purple">Novel</span>
+          <span class="tag t-teal">Beginner</span>
+          <span class="tag t-blue">University</span>
+        </div>
+      </a>
+
+      <a class="card" href="https://www.futurelearn.com/courses/start-writing-fiction" target="_blank" data-tags="writing">
+        <span class="free-badge">Free</span>
+        <div class="card-top"><span class="card-name">FutureLearn — Start Writing Fiction</span></div>
+        <p class="card-desc">Open University course. Covers plot, character, editing, and the writer's notebook habit. Free digital access provided to all enrolled learners.</p>
+        <div class="tags">
+          <span class="tag t-purple">Fiction</span>
+          <span class="tag t-teal">Plot</span>
+          <span class="tag t-dim">Beginner</span>
+        </div>
+      </a>
+
+      <a class="card" href="https://www.pw.org" target="_blank" data-tags="writing">
+        <span class="free-badge">Free</span>
+        <div class="card-top"><span class="card-name">Poets & Writers</span></div>
+        <p class="card-desc">The serious writer's resource — craft essays, author interviews, writing prompts, and grant listings. Covers poetry, fiction, and nonfiction.</p>
+        <div class="tags">
+          <span class="tag t-gold">Poetry</span>
+          <span class="tag t-purple">Fiction</span>
+          <span class="tag t-teal">Craft Essays</span>
+        </div>
+      </a>
+
+      <a class="card" href="https://writing-prompt-s.tumblr.com" target="_blank" data-tags="writing">
+        <span class="free-badge">Free</span>
+        <div class="card-top"><span class="card-name">Writing Prompts (Tumblr)</span></div>
+        <p class="card-desc">Thousands of creative writing prompts across genres — fiction, horror, fantasy, romance. Great when you're stuck and need a spark to start writing.</p>
+        <div class="tags">
+          <span class="tag t-gold">Prompts</span>
+          <span class="tag t-dim">All Genres</span>
+        </div>
+      </a>
+
+      <a class="card" href="https://nanowrimo.org" target="_blank" data-tags="writing">
+        <span class="free-badge">Free</span>
+        <div class="card-top"><span class="card-name">NaNoWriMo</span></div>
+        <p class="card-desc">National Novel Writing Month — write 50,000 words in November with millions of others. Free community, forums, pep talks from published authors, and word-count tools year-round.</p>
+        <div class="tags">
+          <span class="tag t-purple">Novel</span>
+          <span class="tag t-teal">Community</span>
+          <span class="tag t-dim">Motivation</span>
+        </div>
+      </a>
+
+      <a class="card" href="https://www.masterclass.com/categories/writing" target="_blank" data-tags="writing">
+        <span class="free-badge">Paid (worth mentioning)</span>
+        <div class="card-top"><span class="card-name">MasterClass — Writing</span></div>
+        <p class="card-desc">Neil Gaiman, Margaret Atwood, Ursula Le Guin, Roxane Gay on writing. Not free, but trailer previews are — and single-author classes often go on deep discount.</p>
+        <div class="tags">
+          <span class="tag t-red">Paid</span>
+          <span class="tag t-gold">Master Level</span>
+          <span class="tag t-dim">Authors</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- SECTION 8: ALL-IN-ONE -->
+  <div class="section" data-section="painting watercolor oil pastel sketching digital writing">
+    <div class="section-head">
+      <div class="section-icon" style="background:rgba(126,184,164,0.1)">🌐</div>
+      <span class="section-title">All-in-One Platforms</span>
+    </div>
+    <div class="cards">
+
+      <a class="card" href="https://www.domestika.org" target="_blank" data-tags="painting watercolor oil pastel sketching digital writing">
+        <span class="free-badge">Paid (cheap)</span>
+        <div class="card-top"><span class="card-name">Domestika</span></div>
+        <p class="card-desc">Beautifully produced courses in watercolor, illustration, oil painting, calligraphy, and writing — taught by artists worldwide. Courses often go on sale for ₹300–500.</p>
+        <div class="tags">
+          <span class="tag t-teal">All Mediums</span>
+          <span class="tag t-gold">High Quality</span>
+          <span class="tag t-dim">Sale Prices</span>
+        </div>
+      </a>
+
+      <a class="card" href="https://www.skillshare.com" target="_blank" data-tags="painting watercolor oil pastel sketching digital writing">
+        <span class="free-badge">Trial Free</span>
+        <div class="card-top"><span class="card-name">Skillshare</span></div>
+        <p class="card-desc">Thousands of creative classes — watercolor, illustration, oil pastel, creative writing, photography. First month free trial gives full access to everything.</p>
+        <div class="tags">
+          <span class="tag t-teal">All Mediums</span>
+          <span class="tag t-purple">Writing</span>
+          <span class="tag t-blue">Digital</span>
+        </div>
+      </a>
+
+      <a class="card" href="https://www.coursera.org" target="_blank" data-tags="painting sketching writing">
+        <span class="free-badge">Audit Free</span>
+        <div class="card-top"><span class="card-name">Coursera (Audit Mode)</span></div>
+        <p class="card-desc">University courses from Yale, Michigan, Wesleyan. Always choose "Audit" when enrolling — gives full access to video lectures for free, no certificate.</p>
+        <div class="tags">
+          <span class="tag t-blue">University Level</span>
+          <span class="tag t-teal">Writing</span>
+          <span class="tag t-dim">Art History</span>
+        </div>
+      </a>
+
+      <a class="card" href="https://www.youtube.com" target="_blank" data-tags="painting watercolor oil pastel sketching digital writing youtube">
+        <span class="free-badge">Free</span>
+        <div class="card-top"><span class="card-name">YouTube (general)</span></div>
+        <p class="card-desc">The largest free art education library in the world. Search any medium + "tutorial for beginners" and you'll find thousands of hours of quality content.</p>
+        <div class="tags">
+          <span class="tag t-red">All Mediums</span>
+          <span class="tag t-teal">Unlimited</span>
+          <span class="tag t-dim">Free</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- TIP BLOCK -->
+  <div class="tip-block">
+    <p class="tip-label">How to use Coursera for free</p>
+    <p>When you click "Enroll" on any Coursera course, a popup appears. Look for <strong>"Audit this course"</strong> — it's a small link, usually at the bottom of the popup. Clicking it gives you full access to all video lectures and reading material, completely free. You only pay if you want the certificate.</p>
+  </div>
+
+</div>
+
+<footer>
+  Free Creative Art Resources · Curated 2026 · All links verified
+</footer>
+
+<script>
+  const tabs = document.querySelectorAll('.ftab');
+  const sections = document.querySelectorAll('.section[data-section]');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+
+      const filter = tab.dataset.filter;
+
+      sections.forEach(section => {
+        if (filter === 'all') {
+          section.classList.remove('hidden');
+          section.querySelectorAll('.card').forEach(c => c.style.display = '');
+          return;
+        }
+
+        const cards = section.querySelectorAll('.card');
+        let visibleCount = 0;
+        cards.forEach(card => {
+          const tags = (card.dataset.tags || '').split(' ');
+          if (tags.includes(filter)) {
+            card.style.display = '';
+            visibleCount++;
+          } else {
+            card.style.display = 'none';
+          }
+        });
+
+        if (visibleCount === 0) {
+          section.classList.add('hidden');
+        } else {
+          section.classList.remove('hidden');
+        }
+      });
+    });
+  });
+</script>
+
+</body>
+</html>

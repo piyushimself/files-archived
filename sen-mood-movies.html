@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Sensual Mood Cinema — 660 Films</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:#080810;
+  color:#e2d4c8;
+  font-family:Georgia,'Times New Roman',serif;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+.hero{
+  text-align:center;
+  padding:48px 20px 32px;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+  background:radial-gradient(ellipse at top,rgba(130,30,80,0.2) 0%,transparent 68%);
+}
+.hero-eye{font-size:10px;letter-spacing:6px;color:#b06888;margin-bottom:12px;text-transform:uppercase}
+.hero h1{
+  font-size:clamp(28px,6vw,54px);font-weight:300;letter-spacing:3px;
+  background:linear-gradient(135deg,#ffd4e8,#c084fc,#fb7185);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  margin-bottom:12px;line-height:1.1;
+}
+.hero-sub{font-size:15px;color:#9a8878;max-width:480px;margin:0 auto 10px;line-height:1.7;font-style:italic}
+.hero-tag{font-size:10px;color:#5a4a44;letter-spacing:4px;text-transform:uppercase}
+.tabs{
+  display:flex;overflow-x:auto;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+  background:rgba(0,0,0,0.45);
+  scrollbar-width:none;-ms-overflow-style:none;
+  position:sticky;top:0;z-index:100;
+}
+.tabs::-webkit-scrollbar{display:none}
+.tab-btn{
+  flex:0 0 auto;padding:16px 20px;border:none;
+  background:transparent;cursor:pointer;
+  font-size:11px;letter-spacing:2px;text-transform:uppercase;
+  border-bottom:2px solid transparent;
+  transition:color .2s,border-color .2s;
+  white-space:nowrap;font-family:inherit;
+}
+.toolbar{padding:18px 18px 0;display:flex;align-items:center;gap:12px;max-width:680px}
+.search-box{
+  flex:1;background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:6px;padding:10px 14px;
+  color:#e2d4c8;font-size:14px;outline:none;
+  font-family:inherit;transition:border-color .2s;
+}
+.search-box::placeholder{color:#6a5a50}
+.count{font-size:10px;letter-spacing:3px;color:#6a5a50;white-space:nowrap}
+.panel{display:none;padding:14px 14px 52px}
+.panel.active{display:block}
+.list-box{
+  background:rgba(255,255,255,0.02);
+  border:1px solid rgba(255,255,255,0.05);
+  border-radius:10px;overflow:hidden;
+}
+.row{
+  display:grid;grid-template-columns:44px 1fr 52px;
+  gap:10px;align-items:center;
+  padding:10px 16px;
+  border-bottom:1px solid rgba(255,255,255,0.035);
+  transition:background .15s;
+}
+.row:last-child{border-bottom:none}
+.row:hover{background:rgba(255,255,255,0.03)}
+.row-n{font-size:11px;color:#3a2a24;text-align:right;letter-spacing:.5px;transition:color .15s}
+.row:hover .row-n{color:var(--ac)}
+.row-t{font-size:14px;color:#cfc0b4;line-height:1.4;margin-bottom:2px}
+.row.star .row-t{color:var(--ac);font-weight:600}
+.row:hover .row-t{color:#e0d0c4}
+.row-d{font-size:11px;color:#6a5a50;font-style:italic;line-height:1.3}
+.row-y{font-size:11px;color:#3a2a24;text-align:right;letter-spacing:.5px}
+.empty{padding:48px;text-align:center;color:#3a2a24;font-style:italic}
+footer{
+  text-align:center;padding:22px;
+  border-top:1px solid rgba(255,255,255,0.05);
+  font-size:10px;letter-spacing:4px;color:#2a1a14;text-transform:uppercase;
+}
+</style>
+</head>
+<body>
+<div class="hero">
+  <div class="hero-eye">✦ A Curated Collection ✦</div>
+  <h1>Sensual Mood Cinema</h1>
+  <p class="hero-sub">660 films across 7 worlds — including 100 hottest ranked sensual adult picks</p>
+  <div class="hero-tag">Level: Nine Songs ♦ Adult Cinema ♦ Curated</div>
+</div>
+<div class="tabs" id="tabs"></div>
+<div class="toolbar">
+  <input class="search-box" id="q" placeholder="Search title, vibe, year…" oninput="filter()"/>
+  <div class="count" id="cnt"></div>
+</div>
+<div id="panels"></div>
+<footer>✦ 660 Films · 7 Worlds of Desire ✦</footer>
+<script>
+const C=[
+{id:"anime",label:"🎌 Anime",ac:"#ff6b9d",m:[
+{n:1,t:"Kimi no Na wa (Your Name)",y:2016,d:"Sensual soul-swapping fate"},
+{n:2,t:"5 Centimeters Per Second",y:2007,d:"Aching longing, gorgeous distance"},
+{n:3,t:"The Garden of Words",y:2013,d:"Rain-soaked forbidden intimacy"},
+{n:4,t:"Wolf Children",y:2012,d:"Wild love and tender passion"},
+{n:5,t:"Howl's Moving Castle",y:2004,d:"Romantic magic and desire"},
+{n:6,t:"Whisper of the Heart",y:1995,d:"Soft yearning first love"},
+{n:7,t:"Only Yesterday",y:1991,d:"Nostalgic romantic awakening"},
+{n:8,t:"Princess Mononoke",y:1997,d:"Fierce passionate love in nature"},
+{n:9,t:"From Up on Poppy Hill",y:2011,d:"Bittersweet tender romance"},
+{n:10,t:"Nausicaa of the Valley of the Wind",y:1984,d:"Heroic romantic devotion"},
+{n:11,t:"Millennium Actress",y:2001,d:"Obsessive dreamy love through time"},
+{n:12,t:"The Wind Rises",y:2013,d:"Passionate love against mortality"},
+{n:13,t:"Clannad: The Movie",y:2007,d:"Emotionally sensual tearjerker"},
+{n:14,t:"Hotarubi no Mori e",y:2011,d:"Untouchable yearning love spirit"},
+{n:15,t:"Ocean Waves",y:1993,d:"Quiet burning adolescent desire"},
+{n:16,t:"Josee the Tiger and the Fish",y:2020,d:"Tender intimate growth"},
+{n:17,t:"I Want to Eat Your Pancreas",y:2018,d:"Beautiful melancholy closeness"},
+{n:18,t:"A Silent Voice",y:2016,d:"Raw emotional vulnerability"},
+{n:19,t:"Maquia: When the Promised Flower Blooms",y:2018,d:"Immortal love and longing"},
+{n:20,t:"Ride Your Wave",y:2019,d:"Grief-soaked romantic passion"},
+{n:21,t:"Violet Evergarden: The Movie",y:2020,d:"Letters of undying devotion"},
+{n:22,t:"Words Bubble Up Like Soda Pop",y:2020,d:"Effervescent sweet romance"},
+{n:23,t:"Flavors of Youth",y:2018,d:"Sensory nostalgia and longing"},
+{n:24,t:"Colorful",y:2010,d:"Soul rediscovering beauty of life"},
+{n:25,t:"The Case of Hana and Alice",y:2015,d:"Quirky tender girlhood"},
+{n:26,t:"Doukyuusei (Classmates)",y:2016,d:"Quietly sensual boys love"},
+{n:27,t:"Love Chunibyo and Other Delusions Movie",y:2018,d:"Fantasy-laced romantic bliss"},
+{n:28,t:"The Anthem of the Heart",y:2015,d:"Voice and longing intertwined"},
+{n:29,t:"Hal",y:2013,d:"Grief and robotic devotion"},
+{n:30,t:"Hello World",y:2019,d:"Tech-laced romantic obsession"},
+{n:31,t:"Fireworks (2017)",y:2017,d:"Summer night's what-if romance"},
+{n:32,t:"Tamako Love Story",y:2014,d:"Slow-burn confessional romance"},
+{n:33,t:"Nana (Movie)",y:2005,d:"Intense female friendship-love"},
+{n:34,t:"Perfect Blue",y:1997,d:"Dark psychological sensual dread"},
+{n:35,t:"Tokyo Godfathers",y:2003,d:"Unexpected warmth and longing"},
+{n:36,t:"Paprika",y:2006,d:"Dreamlike sensual surrealism"},
+{n:37,t:"The Girl Who Leapt Through Time",y:2006,d:"Time-bending romantic tension"},
+{n:38,t:"Summer Wars",y:2009,d:"Heartwarming love and family"},
+{n:39,t:"Belle",y:2021,d:"Virtual world romantic beauty"},
+{n:40,t:"Children of the Sea",y:2019,d:"Oceanic sensory romantic mystery"},
+{n:41,t:"Liz and the Blue Bird",y:2018,d:"Delicate female longing"},
+{n:42,t:"The Place Promised in Our Early Days",y:2004,d:"Ethereal romantic promise"},
+{n:43,t:"Voices of a Distant Star",y:2002,d:"Interstellar longing love"},
+{n:44,t:"The Rose of Versailles",y:1979,d:"Classic passionate gender-bending romance"},
+{n:45,t:"Macross: Do You Remember Love?",y:1984,d:"Song-and-love space opera"},
+{n:46,t:"Kimaguure Orange Road: I Want to Return to That Day",y:1988,d:"Timeless triangle desire"},
+{n:47,t:"Evangelion: 3.0+1.0 Thrice Upon a Time",y:2021,d:"Cathartic closure of longing"},
+{n:48,t:"ReLIFE",y:2016,d:"Second-chance adult romance"},
+{n:49,t:"Ano Hi Mita Hana Movie",y:2013,d:"Ghost love bittersweet farewell"},
+{n:50,t:"Spirited Away",y:2001,d:"Mythic love and identity"},
+{n:51,t:"Princess Kaguya",y:2013,d:"Celestial melancholy longing"},
+{n:52,t:"When Marnie Was There",y:2014,d:"Mysterious tender female bond"},
+{n:53,t:"Penguin Highway",y:2018,d:"Curious childhood infatuation"},
+{n:54,t:"My Neighbor Totoro",y:1988,d:"Pure warmth of innocent love"},
+{n:55,t:"Kizumonogatari Trilogy",y:2016,d:"Dark vampiric sensual hunger"},
+{n:56,t:"Sword of the Stranger",y:2007,d:"Samurai warmth and bond"},
+{n:57,t:"Grave of the Fireflies",y:1988,d:"War-time devoted tender love"},
+{n:58,t:"Patema Inverted",y:2013,d:"Gravity-defying intimate trust"},
+{n:59,t:"Time of Eve",y:2010,d:"Robot-human gentle intimacy"},
+{n:60,t:"Belladonna of Sadness",y:1973,d:"Psychedelic sensual art animation"},
+{n:61,t:"Given (Movie)",y:2020,d:"Music-driven boys love"},
+{n:62,t:"Kaguya-sama: Love is War Movie",y:2022,d:"Brilliant romantic battle"},
+{n:63,t:"Bunny Girl Senpai Movie",y:2019,d:"Quantum romantic sacrifice"},
+{n:64,t:"Demon Slayer: Mugen Train",y:2020,d:"Brotherly and romantic fire"},
+{n:65,t:"Jujutsu Kaisen 0",y:2021,d:"Cursed love and sacrifice"},
+{n:66,t:"One Piece Film: Red",y:2022,d:"Song-born aching love"},
+{n:67,t:"Spy x Family Code: White",y:2023,d:"Fake family real heart"},
+{n:68,t:"Irodori: The Color of Feelings",y:2022,d:"Artistic sensual expression"},
+{n:69,t:"Shikioriori (Flavors of Youth)",y:2018,d:"Memories soaked in sensory longing"},
+{n:70,t:"Yuri on Ice Movie: Ice Adolescence",y:2024,d:"Passionate on-ice love story"},
+{n:71,t:"Free! Road to the World: The Dream",y:2019,d:"Athletic bonds and desire"},
+{n:72,t:"DanMachi: Arrow of the Orion",y:2019,d:"Fantasy adventure devotion"},
+{n:73,t:"Attack on Titan: The Final Chapters",y:2023,d:"Fierce tragic devoted love"},
+{n:74,t:"Nagi-Asu: A Lull in the Sea Movie",y:2015,d:"Sea-deep romantic longing"},
+{n:75,t:"Planetarian: Hoshi no Hito",y:2016,d:"Post-apocalyptic tender devotion"},
+{n:76,t:"Sword Art Online: Ordinal Scale",y:2017,d:"VR romantic intensity"},
+{n:77,t:"Chuunibyou: Take On Me",y:2018,d:"Fantasy love on the run"},
+{n:78,t:"Maison Ikkoku: Kanketsu-hen",y:1988,d:"Slow-burn apartment romance"},
+{n:79,t:"Urusei Yatsura: Beautiful Dreamer",y:1984,d:"Dreamy alien-girl romance"},
+{n:80,t:"Mobile Suit Gundam: Char's Counterattack",y:1988,d:"Tragic passionate obsession"},
+{n:81,t:"Eureka Seven: Good Night Sleep Tight Young Lovers",y:2009,d:"Epic mecha romance"},
+{n:82,t:"Origin: Spirits of the Past",y:2006,d:"Post-apocalyptic romantic yearning"},
+{n:83,t:"The Dragon Dentist",y:2017,d:"Fantastical intimate connection"},
+{n:84,t:"Monogatari Series: Second Season",y:2013,d:"Intellectual sensual wordplay"},
+{n:85,t:"Bungou Stray Dogs: Dead Apple",y:2018,d:"Dark literary passion"},
+{n:86,t:"Overlord: The Sacred Kingdom",y:2023,d:"Dark romantic fantasy power"},
+{n:87,t:"Sing a Bit of Harmony",y:2021,d:"Innocent AI-human romance"},
+{n:88,t:"Shirobako Movie",y:2020,d:"Passion for art and love"},
+{n:89,t:"ReZero: Memory Snow OVA",y:2018,d:"Time-loop devoted longing"},
+{n:90,t:"Haikyuu!! Movie: The Dumpster Battle",y:2024,d:"Rivalry-born passionate respect"},
+{n:91,t:"Violet Evergarden: Eternity and the Auto Memory Doll",y:2019,d:"Sister-bond tender duty"},
+{n:92,t:"Toradora Extra OVA",y:2011,d:"Feisty tsundere love"},
+{n:93,t:"Mushishi Zoku Shou: Odoro no Michi",y:2014,d:"Mystical naturalistic warmth"},
+{n:94,t:"Glasslip Movie Compilation",y:2014,d:"Fragile glass-like romance"},
+{n:95,t:"The Irregular at Magic High School Movie",y:2017,d:"Forbidden sibling tension"},
+{n:96,t:"Waiting in the Summer Movie",y:2014,d:"Summer alien-girl romance"},
+{n:97,t:"Sword Art Online: Alicization War of Underworld",y:2022,d:"Virtual world devotion"},
+{n:98,t:"ARIA The ORIGINATION Movie",y:2021,d:"Gentle romantic dreamscape"},
+{n:99,t:"Koe no Katachi Extended Cut",y:2016,d:"Redemptive heartfelt closeness"},
+{n:100,t:"Howl's Moving Castle",y:2004,d:"Castle of desire and transformation"}
+]},
+{id:"asian",label:"🌏 Asian Cinema",ac:"#f59e0b",m:[
+{n:1,t:"In the Mood for Love",y:2000,d:"⭐ The gold standard of sensual restraint"},
+{n:2,t:"2046",y:2004,d:"Melancholy desire and loss"},
+{n:3,t:"Chungking Express",y:1994,d:"Electric urban longing"},
+{n:4,t:"Happy Together",y:1997,d:"Turbulent passionate love"},
+{n:5,t:"Fallen Angels",y:1995,d:"Neon-drenched lonely desire"},
+{n:6,t:"My Sassy Girl",y:2001,d:"Korean romantic charm perfection"},
+{n:7,t:"Architecture 101",y:2012,d:"First love's aching return"},
+{n:8,t:"A Moment to Remember",y:2004,d:"Devastating romantic devotion"},
+{n:9,t:"Classic",y:2003,d:"Mother-daughter love echoes"},
+{n:10,t:"Il Mare",y:2000,d:"Time-crossing tender letters"},
+{n:11,t:"Spring Summer Fall Winter and Spring",y:2003,d:"Buddhist cycles of desire"},
+{n:12,t:"The Handmaiden",y:2016,d:"Lush erotic thriller masterpiece"},
+{n:13,t:"Decision to Leave",y:2022,d:"Obsessive detective romance"},
+{n:14,t:"Burning",y:2018,d:"Slow-burn erotic mystery"},
+{n:15,t:"Poetry",y:2010,d:"Sensual life and guilt"},
+{n:16,t:"Tune in for Love",y:2019,d:"Radio waves of longing"},
+{n:17,t:"The Beauty Inside",y:2015,d:"Love beyond physical form"},
+{n:18,t:"Windstruck",y:2004,d:"Tragic love beyond death"},
+{n:19,t:"Oasis",y:2002,d:"Unconventional tender love"},
+{n:20,t:"A Bittersweet Life",y:2005,d:"Deadly obsessive longing"},
+{n:21,t:"Old Boy",y:2003,d:"Dark twisted love revelation"},
+{n:22,t:"Thirst",y:2009,d:"Vampire priest erotic obsession"},
+{n:23,t:"Sympathy for Lady Vengeance",y:2005,d:"Beautiful cold revenge-love"},
+{n:24,t:"Time",y:2006,d:"Identity and romantic obsession"},
+{n:25,t:"Moebius",y:2013,d:"Extreme family desire taboo"},
+{n:26,t:"The Isle",y:2000,d:"Surreal erotic dread"},
+{n:27,t:"In the Realm of the Senses",y:1976,d:"Japanese erotic art masterpiece"},
+{n:28,t:"Empire of Passion",y:1978,d:"Obsession leads to haunting"},
+{n:29,t:"Maborosi",y:1995,d:"Grief and quiet desire"},
+{n:30,t:"Hana-bi",y:1997,d:"Yakuza love and beauty"},
+{n:31,t:"Dolls",y:2002,d:"Puppet-like tragic love"},
+{n:32,t:"After Life (Wandafuru Raifu)",y:1998,d:"Memory and cherished love"},
+{n:33,t:"Drive My Car",y:2021,d:"Intimate grief and connection"},
+{n:34,t:"Shoplifters",y:2018,d:"Tender chosen-family love"},
+{n:35,t:"Still Walking",y:2008,d:"Subtle domestic longing"},
+{n:36,t:"Woman of the Dunes",y:1964,d:"Primal erotic captivity"},
+{n:37,t:"Kuroneko",y:1968,d:"Cat-women seductive revenge"},
+{n:38,t:"Onibaba",y:1964,d:"Primal sexual dread"},
+{n:39,t:"Belladonna of Sadness",y:1973,d:"Psychedelic sensual art"},
+{n:40,t:"Crouching Tiger Hidden Dragon",y:2000,d:"Wuxia repressed desire"},
+{n:41,t:"Lust Caution",y:2007,d:"Ang Lee's erotic espionage"},
+{n:42,t:"Raise the Red Lantern",y:1991,d:"Concubine rivalry and desire"},
+{n:43,t:"Farewell My Concubine",y:1993,d:"Opera and obsessive love"},
+{n:44,t:"Ju Dou",y:1990,d:"Forbidden mill-town passion"},
+{n:45,t:"House of Flying Daggers",y:2004,d:"Sensual action romance"},
+{n:46,t:"Yi Yi",y:2000,d:"Middle-age longing rekindled"},
+{n:47,t:"Vive L'Amour",y:1994,d:"Empty apartment silent desire"},
+{n:48,t:"The River",y:1997,d:"Family taboo quiet pain"},
+{n:49,t:"Stray Dogs",y:2013,d:"Devastating desolate longing"},
+{n:50,t:"A Brighter Summer Day",y:1991,d:"Teen jealousy and murder"},
+{n:51,t:"Portrait of a Beauty",y:2008,d:"Korean female artist passion"},
+{n:52,t:"The King and the Clown",y:2005,d:"Royal court desire and art"},
+{n:53,t:"A Frozen Flower",y:2008,d:"Royal forbidden passion"},
+{n:54,t:"Pieta",y:2012,d:"Mother-son twisted devotion"},
+{n:55,t:"Dev D",y:2009,d:"Modern Devdas dark desire"},
+{n:56,t:"Mughal-E-Azam",y:1960,d:"Epic Indian royal romance"},
+{n:57,t:"Devdas (2002)",y:2002,d:"Lush tragic love triangle"},
+{n:58,t:"Dilwale Dulhania Le Jayenge",y:1995,d:"Bollywood classic romance"},
+{n:59,t:"Jodha Akbar",y:2008,d:"Mughal royal sensual love"},
+{n:60,t:"Bangkok Love Story",y:2007,d:"Thai hitman romantic intensity"},
+{n:61,t:"Jan Dara: The Beginning",y:2012,d:"Thai erotic period drama"},
+{n:62,t:"Last Life in the Universe",y:2003,d:"Japan-Thai dreamy romance"},
+{n:63,t:"Tropical Malady",y:2004,d:"Thai jungle sensual mystery"},
+{n:64,t:"Uncle Boonmee Who Can Recall His Past Lives",y:2010,d:"Thai ghostly intimate beauty"},
+{n:65,t:"Cemetery of Splendour",y:2015,d:"Dreamy intimate Thai care"},
+{n:66,t:"The Assassin",y:2015,d:"Taiwanese wuxia restrained desire"},
+{n:67,t:"Springtime in a Small Town",y:2002,d:"Chinese repressed marital passion"},
+{n:68,t:"Taipei Story",y:1985,d:"Fading love and modernity"},
+{n:69,t:"Rebels of the Neon God",y:1992,d:"Neon desire and youth"},
+{n:70,t:"What Time Is It There?",y:2001,d:"Trans-continental longing"},
+{n:71,t:"I Don't Want to Sleep Alone",y:2006,d:"Immigrant tender caring love"},
+{n:72,t:"Take Care of My Cat",y:2001,d:"Female friendship deep longing"},
+{n:73,t:"A Tale of Two Sisters",y:2003,d:"Gothic psychological love"},
+{n:74,t:"Bedevilled",y:2010,d:"Island female fury and love"},
+{n:75,t:"Lootera",y:2013,d:"Bollywood restrained passion"},
+{n:76,t:"Kapoor and Sons",y:2016,d:"Indian romantic family drama"},
+{n:77,t:"Dil Dhadakne Do",y:2015,d:"Bollywood family passion"},
+{n:78,t:"Veer-Zaara",y:2004,d:"Cross-border devoted love"},
+{n:79,t:"Like Father Like Son",y:2013,d:"Japanese fatherhood tender love"},
+{n:80,t:"Hero",y:2002,d:"Wuxia color-soaked desire"},
+{n:81,t:"The Story of Qiu Ju",y:1992,d:"Determined woman's journey"},
+{n:82,t:"To Live",y:1994,d:"Survival and tender devotion"},
+{n:83,t:"The Last Emperor",y:1987,d:"Imperial forbidden romance"},
+{n:84,t:"The Flavour of Green Tea Over Rice",y:1952,d:"Classic quiet marital intimacy"},
+{n:85,t:"Late Spring",y:1949,d:"Ozu daughter-father love"},
+{n:86,t:"Rashomon",y:1950,d:"Desire through multiple truths"},
+{n:87,t:"Ugetsu",y:1953,d:"Ghost-love ethereal longing"},
+{n:88,t:"Sansho the Bailiff",y:1954,d:"Epic love and sacrifice"},
+{n:89,t:"Tokyo Story",y:1953,d:"Quiet aching family love"},
+{n:90,t:"Pale Flower",y:1964,d:"Yakuza noir desire"},
+{n:91,t:"The Naked Island",y:1960,d:"Silent devotion of labor"},
+{n:92,t:"Cafe Lumiere",y:2003,d:"Quiet urban romantic drift"},
+{n:93,t:"I'm a Cyborg But That's OK",y:2006,d:"Quirky ward love story"},
+{n:94,t:"Castaway on the Moon",y:2009,d:"Strange tender connection"},
+{n:95,t:"The Wayward Cloud",y:2005,d:"Taiwan drought erotic intercutting"},
+{n:96,t:"Flowers of Shanghai",y:1998,d:"Opium brothel sensual suffocation"},
+{n:97,t:"Float Like a Butterfly",y:2018,d:"Indian female strength love"},
+{n:98,t:"The Terrorizers",y:1986,d:"Urban erotic disconnection"},
+{n:99,t:"Blossoms Shanghai",y:2023,d:"Wong Kar-wai's long-awaited return"},
+{n:100,t:"Dil Se",y:1998,d:"Obsessive Bollywood desire tragedy"}
+]},
+{id:"hollywood",label:"🎬 Hollywood",ac:"#a78bfa",m:[
+{n:1,t:"Call Me By Your Name",y:2017,d:"⭐ Summer sensuality perfected"},
+{n:2,t:"Portrait of a Lady on Fire",y:2019,d:"Slow-burn female gaze desire"},
+{n:3,t:"Brokeback Mountain",y:2005,d:"Forbidden passion on the mountain"},
+{n:4,t:"Eyes Wide Shut",y:1999,d:"Kubrick's erotic dreamscape"},
+{n:5,t:"Body Heat",y:1981,d:"Steamy noir obsession"},
+{n:6,t:"Basic Instinct",y:1992,d:"Ice-pick dangerous desire"},
+{n:7,t:"Unfaithful",y:2002,d:"Forbidden passion consequences"},
+{n:8,t:"The English Patient",y:1996,d:"Desert war-time devotion"},
+{n:9,t:"Titanic",y:1997,d:"Iconic sweeping tragic romance"},
+{n:10,t:"Pretty Woman",y:1990,d:"Escapist fairy-tale desire"},
+{n:11,t:"Out of Africa",y:1985,d:"African sun-drenched passion"},
+{n:12,t:"The Notebook",y:2004,d:"Rain-soaked romantic devotion"},
+{n:13,t:"Ghost",y:1990,d:"Pottery-wheel sensual longing"},
+{n:14,t:"Secretary",y:2002,d:"Erotic power-play tenderness"},
+{n:15,t:"Blue Valentine",y:2010,d:"Raw intimate love and loss"},
+{n:16,t:"Revolutionary Road",y:2008,d:"Passionate trapped desire"},
+{n:17,t:"The Age of Innocence",y:1993,d:"Scorsese's repressed longing"},
+{n:18,t:"The Piano",y:1993,d:"Silent music of desire"},
+{n:19,t:"Dangerous Liaisons",y:1988,d:"Aristocratic seduction games"},
+{n:20,t:"9 and a Half Weeks",y:1986,d:"Erotic power and surrender"},
+{n:21,t:"Wild at Heart",y:1990,d:"Lynch's road-trip burning love"},
+{n:22,t:"Y Tu Mama Tambien",y:2001,d:"Road trip sensual awakening"},
+{n:23,t:"Before Sunrise",y:1995,d:"Vienna one-night connection"},
+{n:24,t:"Before Sunset",y:2004,d:"Paris rekindled tension"},
+{n:25,t:"Before Midnight",y:2013,d:"Married passion and conflict"},
+{n:26,t:"Lost in Translation",y:2003,d:"Tokyo hushed desire"},
+{n:27,t:"Eternal Sunshine of the Spotless Mind",y:2004,d:"Memory and love's raw beauty"},
+{n:28,t:"Her",y:2013,d:"Intimate AI emotional longing"},
+{n:29,t:"Atonement",y:2007,d:"Wartime passion and guilt"},
+{n:30,t:"The Shape of Water",y:2017,d:"Creature sensual devotion"},
+{n:31,t:"Carol",y:2015,d:"1950s female forbidden desire"},
+{n:32,t:"Blue Is the Warmest Color",y:2013,d:"Intense young female love"},
+{n:33,t:"Disobedience",y:2017,d:"Orthodox Jewish forbidden desire"},
+{n:34,t:"Moonlight",y:2016,d:"Black gay identity and longing"},
+{n:35,t:"Mulholland Drive",y:2001,d:"Lynch's sensual dreamscape"},
+{n:36,t:"The Dreamers",y:2003,d:"Paris cinephile erotic coming-of-age"},
+{n:37,t:"The Last Picture Show",y:1971,d:"Texas small-town desire"},
+{n:38,t:"American Gigolo",y:1980,d:"Neon-lit professional desire"},
+{n:39,t:"The Unbearable Lightness of Being",y:1988,d:"Prague erotic philosophy"},
+{n:40,t:"Henry and June",y:1990,d:"Anais Nin bisexual passion"},
+{n:41,t:"The Lover",y:1992,d:"Colonial Vietnamese desire"},
+{n:42,t:"Indochine",y:1992,d:"French colonial love triangle"},
+{n:43,t:"The Bridges of Madison County",y:1995,d:"Brief passionate affair"},
+{n:44,t:"Leaving Las Vegas",y:1995,d:"Doomed love in neon"},
+{n:45,t:"Boogie Nights",y:1997,d:"PTA's golden adult industry love"},
+{n:46,t:"American Beauty",y:1999,d:"Suburban middle-age longing"},
+{n:47,t:"Monster's Ball",y:2001,d:"Grief-soaked raw intimacy"},
+{n:48,t:"Closer",y:2004,d:"Cruel erotic verbal warfare"},
+{n:49,t:"A History of Violence",y:2005,d:"Passion behind the mask"},
+{n:50,t:"Match Point",y:2005,d:"Woody Allen's erotic obsession"},
+{n:51,t:"Vicky Cristina Barcelona",y:2008,d:"Spanish sun-soaked desire"},
+{n:52,t:"Black Swan",y:2010,d:"Dark sensual transformation"},
+{n:53,t:"Shame",y:2011,d:"Sex addiction raw portrayal"},
+{n:54,t:"Gone Girl",y:2014,d:"Marriage's dark erotic power"},
+{n:55,t:"Under the Skin",y:2013,d:"Alien sensual predator"},
+{n:56,t:"Nymphomaniac",y:2013,d:"Von Trier's raw female desire"},
+{n:57,t:"Magic Mike",y:2012,d:"Sensual male body celebration"},
+{n:58,t:"Fifty Shades of Grey",y:2015,d:"BDSM romantic tension"},
+{n:59,t:"Allied",y:2016,d:"Wartime spy romance"},
+{n:60,t:"Last Tango in Paris",y:1972,d:"Brutal French erotic grief"},
+{n:61,t:"Don't Look Now",y:1973,d:"Grief-sex-mystery Venice"},
+{n:62,t:"Belle de Jour",y:1967,d:"Bourgeois erotic fantasy"},
+{n:63,t:"The Conformist",y:1970,d:"Fascist sensual aesthetics"},
+{n:64,t:"Blow-Up",y:1966,d:"Swinging London erotic mystery"},
+{n:65,t:"Breathless",y:1960,d:"Godard cool romantic energy"},
+{n:66,t:"Jules and Jim",y:1962,d:"Truffaut love triangle"},
+{n:67,t:"Hiroshima Mon Amour",y:1959,d:"Memory-soaked wartime desire"},
+{n:68,t:"The Graduate",y:1967,d:"Seduction of the young"},
+{n:69,t:"Notorious",y:1946,d:"Hitchcock's two-minute screen kiss"},
+{n:70,t:"Rebecca",y:1940,d:"Gothic obsessive love"},
+{n:71,t:"Vertigo",y:1958,d:"Hitchcock's ultimate obsession"},
+{n:72,t:"Casablanca",y:1942,d:"Timeless sacrificial love"},
+{n:73,t:"Gone With the Wind",y:1939,d:"Epic Southern desire"},
+{n:74,t:"To Have and Have Not",y:1944,d:"Bacall-Bogart electric tension"},
+{n:75,t:"Challengers",y:2024,d:"Tennis court erotic triangle"},
+{n:76,t:"Love Lies Bleeding",y:2024,d:"Steroid-fueled dark romance"},
+{n:77,t:"Past Lives",y:2023,d:"In-yun quiet devastating longing"},
+{n:78,t:"Saltburn",y:2023,d:"Class-obsessed dark desire"},
+{n:79,t:"Poor Things",y:2023,d:"Female sexual awakening odyssey"},
+{n:80,t:"All of Us Strangers",y:2023,d:"Ghost-love queer tender grief"},
+{n:81,t:"Body Double",y:1984,d:"De Palma voyeur obsession"},
+{n:82,t:"Blue Velvet",y:1986,d:"Sadomasochistic suburban desire"},
+{n:83,t:"Lost Highway",y:1997,d:"Patricia Arquette seductive identity"},
+{n:84,t:"In the Cut",y:2003,d:"Dark detective desire"},
+{n:85,t:"Crash 1996",y:1996,d:"Cronenberg car-accident fetish"},
+{n:86,t:"Kids",y:1995,d:"Raw teen sexual danger"},
+{n:87,t:"Fat City",y:1972,d:"Drifter's tender romance"},
+{n:88,t:"Annie Hall",y:1977,d:"Neurotic NYC romantic wit"},
+{n:89,t:"Manhattan",y:1979,d:"Black-and-white NYC longing"},
+{n:90,t:"A Man and a Woman",y:1966,d:"French romantic classic"},
+{n:91,t:"Two for the Road",y:1967,d:"Marriage's erotic history"},
+{n:92,t:"Cleo from 5 to 7",y:1962,d:"Feminine Paris afternoon desire"},
+{n:93,t:"Pleasantville",y:1998,d:"Color awakening desire"},
+{n:94,t:"The Revenant",y:2015,d:"Wilderness primal passion"},
+{n:95,t:"Passengers",y:2016,d:"Space-isolated desire"},
+{n:96,t:"The Great Gatsby",y:2013,d:"Lavish obsessive longing"},
+{n:97,t:"Eat Pray Love",y:2010,d:"Journey to sensual self"},
+{n:98,t:"Only God Forgives",y:2013,d:"Neon Bangkok erotic violence"},
+{n:99,t:"The Black Dahlia",y:2006,d:"Noir sexual mystery"},
+{n:100,t:"Blow",y:2001,d:"Drug-fueled passionate excess"}
+]},
+{id:"japanese",label:"🗾 Japanese Films",ac:"#f43f5e",m:[
+{n:1,t:"In the Realm of the Senses (Ai no Corrida)",y:1976,d:"⭐ Explicit erotic art masterwork — the absolute benchmark"},
+{n:2,t:"Empire of Passion (Ai no Borei)",y:1978,d:"Ghostly obsessive adultery"},
+{n:3,t:"Woman of the Dunes (Suna no Onna)",y:1964,d:"Primal sandy captive desire"},
+{n:4,t:"Onibaba",y:1964,d:"Demonic hole of sexual dread"},
+{n:5,t:"Kuroneko",y:1968,d:"Cat-women who seduce samurai"},
+{n:6,t:"Belladonna of Sadness",y:1973,d:"Psychedelic rape-revenge sensuality"},
+{n:7,t:"Ugetsu (Ugetsu Monogatari)",y:1953,d:"Ghost-woman seductive sorrow"},
+{n:8,t:"Pale Flower (Kawaita Hana)",y:1964,d:"Yakuza nihilist female desire"},
+{n:9,t:"Dolls",y:2002,d:"Takeshi Kitano color-tragic love"},
+{n:10,t:"Tokyo Decadence",y:1992,d:"S&M escort psychological drift"},
+{n:11,t:"Hana-bi (Fireworks)",y:1997,d:"Yakuza devotion and art"},
+{n:12,t:"Maborosi (Maboroshi no Hikari)",y:1995,d:"Grief and second-love light"},
+{n:13,t:"After Life (Wandafuru Raifu)",y:1998,d:"Choosing your memory of love"},
+{n:14,t:"Distance",y:2001,d:"Cult survivor quiet grief"},
+{n:15,t:"Nobody Knows (Dare mo Shiranai)",y:2004,d:"Child abandonment tender survival"},
+{n:16,t:"Still Walking (Aruitemo Aruitemo)",y:2008,d:"Koreeda family gentle longing"},
+{n:17,t:"Like Father Like Son",y:2013,d:"Paternal tender devotion"},
+{n:18,t:"Our Little Sister (Umimachi Diary)",y:2015,d:"Sister bonds quiet beauty"},
+{n:19,t:"Shoplifters (Manbiki Kazoku)",y:2018,d:"Chosen family tender love"},
+{n:20,t:"Broker",y:2022,d:"Baby-selling road warmth"},
+{n:21,t:"Monster (Kaibutsu)",y:2023,d:"Three perspectives of boy love"},
+{n:22,t:"Drive My Car (Doraibu Mai Ka)",y:2021,d:"Chekhov grief and intimacy"},
+{n:23,t:"Wheel of Fortune and Fantasy",y:2021,d:"Three-story female desire"},
+{n:24,t:"Asako I and II (Netemo Sametemo)",y:2018,d:"Two men same face obsession"},
+{n:25,t:"Happy Hour (Happi Awa)",y:2015,d:"5-hour female friendship desire"},
+{n:26,t:"Love Exposure (Ai no Mukidashi)",y:2008,d:"4-hour upskirt Jesus love"},
+{n:27,t:"Cold Fish (Tsumetai Nettaigyo)",y:2010,d:"Dark manipulative desire"},
+{n:28,t:"Guilty of Romance (Koi no Tsumi)",y:2011,d:"Housewife erotic dark discovery"},
+{n:29,t:"Himizu",y:2011,d:"Teen despair and devotion"},
+{n:30,t:"Antiporno (Anchiporuno)",y:2016,d:"Roman Porno feminist deconstruction"},
+{n:31,t:"Tezuka's Barbara",y:2019,d:"Artist-muse dark obsession"},
+{n:32,t:"River's Edge (Ribazu Ejji)",y:2018,d:"Teen nihilism and desire"},
+{n:33,t:"The Naked Island (Hadaka no Shima)",y:1960,d:"Silent devotional labor love"},
+{n:34,t:"Sansho the Bailiff (Sansho Dayu)",y:1954,d:"Mizoguchi epic maternal love"},
+{n:35,t:"Street of Shame (Akasen Chitai)",y:1956,d:"Brothel women's longing"},
+{n:36,t:"The Life of Oharu (Saikaku Ichidai Onna)",y:1952,d:"Female fall from desire"},
+{n:37,t:"Late Chrysanthemums (Bangiku)",y:1954,d:"Aging geisha quiet longing"},
+{n:38,t:"Floating Weeds (Ukikusa)",y:1959,d:"Ozu adultery quiet passion"},
+{n:39,t:"An Autumn Afternoon (Sanma no Aji)",y:1962,d:"Last Ozu bittersweet love"},
+{n:40,t:"Equinox Flower (Higanbana)",y:1958,d:"Ozu first color film love"},
+{n:41,t:"Ikiru",y:1952,d:"Dying man's tender awakening"},
+{n:42,t:"Ran",y:1985,d:"Kurosawa Lady Macbeth desire"},
+{n:43,t:"Kagemusha",y:1980,d:"Identity and longing for power"},
+{n:44,t:"High and Low (Tengoku to Jigoku)",y:1963,d:"Class tension moral desire"},
+{n:45,t:"Stray Dog (Nora Inu)",y:1949,d:"Detective searching lost self"},
+{n:46,t:"Red Beard (Akahige)",y:1965,d:"Doctor's tough tender love"},
+{n:47,t:"Yojimbo",y:1961,d:"Ronin cool masculine desire"},
+{n:48,t:"Harakiri (Seppuku)",y:1962,d:"Tragedy-soaked family devotion"},
+{n:49,t:"Sword of Doom (Daibosatsu Toge)",y:1966,d:"Nihilistic samurai obsession"},
+{n:50,t:"Cruel Story of Youth",y:1960,d:"Youth exploitation desire"},
+{n:51,t:"The Sun's Burial (Taiyo no Hakaba)",y:1960,d:"Slum youth raw desire"},
+{n:52,t:"Funeral Parade of Roses",y:1969,d:"Trans underground desire"},
+{n:53,t:"Pastoral: To Die in the Country",y:1974,d:"Surreal sensual memory"},
+{n:54,t:"Ecstasy of the Angels",y:1972,d:"Radical political sexuality"},
+{n:55,t:"Wife to Be Sacrificed (Ikenie Fujin)",y:1974,d:"Roman Porno kidnap desire"},
+{n:56,t:"Flower and Snake (Hana to Hebi)",y:1974,d:"Bondage erotic drama"},
+{n:57,t:"Watcher in the Attic",y:1976,d:"Voyeur Gothic desire"},
+{n:58,t:"The Makioka Sisters (Sasameyuki)",y:1983,d:"Refined kimono love story"},
+{n:59,t:"The Ballad of Narayama",y:1983,d:"Primal rural sexual life"},
+{n:60,t:"Sonatine",y:1993,d:"Kitano beach-gangster desire"},
+{n:61,t:"Scene at the Sea",y:1991,d:"Deaf surfer silent love"},
+{n:62,t:"Kids Return (Kizzu Ritan)",y:1996,d:"Youth friendship and longing"},
+{n:63,t:"Spirited Away (Sen to Chihiro)",y:2001,d:"Mythic romantic undertow"},
+{n:64,t:"Princess Mononoke (Mononoke-hime)",y:1997,d:"Nature-spirit fierce passion"},
+{n:65,t:"Nausicaa of the Valley of the Wind",y:1984,d:"Warrior love for life"},
+{n:66,t:"Grave of the Fireflies",y:1988,d:"War's tender devoted grief"},
+{n:67,t:"Only Yesterday (Omoide Poro Poro)",y:1991,d:"Nostalgic romantic awakening"},
+{n:68,t:"Kiki's Delivery Service",y:1989,d:"Independent girl finding herself"},
+{n:69,t:"Porco Rosso",y:1992,d:"Aviator's melancholy desire"},
+{n:70,t:"The Tale of Princess Kaguya",y:2013,d:"Celestial beauty and longing"},
+{n:71,t:"When Marnie Was There",y:2014,d:"Mysterious tender girl bond"},
+{n:72,t:"The Wind Rises (Kaze Tachinu)",y:2013,d:"Dreamer's love against time"},
+{n:73,t:"Perfect Blue",y:1997,d:"Idol's identity erotic unraveling"},
+{n:74,t:"Millennium Actress (Sennen Joyu)",y:2001,d:"Film-chasing obsessive love"},
+{n:75,t:"Paprika (Papurika)",y:2006,d:"Dream-world sensual chaos"},
+{n:76,t:"The Girl Who Leapt Through Time",y:2006,d:"Time-bending romantic urgency"},
+{n:77,t:"Summer Wars (Sama Wozu)",y:2009,d:"Digital-world family love"},
+{n:78,t:"Wolf Children",y:2012,d:"Wild passionate motherhood"},
+{n:79,t:"The Garden of Words",y:2013,d:"Rain-shelter forbidden intimacy"},
+{n:80,t:"Your Name (Kimi no Na wa)",y:2016,d:"Soul-swap cosmic romance"},
+{n:81,t:"A Silent Voice (Koe no Katachi)",y:2016,d:"Redemptive tender closeness"},
+{n:82,t:"Intentions of Murder (Mushi no Onna)",y:1964,d:"Rape aftermath complex desire"},
+{n:83,t:"Daydream (Hakujitsumu)",y:1964,d:"First big-budget Japanese erotic film"},
+{n:84,t:"Tokyo Story",y:1953,d:"Quiet aching family love"},
+{n:85,t:"Good Morning (Ohayo)",y:1959,d:"Ozu quiet suburban desire"},
+{n:86,t:"Black Rain (Kuroi Ame)",y:1989,d:"Hiroshima survivor gentle love"},
+{n:87,t:"Rhapsody in August",y:1991,d:"Kurosawa grandmother love"},
+{n:88,t:"Brother (Braza)",y:2000,d:"LA-Japan yakuza devotion"},
+{n:89,t:"Outrage (Autoreiji)",y:2010,d:"Yakuza power desire"},
+{n:90,t:"Dersu Uzala",y:1975,d:"Wilderness male devotion"},
+{n:91,t:"The Hidden Fortress",y:1958,d:"Princess-warrior bond"},
+{n:92,t:"Sanjuro",y:1962,d:"Samurai subtle passion"},
+{n:93,t:"The Bad Sleep Well",y:1960,d:"Corporate revenge love twist"},
+{n:94,t:"Season of the Sun",y:1956,d:"Sun tribe youth desire"},
+{n:95,t:"Touching the Skin of Eeriness",y:2013,d:"Tactile erotic art film"},
+{n:96,t:"Violence Voyager",y:2018,d:"Dark childhood sensual horror"},
+{n:97,t:"Zatôichi (Blind Swordsman)",y:2003,d:"Kitano rhythm sensual violence"},
+{n:98,t:"Wild Life (Wairu Raifu)",y:1997,d:"Yakuza tender isolation"},
+{n:99,t:"Tokyo Godfathers",y:2003,d:"Christmas found-family warmth"},
+{n:100,t:"Rashomon",y:1950,d:"Desire through multiple truths"}
+]},
+{id:"erotic",label:"🎭 Erotic Art Drama",ac:"#e879f9",m:[
+{n:1,t:"In the Realm of the Senses (Ai no Corrida)",y:1976,d:"⭐ THE benchmark — fully explicit, Nagisa Oshima's forbidden masterwork"},
+{n:2,t:"Last Tango in Paris",y:1972,d:"Brando and Schneider — raw anonymous grief-sex, Bertolucci's scandal"},
+{n:3,t:"9 Songs",y:2004,d:"Winterbottom — real unsimulated sex intercut with live concerts"},
+{n:4,t:"The Dreamers",y:2003,d:"Bertolucci — Paris cinephile siblings, NC-17 explicit nudity"},
+{n:5,t:"Nymphomaniac Vol I and II",y:2013,d:"Lars von Trier — full female sexual odyssey, explicit"},
+{n:6,t:"Antichrist",y:2009,d:"von Trier — grief and self-mutilation explicit horror"},
+{n:7,t:"Intimacy",y:2001,d:"Patrice Chereau — weekly strangers, Cannes Bear winner, explicit"},
+{n:8,t:"Romance (Romance X)",y:1999,d:"Catherine Breillat — woman seeking sex outside passionless relationship"},
+{n:9,t:"Baise-moi",y:2000,d:"Virginie Despentes — feminist punk explicit vengeance road trip"},
+{n:10,t:"The Brown Bunny",y:2003,d:"Vincent Gallo — infamously explicit Chloe Sevigny scene, Cannes controversy"},
+{n:11,t:"Shortbus",y:2006,d:"John Cameron Mitchell — NYC sexual salon, real sex, tender and funny"},
+{n:12,t:"Love (2015)",y:2015,d:"Gaspar Noe — 3D explicit love memoir"},
+{n:13,t:"Enter the Void",y:2009,d:"Gaspar Noe — Tokyo drug death rebirth, explicit POV sex"},
+{n:14,t:"Irreversible",y:2002,d:"Gaspar Noe — brutal assault and tender love, time reversed"},
+{n:15,t:"Blue Is the Warmest Color",y:2013,d:"Kechiche — long explicit female love scenes, Palme d'Or"},
+{n:16,t:"Caligula",y:1979,d:"Tinto Brass and Penthouse — Roman orgy explicit spectacle, Malcolm McDowell"},
+{n:17,t:"The Idiots (Idioterne)",y:1998,d:"Lars von Trier — Dogme 95, group sex unsimulated scene"},
+{n:18,t:"Anatomy of Hell (Anatomie de l'enfer)",y:2004,d:"Breillat — man hired to watch woman, explicit body examination"},
+{n:19,t:"Fat Girl (A ma soeur!)",y:2001,d:"Breillat — sisters, loss of virginity, traumatic explicit realism"},
+{n:20,t:"A Real Young Girl (Une vraie jeune fille)",y:1976,d:"Breillat's debut — teen sexual fantasy explicit and disturbing"},
+{n:21,t:"Sex Is Comedy",y:2002,d:"Breillat — director films her own actors' real discomfort"},
+{n:22,t:"The Last Mistress (Une vieille maitresse)",y:2007,d:"Breillat — period passion, Asia Argento explicit scenes"},
+{n:23,t:"Sleeping Beauty (2011)",y:2011,d:"Julia Leigh — sleeping nude girl observed, harrowing"},
+{n:24,t:"Shame",y:2011,d:"Steve McQueen — Fassbender's sex addiction, full nudity throughout"},
+{n:25,t:"Eyes Wide Shut",y:1999,d:"Kubrick — masked orgy, desire as labyrinth"},
+{n:26,t:"Lust Caution (Se Jie)",y:2007,d:"Ang Lee — NC-17, brutal explicit wartime spy sex, Tony Leung"},
+{n:27,t:"The Handmaiden (Ah-ga-ssi)",y:2016,d:"Park Chan-wook — explicit lesbian love scenes, erotic thriller"},
+{n:28,t:"Burning (Beoning)",y:2018,d:"Lee Chang-dong — suppressed desire mystery, nude scene"},
+{n:29,t:"Thirst (Bakjwi)",y:2009,d:"Park Chan-wook — vampire priest explicit desire"},
+{n:30,t:"The Piano Teacher (La Pianiste)",y:2001,d:"Haneke — Isabelle Huppert BDSM self-harm desire, Cannes winner"},
+{n:31,t:"Secretary",y:2002,d:"Spader and Gyllenhaal — consensual BDSM office romance"},
+{n:32,t:"Henry and June",y:1990,d:"Kaufman — Anais Nin bisexual Paris explicit, first NC-17 US film"},
+{n:33,t:"The Unbearable Lightness of Being",y:1988,d:"Kaufman — Prague erotic philosophy, Day-Lewis explicit"},
+{n:34,t:"Crash (1996)",y:1996,d:"Cronenberg — car accident fetish explicit scenes"},
+{n:35,t:"Videodrome",y:1983,d:"Cronenberg — flesh-TV body horror erotic"},
+{n:36,t:"Naked Lunch",y:1991,d:"Cronenberg — Burroughs insect-typewriter surreal erotic"},
+{n:37,t:"Wild at Heart",y:1990,d:"Lynch — Cage and Dern passionate road movie explicit"},
+{n:38,t:"Mulholland Drive",y:2001,d:"Lynch — lesbian dream desire, explicit love scene"},
+{n:39,t:"Lost Highway",y:1997,d:"Lynch — Patricia Arquette seductive identity explicit"},
+{n:40,t:"Blue Velvet",y:1986,d:"Lynch — sadomasochistic suburban desire, Isabella Rossellini"},
+{n:41,t:"The Lover (L'Amant)",y:1992,d:"Annaud — Marguerite Duras Vietnam colonial desire, Jane March explicit"},
+{n:42,t:"Indochine",y:1992,d:"Wargnier — Catherine Deneuve's colonial erotic devotion"},
+{n:43,t:"Belle de Jour",y:1967,d:"Bunuel — Deneuve's daytime brothel fantasy"},
+{n:44,t:"That Obscure Object of Desire",y:1977,d:"Bunuel — two actresses one role, tormenting desire"},
+{n:45,t:"Y Tu Mama Tambien",y:2001,d:"Cuaron — explicit road trip threesome, coming-of-age"},
+{n:46,t:"Portrait of a Lady on Fire",y:2019,d:"Sciamma — female gaze restrained yet explicit desire"},
+{n:47,t:"Water Lilies (Naissance des pieuvres)",y:2007,d:"Sciamma — teen pool lesbian desire"},
+{n:48,t:"Tomboy",y:2011,d:"Sciamma — gender identity tender desire"},
+{n:49,t:"The Conformist (Il Conformista)",y:1970,d:"Bertolucci — fascist sexuality and repression"},
+{n:50,t:"Novecento (1900)",y:1976,d:"Bertolucci — epic communism and explicit sexuality, De Niro and Depardieu"},
+{n:51,t:"Luna (La Luna)",y:1979,d:"Bertolucci — mother-son Oedipal dark desire, explicit"},
+{n:52,t:"Woman of the Dunes (Suna no Onna)",y:1964,d:"Teshigahara — primal sandy captive explicit desire"},
+{n:53,t:"Belladonna of Sadness",y:1973,d:"Yamamoto — psychedelic rape animated explicit art film"},
+{n:54,t:"Love Exposure (Ai no Mukidashi)",y:2008,d:"Sion Sono — 4hr epic upskirt photography Catholic desire"},
+{n:55,t:"Guilty of Romance (Koi no Tsumi)",y:2011,d:"Sion Sono — housewife's erotic descent, explicit"},
+{n:56,t:"A Thousand and One Nights",y:2015,d:"Miguel Gomes — Portuguese desire epic trilogy"},
+{n:57,t:"Tropical Malady (Sud Sanaeha)",y:2004,d:"Apichatpong — Thai jungle gay desire, Palme d'Or"},
+{n:58,t:"The Wayward Cloud (Tian bian yi duo yun)",y:2005,d:"Tsai Ming-liang — Taiwan drought, explicit porn intercutting"},
+{n:59,t:"Jan Dara: The Beginning",y:2012,d:"Thai period family explicit erotic drama"},
+{n:60,t:"Flowers of Shanghai (Hai shang hua)",y:1998,d:"Hou Hsiao-hsien — opium brothel quiet sensual suffocation"}
+]},
+{id:"hot",label:"🔥 Most Sensual",ac:"#ff4444",m:[
+{n:1,t:"In the Realm of the Senses (Ai no Corrida)",y:1976,d:"THE ceiling — real explicit sex as obsessive art. Japan's most banned film ever made"},
+{n:2,t:"9 Songs",y:2004,d:"Real unsimulated sex between two lovers, intercut with live rock concerts. No plot needed"},
+{n:3,t:"Last Tango in Paris",y:1972,d:"Brando's rawest role — anonymous grief-sex in a Paris apartment. Scandalous and devastating"},
+{n:4,t:"Intimacy",y:2001,d:"Two strangers meet weekly for sex, no names. Cannes Golden Bear winner. Fully explicit"},
+{n:5,t:"Love (2015)",y:2015,d:"Gaspar Noe's 3D love memoir — real penetration on screen. Explicit and emotionally raw"},
+{n:6,t:"Shortbus",y:2006,d:"NYC sexual salon — real unsimulated sex, surprisingly tender and funny. Most fearless sex film"},
+{n:7,t:"Romance X (Romance)",y:1999,d:"French woman explores sex outside her passionless relationship. Explicit feminist coldness"},
+{n:8,t:"Baise-moi",y:2000,d:"Two women on a killing-and-sex road trip. Fully explicit. Punk feminist fury on celluloid"},
+{n:9,t:"Lust Caution (Se Jie)",y:2007,d:"Ang Lee NC-17 — spy seduces a man and loses herself. Brutal, explicit, stunning. Tony Leung"},
+{n:10,t:"The Handmaiden (Ah-ga-ssi)",y:2016,d:"Park Chan-wook's lesbian erotic thriller. Extended explicit scenes. Gorgeous and devious"},
+{n:11,t:"Blue Is the Warmest Color",y:2013,d:"7-minute explicit lesbian love scene. Palme d'Or. French coming-of-age burning passion"},
+{n:12,t:"Nymphomaniac Vol I and II",y:2013,d:"von Trier's 4-hour female sexual autobiography. Body doubles plus explicit inserts throughout"},
+{n:13,t:"Eyes Wide Shut",y:1999,d:"Kubrick's final film — masked orgies, erotic jealousy, desire as labyrinth. Nicole Kidman"},
+{n:14,t:"Basic Instinct",y:1992,d:"Sharon Stone's interrogation scene changed cinema. Icy erotic thriller at its absolute peak"},
+{n:15,t:"Body Heat",y:1981,d:"Florida heat, Kathleen Turner seducing William Hurt into murder. Dripping with sweat and sex"},
+{n:16,t:"9 and a Half Weeks",y:1986,d:"Kim Basinger surrenders to Mickey Rourke's BDSM games. Fridge scene iconic. Pure tension"},
+{n:17,t:"In the Mood for Love",y:2000,d:"Wong Kar-wai — the most sensual film with zero sex. Charged glances and slow-motion longing"},
+{n:18,t:"Secretary",y:2002,d:"Maggie Gyllenhaal and James Spader's BDSM office romance. Tender and explicitly charged"},
+{n:19,t:"The Piano Teacher (La Pianiste)",y:2001,d:"Isabelle Huppert's BDSM self-harm desire. Haneke's most disturbing and erotic film ever"},
+{n:20,t:"Irreversible",y:2002,d:"Gaspar Noe — devastating explicit assault then tender love shown backwards. Monica Bellucci"},
+{n:21,t:"Shame",y:2011,d:"Fassbender full frontal as a sex addict. Steve McQueen's clinical and explicit masterpiece"},
+{n:22,t:"The Lover (L'Amant)",y:1992,d:"Jane March and Tony Leung Ka-fai in explicit colonial Vietnam desire. Marguerite Duras novel"},
+{n:23,t:"Antichrist",y:2009,d:"von Trier — explicit sex in the woods then body horror. Dafoe and Gainsbourg"},
+{n:24,t:"Caligula",y:1979,d:"Malcolm McDowell as Rome's most depraved emperor. Penthouse-backed orgy spectacular"},
+{n:25,t:"Blue Velvet",y:1986,d:"Lynch — Isabella Rossellini's sadomasochistic scenes with Kyle MacLachlan. Suburban dark desire"},
+{n:26,t:"Mulholland Drive",y:2001,d:"Lynch's most erotic — Naomi Watts and Laura Harring's dream love scene. Explicitly sensual"},
+{n:27,t:"Wild at Heart",y:1990,d:"Cage and Dern burn the screen. Lynch road movie with explicit sex and Elvis. Palme d'Or"},
+{n:28,t:"Y Tu Mama Tambien",y:2001,d:"Cuaron's road trip ends in explicit threesome. Mexican youth and desire. Raw and beautiful"},
+{n:29,t:"Thirst (Bakjwi)",y:2009,d:"Park Chan-wook — Catholic priest becomes vampire and takes a lover. Explicit and gorgeous"},
+{n:30,t:"The Brown Bunny",y:2003,d:"Vincent Gallo — unsimulated oral sex scene. 93 minutes of longing for one explicit moment"},
+{n:31,t:"Burning (Beoning)",y:2018,d:"Lee Chang-dong — nude scene in golden dusk. Slow-burn erotic mystery. Cannes best film"},
+{n:32,t:"Unfaithful",y:2002,d:"Diane Lane cheats on Richard Gere with a French stranger. Staircase sex scene. Guilty heat"},
+{n:33,t:"The English Patient",y:1996,d:"Kristin Scott Thomas and Ralph Fiennes in war-time adultery. Desert and candlelit passion"},
+{n:34,t:"Monster's Ball",y:2001,d:"Halle Berry's Oscar scene — raw grief-sex with Billy Bob Thornton. Explicit and devastating"},
+{n:35,t:"Henry and June",y:1990,d:"First NC-17 film in USA — Anais Nin's bisexual Paris life. Uma Thurman explicit"},
+{n:36,t:"The Unbearable Lightness of Being",y:1988,d:"Daniel Day-Lewis juggling lovers in Prague 1968. Explicit and philosophical. Juliette Binoche"},
+{n:37,t:"Crash (1996)",y:1996,d:"Cronenberg — car crashes as sexual fetish. Holly Hunter and James Spader. Deeply explicit"},
+{n:38,t:"Belle de Jour",y:1967,d:"Deneuve spends afternoons in a brothel. Bunuel's enigmatic erotic masterpiece. All desire"},
+{n:39,t:"That Obscure Object of Desire",y:1977,d:"Bunuel — one woman played by two actresses torments a man with denied desire endlessly"},
+{n:40,t:"The Conformist (Il Conformista)",y:1970,d:"Bertolucci — fascism and bisexual repression. Dominique Sanda's tango seduction"},
+{n:41,t:"Novecento (1900)",y:1976,d:"De Niro and Depardieu's explicit early threesome. Bertolucci's 5-hour Italian epic passion"},
+{n:42,t:"Portrait of a Lady on Fire",y:2019,d:"Sciamma's female gaze — two women, an island, a painting, and burning restrained desire"},
+{n:43,t:"Carol",y:2015,d:"Cate Blanchett and Rooney Mara — 1950s forbidden love. Tender and explicitly sensual"},
+{n:44,t:"Brokeback Mountain",y:2005,d:"Heath Ledger and Jake Gyllenhaal — passionate tent scene and years of forbidden longing"},
+{n:45,t:"Call Me By Your Name",y:2017,d:"Chalamet and Hammer — Italian summer desire. The peach scene. Slow-burn sensuality peak"},
+{n:46,t:"Fat Girl (A ma soeur!)",y:2001,d:"Breillat — older sister seduced in explicit long scene while younger sister watches silently"},
+{n:47,t:"Anatomy of Hell",y:2004,d:"Breillat — a man paid to watch a woman's body for four nights. Clinical and deeply erotic"},
+{n:48,t:"Woman of the Dunes (Suna no Onna)",y:1964,d:"Man trapped in sand pit with woman. Primal explicit desire. Teshigahara's erotic masterpiece"},
+{n:49,t:"A Frozen Flower",y:2008,d:"Korean period — king forces his guard to sleep with the queen. Politically explicit passion"},
+{n:50,t:"Jan Dara: The Beginning",y:2012,d:"Thai period erotic drama — family of desire and taboo. Explicit scenes woven throughout"},
+{n:51,t:"Disobedience",y:2017,d:"Rachel Weisz and Rachel McAdams — Orthodox Jewish forbidden reunion. Explicit and emotional"},
+{n:52,t:"Moonlight",y:2016,d:"Beach scene between Chiron and Kevin. Tender, charged, brief and unforgettable desire"},
+{n:53,t:"The Shape of Water",y:2017,d:"Sally Hawkins and the creature — bathtub sex scene. Del Toro's romantic sensual fantasy"},
+{n:54,t:"American Beauty",y:1999,d:"Kevin Spacey's midlife desire. Rose petal fantasy. Suburban ache and forbidden longing"},
+{n:55,t:"Closer",y:2004,d:"Clive Owen interrogating Natalie Portman as a stripper. All verbal sex. Ruthlessly erotic"},
+{n:56,t:"Match Point",y:2005,d:"Scarlett Johansson seducing Jonathan Rhys Meyers. Woody Allen's most sexually charged film"},
+{n:57,t:"Black Swan",y:2010,d:"Portman and Kunis mirror-room scene. Dark sexual transformation and release. Aronofsky"},
+{n:58,t:"Vicky Cristina Barcelona",y:2008,d:"Penelope Cruz, Scarlett Johansson, Javier Bardem triangle. Sun-drunk explicit desire"},
+{n:59,t:"Fifty Shades of Grey",y:2015,d:"Dakota Johnson and Jamie Dornan. Mainstream BDSM with explicit scenes. Red room tension"},
+{n:60,t:"Don't Look Now",y:1973,d:"Julie Christie and Donald Sutherland's real-looking sex intercut with dressing. Iconic scene"},
+{n:61,t:"Lost Highway",y:1997,d:"Lynch — Patricia Arquette as two seductive women. Bill Pullman's slow dread desire"},
+{n:62,t:"The Idiots (Idioterne)",y:1998,d:"Lars von Trier Dogme 95 — group sex scene unsimulated. Provocative and deeply disturbing"},
+{n:63,t:"Tropical Malady (Sud Sanaeha)",y:2004,d:"Thai gay love turns jungle spirit myth. Longing so physical it becomes supernatural"},
+{n:64,t:"The Wayward Cloud",y:2005,d:"Tsai Ming-liang — porn film being shot intercut with real love. Watermelon and explicit longing"},
+{n:65,t:"Empire of Passion (Ai no Borei)",y:1978,d:"Oshima — adultery, murder, ghost haunting. Passion so hot it burns through the grave"},
+{n:66,t:"Love Exposure (Ai no Mukidashi)",y:2008,d:"Sion Sono 4-hour Catholic upskirt-photography epic. The most insane love story ever made"},
+{n:67,t:"Guilty of Romance (Koi no Tsumi)",y:2011,d:"Sion Sono — housewife becomes prostitute. Explicit erotic descent into darkness"},
+{n:68,t:"Tokyo Decadence",y:1992,d:"S&M call girl drifting through clients. Ryu Murakami's erotic nightmare. Explicit throughout"},
+{n:69,t:"Onibaba",y:1964,d:"Japanese — widow and daughter-in-law use sexuality to survive war. Primal erotic horror"},
+{n:70,t:"Kuroneko",y:1968,d:"Two women become ghost-cats and seduce samurai to death. Japanese erotic supernatural horror"},
+{n:71,t:"Belladonna of Sadness",y:1973,d:"Psychedelic animated explicit art film. The most transgressive anime ever committed to screen"},
+{n:72,t:"Water Lilies",y:2007,d:"Celine Sciamma — teen girls at a swimming pool. First love as pure charged physical wanting"},
+{n:73,t:"The Dreamers",y:2003,d:"Bertolucci — Eva Green's first film. Paris 1968 siblings and a stranger in erotic games"},
+{n:74,t:"Sleeping Beauty (2011)",y:2011,d:"Lucy is paid to sleep naked with old men who may not penetrate her. Haunting and explicit"},
+{n:75,t:"Moebius",y:2013,d:"Kim Ki-duk — father and son share a lover. Zero dialogue. All body. Extreme and explicit"},
+{n:76,t:"The Isle",y:2000,d:"Kim Ki-duk — floating lake cabins, a fugitive, a mute woman. Sex and violence as love"},
+{n:77,t:"Happy Together",y:1997,d:"Wong Kar-wai — two men in Buenos Aires in a toxic passionate loop. Explicit and aching"},
+{n:78,t:"Ju Dou",y:1990,d:"Zhang Yimou — young woman and nephew in forbidden passion in a textile mill. Explicit"},
+{n:79,t:"Raise the Red Lantern",y:1991,d:"Gong Li in a warlord's house competing for desire through ritual. Repression as eroticism"},
+{n:80,t:"Farewell My Concubine",y:1993,d:"Leslie Cheung's 50-year obsession with his opera partner. China's most passionate epic film"},
+{n:81,t:"Decision to Leave",y:2022,d:"Park Chan-wook — detective falls for murder suspect. Every scene drips with charged desire"},
+{n:82,t:"Flowers of Shanghai",y:1998,d:"Hou Hsiao-hsien — opium dens and courtesans. Suffocating erotic tension in candlelit rooms"},
+{n:83,t:"Lihim ng Mag-ina",y:2007,d:"Filipino forbidden desire between family members. Dark and explicitly charged throughout"},
+{n:84,t:"Scorpio Nights",y:1985,d:"Filipino — young man watches neighbors through floorboards, becomes obsessed. Explicit desire"},
+{n:85,t:"Insiang",y:1976,d:"Lino Brocka Filipino classic — slum girl's sexuality used and weaponized. Raw desire"},
+{n:86,t:"Temptation Island (1980)",y:1980,d:"Filipino — four sexy models stranded with men. The original Filipino erotic beach film"},
+{n:87,t:"Tubog sa Ginto",y:1970,d:"Filipino pre-Marcos erotic drama — gold and flesh and desire in Manila's underbelly"},
+{n:88,t:"Thirst",y:2009,d:"Park Chan-wook — priest drinks blood and takes a married woman. Explicit passion and guilt"},
+{n:89,t:"Poor Things",y:2023,d:"Emma Stone's Bella discovers sex with complete amoral curiosity. Most joyful adult film in years"},
+{n:90,t:"Challengers",y:2024,d:"Zendaya controls two men through tennis and desire. Guadagnino's most erotic film. No sex needed"},
+{n:91,t:"Saltburn",y:2023,d:"Jacob Elordi and Barry Keoghan. Class and obsession. Bathtub scene. Dark erotic possession"},
+{n:92,t:"Magic Mike",y:2012,d:"Channing Tatum full body performance. Soderbergh turns male stripping into genuine sensual art"},
+{n:93,t:"The Last Tycoon",y:1976,d:"Nicholson and Ingrid Boulting — old Hollywood obsession. Elia Kazan's last charged desire"},
+{n:94,t:"Videodrome",y:1983,d:"Cronenberg — Debbie Harry whispering into flesh TV sets. Body horror as erotic hallucination"},
+{n:95,t:"The King and the Clown",y:2005,d:"Male court entertainer becomes object of king's obsessive desire. Korea's biggest 2005 hit"},
+{n:96,t:"Pieta",y:2012,d:"Kim Ki-duk — loan shark and woman claiming to be his mother. Twisted devotion and desire"},
+{n:97,t:"A Bittersweet Life",y:2005,d:"Lee Byung-hun's lethal obsession with his boss's girlfriend. Korean desire and violence"},
+{n:98,t:"Springtime in a Small Town",y:2002,d:"Chinese wife's repressed passion for an old lover who returns. Every glance charged with desire"},
+{n:99,t:"The Burning",y:2018,d:"Yoo Ah-in destroys lives quietly. The most erotically suffocating atmosphere in recent cinema"},
+{n:100,t:"2046",y:2004,d:"Wong Kar-wai — Tony Leung sleeps with women he cannot love. Zhang Ziyi's devastating ache"}
+]},
+{id:"ph",label:"🇵🇭 Philippine Films",ac:"#34d399",m:[
+{n:1,t:"Hello Love Goodbye",y:2019,d:"⭐ OFW heartbreak — highest-grossing Filipino film ever"},
+{n:2,t:"Hello Love Again",y:2024,d:"Billion-peso rekindled love sequel"},
+{n:3,t:"One More Chance",y:2007,d:"Classic break-up heartbreak"},
+{n:4,t:"A Second Chance",y:2015,d:"Marriage tested, love renewed"},
+{n:5,t:"The Hows of Us",y:2018,d:"Cohabitation romantic conflict"},
+{n:6,t:"Never Not Love You",y:2018,d:"Ambition vs love tension"},
+{n:7,t:"Exes Baggage",y:2018,d:"Modern millennial heartache"},
+{n:8,t:"Alone Together",y:2019,d:"Second-chance university love"},
+{n:9,t:"I Love You to the Stars and Back",y:2017,d:"Special needs tender romance"},
+{n:10,t:"Camp Sawi",y:2016,d:"Group heartbreak island healing"},
+{n:11,t:"My Ex and Whys",y:2017,d:"Social media ex-lover tension"},
+{n:12,t:"Kita Kita",y:2017,d:"Japan-set blind girl romance"},
+{n:13,t:"On the Job",y:2013,d:"Gritty prison-escape passion"},
+{n:14,t:"Heneral Luna",y:2015,d:"Patriotic fierce love for nation"},
+{n:15,t:"Oro Plata Mata",y:1982,d:"War-era aristocratic desire"},
+{n:16,t:"Bona",y:1980,d:"Obsessive fan dark devotion"},
+{n:17,t:"Himala (Miracle)",y:1982,d:"Nora Aunor spiritual devotion"},
+{n:18,t:"Maynila Sa mga Kuko ng Liwanag",y:1975,d:"Manila's raw urban longing"},
+{n:19,t:"Insiang",y:1976,d:"Slum girl's rage and desire"},
+{n:20,t:"Kisapmata",y:1981,d:"Patriarchal control dark love"},
+{n:21,t:"Lihim ng Mag-ina",y:2007,d:"Mother-daughter secret desire"},
+{n:22,t:"Kubrador",y:2006,d:"Numbers runner quiet dignity"},
+{n:23,t:"Ploning",y:2008,d:"Island mystical devoted woman"},
+{n:24,t:"Babae sa Breakwater",y:2003,d:"Aging woman's late desire"},
+{n:25,t:"Dekada 70",y:2002,d:"Martial law family love"},
+{n:26,t:"Magnifico",y:2003,d:"Boy's tender family devotion"},
+{n:27,t:"Crying Ladies",y:2003,d:"Professional grievers warmth"},
+{n:28,t:"Temptation Island (1980)",y:1980,d:"Classic comedic desire"},
+{n:29,t:"Scorpio Nights",y:1985,d:"Lino Brocka-era erotic dark film"},
+{n:30,t:"Tubog sa Ginto",y:1970,d:"Gold-soaked desire and wealth"},
+{n:31,t:"Anak Dalita",y:1956,d:"Classic Filipino melodramatic love"},
+{n:32,t:"Dyesebel",y:1953,d:"Mermaid legend love"},
+{n:33,t:"Noli Me Tangere (Film)",y:1961,d:"Rizal's colonial love story"},
+{n:34,t:"El Filibusterismo (Film)",y:1962,d:"Rizal's dark romantic sequel"},
+{n:35,t:"Got 2 Believe",y:2002,d:"Classic opposites-attract kilig"},
+{n:36,t:"All My Life (2020)",y:2020,d:"Terminal illness devoted love"},
+{n:37,t:"Fan Girl",y:2020,d:"Fan obsession dark desire"},
+{n:38,t:"English Only Please",y:2014,d:"Language-barrier romantic comedy"},
+{n:39,t:"She's Dating the Gangster",y:2014,d:"Bad-boy kilig classic"},
+{n:40,t:"Four Sisters and a Wedding",y:2013,d:"Family dynamics and love"},
+{n:41,t:"That Thing Called Tadhana",y:2014,d:"Indie heartbreak and healing"},
+{n:42,t:"Everyday I Love You",y:2015,d:"OFW couple yearning"},
+{n:43,t:"Barcelona: A Love Untold",y:2016,d:"Spanish backdrop longing"},
+{n:44,t:"Vince and Kath and James",y:2016,d:"Social media love triangle"},
+{n:45,t:"One More Try",y:2012,d:"Complicated family desire"},
+{n:46,t:"The Mistress",y:2012,d:"Affair's passionate guilt"},
+{n:47,t:"Unofficially Yours",y:2012,d:"No-label passionate affair"},
+{n:48,t:"Walang Forever",y:2015,d:"Scriptwriter couple tension"},
+{n:49,t:"Anak",y:2000,d:"OFW mother's devoted love"},
+{n:50,t:"Tanging Yaman",y:2000,d:"Family reunion tender love"},
+{n:51,t:"Milan",y:2004,d:"Italy-set OFW longing"},
+{n:52,t:"In My Life (2009)",y:2009,d:"Gay son's love and acceptance"},
+{n:53,t:"Caregiver (2008)",y:2008,d:"UK-set tender care love"},
+{n:54,t:"Starting Over Again",y:2014,d:"Chef-student second chance"},
+{n:55,t:"Just the 3 of Us",y:2016,d:"Commitment-phobe romance"},
+{n:56,t:"The Wedding Dance",y:2019,d:"Indigenous romantic tradition"},
+{n:57,t:"Isa Pa with Feelings",y:2019,d:"Deaf-hearing tender love"},
+{n:58,t:"Open (2019)",y:2019,d:"Open relationship exploration"},
+{n:59,t:"Between Maybes",y:2019,d:"Cancer patient longing"},
+{n:60,t:"The Unmarried Wife",y:2016,d:"Empowered woman's desire"},
+{n:61,t:"Watch Me Kill",y:2016,d:"Dark obsessive stalker desire"},
+{n:62,t:"Patay na si Hesus",y:2016,d:"Road trip family dark humor love"},
+{n:63,t:"Smaller and Smaller Circles",y:2017,d:"Priest detective mystery love"},
+{n:64,t:"Bliss (2017)",y:2017,d:"Gothic obsessive caretaker desire"},
+{n:65,t:"Respeto",y:2017,d:"Hip-hop poet mentor devotion"},
+{n:66,t:"Liway",y:2018,d:"Prison child mother love"},
+{n:67,t:"Ang Babae sa Septic Tank",y:2011,d:"Indie cinema love for art"},
+{n:68,t:"Beauty in a Bottle",y:2023,d:"Skin-color self-love journey"},
+{n:69,t:"Partners in Crime (2023)",y:2023,d:"Crime-comedy couple spark"},
+{n:70,t:"A Very Good Girl (2023)",y:2023,d:"Revenge plot obsessive desire"},
+{n:71,t:"The Boy Foretold by the Stars",y:2020,d:"Gentle gay Catholic love"},
+{n:72,t:"Kalel 15",y:2023,d:"Teen coming-of-age longing"},
+{n:73,t:"Becky and Badette",y:2023,d:"Transgender rom-com heart"},
+{n:74,t:"Love Is Color Blind",y:2020,d:"Synesthesia love quirk"},
+{n:75,t:"OTJ 2: The Missing 8",y:2021,d:"Thriller-soaked devoted pair"},
+{n:76,t:"Eerie (2019)",y:2019,d:"Horror school dark desire"},
+{n:77,t:"Write About Love",y:2012,d:"Creative couple romance"},
+{n:78,t:"Ang Dalawang Mrs. Reyes",y:2018,d:"Bigamy comedic desire"},
+{n:79,t:"ML (2018)",y:2018,d:"Social media manipulation desire"},
+{n:80,t:"This Time",y:2016,d:"Long-distance romantic struggle"},
+{n:81,t:"Kun Maari Lang",y:2013,d:"Gentle desire and wishfulness"},
+{n:82,t:"Dubai (2005)",y:2005,d:"OFW desire across distance"},
+{n:83,t:"Minsan Pa (Once More)",y:2011,d:"Stage-love second chance"},
+{n:84,t:"Sigaw (The Echo)",y:2004,d:"Horror romantic supernatural"},
+{n:85,t:"Sukob",y:2006,d:"Horror-tinged wedding desire"},
+{n:86,t:"Oka Tokat",y:1997,d:"Classic comedy desire"},
+{n:87,t:"You Are the One (2006)",y:2006,d:"Teleserye-style sweet love"},
+{n:88,t:"Daigdig ng mga Api",y:1965,d:"Social realist passionate love"},
+{n:89,t:"Ligaw na Bulaklak",y:1959,d:"Drifting flower-like desire"},
+{n:90,t:"Sawa sa Lumang Simboryo",y:1952,d:"Snake classic dark desire"},
+{n:91,t:"Prinsesa ng Kabukiran",y:1959,d:"Countryside princess romance"},
+{n:92,t:"Iginuhit ng Tadhana",y:1965,d:"Marcos biopic romantic saga"},
+{n:93,t:"Miss X",y:1960,d:"Early Filipino romance mystery"},
+{n:94,t:"Love at First Read",y:2023,d:"Booklover romance"},
+{n:95,t:"GLORIOUS (2022)",y:2022,d:"Rockstar touring romance"},
+{n:96,t:"BFF Best Friends Forever",y:2024,d:"Modern female friendship love"},
+{n:97,t:"The Teacher (2022)",y:2022,d:"Forbidden teacher-student tension"},
+{n:98,t:"Parang Normal Activity",y:2018,d:"Paranormal comedy romance"},
+{n:99,t:"Biyaheng Langit",y:2000,d:"Romantic OFW sky journey"},
+{n:100,t:"Anak Dalita",y:1956,d:"Classic Filipino melodramatic devotion"}
+]}
+];
+
+let cur=C[0].id;
+
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+function buildTabs(){
+  const bar=document.getElementById('tabs');
+  C.forEach(c=>{
+    const b=document.createElement('button');
+    b.className='tab-btn';b.dataset.id=c.id;
+    b.innerHTML=c.label;
+    b.style.color=c.id===cur?c.ac:'#6a5a50';
+    b.style.borderBottomColor=c.id===cur?c.ac:'transparent';
+    b.onclick=()=>sw(c.id);
+    bar.appendChild(b);
+  });
+}
+
+function buildPanels(){
+  const wrap=document.getElementById('panels');
+  C.forEach(c=>{
+    const p=document.createElement('div');
+    p.className='panel'+(c.id===cur?' active':'');
+    p.id='p-'+c.id;
+    p.innerHTML=renderList(c,c.m);
+    wrap.appendChild(p);
+  });
+}
+
+function renderList(cat,movies){
+  if(!movies.length)return'<div class="empty">No films found.</div>';
+  return'<div class="list-box">'+movies.map(m=>{
+    const star=m.d.startsWith('⭐');
+    const note=m.d.replace('⭐ ','');
+    return`<div class="row${star?' star':''}" style="--ac:${cat.ac}">
+      <div class="row-n">${String(m.n).padStart(2,'0')}</div>
+      <div>
+        <div class="row-t">${star?'⭐ ':''}${esc(m.t)}</div>
+        <div class="row-d">${esc(note)}</div>
+      </div>
+      <div class="row-y">${m.y}</div>
+    </div>`;
+  }).join('')+'</div>';
+}
+
+function sw(id){
+  cur=id;
+  document.querySelectorAll('.tab-btn').forEach(b=>{
+    const c=C.find(x=>x.id===b.dataset.id);
+    b.style.color=b.dataset.id===id?c.ac:'#6a5a50';
+    b.style.borderBottomColor=b.dataset.id===id?c.ac:'transparent';
+  });
+  document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id==='p-'+id));
+  document.getElementById('q').value='';
+  const c=C.find(x=>x.id===id);
+  document.getElementById('q').style.borderColor=c.ac+'55';
+  setCnt(c.m.length,false);
+}
+
+function filter(){
+  const q=document.getElementById('q').value.toLowerCase().trim();
+  const cat=C.find(c=>c.id===cur);
+  const res=q?cat.m.filter(m=>m.t.toLowerCase().includes(q)||m.d.toLowerCase().includes(q)||String(m.y).includes(q)):cat.m;
+  document.getElementById('p-'+cur).innerHTML=renderList(cat,res);
+  setCnt(res.length,!!q);
+}
+
+function setCnt(n,searched){
+  document.getElementById('cnt').textContent=n+(searched?' FOUND':' FILMS');
+}
+
+buildTabs();buildPanels();
+setCnt(C[0].m.length,false);
+const ic=C[0];
+document.getElementById('q').style.borderColor=ic.ac+'55';
+</script>
+</body>
+</html>

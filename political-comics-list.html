@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Political Comics & Manga — World Curriculum</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Mono:wght@300;400;500&family=Bitter:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1208;
+    --paper: #f5f0e8;
+    --aged: #e8dfc8;
+    --red: #c0392b;
+    --gold: #b8860b;
+    --muted: #6b5d4f;
+    --panel: #ede5d0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Bitter', serif;
+    font-weight: 300;
+    line-height: 1.7;
+  }
+
+  /* Halftone texture overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: radial-gradient(circle, #00000008 1px, transparent 1px);
+    background-size: 4px 4px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .page-wrapper {
+    position: relative;
+    z-index: 1;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+
+  /* ── HEADER ── */
+  header {
+    border-bottom: 3px double var(--ink);
+    padding: 48px 0 32px;
+    margin-bottom: 48px;
+    position: relative;
+  }
+
+  header::before {
+    content: 'VOL. I & II';
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 12px;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: clamp(2.2rem, 6vw, 4rem);
+    line-height: 1.05;
+    letter-spacing: -1px;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--red);
+  }
+
+  .subtitle {
+    margin-top: 12px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  .header-meta {
+    position: absolute;
+    top: 48px;
+    right: 0;
+    text-align: right;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+
+  /* ── TABS ── */
+  .tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: 40px;
+    border-bottom: 2px solid var(--ink);
+  }
+
+  .tab-btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 10px 24px;
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+    cursor: pointer;
+    color: var(--muted);
+    transition: all 0.2s;
+  }
+
+  .tab-btn:hover { color: var(--ink); }
+
+  .tab-btn.active {
+    color: var(--red);
+    border-bottom-color: var(--red);
+    font-weight: 500;
+  }
+
+  /* ── FILTER BAR ── */
+  .filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 36px;
+    align-items: center;
+  }
+
+  .filter-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--muted);
+    margin-right: 4px;
+  }
+
+  .filter-btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1px;
+    padding: 5px 12px;
+    border: 1px solid var(--muted);
+    background: none;
+    cursor: pointer;
+    color: var(--muted);
+    transition: all 0.15s;
+    border-radius: 2px;
+  }
+
+  .filter-btn:hover, .filter-btn.active {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+
+  /* ── SECTION DIVIDER ── */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 48px 0 24px;
+  }
+
+  .section-header:first-of-type { margin-top: 0; }
+
+  .section-icon {
+    font-size: 1.4rem;
+    flex-shrink: 0;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.2rem;
+    letter-spacing: 0.3px;
+  }
+
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: var(--ink);
+    opacity: 0.25;
+  }
+
+  /* ── COMIC CARD ── */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2px;
+  }
+
+  .card {
+    background: var(--panel);
+    border: 1px solid rgba(26,18,8,0.15);
+    padding: 20px 22px;
+    position: relative;
+    transition: transform 0.15s, box-shadow 0.15s;
+    cursor: default;
+  }
+
+  .card:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 4px 4px 0 var(--ink);
+    z-index: 2;
+  }
+
+  .card-type {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 1px 6px;
+    font-size: 8px;
+    letter-spacing: 1px;
+    border: 1px solid currentColor;
+    border-radius: 1px;
+  }
+
+  .badge.manga { color: #c0392b; }
+  .badge.western { color: #1a5276; }
+  .badge.bd { color: #7d3c98; }
+
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    line-height: 1.25;
+    margin-bottom: 4px;
+  }
+
+  .card-author {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+
+  .card-year {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--gold);
+    font-weight: 500;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+  }
+
+  .card-desc {
+    font-size: 0.82rem;
+    line-height: 1.6;
+    color: #3d3228;
+  }
+
+  .card-tags {
+    margin-top: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+
+  .tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 1px;
+    padding: 2px 7px;
+    background: var(--aged);
+    border: 1px solid rgba(26,18,8,0.2);
+    color: var(--muted);
+    border-radius: 1px;
+  }
+
+  .card-country {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    font-size: 1.2rem;
+    line-height: 1;
+  }
+
+  /* ── TAB PANELS ── */
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* ── READING ORDER ── */
+  .reading-order {
+    margin-top: 60px;
+    border-top: 3px double var(--ink);
+    padding-top: 32px;
+  }
+
+  .reading-order h2 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: 1.5rem;
+    margin-bottom: 6px;
+  }
+
+  .ro-subtitle {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--muted);
+    margin-bottom: 28px;
+  }
+
+  .ro-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+  }
+
+  .ro-track {
+    border-left: 3px solid var(--red);
+    padding-left: 14px;
+  }
+
+  .ro-track-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 8px;
+  }
+
+  .ro-track ol {
+    list-style: none;
+    counter-reset: ro;
+  }
+
+  .ro-track li {
+    counter-increment: ro;
+    font-size: 0.8rem;
+    padding: 3px 0;
+    border-bottom: 1px dashed rgba(26,18,8,0.12);
+    color: #3d3228;
+    display: flex;
+    gap: 8px;
+  }
+
+  .ro-track li::before {
+    content: counter(ro);
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: var(--muted);
+    flex-shrink: 0;
+    padding-top: 2px;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    margin-top: 60px;
+    border-top: 1px solid rgba(26,18,8,0.2);
+    padding-top: 20px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 1px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  /* ── HIDDEN ── */
+  .card.hidden { display: none; }
+
+  @media (max-width: 600px) {
+    .header-meta { display: none; }
+    h1 { font-size: 2rem; }
+    .card-grid { grid-template-columns: 1fr; }
+    .ro-grid { grid-template-columns: 1fr; }
+    .tabs { overflow-x: auto; }
+    .tab-btn { padding: 10px 16px; white-space: nowrap; }
+  }
+</style>
+</head>
+<body>
+<div class="page-wrapper">
+
+  <header>
+    <div class="header-meta">
+      COMICS & MANGA<br>CURRICULUM<br>──────────<br>VOLS. I – II
+    </div>
+    <h1>The World in<br><em>Panels</em></h1>
+    <p class="subtitle">A Political Comics & Manga Reading Curriculum — Nonfiction & Fiction</p>
+  </header>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('nonfiction', this)">Vol. I — True Events</button>
+    <button class="tab-btn" onclick="switchTab('fiction', this)">Vol. II — Political Fiction</button>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       VOL. I — NONFICTION
+  ══════════════════════════════════════ -->
+  <div class="tab-panel active" id="tab-nonfiction">
+
+    <div class="filter-bar">
+      <span class="filter-label">FILTER :</span>
+      <button class="filter-btn active" onclick="filterCards('nonfiction', 'all', this)">All</button>
+      <button class="filter-btn" onclick="filterCards('nonfiction', 'manga', this)">Manga</button>
+      <button class="filter-btn" onclick="filterCards('nonfiction', 'western', this)">Western</button>
+      <button class="filter-btn" onclick="filterCards('nonfiction', 'europe', this)">Europe</button>
+      <button class="filter-btn" onclick="filterCards('nonfiction', 'asia', this)">Asia</button>
+      <button class="filter-btn" onclick="filterCards('nonfiction', 'americas', this)">Americas</button>
+      <button class="filter-btn" onclick="filterCards('nonfiction', 'middle-east', this)">Middle East</button>
+      <button class="filter-btn" onclick="filterCards('nonfiction', 'africa', this)">Africa</button>
+    </div>
+
+    <!-- Germany / Europe -->
+    <div class="section-header">
+      <span class="section-icon">🇩🇪</span>
+      <span class="section-title">Germany & Europe — WWI, WWII & The Holocaust</span>
+      <div class="section-line"></div>
+    </div>
+    <div class="card-grid">
+      <div class="card" data-tab="nonfiction" data-format="western" data-region="europe">
+        <span class="card-country">🇺🇸</span>
+        <div class="card-type"><span class="badge western">Western</span> USA</div>
+        <div class="card-title">Maus</div>
+        <div class="card-author">Art Spiegelman</div>
+        <div class="card-year">1980 – 1991</div>
+        <div class="card-desc">Pulitzer Prize-winning account of the Holocaust told through a father-son interview, with Jews as mice and Nazis as cats. The first masterpiece in comic book history.</div>
+        <div class="card-tags"><span class="tag">Holocaust</span><span class="tag">WWII</span><span class="tag">Germany</span><span class="tag">Memoir</span></div>
+      </div>
+      <div class="card" data-tab="nonfiction" data-format="western" data-region="europe">
+        <span class="card-country">🇩🇪</span>
+        <div class="card-type"><span class="badge western">Western</span> Germany</div>
+        <div class="card-title">Irmina</div>
+        <div class="card-author">Barbara Yelin</div>
+        <div class="card-year">2014</div>
+        <div class="card-desc">A young German woman moves to London in the mid-1930s — a personal-scale story of how ordinary people became complicit in Nazism.</div>
+        <div class="card-tags"><span class="tag">Nazi Germany</span><span class="tag">Complicity</span><span class="tag">1930s</span></div>
+      </div>
+      <div class="card" data-tab="nonfiction" data-format="western" data-region="europe">
+        <span class="card-country">🇫🇷</span>
+        <div class="card-type"><span class="badge bd">Bande Dessinée</span> France</div>
+        <div class="card-title">It Was the War of the Trenches</div>
+        <div class="card-author">Jacques Tardi</div>
+        <div class="card-year">1993</div>
+        <div class="card-desc">A brutal anti-war account of WWI from a French soldier's perspective. Tardi is France's premier war comics artist.</div>
+        <div class="card-tags"><span class="tag">WWI</span><span class="tag">France</span><span class="tag">Anti-War</span></div>
+      </div>
+      <div class="card" data-tab="nonfiction" data-format="western" data-region="europe">
+        <span class="card-country">🇫🇷</span>
+        <div class="card-type"><span class="badge bd">Bande Dessinée</span> France</div>
+        <div class="card-title">Goddamn This War!</div>
+        <div class="card-author">Jacques Tardi</div>
+        <div class="card-year">2012</div>
+        <div class="card-desc">A companion volume to Trenches — relentless, unromantic trench warfare depicted with documentary fury.</div>
+        <div class="card-tags"><span class="tag">WWI</span><span class="tag">France</span><span class="tag">Anti-War</span></div>
+      </div>
+    </div>
+
+    <!-- Iran -->
+    <div class="section-header">
+      <span class="section-icon">🇮🇷</span>
+      <span class="section-title">Iran — Islamic Revolution</span>
+      <div class="section-line"></div>
+    </div>
+    <div class="card-grid">
+      <div class="card" data-tab="nonfiction" data-format="western" data-region="middle-east">
+        <span class="card-country">🇮🇷</span>
+        <div class="card-type"><span class="badge bd">Bande Dessinée</span> Iran / France</div>
+        <div class="card-title">Persepolis</div>
+        <div class="card-author">Marjane Satrapi</div>
+        <div class="card-year">2000 – 2003</div>
+        <div class="card-desc">Memoir of growing up in Iran during the Islamic Revolution — funny, heartbreaking, essential. Covers the fall of the Shah, the Iran-Iraq War, and life under theocracy.</div>
+        <div class="card-tags"><span class="tag">Iran</span><span class="tag">Revolution</span><span class="tag">Memoir</span><span class="tag">Islam</span></div>
+      </div>
+    </div>
+
+    <!-- Japan -->
+    <div class="section-header">
+      <span class="section-icon">🇯🇵</span>
+      <span class="section-title">Japan — WWII & Atomic Bomb</span>
+      <div class="section-line"></div>
+    </div>
+    <div class="card-grid">
+      <div class="card" data-tab="nonfiction" data-format="manga" data-region="asia">
+        <span class="card-country">🇯🇵</span>
+        <div class="card-type"><span class="badge manga">Manga</span> Japan</div>
+        <div class="card-title">Barefoot Gen</div>
+        <div class="card-author">Keiji Nakazawa</div>
+        <div class="card-year">1973 – 1987</div>
+        <div class="card-desc">A survivor's account of the Hiroshima atomic bombing. Nakazawa critiques both the U.S. and Japanese governments that propagated the war. One of manga's defining political works.</div>
+        <div class="card-tags"><span class="tag">Hiroshima</span><span class="tag">Atomic Bomb</span><span class="tag">WWII</span><span class="tag">Japan</span></div>
+      </div>
+      <div class="card" data-tab="nonfiction" data-format="manga" data-region="asia">
+        <span class="card-country">🇯🇵</span>
+        <div class="card-type"><span class="badge manga">Manga</span> Japan</div>
+        <div class="card-title">Onward Towards Our Noble Deaths</div>
+        <div class="card-author">Shigeru Mizuki</div>
+        <div class="card-year">1973</div>
+        <div class="card-desc">Semi-autobiographical manga about Japanese soldiers in the Pacific theater — deeply critical of Imperial Japan's "honorable death" ideology and military command.</div>
+        <div class="card-tags"><span class="tag">WWII</span><span class="tag">Pacific War</span><span class="tag">Anti-Militarism</span></div>
+      </div>
+      <div class="card" data-tab="nonfiction" data-format="manga" data-region="asia">
+        <span class="card-country">🇯🇵</span>
+        <div class="card-type"><span class="badge manga">Manga</span> Japan</div>
+        <div class="card-title">In This Corner of the World</div>
+        <div class="card-author">Fumiyo Kouno</div>
+        <div class="card-year">2007 – 2009</div>
+        <div class="card-desc">A quiet, domestic story of a young woman in Hiroshima Prefecture during WWII. Won the Japan Media Arts Award. Civilian life under wartime policy, told with devastating gentleness.</div>
+        <div class="card-tags"><span class="tag">WWII</span><span class="tag">Hiroshima</span><span class="tag">Civilian Life</span></div>
+      </div>
+    </div>
+
+    <!-- USA -->
+    <div class="section-header">
+      <span class="section-icon">🇺🇸</span>
+      <span class="section-title">United States — Civil Rights & American Politics</span>
+      <div class="section-line"></div>
+    </div>
+    <div class="card-grid">
+      <div class="card" data-tab="nonfiction" data-format="western" data-region="americas">
+        <span class="card-country">🇺🇸</span>
+        <div class="card-type"><span class="badge western">Western</span> USA</div>
+        <div class="card-title">March (Trilogy)</div>
+        <div class="card-author">John Lewis & Andrew Aydin</div>
+        <div class="card-year">2013 – 2016</div>
+        <div class="card-desc">A firsthand account of the Civil Rights Movement by Congressman John Lewis, who marched alongside Martin Luther King Jr. Essential American political history.</div>
+        <div class="card-tags"><span class="tag">Civil Rights</span><span class="tag">USA</span><span class="tag">Memoir</span><span class="tag">1960s</span></div>
+      </div>
+      <div class="card" data-tab="nonfiction" data-format="western" data-region="americas">
+        <span class="card-country">🇺🇸</span>
+        <div class="card-type"><span class="badge western">Western</span> USA</div>
+        <div class="card-title">Kent State</div>
+        <div class="card-author">Derf Backderf</div>
+        <div class="card-year">2020</div>
+        <div class="card-desc">The 1970 National Guard massacre of student protesters at Kent State University. Meticulously researched. A defining moment in American anti-war protest history.</div>
+        <div class="card-tags"><span class="tag">USA</span><span class="tag">Protest</span><span class="tag">Vietnam Era</span><span class="tag">State Violence</span></div>
+      </div>
+      <div class="card" data-tab="nonfiction" data-format="western" data-region="americas">
+        <span class="card-country">🇺🇸</span>
+        <div class="card-type"><span class="badge western">Western</span> USA</div>
+        <div class="card-title">They Called Us Enemy</div>
+        <div class="card-author">George Takei</div>
+        <div class="card-year">2019</div>
+        <div class="card-desc">Star Trek's George Takei recounts his childhood in Japanese-American internment camps during WWII. Racism and wartime civil rights violations from a survivor's perspective.</div>
+        <div class="card-tags"><span class="tag">USA</span><span class="tag">Internment</span><span class="tag">WWII</span><span class="tag">Memoir</span></div>
+      </div>
+      <div class="card" data-tab="nonfiction" data-format="western" data-region="americas">
+        <span class="card-country">🇺🇸</span>
+        <div class="card-type"><span class="badge western">Western</span> USA</div>
+        <div class="card-title">The Harlem Hellfighters</div>
+        <div class="card-author">Max Brooks & Caanan White</div>
+        <div class="card-year">2014</div>
+        <div class="card-desc">The true story of the all-Black 369th Infantry Regiment in WWI, who fought longer than any other American unit and returned home to a nation that still denied them rights.</div>
+        <div class="card-tags"><span class="tag">WWI</span><span class="tag">USA</span><span class="tag">Race</span><span class="tag">Military</span></div>
+      </div>
+    </div>
+
+    <!-- France -->
+    <div class="section-header">
+      <span class="section-icon">🇫🇷</span>
+      <span class="section-title">France — Revolution & Empire</span>
+      <div class="section-line"></div>
+    </div>
+    <div class="card-grid">
+      <div class="card" data-tab="nonfiction" data-format="manga" data-region="europe">
+        <span class="card-country">🇫🇷</span>
+        <div class="card-type"><span class="badge manga">Manga</span> Japan / France</div>
+        <div class="card-title">The Rose of Versailles</div>
+        <div class="card-author">Riyoko Ikeda</div>
+        <div class="card-year">1972 – 1973</div>
+        <div class="card-desc">Marie Antoinette and the complex politics of the French Revolution. Considered the first shojo manga to achieve mainstream critical and commercial success. Revolution through personal drama.</div>
+        <div class="card-tags"><span class="tag">French Revolution</span><span class="tag">Marie Antoinette</span><span class="tag">Monarchy</span><span class="tag">Shojo</span></div>
+      </div>
+      <div class="card" data-tab="nonfiction" data-format="manga" data-region="europe">
+        <span class="card-country">🇫🇷</span>
+        <div class="card-type"><span class="badge manga">Manga</span> Japan / France</div>
+        <div class="card-title">Innocent</div>
+        <div class="card-author">Shinichi Sakamoto</div>
+        <div class="card-year">2013 – 2016</div>
+        <div class="card-desc">The French Revolution through the eyes of the Sanson family — the official executioners of Paris. Stunning art, morally complex. Explores justice, power, and guilt in the guillotine era.</div>
+        <div class="card-tags"><span class="tag">French Revolution</span><span class="tag">Execution</span><span class="tag">Justice</span></div>
+      </div>
+    </div>
+
+    <!-- China -->
+    <div class="section-header">
+      <span class="section-icon">🇨🇳</span>
+      <span class="section-title">China — Ancient History & Warring States</span>
+      <div class="section-line"></div>
+    </div>
+    <div class="card-grid">
+      <div class="card" data-tab="nonfiction" data-format="manga" data-region="asia">
+        <span class="card-country">🇨🇳</span>
+        <div class="card-type"><span class="badge manga">Manga</span> Japan / China</div>
+        <div class="card-title">Kingdom</div>
+        <div class="card-author">Yasuhisa Hara</div>
+        <div class="card-year">2006 – present</div>
+        <div class="card-desc">Based on true events from China's Warring States period — the rise of Qin and its unification of China. Depicts in-depth national politics and diplomacy between nations. Massive ongoing epic.</div>
+        <div class="card-tags"><span class="tag">Ancient China</span><span class="tag">Warring States</span><span class="tag">Unification</span><span class="tag">Politics</span></div>
+      </div>
+      <div class="card" data-tab="nonfiction" data-format="western" data-region="asia">
+        <span class="card-country">🇨🇳</span>
+        <div class="card-type"><span class="badge western">Manhua</span> Hong Kong</div>
+        <div class="card-title">Ravages of Time</div>
+        <div class="card-author">Chan Mou</div>
+        <div class="card-year">2001 – present</div>
+        <div class="card-desc">A retelling of the Three Kingdoms period — one of Chinese history's most defining political eras. Incredible tactical and political depth. One of Hong Kong's landmark comics.</div>
+        <div class="card-tags"><span class="tag">Three Kingdoms</span><span class="tag">China</span><span class="tag">Strategy</span><span class="tag">Politics</span></div>
+      </div>
+    </div>
+
+    <!-- Palestine -->
+    <div class="section-header">
+      <span class="section-icon">🇵🇸</span>
+      <span class="section-title">Palestine / Israel — Occupation & Conflict</span>
+      <div class="section-line"></div>
+    </div>
+    <div class="card-grid">
+      <div class="card" data-tab="nonfiction" data-format="western" data-region="middle-east">
+        <span class="card-country">🇵🇸</span>
+        <div class="card-type"><span class="badge western">Western</span> Malta / USA</div>
+        <div class="card-title">Palestine</div>
+        <div class="card-author">Joe Sacco</div>
+        <div class="card-year">1993 – 1996</div>
+        <div class="card-desc">On-the-ground journalism comics from the occupied territories in the early 1990s. Raw, award-winning reportage that established Sacco as the pioneer of comics journalism.</div>
+        <div class="card-tags"><span class="tag">Palestine</span><span class="tag">Occupation</span><span class="tag">Journalism</span><span class="tag">1990s</span></div>
+      </div>
+      <div class="card" data-tab="nonfiction" data-format="western" data-region="middle-east">
+        <span class="card-country">🇵🇸</span>
+        <div class="card-type"><span class="badge western">Western</span> Malta / USA</div>
+        <div class="card-title">Footnotes in Gaza</div>
+        <div class="card-author">Joe Sacco</div>
+        <div class="card-year">2009</div>
+        <div class="card-desc">Investigates a 1956 massacre in Gaza that history largely forgot. Deep, meticulous journalism — Sacco at his most thorough and devastating.</div>
+        <div class="card-tags"><span class="tag">Gaza</span><span class="tag">Massacre</span><span class="tag">1956</span><span class="tag">Journalism</span></div>
+      </div>
+      <div class="card" data-tab="nonfiction" data-format="western" data-region="middle-east">
+        <span class="card-country">🇸🇾</span>
+        <div class="card-type"><span class="badge bd">Bande Dessinée</span> France / Libya / Syria</div>
+        <div class="card-title">The Arab of the Future (Series)</div>
+        <div class="card-author">Riad Sattouf</div>
+        <div class="card-year">2014 – 2022</div>
+        <div class="card-desc">A memoir series about growing up in Gaddafi's Libya and Assad's Syria as a half-French, half-Arab child. Brilliant, disorienting, and deeply revealing about Arab authoritarian states.</div>
+        <div class="card-tags"><span class="tag">Libya</span><span class="tag">Syria</span><span class="tag">Memoir</span><span class="tag">Dictatorship</span></div>
+      </div>
+      <div class="card" data-tab="nonfiction" data-format="western" data-region="middle-east">
+        <span class="card-country">🌍</span>
+        <div class="card-type"><span class="badge western">Western</span> Middle East</div>
+        <div class="card-title">Meanwhile, in the Middle East...</div>
+        <div class="card-author">Yazan Al-Saadi & Various Artists</div>
+        <div class="card-year">2017</div>
+        <div class="card-desc">Short comics documenting political and social unrest in Lebanon, Egypt, Yemen, Palestine, Sudan, and Bahrain during the 2010s Arab Spring and its aftermath.</div>
+        <div class="card-tags"><span class="tag">Arab Spring</span><span class="tag">Lebanon</span><span class="tag">Egypt</span><span class="tag">Yemen</span></div>
+      </div>
+    </div>
+
+    <!-- Africa -->
+    <div class="section-header">
+      <span class="section-icon">🌍</span>
+      <span class="section-title">Africa — Colonial & Post-Colonial History</span>
+      <div class="section-line"></div>
+    </div>
+    <div class="card-grid">
+      <div class="card" data-tab="nonfiction" data-format="western" data-region="africa">
+        <span class="card-country">🇬🇭</span>
+        <div class="card-type"><span class="badge western">Western</span> USA / Ghana</div>
+        <div class="card-title">Abina and the Important Men</div>
+        <div class="card-author">Trevor Getz & Liz Clarke</div>
+        <div class="card-year">2011</div>
+        <div class="card-desc">Based on a real 1876 court transcript of an enslaved Ghanaian woman who sued her master in British colonial court. Winner of the 2014 James Harvey Robinson Prize.</div>
+        <div class="card-tags"><span class="tag">Ghana</span><span class="tag">Colonialism</span><span class="tag">Slavery</span><span class="tag">1870s</span></div>
+      </div>
+      <div class="card" data-tab="nonfiction" data-format="western" data-region="africa">
+        <span class="card-country">🇨🇩</span>
+        <div class="card-type"><span class="badge bd">Bande Dessinée</span> Belgium / Congo</div>
+        <div class="card-title">Madame Livingstone: The Great War in the Congo</div>
+        <div class="card-author">Christophe Cassiau-Haurie</div>
+        <div class="card-year">2012</div>
+        <div class="card-desc">Based on the true story of an unlikely Belgian-African partnership responsible for sinking a German battleship in the Congo during WWI. Rare African WWI perspective.</div>
+        <div class="card-tags"><span class="tag">Congo</span><span class="tag">WWI</span><span class="tag">Colonialism</span><span class="tag">Africa</span></div>
+      </div>
+    </div>
+
+    <!-- Tunisia / Arab Spring -->
+    <div class="section-header">
+      <span class="section-icon">🇹🇳</span>
+      <span class="section-title">Tunisia — Arab Spring 2011</span>
+      <div class="section-line"></div>
+    </div>
+    <div class="card-grid">
+      <div class="card" data-tab="nonfiction" data-format="western" data-region="africa">
+        <span class="card-country">🇹🇳</span>
+        <div class="card-type"><span class="badge western">Western</span> Tunisia</div>
+        <div class="card-title">After the Spring</div>
+        <div class="card-author">Various</div>
+        <div class="card-year">2016</div>
+        <div class="card-desc">Four young Tunisians cope with the uncertain future following the Arab Spring of 2011. One of the most direct graphic accounts of life after revolution — what happens after the cameras leave.</div>
+        <div class="card-tags"><span class="tag">Tunisia</span><span class="tag">Arab Spring</span><span class="tag">2011</span><span class="tag">Revolution</span></div>
+      </div>
+    </div>
+
+    <!-- India -->
+    <div class="section-header">
+      <span class="section-icon">🇮🇳</span>
+      <span class="section-title">India — Independence, Kashmir & Emergency</span>
+      <div class="section-line"></div>
+    </div>
+    <div class="card-grid">
+      <div class="card" data-tab="nonfiction" data-format="western" data-region="asia">
+        <span class="card-country">🇮🇳</span>
+        <div class="card-type"><span class="badge western">Western</span> India</div>
+        <div class="card-title">Munnu: A Boy from Kashmir</div>
+        <div class="card-author">Malik Sajad</div>
+        <div class="card-year">2015</div>
+        <div class="card-desc">A memoir-style comic about growing up in conflict-torn Kashmir. One of the only Kashmiri voices in graphic form — occupation, identity, and lost childhood.</div>
+        <div class="card-tags"><span class="tag">Kashmir</span><span class="tag">India</span><span class="tag">Occupation</span><span class="tag">Memoir</span></div>
+      </div>
+      <div class="card" data-tab="nonfiction" data-format="western" data-region="asia">
+        <span class="card-country">🇮🇳</span>
+        <div class="card-type"><span class="badge western">Western</span> India</div>
+        <div class="card-title">Delhi Calm</div>
+        <div class="card-author">Vishwajyoti Ghosh</div>
+        <div class="card-year">2010</div>
+        <div class="card-desc">Covers India's Emergency period (1975–77) under Indira Gandhi — one of India's most controversial political crises, when civil liberties were suspended for nearly two years.</div>
+        <div class="card-tags"><span class="tag">India</span><span class="tag">Emergency 1975</span><span class="tag">Indira Gandhi</span><span class="tag">Authoritarianism</span></div>
+      </div>
+    </div>
+
+    <!-- Latin America -->
+    <div class="section-header">
+      <span class="section-icon">🇦🇷</span>
+      <span class="section-title">Latin America — Dictatorship</span>
+      <div class="section-line"></div>
+    </div>
+    <div class="card-grid">
+      <div class="card" data-tab="nonfiction" data-format="western" data-region="americas">
+        <span class="card-country">🇦🇷</span>
+        <div class="card-type"><span class="badge western">Western</span> Argentina</div>
+        <div class="card-title">Eternaut (El Eternauta)</div>
+        <div class="card-author">Héctor G. Oesterheld</div>
+        <div class="card-year">1957 – 1959</div>
+        <div class="card-desc">Landmark Latin American comics — allegorical sci-fi doubling as a critique of Argentina's military dictatorship. Oesterheld himself was "disappeared" by the junta. A work that cost its creator his life.</div>
+        <div class="card-tags"><span class="tag">Argentina</span><span class="tag">Dictatorship</span><span class="tag">Disappeared</span><span class="tag">Allegory</span></div>
+      </div>
+    </div>
+
+    <!-- Cross-Regional -->
+    <div class="section-header">
+      <span class="section-icon">🌐</span>
+      <span class="section-title">Cross-Regional — Journalism & Closed States</span>
+      <div class="section-line"></div>
+    </div>
+    <div class="card-grid">
+      <div class="card" data-tab="nonfiction" data-format="western" data-region="asia">
+        <span class="card-country">🇲🇲</span>
+        <div class="card-type"><span class="badge bd">Bande Dessinée</span> Canada</div>
+        <div class="card-title">Burma Chronicles</div>
+        <div class="card-author">Guy Delisle</div>
+        <div class="card-year">2007</div>
+        <div class="card-desc">Diary comics from Myanmar under military rule. An animator's journal inside a closed authoritarian state — accessible, wry, and quietly damning.</div>
+        <div class="card-tags"><span class="tag">Myanmar</span><span class="tag">Military Rule</span><span class="tag">Diary</span></div>
+      </div>
+      <div class="card" data-tab="nonfiction" data-format="western" data-region="asia">
+        <span class="card-country">🇰🇵</span>
+        <div class="card-type"><span class="badge bd">Bande Dessinée</span> Canada</div>
+        <div class="card-title">Pyongyang</div>
+        <div class="card-author">Guy Delisle</div>
+        <div class="card-year">2003</div>
+        <div class="card-desc">An animator's journal inside North Korea — one of the only graphic accounts from inside the country. Chilling in its mundanity.</div>
+        <div class="card-tags"><span class="tag">North Korea</span><span class="tag">Totalitarianism</span><span class="tag">Diary</span></div>
+      </div>
+      <div class="card" data-tab="nonfiction" data-format="western" data-region="middle-east">
+        <span class="card-country">🇱🇧</span>
+        <div class="card-type"><span class="badge bd">Bande Dessinée</span> Canada</div>
+        <div class="card-title">Paying the Land</div>
+        <div class="card-author">Guy Delisle</div>
+        <div class="card-year">2011</div>
+        <div class="card-desc">Delisle in Jerusalem and the Palestinian territories — navigating checkpoints, settlements, and the daily reality of an occupied city. Deceptively calm, politically sharp.</div>
+        <div class="card-tags"><span class="tag">Israel</span><span class="tag">Palestine</span><span class="tag">Occupation</span><span class="tag">Jerusalem</span></div>
+      </div>
+    </div>
+
+  </div><!-- end tab-nonfiction -->
+
+
+  <!-- ══════════════════════════════════════
+       VOL. II — FICTION
+  ══════════════════════════════════════ -->
+  <div class="tab-panel" id="tab-fiction">
+
+    <div class="filter-bar">
+      <span class="filter-label">FILTER :</span>
+      <button class="filter-btn active" onclick="filterCards('fiction', 'all', this)">All</button>
+      <button class="filter-btn" onclick="filterCards('fiction', 'manga', this)">Manga</button>
+      <button class="filter-btn" onclick="filterCards('fiction', 'western', this)">Western</button>
+      <button class="filter-btn" onclick="filterCards('fiction', 'totalitarianism', this)">Totalitarianism</button>
+      <button class="filter-btn" onclick="filterCards('fiction', 'military', this)">Militarism</button>
+      <button class="filter-btn" onclick="filterCards('fiction', 'class', this)">Class & Economy</button>
+      <button class="filter-btn" onclick="filterCards('fiction', 'tech', this)">Tech & Surveillance</button>
+      <button class="filter-btn" onclick="filterCards('fiction', 'colonial', this)">Colonialism</button>
+    </div>
+
+    <!-- Totalitarianism -->
+    <div class="section-header">
+      <span class="section-icon">⚖️</span>
+      <span class="section-title">Totalitarianism & State Control</span>
+      <div class="section-line"></div>
+    </div>
+    <div class="card-grid">
+      <div class="card" data-tab="fiction" data-format="western" data-theme="totalitarianism">
+        <span class="card-country">🇬🇧</span>
+        <div class="card-type"><span class="badge western">Western</span> UK</div>
+        <div class="card-title">V for Vendetta</div>
+        <div class="card-author">Alan Moore & David Lloyd</div>
+        <div class="card-year">1982 – 1989</div>
+        <div class="card-desc">A dystopian future totalitarian England. An anarchist vigilante in a Guy Fawkes mask seeks to overthrow the government. Explores freedom, oppression, and the power of ideas. Written as a direct response to Thatcher's Britain.</div>
+        <div class="card-tags"><span class="tag">Totalitarianism</span><span class="tag">UK</span><span class="tag">Anarchy</span><span class="tag">Thatcher Era</span></div>
+      </div>
+      <div class="card" data-tab="fiction" data-format="western" data-theme="totalitarianism">
+        <span class="card-country">🇺🇸</span>
+        <div class="card-type"><span class="badge western">Western</span> UK / USA</div>
+        <div class="card-title">Watchmen</div>
+        <div class="card-author">Alan Moore & Dave Gibbons</div>
+        <div class="card-year">1986 – 1987</div>
+        <div class="card-desc">Superheroes as instruments of state power. Set during Nixon's Cold War America — deconstructs American exceptionalism, nuclear anxiety, and unchecked authority. Possibly the most politically dense superhero story ever made.</div>
+        <div class="card-tags"><span class="tag">Cold War</span><span class="tag">USA</span><span class="tag">Nixon</span><span class="tag">Nuclear</span><span class="tag">Power</span></div>
+      </div>
+      <div class="card" data-tab="fiction" data-format="western" data-theme="totalitarianism">
+        <span class="card-country">🌐</span>
+        <div class="card-type"><span class="badge western">Western</span> Brazil</div>
+        <div class="card-title">1984 (Graphic Novel Adaptation)</div>
+        <div class="card-author">Fido Nesti (after Orwell)</div>
+        <div class="card-year">2021</div>
+        <div class="card-desc">The most acclaimed graphic adaptation of Orwell's surveillance state classic. Big Brother, doublethink, and the total erasure of individual thought — essential reading on propaganda and control.</div>
+        <div class="card-tags"><span class="tag">Totalitarianism</span><span class="tag">Surveillance</span><span class="tag">Propaganda</span><span class="tag">Orwell</span></div>
+      </div>
+    </div>
+
+    <!-- Walls & Persecution -->
+    <div class="section-header">
+      <span class="section-icon">🧱</span>
+      <span class="section-title">Walls, Borders & Ethnic Persecution</span>
+      <div class="section-line"></div>
+    </div>
+    <div class="card-grid">
+      <div class="card" data-tab="fiction" data-format="manga" data-theme="totalitarianism military">
+        <span class="card-country">🇯🇵</span>
+        <div class="card-type"><span class="badge manga">Manga</span> Japan</div>
+        <div class="card-title">Attack on Titan</div>
+        <div class="card-author">Hajime Isayama</div>
+        <div class="card-year">2009 – 2021</div>
+        <div class="card-desc">Takes inspiration from Germanic imagery, the Jewish Exodus, WWII, and the Holocaust. Covers war, fascism, antisemitism, racism, and social stratification. Deliberately multivalent — different readers see Israel/Palestine, Japan/Korea, or Taiwan/China.</div>
+        <div class="card-tags"><span class="tag">Fascism</span><span class="tag">Genocide</span><span class="tag">Walls</span><span class="tag">Ethnic Persecution</span></div>
+      </div>
+      <div class="card" data-tab="fiction" data-format="manga" data-theme="military">
+        <span class="card-country">🇯🇵</span>
+        <div class="card-type"><span class="badge manga">Manga</span> Japan</div>
+        <div class="card-title">Nausicaä of the Valley of the Wind</div>
+        <div class="card-author">Hayao Miyazaki</div>
+        <div class="card-year">1982 – 1994</div>
+        <div class="card-desc">Post-apocalyptic world destroyed by pollution and war. Miyazaki used the medium to portray the futility of war and humanity's folly in controlling the environment. Anti-imperialism and ecological politics interwoven throughout.</div>
+        <div class="card-tags"><span class="tag">Anti-War</span><span class="tag">Ecology</span><span class="tag">Imperialism</span><span class="tag">Post-Apocalypse</span></div>
+      </div>
+    </div>
+
+    <!-- Militarism -->
+    <div class="section-header">
+      <span class="section-icon">⚗️</span>
+      <span class="section-title">Militarism, Empire & State Violence</span>
+      <div class="section-line"></div>
+    </div>
+    <div class="card-grid">
+      <div class="card" data-tab="fiction" data-format="manga" data-theme="military">
+        <span class="card-country">🇯🇵</span>
+        <div class="card-type"><span class="badge manga">Manga</span> Japan</div>
+        <div class="card-title">Fullmetal Alchemist</div>
+        <div class="card-author">Hiromu Arakawa</div>
+        <div class="card-year">2001 – 2010</div>
+        <div class="card-desc">The Ishvalan Civil War draws on imagery from the Iraq War — an ethnic group nearly wiped out by state policy. Widely read as a critique of capitalism and military dictatorship. One of manga's most morally rigorous political texts.</div>
+        <div class="card-tags"><span class="tag">Military Dictatorship</span><span class="tag">Genocide</span><span class="tag">Capitalism</span><span class="tag">Iraq War Allegory</span></div>
+      </div>
+      <div class="card" data-tab="fiction" data-format="manga" data-theme="military">
+        <span class="card-country">🇯🇵</span>
+        <div class="card-type"><span class="badge manga">Manga</span> Japan</div>
+        <div class="card-title">Akira</div>
+        <div class="card-author">Katsuhiro Otomo</div>
+        <div class="card-year">1982 – 1990</div>
+        <div class="card-desc">Set in Neo-Tokyo after a third World War. About youth radicalization, state military experiments on citizens, and institutional collapse. A direct response to Japan's postwar anxieties and the 1964 Tokyo Olympics.</div>
+        <div class="card-tags"><span class="tag">Post-War Japan</span><span class="tag">State Power</span><span class="tag">Youth Rebellion</span><span class="tag">Cyberpunk</span></div>
+      </div>
+      <div class="card" data-tab="fiction" data-format="manga" data-theme="military">
+        <span class="card-country">🇯🇵</span>
+        <div class="card-type"><span class="badge manga">Manga</span> Japan</div>
+        <div class="card-title">Vinland Saga</div>
+        <div class="card-author">Makoto Yukimura</div>
+        <div class="card-year">2005 – 2025</div>
+        <div class="card-desc">Vikings, conquest, and slavery — but at its core a pacifist argument. Explores how governments discard soldiers, the cycle of revenge and empire, and one man's rejection of warrior culture entirely.</div>
+        <div class="card-tags"><span class="tag">Vikings</span><span class="tag">Slavery</span><span class="tag">Pacifism</span><span class="tag">Anti-War</span></div>
+      </div>
+    </div>
+
+    <!-- Class & Capitalism -->
+    <div class="section-header">
+      <span class="section-icon">🏭</span>
+      <span class="section-title">Class, Capitalism & Economic Power</span>
+      <div class="section-line"></div>
+    </div>
+    <div class="card-grid">
+      <div class="card" data-tab="fiction" data-format="western" data-theme="class">
+        <span class="card-country">🇫🇷</span>
+        <div class="card-type"><span class="badge bd">Bande Dessinée</span> France</div>
+        <div class="card-title">Snowpiercer</div>
+        <div class="card-author">Jacques Lob & Jean-Marc Rochette</div>
+        <div class="card-year">1982</div>
+        <div class="card-desc">Humanity's survivors on a train that endlessly circles a frozen Earth — wealthy in the front cars, starving in the back. Pure class warfare allegory, French bande dessinée at its most brutal. Predates the film by decades.</div>
+        <div class="card-tags"><span class="tag">Class War</span><span class="tag">Inequality</span><span class="tag">Post-Apocalypse</span><span class="tag">France</span></div>
+      </div>
+      <div class="card" data-tab="fiction" data-format="western" data-theme="class">
+        <span class="card-country">🇺🇸</span>
+        <div class="card-type"><span class="badge western">Western</span> USA</div>
+        <div class="card-title">Transmetropolitan</div>
+        <div class="card-author">Warren Ellis & Darick Robertson</div>
+        <div class="card-year">1997 – 2002</div>
+        <div class="card-desc">A gonzo journalist in a corrupt near-future America tears apart political hypocrisy, media manipulation, and voter apathy. Hunter S. Thompson energy applied to political satire. Frighteningly prescient.</div>
+        <div class="card-tags"><span class="tag">Satire</span><span class="tag">Media</span><span class="tag">Corruption</span><span class="tag">USA</span></div>
+      </div>
+      <div class="card" data-tab="fiction" data-format="western" data-theme="class">
+        <span class="card-country">🇺🇸</span>
+        <div class="card-type"><span class="badge western">Western</span> USA</div>
+        <div class="card-title">Y: The Last Man</div>
+        <div class="card-author">Brian K. Vaughan & Pia Guerra</div>
+        <div class="card-year">2002 – 2008</div>
+        <div class="card-desc">A plague wipes out every mammal with a Y chromosome. Explores politics, gender, power structures, and what actually holds civilization together — and what collapses when it's gone.</div>
+        <div class="card-tags"><span class="tag">Gender Politics</span><span class="tag">Power Structures</span><span class="tag">Post-Apocalypse</span></div>
+      </div>
+    </div>
+
+    <!-- Tech & Surveillance -->
+    <div class="section-header">
+      <span class="section-icon">🤖</span>
+      <span class="section-title">Technology, Surveillance & Posthuman Politics</span>
+      <div class="section-line"></div>
+    </div>
+    <div class="card-grid">
+      <div class="card" data-tab="fiction" data-format="manga" data-theme="tech">
+        <span class="card-country">🇯🇵</span>
+        <div class="card-type"><span class="badge manga">Manga</span> Japan</div>
+        <div class="card-title">Ghost in the Shell</div>
+        <div class="card-author">Masamune Shirow</div>
+        <div class="card-year">1989 – 1990</div>
+        <div class="card-desc">Set against political intrigue and cyber warfare, following a cyborg government operative hunting a hacker. Explores government overreach, state intelligence ethics, identity, and consciousness in a cyberpunk future.</div>
+        <div class="card-tags"><span class="tag">Surveillance</span><span class="tag">Cyberpunk</span><span class="tag">Intelligence</span><span class="tag">Identity</span></div>
+      </div>
+      <div class="card" data-tab="fiction" data-format="manga" data-theme="tech military">
+        <span class="card-country">🇯🇵</span>
+        <div class="card-type"><span class="badge manga">Manga</span> Japan</div>
+        <div class="card-title">Pluto</div>
+        <div class="card-author">Naoki Urasawa</div>
+        <div class="card-year">2003 – 2009</div>
+        <div class="card-desc">A remake of Astro Boy's arc — reframed as a meditation on the War on Terror, WMDs, and what drives nations to conflict. Urasawa turns a children's story into a heartbreaking anti-war argument.</div>
+        <div class="card-tags"><span class="tag">War on Terror</span><span class="tag">WMD</span><span class="tag">Anti-War</span><span class="tag">Robot Rights</span></div>
+      </div>
+    </div>
+
+    <!-- Colonialism & Indigenous -->
+    <div class="section-header">
+      <span class="section-icon">🌿</span>
+      <span class="section-title">Colonialism & Indigenous Rights</span>
+      <div class="section-line"></div>
+    </div>
+    <div class="card-grid">
+      <div class="card" data-tab="fiction" data-format="manga" data-theme="colonial">
+        <span class="card-country">🇯🇵</span>
+        <div class="card-type"><span class="badge manga">Manga</span> Japan</div>
+        <div class="card-title">Golden Kamuy</div>
+        <div class="card-author">Satoru Noda</div>
+        <div class="card-year">2014 – 2022</div>
+        <div class="card-desc">Set in 1907 Hokkaido — a Russo-Japanese War veteran and an Ainu girl search for gold ultimately meant to fund a sovereign Ainu state. Winner of the Manga Taishō and Tezuka Osamu Cultural Prize. One of manga's most serious treatments of indigenous erasure.</div>
+        <div class="card-tags"><span class="tag">Ainu</span><span class="tag">Indigenous Rights</span><span class="tag">Colonialism</span><span class="tag">Japan</span></div>
+      </div>
+    </div>
+
+    <!-- Corruption & Conspiracy -->
+    <div class="section-header">
+      <span class="section-icon">🕵️</span>
+      <span class="section-title">Power, Corruption & Political Conspiracy</span>
+      <div class="section-line"></div>
+    </div>
+    <div class="card-grid">
+      <div class="card" data-tab="fiction" data-format="manga" data-theme="totalitarianism">
+        <span class="card-country">🇯🇵</span>
+        <div class="card-type"><span class="badge manga">Manga</span> Japan</div>
+        <div class="card-title">20th Century Boys</div>
+        <div class="card-author">Naoki Urasawa</div>
+        <div class="card-year">1999 – 2006</div>
+        <div class="card-desc">A cult leader rises to global power using a childhood doomsday prophecy. A slow-burn thriller about how fascism grows from nostalgia, how cults of personality work, and how ordinary people fail to stop them until it's too late.</div>
+        <div class="card-tags"><span class="tag">Fascism</span><span class="tag">Cult of Personality</span><span class="tag">Conspiracy</span><span class="tag">Japan</span></div>
+      </div>
+      <div class="card" data-tab="fiction" data-format="manga" data-theme="totalitarianism">
+        <span class="card-country">🇩🇪</span>
+        <div class="card-type"><span class="badge manga">Manga</span> Japan / Germany</div>
+        <div class="card-title">Monster</div>
+        <div class="card-author">Naoki Urasawa</div>
+        <div class="card-year">1994 – 2001</div>
+        <div class="card-desc">A German surgeon saves a child who becomes a serial killer with political ambitions. Set in post-reunification Germany and Eastern Europe — explores how Cold War-era trauma and political machinery create monsters, literally and figuratively.</div>
+        <div class="card-tags"><span class="tag">Germany</span><span class="tag">Cold War</span><span class="tag">Post-Reunification</span><span class="tag">Trauma</span></div>
+      </div>
+      <div class="card" data-tab="fiction" data-format="manga" data-theme="military class">
+        <span class="card-country">🇺🇸</span>
+        <div class="card-type"><span class="badge manga">Manga</span> Japan / USA</div>
+        <div class="card-title">Banana Fish</div>
+        <div class="card-author">Akimi Yoshida</div>
+        <div class="card-year">1985 – 1994</div>
+        <div class="card-desc">Street gangs, the CIA, drug trafficking, and political manipulation in 1980s New York. One of the earliest manga to engage seriously with American imperialism, Vietnam War trauma, and corrupt government operations.</div>
+        <div class="card-tags"><span class="tag">CIA</span><span class="tag">Imperialism</span><span class="tag">Vietnam</span><span class="tag">1980s USA</span></div>
+      </div>
+    </div>
+
+    <!-- Speculative Futures -->
+    <div class="section-header">
+      <span class="section-icon">🌐</span>
+      <span class="section-title">Speculative Futures & Systemic Critique</span>
+      <div class="section-line"></div>
+    </div>
+    <div class="card-grid">
+      <div class="card" data-tab="fiction" data-format="western" data-theme="totalitarianism class">
+        <span class="card-country">🇺🇸</span>
+        <div class="card-type"><span class="badge western">Western</span> USA</div>
+        <div class="card-title">East of West</div>
+        <div class="card-author">Jonathan Hickman & Nick Dragotta</div>
+        <div class="card-year">2013 – 2019</div>
+        <div class="card-desc">Alternate America where the Civil War never ended and the country fragmented into competing ideological nations. Dense political world-building about ideology, religion, and national identity.</div>
+        <div class="card-tags"><span class="tag">Alternate History</span><span class="tag">USA</span><span class="tag">Civil War</span><span class="tag">Ideology</span></div>
+      </div>
+      <div class="card" data-tab="fiction" data-format="western" data-theme="military">
+        <span class="card-country">🇨🇦</span>
+        <div class="card-type"><span class="badge western">Western</span> Canada</div>
+        <div class="card-title">We Stand on Guard</div>
+        <div class="card-author">Brian K. Vaughan & Steve Skroce</div>
+        <div class="card-year">2015</div>
+        <div class="card-desc">America invades Canada. A sharp satire about how easily the "freedom" rhetoric of empire applies to neighbors — told entirely from the invaded side. Subverts American reader expectations deliberately.</div>
+        <div class="card-tags"><span class="tag">Imperialism</span><span class="tag">Canada</span><span class="tag">USA</span><span class="tag">Invasion</span></div>
+      </div>
+      <div class="card" data-tab="fiction" data-format="western" data-theme="military class">
+        <span class="card-country">🌌</span>
+        <div class="card-type"><span class="badge western">Western</span> USA</div>
+        <div class="card-title">Saga</div>
+        <div class="card-author">Brian K. Vaughan & Fiona Staples</div>
+        <div class="card-year">2012 – present</div>
+        <div class="card-desc">Science fantasy on the surface — fundamentally about war profiteering, media propaganda, and what perpetuates cycles of conflict. One of the best depictions of civilians caught in geopolitical crossfire in all of comics.</div>
+        <div class="card-tags"><span class="tag">War Profiteering</span><span class="tag">Propaganda</span><span class="tag">Civilians</span><span class="tag">Geopolitics</span></div>
+      </div>
+    </div>
+
+  </div><!-- end tab-fiction -->
+
+
+  <!-- ══════════════════════════════════════
+       READING ORDER
+  ══════════════════════════════════════ -->
+  <div class="reading-order">
+    <h2>Reading Tracks</h2>
+    <p class="ro-subtitle">SUGGESTED PATHS THROUGH THE CURRICULUM</p>
+    <div class="ro-grid">
+      <div class="ro-track">
+        <div class="ro-track-title">🕊️ Anti-War Path</div>
+        <ol>
+          <li>Barefoot Gen</li>
+          <li>Nausicaä</li>
+          <li>Vinland Saga</li>
+          <li>Pluto</li>
+          <li>It Was the War of the Trenches</li>
+        </ol>
+      </div>
+      <div class="ro-track">
+        <div class="ro-track-title">🏛️ Totalitarianism Path</div>
+        <ol>
+          <li>V for Vendetta</li>
+          <li>Watchmen</li>
+          <li>1984 (Graphic)</li>
+          <li>Pyongyang</li>
+          <li>20th Century Boys</li>
+        </ol>
+      </div>
+      <div class="ro-track">
+        <div class="ro-track-title">🌍 Colonialism Path</div>
+        <ol>
+          <li>Abina & the Important Men</li>
+          <li>Golden Kamuy</li>
+          <li>Munnu: A Boy from Kashmir</li>
+          <li>Palestine (Sacco)</li>
+          <li>Persepolis</li>
+        </ol>
+      </div>
+      <div class="ro-track">
+        <div class="ro-track-title">⚗️ Ethnic Persecution Path</div>
+        <ol>
+          <li>Maus</li>
+          <li>They Called Us Enemy</li>
+          <li>Fullmetal Alchemist</li>
+          <li>Attack on Titan</li>
+          <li>Footnotes in Gaza</li>
+        </ol>
+      </div>
+      <div class="ro-track">
+        <div class="ro-track-title">🔍 Corruption Path</div>
+        <ol>
+          <li>Monster</li>
+          <li>Banana Fish</li>
+          <li>Transmetropolitan</li>
+          <li>East of West</li>
+          <li>The Arab of the Future</li>
+        </ol>
+      </div>
+      <div class="ro-track">
+        <div class="ro-track-title">🌹 Revolution Path</div>
+        <ol>
+          <li>Rose of Versailles</li>
+          <li>Innocent</li>
+          <li>Persepolis</li>
+          <li>Eternaut</li>
+          <li>After the Spring</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <span>THE WORLD IN PANELS — POLITICAL COMICS CURRICULUM</span>
+    <span>VOL. I: TRUE EVENTS · VOL. II: FICTION · 40+ WORKS · 20+ COUNTRIES</span>
+  </footer>
+
+</div>
+
+<script>
+  function switchTab(tabName, btn) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + tabName).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  function filterCards(tab, filter, btn) {
+    const panel = document.getElementById('tab-' + tab);
+    panel.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    panel.querySelectorAll('.card').forEach(card => {
+      if (filter === 'all') {
+        card.classList.remove('hidden');
+        return;
+      }
+      const fmt = card.dataset.format || '';
+      const region = card.dataset.region || '';
+      const theme = card.dataset.theme || '';
+      const matches = fmt.includes(filter) || region.includes(filter) || theme.includes(filter);
+      card.classList.toggle('hidden', !matches);
+    });
+  }
+</script>
+</body>
+</html>

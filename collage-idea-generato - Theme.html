@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Collage Idea Generator — No Sanity Included</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Caveat:wght@600;700&family=Special+Elite&family=IBM+Plex+Mono:wght@400;500;600&family=Shadows+Into+Light&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#121014;
+    --bg2:#19161b;
+    --paper:#f3ead9;
+    --paper2:#e8dcc3;
+    --ink:#201c18;
+    --hot:#ff2f6e;
+    --acid:#d4ff3f;
+    --tape:#8fc1ff;
+    --tape2:#ffcf6e;
+    --glow1:#1d1a20;
+    --glow2:#17151a;
+  }
+  /* ---- Emotional theme accent glow (subtle, not a full skin) ---- */
+  body{ transition:background .4s ease; }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(ellipse at 20% 0%, var(--glow1) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 100%, var(--glow2) 0%, transparent 60%),
+      var(--bg);
+    color:var(--paper);
+    font-family:'IBM Plex Mono', monospace;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:32px 16px 80px;
+    transition:background .3s ease, color .3s ease;
+  }
+
+  /* ---- Ransom note title ---- */
+  .title-wrap{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:6px;
+    max-width:640px;
+    margin:8px 0 6px;
+  }
+  .title-wrap span{
+    display:inline-block;
+    padding:6px 9px 4px;
+    font-size:clamp(20px, 5vw, 34px);
+    line-height:1;
+    box-shadow:2px 3px 0 rgba(0,0,0,.35);
+    transform:rotate(var(--r,0deg));
+  }
+  .subtitle{
+    font-family:'Caveat', cursive;
+    font-size:20px;
+    color:var(--acid);
+    margin:2px 0 28px;
+    text-align:center;
+    max-width:480px;
+  }
+  .stat{
+    font-size:11px;
+    letter-spacing:.08em;
+    color:#8a8390;
+    text-transform:uppercase;
+    margin-bottom:28px;
+    text-align:center;
+  }
+  .stat b{color:var(--tape);}
+
+  /* ---- Chaos level toggle ---- */
+  .levels{
+    display:flex;
+    gap:10px;
+    margin-bottom:22px;
+    flex-wrap:wrap;
+    justify-content:center;
+  }
+  .level-btn{
+    font-family:'Special Elite', monospace;
+    background:var(--bg2);
+    border:1.5px dashed #4a434e;
+    color:#cfc8d2;
+    padding:8px 16px;
+    border-radius:2px;
+    cursor:pointer;
+    font-size:13px;
+    letter-spacing:.04em;
+    transition:transform .15s ease, border-color .15s ease, color .15s ease;
+  }
+  .level-btn:hover{transform:translateY(-2px);}
+  .level-btn.active{
+    border-color:var(--hot);
+    color:var(--hot);
+    border-style:solid;
+  }
+
+  /* ---- Emotion picker ---- */
+  .emotions{
+    display:flex;
+    gap:8px;
+    margin-bottom:22px;
+    flex-wrap:wrap;
+    justify-content:center;
+    max-width:600px;
+  }
+  .emotion-btn{
+    font-family:'Special Elite', monospace;
+    background:var(--bg2);
+    border:1.5px dashed #4a434e;
+    color:#cfc8d2;
+    padding:7px 14px;
+    border-radius:2px;
+    cursor:pointer;
+    font-size:12.5px;
+    letter-spacing:.03em;
+    transition:transform .15s ease, border-color .15s ease, color .15s ease;
+  }
+  .emotion-btn:hover{transform:translateY(-2px);}
+  .emotion-btn.active{
+    border-color:var(--acid);
+    color:var(--acid);
+    border-style:solid;
+  }
+  .theme-label{
+    text-align:center;
+    font-size:10px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:#8a8390;
+    margin-bottom:10px;
+  }
+
+  /* ---- Generate button ---- */
+  .generate-btn{
+    font-family:'Permanent Marker', cursive;
+    font-size:22px;
+    background:var(--hot);
+    color:#1a0510;
+    border:none;
+    padding:16px 44px;
+    border-radius:3px;
+    cursor:pointer;
+    box-shadow:0 6px 0 #99123f, 0 8px 14px rgba(0,0,0,.4);
+    transform:rotate(-1.2deg);
+    transition:transform .1s ease, box-shadow .1s ease;
+    letter-spacing:.02em;
+  }
+  .generate-btn:active{
+    transform:translateY(4px) rotate(-1.2deg);
+    box-shadow:0 2px 0 #99123f, 0 4px 8px rgba(0,0,0,.4);
+  }
+
+  /* ---- Result card ---- */
+  .card-stage{
+    width:100%;
+    max-width:560px;
+    min-height:190px;
+    margin-top:36px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .card{
+    position:relative;
+    background:var(--paper);
+    color:var(--ink);
+    padding:34px 30px 28px;
+    width:100%;
+    border-radius:1px;
+    box-shadow:0 14px 30px rgba(0,0,0,.45), 0 2px 0 rgba(0,0,0,.2);
+    font-family:'Caveat', cursive;
+    font-size:26px;
+    line-height:1.35;
+    opacity:0;
+    transform:scale(.85) rotate(0deg);
+  }
+  .card.show{
+    animation:slap .38s cubic-bezier(.2,1.4,.4,1) forwards;
+  }
+  @keyframes slap{
+    0%{opacity:0; transform:scale(.7) rotate(0deg);}
+    60%{opacity:1; transform:scale(1.04) rotate(var(--rot));}
+    100%{opacity:1; transform:scale(1) rotate(var(--rot));}
+  }
+  .tape{
+    position:absolute;
+    width:70px;
+    height:26px;
+    top:-14px;
+    left:50%;
+    margin-left:-35px;
+    background:var(--tape);
+    opacity:.85;
+    transform:rotate(-3deg);
+    box-shadow:0 2px 4px rgba(0,0,0,.25);
+  }
+  .tape.two{
+    left:auto;
+    right:22px;
+    background:var(--tape2);
+    transform:rotate(6deg);
+    top:auto;
+    bottom:-12px;
+    width:56px;
+    height:22px;
+  }
+  .idea-index{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    color:#8a7d5f;
+    letter-spacing:.05em;
+    margin-bottom:10px;
+    display:block;
+  }
+
+  .card-actions{
+    display:flex;
+    gap:10px;
+    margin-top:20px;
+    justify-content:center;
+    flex-wrap:wrap;
+  }
+  .mini-btn{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    background:transparent;
+    border:1px solid #55505a;
+    color:#cfc8d2;
+    padding:8px 14px;
+    border-radius:2px;
+    cursor:pointer;
+  }
+  .mini-btn:hover{border-color:var(--acid); color:var(--acid);}
+
+  /* ---- History ---- */
+  .history{
+    width:100%;
+    max-width:560px;
+    margin-top:44px;
+  }
+  .history h2{
+    font-family:'Special Elite', monospace;
+    font-size:13px;
+    color:#8a8390;
+    text-transform:uppercase;
+    letter-spacing:.1em;
+    border-bottom:1px dashed #3a353e;
+    padding-bottom:8px;
+  }
+  .history-item{
+    font-family:'Shadows Into Light', cursive;
+    font-size:16px;
+    color:#d6cfda;
+    padding:8px 4px;
+    border-bottom:1px dotted #2c282f;
+  }
+  .history-item span{color:#6d6672; font-family:'IBM Plex Mono', monospace; font-size:11px;}
+
+  footer{
+    margin-top:56px;
+    font-size:11px;
+    color:#5f5866;
+    text-align:center;
+    max-width:420px;
+  }
+</style>
+</head>
+<body>
+
+  <div class="title-wrap" id="title"></div>
+  <div class="subtitle">for collages that answer to no one</div>
+  <div class="stat">generates from <b id="comboCount">—</b> possible combinations</div>
+
+  <div class="theme-label">pick an emotional theme</div>
+  <div class="emotions" id="emotions">
+    <button class="emotion-btn active" data-emotion="nostalgia">nostalgia</button>
+    <button class="emotion-btn" data-emotion="longing">longing</button>
+    <button class="emotion-btn" data-emotion="wonder">wonder</button>
+    <button class="emotion-btn" data-emotion="tenderness">tenderness</button>
+    <button class="emotion-btn" data-emotion="loneliness">loneliness</button>
+    <button class="emotion-btn" data-emotion="grief">grief</button>
+    <button class="emotion-btn" data-emotion="joy">joy</button>
+    <button class="emotion-btn" data-emotion="unease">unease</button>
+  </div>
+
+  <div class="levels">
+    <button class="level-btn active" data-level="mild">mild strange</button>
+    <button class="level-btn" data-level="weird">properly weird</button>
+    <button class="level-btn" data-level="unhinged">no sanity clause</button>
+  </div>
+
+  <button class="generate-btn" id="genBtn">RIP ONE OUT</button>
+
+  <div class="card-stage">
+    <div class="card" id="card">
+      <div class="tape"></div>
+      <span class="idea-index" id="ideaIndex"></span>
+      <div id="ideaText"></div>
+      <div class="tape two"></div>
+    </div>
+  </div>
+
+  <div class="card-actions" id="cardActions" style="display:none;">
+    <button class="mini-btn" id="copyBtn">copy text</button>
+    <button class="mini-btn" id="againBtn">rip another</button>
+  </div>
+
+  <div class="history">
+    <h2>Recently torn out</h2>
+    <div id="historyList"></div>
+  </div>
+
+  <footer>Nothing here is saved when you close the tab. If one's good, copy it somewhere safer.</footer>
+
+<script>
+/* ---------- Ransom-note title ---------- */
+const titleWords = ["COLLAGE","IDEA","GENERATOR"];
+const ransomFonts = ["'Permanent Marker', cursive", "'Special Elite', monospace", "'Caveat', cursive", "'Shadows Into Light', cursive"];
+const clipColors = ["var(--paper)","var(--paper2)","var(--acid)","var(--tape2)","#ffffff"];
+const titleEl = document.getElementById('title');
+titleWords.forEach(word=>{
+  [...word].forEach(letter=>{
+    const s = document.createElement('span');
+    s.textContent = letter;
+    const rot = (Math.random()*16-8).toFixed(1);
+    s.style.setProperty('--r', rot+'deg');
+    s.style.fontFamily = ransomFonts[Math.floor(Math.random()*ransomFonts.length)];
+    s.style.background = clipColors[Math.floor(Math.random()*clipColors.length)];
+    s.style.color = 'var(--ink)';
+    titleEl.appendChild(s);
+  });
+  const space = document.createElement('div');
+  space.style.width='10px';
+  titleEl.appendChild(space);
+});
+
+/* ---------- Word banks, one per emotional theme ---------- */
+const banks = {
+  nostalgia: {
+    A: ["a rotary phone","an old family photograph","a school uniform","a mixtape","a childhood bedroom","a worn-out toy","a handwritten letter","a cassette tape","a bicycle bell","a faded postcard","a school satchel","a chalk-dusted blackboard"],
+    B: ["the smell of monsoon rain","a half-remembered lullaby","the sound of a screen door","summers that don't exist anymore","a grandmother's perfume","the taste of a forgotten sweet","a song that used to play everywhere","the particular light of 6pm","a voice you can't quite recall","a street that's been rebuilt twice"],
+    C: ["your childhood home","a school corridor","a grandparent's kitchen","an old cinema hall","the back seat of a car","a market that no longer exists","a train you took as a kid","a friend's house you never returned to","a festival from years ago","a photograph you can't place"],
+    D: ["your younger self","a sibling who's since grown up","a neighbor who moved away","someone who's since passed on","a version of your best friend","the person you used to be every Sunday evening"]
+  },
+  longing: {
+    A: ["an empty chair","a suitcase by the door","a phone that hasn't rung","a half-written letter","a plane ticket","a window facing the wrong direction","two teacups, one unused","a coat that isn't yours","a shared umbrella, folded","a song you can't finish"],
+    B: ["a name you keep almost saying","the shape of someone's absence","a conversation cut short","a promise that's overdue","the wrong side of a time difference","a hand that isn't there to hold","a voice note never sent","an apology arriving too late","a door left slightly open, just in case","a seat saved for no one"],
+    C: ["an airport arrivals gate","the empty side of a bed","a train platform at midnight","a doorway facing an empty street","a phone screen, unlit","the last stop of the night bus","a balcony overlooking a city that isn't home","a mailbox, checked too often","a bench built for two"],
+    D: ["whoever should have come back by now","a version of you that stayed","the person on the other end of a silence","someone still checking the wrong window"]
+  },
+  wonder: {
+    A: ["a jar of fireflies","a paper boat","a telescope","a kite caught in wind","a snow globe","a music box","a hot air balloon","a shell held to an ear","a star chart","a compass with no fixed north"],
+    B: ["a constellation no one's named yet","the sound only children can hear","a map of somewhere that might exist","light bending where it shouldn't","a question with no wrong answer","the exact moment a bud opens","a door that leads somewhere new every time","a secret only the tide knows","a color that doesn't have a name yet","the feeling just before discovery"],
+    C: ["the edge of a forest at dawn","the top of a lighthouse","a planetarium ceiling","the deep end of a clear lake","an attic full of unopened boxes","the first page of an unread book","a rooftop under a meteor shower","a cave with unexplored tunnels","the last unmapped corner of an atlas"],
+    D: ["a child seeing it for the first time","an astronomer who forgot to look away","anyone who still believes in maps","a scientist mid-discovery"]
+  },
+  tenderness: {
+    A: ["a child's small shoes by the door","a shared blanket","a lullaby half-hummed","a hand held a little too long","a plate split into two portions","a bedtime story read for the hundredth time","a forehead kiss","a note tucked into a lunchbox","a nightlight left on","a sweater passed down"],
+    B: ["the particular quiet of a sleeping house","a promise kept without being asked","the patience of teaching a shoelace knot","a laugh shared over something small","the warmth of a hand on your back","a joke only two people understand","the comfort of a familiar voice in the dark","a small kindness that isn't forgotten"],
+    C: ["a nursery at 2am","a kitchen table during homework hour","a hospital room, gentle","the back seat during a long drive home","a doorway at bedtime","a shared umbrella on a short walk","a porch swing at dusk"],
+    D: ["a parent who won't admit they're tired","a child who doesn't know they're loved this much yet","an old couple who still hold hands","a sibling who shows up without being asked"]
+  },
+  loneliness: {
+    A: ["a single plate at a table for two","an unanswered message","the empty side of a bench","a phone with no notifications","a chair pulled out but unused","a candle count one guest short","a room with the TV on for company","a coat that fits only one hood","a mailbox that's mostly bills","a light left on for no one"],
+    B: ["a silence that fills a whole apartment","a message typed and deleted three times","the specific ache of a full inbox and no calls","a laugh you have to explain to yourself","a routine kept only for structure's sake","the sound of your own footsteps, amplified"],
+    C: ["a city of eight million, somehow empty","a new town where no one knows your name","an office after everyone's gone home","a wedding where you knew almost no one","the last train home, alone","an apartment that echoes"],
+    D: ["everyone else, apparently doing fine","a version of you that used to have plans on Fridays","the neighbor whose name you still don't know"]
+  },
+  grief: {
+    A: ["an empty chair at the table","a coat still on its hook","a voicemail you haven't deleted","a garden they used to tend","a recipe in handwriting you recognize","the side of the bed left untouched","a photograph turned face-down","their favorite mug, unused","a letter you never sent them"],
+    B: ["a silence shaped like a person","the weight of an unfinished conversation","a calendar that still marks their birthday","the smell that brings them back for a second","a habit you haven't unlearned yet","a name you almost call out by mistake","a memory that arrives uninvited","the space where a routine used to be"],
+    C: ["a kitchen that's too quiet now","an anniversary no one mentions","an empty side of a shared closet","a garden growing wild without them","a phone contact you haven't deleted"],
+    D: ["everyone who still remembers them the same way","the version of you that hasn't accepted it yet","whoever set the table for one too many"]
+  },
+  joy: {
+    A: ["confetti mid-air","a child mid-laugh","a dog running full speed for no reason","a first bite of something delicious","the second before the surprise-party lights come on","a wedding dance floor","a finish line","a text that says 'yes'","a swing at its highest point","fireworks caught mid-burst"],
+    B: ["a laugh that doesn't apologize for itself","the exact second good news lands","a song that makes the whole room move","the relief of finally arriving","a hug held a beat too long, happily","the specific joy of unexpected free time","a stranger's kindness for no reason"],
+    C: ["a beach at golden hour","a kitchen full of people cooking together","a stadium at the winning goal","a childhood birthday party","a graduation stage","a family reunion after years apart"],
+    D: ["everyone who showed up anyway","a kid who hasn't learned to hide excitement yet","a whole room clapping at once"]
+  },
+  unease: {
+    A: ["a phone at 1% battery","a door that won't quite latch","a shadow one second too slow","a hallway light that flickers on its own","a message marked 'seen' with no reply","a room that's slightly too quiet","a photo missing someone who was definitely there","a staircase that seems longer each time","a mirror fogged in a strange pattern","a clock five minutes fast, on purpose maybe"],
+    B: ["a feeling of being one step behind","the sense that something rearranged itself","a memory that doesn't match the photo","a name on the tip of your tongue, gone wrong","the wrongness of a too-familiar stranger","a silence that feels like it's listening back"],
+    C: ["an empty parking garage at night","a hallway with too many identical doors","an elevator that stops on a floor you didn't press","a house that looks the same but isn't","a street that used to have a shop that never existed"],
+    D: ["someone standing just outside your peripheral vision","whoever keeps almost calling","the version of the story no one agrees on"]
+  }
+};
+
+/* ---------- Templates, grouped by structural intensity ---------- */
+const templateTiers = {
+  mild: [
+    "{A} that has quietly replaced {B}, and no one has said anything, in {C}.",
+    "{A} sitting exactly where {B} used to be, and nobody comments on it.",
+    "{A} left behind in {C}, still warm, still waiting for {D}.",
+    "Inside {A}, a tiny version of {C} keeps going without you.",
+    "{A} that only appears in photographs, never in {C} itself."
+  ],
+  weird: [
+    "{A} growing out of {B}, right in the middle of {C}.",
+    "{A} floating just above {C}, watched only by {D}.",
+    "{A}, stitched together from {B}, left hanging in {C}.",
+    "{A}, but the size of {B}, abandoned in {C}.",
+    "{A}, unplugged for years, still humming with {B}."
+  ],
+  unhinged: [
+    "{A} made entirely out of {B}, and it still works.",
+    "{A}, raining {B} instead of water, over {C}.",
+    "{A} that remembers being {B}, and won't stop insisting on it.",
+    "A conversation happening between {A} and {B}, somewhere in {C}.",
+    "{A} folding quietly into {B} every single time {D} looks away."
+  ]
+};
+
+function comboCountFor(emotion, level){
+  const b = banks[emotion];
+  let total = 0;
+  templateTiers[level].forEach(t=>{
+    let n = 1;
+    ['A','B','C','D'].forEach(k=>{ if(t.includes('{'+k+'}')) n *= b[k].length; });
+    total += n;
+  });
+  return total;
+}
+
+let currentEmotion = 'nostalgia';
+let currentLevel = 'mild';
+const history = [];
+
+function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+
+function generateIdea(emotion, level){
+  const b = banks[emotion];
+  const t = pick(templateTiers[level]);
+  return t
+    .replaceAll('{A}', pick(b.A))
+    .replaceAll('{B}', pick(b.B))
+    .replaceAll('{C}', pick(b.C))
+    .replaceAll('{D}', pick(b.D));
+}
+
+function updateComboStat(){
+  let total = 0;
+  Object.keys(banks).forEach(e=>{
+    Object.keys(templateTiers).forEach(l=> total += comboCountFor(e, l));
+  });
+  document.getElementById('comboCount').textContent = total.toLocaleString()+"+";
+}
+updateComboStat();
+
+const card = document.getElementById('card');
+const ideaText = document.getElementById('ideaText');
+const ideaIndex = document.getElementById('ideaIndex');
+const cardActions = document.getElementById('cardActions');
+const historyList = document.getElementById('historyList');
+let count = 0;
+
+function rip(){
+  count++;
+  const idea = generateIdea(currentEmotion, currentLevel);
+  card.classList.remove('show');
+  void card.offsetWidth; // restart animation
+  const rot = (Math.random()*6-3).toFixed(1)+'deg';
+  card.style.setProperty('--rot', rot);
+  ideaIndex.textContent = '#' + count + ' · ' + currentEmotion + ' · ' + currentLevel;
+  ideaText.textContent = idea;
+  requestAnimationFrame(()=> card.classList.add('show'));
+  cardActions.style.display = 'flex';
+
+  history.unshift({idea, emotion: currentEmotion, level: currentLevel, n: count});
+  if(history.length > 8) history.pop();
+  renderHistory();
+}
+
+function renderHistory(){
+  historyList.innerHTML = '';
+  history.forEach(h=>{
+    const div = document.createElement('div');
+    div.className = 'history-item';
+    div.innerHTML = '<span>#'+h.n+' · '+h.emotion+' · '+h.level+'</span><br>'+h.idea;
+    historyList.appendChild(div);
+  });
+}
+
+document.getElementById('genBtn').addEventListener('click', rip);
+document.getElementById('againBtn').addEventListener('click', rip);
+
+document.getElementById('copyBtn').addEventListener('click', ()=>{
+  navigator.clipboard.writeText(ideaText.textContent).then(()=>{
+    const btn = document.getElementById('copyBtn');
+    const old = btn.textContent;
+    btn.textContent = 'copied';
+    setTimeout(()=> btn.textContent = old, 1200);
+  });
+});
+
+document.querySelectorAll('.emotion-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.emotion-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    currentEmotion = btn.dataset.emotion;
+  });
+});
+
+document.querySelectorAll('.level-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.level-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    currentLevel = btn.dataset.level;
+  });
+});
+</script>
+</body>
+</html>
