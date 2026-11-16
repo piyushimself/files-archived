@@ -33,3 +33,66 @@ body.rr-reader .toc a{color:var(--rr-muted)}
 body.rr-reader .toc a:hover{color:var(--rr-accent)}
 body.rr-reader .top .brand{color:var(--rr-accent)}
 @media(max-width:760px){body.rr-reader .layout{margin:14px auto}body.rr-reader .page{padding:18px 16px}}
+
+/* READING ROOM — site-wide layout pass. Applied to every original page and generated reader. */
+body.rr-page{min-height:100vh!important;background:var(--rr-bg)!important;color:var(--rr-ink)!important;font-family:'DM Sans',system-ui,sans-serif!important;font-size:15px!important;line-height:1.65!important}
+body.rr-page :where(main,.container,.wrap,.wrapper,.app,.app-container,.page-container,.shell,.content,.main-content,.layout,.reader,.library,.dashboard,.workspace){max-width:1240px;margin-left:auto;margin-right:auto}
+body.rr-page :where(header:not(.rr-contextbar),.site-header,.page-header,.hero,.hero-section,.header,.header-inner,.topbar,.toolbar,.controls,.filters,.filter-bar,.search-panel){box-sizing:border-box}
+body.rr-page :where(h1){font-family:'Manrope',sans-serif!important;font-size:clamp(1.65rem,3.3vw,2.55rem)!important;line-height:1.18!important;letter-spacing:-.035em!important;font-weight:750!important;max-width:100%;overflow-wrap:anywhere}
+body.rr-page :where(h2){font-family:'Manrope',sans-serif!important;font-size:clamp(1.2rem,2.1vw,1.65rem)!important;line-height:1.28!important;letter-spacing:-.025em!important}
+body.rr-page :where(h3){font-family:'Manrope',sans-serif!important;font-size:1.05rem!important;line-height:1.35!important}
+body.rr-page :where(p,li,td,th,label,summary){line-height:1.65}
+body.rr-page :where(.hero,.hero-section,.page-header,.intro,.intro-section,.welcome,.title-section){padding:clamp(18px,3vw,30px)!important;margin:18px auto!important;background:var(--rr-surface)!important;color:var(--rr-ink)!important;border:1px solid var(--rr-line)!important;border-radius:16px!important}
+body.rr-page :where(.hero h1,.hero-section h1,.page-header h1,.header h1){margin:.25em 0 .45em!important}
+body.rr-page :where(.card,.tile,.item,.entry,.resource,.resource-card,.movie-card,.film-card,.manga-card,.book-card,.work-card,.task-card,.lesson-card,.result-card,.arc-card,.episode-card,.season-block,.stat-card,.panel,.widget,.section-card,.collection-card){background:var(--rr-surface)!important;color:var(--rr-ink)!important;border:1px solid var(--rr-line)!important;border-radius:13px!important;box-shadow:0 3px 14px rgba(25,20,35,.045)!important}
+body.rr-page :where(.card,.tile,.item,.entry,.resource-card,.movie-card,.film-card,.manga-card,.book-card,.work-card,.task-card,.lesson-card,.result-card,.arc-card,.episode-card,.section-card,.collection-card){padding:clamp(13px,2vw,19px)!important}
+body.rr-page :where(.grid,.cards,.card-grid,.tiles,.tile-grid,.gallery,.results,.results-grid,.movie-grid,.film-grid,.manga-grid,.book-grid,.resource-grid,.collection-grid){gap:12px!important}
+body.rr-page :where(button,.btn,[role=button],input,select,textarea){font-family:'DM Sans',sans-serif!important;font-size:14px!important;border-radius:9px!important}
+body.rr-page :where(button,.btn,[role=button]){min-height:38px;padding:8px 13px!important;border:1px solid var(--rr-line)!important;background:var(--rr-surface)!important;color:var(--rr-ink)!important;font-weight:650!important}
+body.rr-page :where(button:hover,.btn:hover,[role=button]:hover){border-color:var(--rr-accent)!important}
+body.rr-page :where(input:not([type=checkbox]):not([type=radio]),select,textarea){min-height:38px;max-width:100%;padding:9px 11px!important;background:var(--rr-surface)!important;color:var(--rr-ink)!important;border:1px solid var(--rr-line)!important}
+body.rr-page :where(input[type=checkbox],input[type=radio]){accent-color:var(--rr-accent)}
+body.rr-page :where(.controls,.filters,.filter-bar,.toolbar,.search-row,.search-wrap,.actions,.control-group){display:flex;flex-wrap:wrap;align-items:center;gap:9px}
+body.rr-page :where(.controls,.filters,.filter-bar,.toolbar,.search-row,.search-wrap){max-width:1240px}
+body.rr-page :where(table){width:100%;border-collapse:collapse;background:var(--rr-surface);color:var(--rr-ink);border:1px solid var(--rr-line);border-radius:10px;overflow:hidden}
+body.rr-page :where(th,td){padding:9px 11px;border-color:var(--rr-line)!important;text-align:left}
+body.rr-page :where(th){background:var(--rr-accent-soft)!important;color:var(--rr-ink)!important;font-weight:700}
+body.rr-page :where(a){color:var(--rr-accent);text-underline-offset:3px}
+body.rr-page :where(.muted,.subtitle,.description,.meta,.hint,.helper-text){color:var(--rr-muted)}
+body.rr-page :where(img,video,canvas,svg){max-width:100%}
+body.rr-page :where(.table-wrap,.table-container,.overflow-x){max-width:100%;overflow-x:auto}
+body.rr-page :focus-visible{outline:3px solid color-mix(in srgb,var(--rr-accent) 48%,transparent)!important;outline-offset:2px}
+body.rr-page [hidden]{display:none!important}
+body.rr-reader :where(.layout){max-width:1240px!important;grid-template-columns:minmax(190px,240px) minmax(0,1fr)!important;gap:20px!important}
+body.rr-reader :where(.hero,.page,.toc){background:var(--rr-surface)!important;color:var(--rr-ink)!important;border-color:var(--rr-line)!important;border-radius:14px!important}
+body.rr-reader :where(.page){padding:clamp(18px,3vw,30px)!important}
+body.rr-reader :where(.hero h1){font-size:clamp(1.65rem,3.3vw,2.5rem)!important}
+body.rr-reader :where(.toc){padding:15px!important}
+@media(prefers-color-scheme:dark){
+ body.rr-page{--rr-bg:#17151d;--rr-surface:#211e29;--rr-ink:#eeeaf3;--rr-muted:#b4adbf;--rr-line:#3b3545;--rr-accent:#c1a8e4;--rr-accent-soft:#332a40;color-scheme:dark}
+ body.rr-page.rr--cinema{--rr-bg:#15161b;--rr-surface:#202128;--rr-ink:#f0eee9;--rr-muted:#b7b2b4;--rr-line:#393a43;--rr-accent:#dfbd7d;--rr-accent-soft:#393126}
+ body.rr-page.rr--art{--rr-bg:#1d1916;--rr-surface:#29221d;--rr-ink:#f1e9df;--rr-muted:#bcb0a2;--rr-line:#453a31;--rr-accent:#d69a78;--rr-accent-soft:#3b2d26}
+ body.rr-page.rr--learning{--rr-bg:#14201f;--rr-surface:#1e2b29;--rr-ink:#e9f1ef;--rr-muted:#aabbb7;--rr-line:#354541;--rr-accent:#82c6bc;--rr-accent-soft:#263d39}
+ body.rr-page.rr--manga{--rr-bg:#1c1720;--rr-surface:#29212f;--rr-ink:#f1eaf5;--rr-muted:#b8aabd;--rr-line:#43364c;--rr-accent:#c39ad8;--rr-accent-soft:#3b2c45}
+ body.rr-page.rr--literary{--rr-bg:#1d1915;--rr-surface:#29221c;--rr-ink:#f2e9dc;--rr-muted:#bdb0a0;--rr-line:#453a30;--rr-accent:#d4a17e;--rr-accent-soft:#3b2d24}
+ body.rr-page.rr--tools{--rr-bg:#191722;--rr-surface:#242131;--rr-ink:#eeeaf7;--rr-muted:#b4aec5;--rr-line:#3d384e;--rr-accent:#b5a7e6;--rr-accent-soft:#302b43}
+ body.rr-page.rr--mixed{--rr-bg:#1b1a17;--rr-surface:#27251f;--rr-ink:#f0eee5;--rr-muted:#b8b4a7;--rr-line:#403e34;--rr-accent:#cbb080;--rr-accent-soft:#363124}
+ body.rr-page :where(.hero,.hero-section,.page-header,.intro,.intro-section,.welcome,.title-section,.card,.tile,.item,.entry,.resource,.resource-card,.movie-card,.film-card,.manga-card,.book-card,.work-card,.task-card,.lesson-card,.result-card,.arc-card,.episode-card,.season-block,.stat-card,.panel,.widget,.section-card,.collection-card){box-shadow:none!important}
+}
+@media(max-width:760px){
+ body.rr-page{font-size:14px!important}
+ body.rr-page :where(main,.container,.wrap,.wrapper,.app,.app-container,.page-container,.shell,.content,.main-content,.library,.dashboard,.workspace){width:auto!important;max-width:none!important;margin-left:12px!important;margin-right:12px!important}
+ body.rr-page :where(.hero,.hero-section,.page-header,.intro,.intro-section,.welcome,.title-section){padding:17px!important;margin:12px auto!important;border-radius:12px!important}
+ body.rr-page :where(.controls,.filters,.filter-bar,.toolbar,.search-row,.search-wrap){gap:7px!important}
+ body.rr-page :where(.controls input,.filters input,.search-row input,.search-wrap input){min-width:0;flex:1 1 160px}
+ body.rr-page :where(button,.btn,[role=button]){min-height:36px;padding:7px 10px!important}
+ body.rr-reader :where(.layout){display:block!important;margin:12px auto!important;padding:0 12px!important}
+ body.rr-reader :where(.toc){position:static!important;max-height:220px!important;margin-bottom:12px!important}
+ body.rr-reader :where(.top){padding:10px 12px!important;flex-wrap:wrap}
+ body.rr-reader :where(.search){flex:1 1 100%!important;order:3}
+}
+@media(max-width:430px){
+ body.rr-page :where(h1){font-size:1.55rem!important}
+ body.rr-page :where(h2){font-size:1.18rem!important}
+ body.rr-page :where(.grid,.cards,.card-grid,.tiles,.tile-grid,.results,.results-grid,.movie-grid,.film-grid,.manga-grid,.book-grid,.resource-grid,.collection-grid){grid-template-columns:minmax(0,1fr)!important}
+}
