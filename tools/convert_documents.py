@@ -237,6 +237,154 @@ def render_pdf_page(raw, page_number, toc, used):
     return '<section class="page" id="page-' + str(page_number) + '"><div class="page-label">SOURCE PAGE ' + str(page_number) + '</div>' + "\n".join(chunks) + "</section>"
 
 
+
+POEM_MARKER_RE = re.compile(r"^[—–-]+\s*(\d{1,3})\s*[—–-]+$")
+POET_BYLINE_RE = re.compile(r"^[—–-]+\s*(.+?)\s*[—–-]+$")
+
+def render_poetry_pdf(extracted):
+    """Render Aag Ki Kavitayen as poems, retaining titles, poets, lineation and stanzas."""
+    source_pages = extracted.replace("\r\n", "\n").replace("\r", "\n").split("\f")
+    front_matter, toc = [], []
+    volume_order, volumes = [], {}
+    current_volume = "Collection"
+    poem_count = 0
+
+    def clean_lines(raw):
+        result = []
+        for original in raw.splitlines():
+            line = re.sub(r"[ \t]+", " ", original).strip()
+            if re.fullmatch(r"Aag\s+Ki\s+Kavitayen\s*[·•]\s*\d+", line, re.I):
+                continue
+            if re.fullmatch(r"(?:page\s*)?\d{1,4}", line, re.I):
+                continue
+            if re.fullmatch(r"[■□\s]{3,}", line):
+                continue
+            result.append(line)
+        while result and not result[0]:
+            result.pop(0)
+        while result and not result[-1]:
+            result.pop()
+        return result
+
+    def front_page(lines, page_number):
+        visible = [line for line in lines if line]
+        if page_number == 1 and visible and visible[0].strip().lower() == "aag ki kavitayen":
+            visible = visible[1:]
+        if not visible:
+            return ""
+        parts = ['<section class="page poetry-frontmatter" id="page-' + str(page_number) + '">',
+                 '<div class="page-label">COLLECTION NOTES · SOURCE PAGE ' + str(page_number) + '</div>']
+        if page_number == 1:
+            parts.append('<div class="poetry-cover-mark">A COLLECTION OF POEMS</div>')
+        first_title_used = False
+        for line in visible:
+            if line.startswith(("◆", "▪", "■")):
+                label = re.sub(r"^[◆▪■\s]+", "", line)
+                parts.append('<h3 class="poetry-index-heading">' + escape(label) + '</h3>')
+            elif not first_title_used and len(line) <= 72 and not re.search(r"[.!?]$", line):
+                parts.append('<h2 class="poetry-front-title">' + escape(line) + '</h2>')
+                first_title_used = True
+            else:
+                parts.append('<p class="poetry-front-line">' + auto_link(line) + '</p>')
+        parts.append("</section>")
+        return "\n".join(parts)
+
+    for page_number, raw in enumerate(source_pages, 1):
+        lines = clean_lines(raw)
+        if not lines:
+            continue
+        khand_index = next((i for i, line in enumerate(lines) if re.match(r"^Khand\s+\d+\s*$", line, re.I)), None)
+        if khand_index is not None:
+            khand = lines[khand_index]
+            next_title = next((line for line in lines[khand_index + 1:] if line), "")
+            current_volume = (khand + " · " + next_title).strip(" ·")
+            volumes.setdefault(current_volume, [])
+            if current_volume not in volume_order:
+                volume_order.append(current_volume)
+            volume_id = "volume-" + slug(current_volume)
+            front_matter.append(
+                '<section class="page poetry-volume-break" id="' + volume_id + '">'
+                '<div class="page-label">PART OF THE COLLECTION</div>'
+                '<div class="poetry-volume-kicker">' + escape(khand.upper()) + '</div>'
+                '<h2>' + escape(next_title or "Poetry section") + '</h2></section>'
+            )
+            continue
+
+        marker_index = next((i for i, line in enumerate(lines) if POEM_MARKER_RE.fullmatch(line)), None)
+        if marker_index is None:
+            front_matter.append(front_page(lines, page_number))
+            continue
+
+        marker = POEM_MARKER_RE.fullmatch(lines[marker_index])
+        poem_number = int(marker.group(1))
+        remaining = lines[marker_index + 1:]
+        title_index = next((i for i, line in enumerate(remaining) if line), None)
+        if title_index is None:
+            front_matter.append(front_page(lines, page_number))
+            continue
+
+        poem_title = remaining[title_index]
+        byline_index = next((i for i in range(title_index + 1, min(len(remaining), title_index + 4))
+                             if remaining[i] and POET_BYLINE_RE.fullmatch(remaining[i])), None)
+        poet = ""
+        verse_start = title_index + 1
+        if byline_index is not None:
+            poet_match = POET_BYLINE_RE.fullmatch(remaining[byline_index])
+            poet = poet_match.group(1).strip()
+            verse_start = byline_index + 1
+
+        stanzas, current_stanza = [], []
+        for line in remaining[verse_start:]:
+            if not line:
+                if current_stanza:
+                    stanzas.append(current_stanza)
+                    current_stanza = []
+            else:
+                current_stanza.append(line)
+        if current_stanza:
+            stanzas.append(current_stanza)
+
+        poem_id = "poem-" + str(poem_number) + "-" + slug(poem_title)
+        if any(existing[0] == poem_id for existing in toc):
+            poem_id += "-page-" + str(page_number)
+        poem_count += 1
+        toc.append((poem_id, str(poem_number) + ". " + poem_title))
+
+        search_text = " ".join([poem_title, poet, current_volume] + [line for stanza in stanzas for line in stanza])
+        verse_html = "".join(
+            '<div class="poetry-stanza">' +
+            "".join('<p class="poetry-line">' + auto_link(line) + '</p>' for line in stanza) +
+            '</div>' for stanza in stanzas
+        )
+        if not verse_html:
+            verse_html = '<p class="poetry-missing-text">No verse text was extracted from this source page. Open the original PDF to inspect it.</p>'
+
+        card = (
+            '<article class="poem-card" id="' + escape(poem_id) + '" data-poet="' + escape(poet) +
+            '" data-volume="' + escape(current_volume) + '" data-search="' + escape(search_text.lower(), quote=True) + '">'
+            '<div class="poem-card-top"><span>POEM ' + str(poem_number) + '</span><span>SOURCE PAGE ' + str(page_number) + '</span></div>'
+            '<h2 class="poem-title">' + escape(poem_title) + '</h2>'
+            + ('<p class="poet-byline">' + escape(poet) + '</p>' if poet else '')
+            + '<div class="poetry-verses">' + verse_html + '</div></article>'
+        )
+        volumes.setdefault(current_volume, [])
+        if current_volume not in volume_order:
+            volume_order.append(current_volume)
+        volumes[current_volume].append(card)
+
+    rendered = list(front_matter)
+    for volume in volume_order:
+        cards = volumes.get(volume, [])
+        if not cards:
+            continue
+        rendered.append(
+            '<section class="page poetry-volume-group" id="poetry-' + slug(volume) + '" data-volume="' + escape(volume) + '">'
+            '<div class="poetry-volume-heading"><span>COLLECTION SECTION</span><h2>' + escape(volume) + '</h2>'
+            '<span class="poetry-volume-count">' + str(len(cards)) + ' poems</span></div>'
+            + "\n".join(cards) + '</section>'
+        )
+    return rendered, toc, poem_count
+
 def render_pdf_blocks(text):
     pages = text.replace("\r\n", "\n").replace("\r", "\n").split("\f")
     rendered, toc, used = [], [], set()
@@ -319,6 +467,8 @@ def category_info(title):
         return ("Film & Cinema", "cinema", "Use this edition as a viewing reference. Choose a route or theme that interests you, then follow directors, regions, eras or related works rather than trying to complete every title.")
     if any(x in value for x in ("art", "watercolour", "artist")):
         return ("Art & Creative Practice", "art", "Choose one medium or artist to study at a time. Pair a reference section with a small practical exercise, and keep the source document for visual examples.")
+    if "aag ki kavitayen" in value:
+        return ("Poetry & Writing", "poetry", "Read one poem at a time. Poem titles, poet credits, verse line breaks and stanza spacing are retained; use the poet filter or search to find a particular voice.")
     if any(x in value for x in ("poetry", "kavit", "writing", "prompts")):
         return ("Poetry & Writing", "literary", "Read slowly and use the collection as a prompt for your own practice. You can open at any section; there is no requirement to follow the sequence from the beginning.")
     if any(x in value for x in ("cyber", "security")):
@@ -330,6 +480,7 @@ def category_info(title):
 
 SUMMARY_OVERRIDES = {
     "films that open new human domains": "A guided film and documentary collection organised around domains of human experience — childhood, care, illness, family, solitude, war, creativity and more. Each selection pairs a film with the human perspective it can help a viewer understand, making this a route for reflective watching rather than a ranked watchlist.",
+    "aag ki kavitayen": "A 100-poem Hindi collection in a revolutionary and humanist tradition, with poems on resistance, dignity, labour, hope, identity and love. Each poem is presented as its own piece, with the source title, poet attribution, verse lineation and stanza breaks preserved.",
     "the definitive anime encyclopedia": "A broad anime viewing reference covering 100 essential films and 100 essential series across genres and eras. Use it to plan a first watchlist or trace how styles, studios and creators changed from early television to contemporary work.",
     "manga recommendations": "A compact manga shortlist for readers drawn to romance, mystery and feel-good storytelling, with a simple rating key to help compare recommendations. Treat it as a welcoming starting shelf rather than a comprehensive canon.",
     "ultimate anime guide": "A time-aware guide to essential anime films and series, organised around genre and viewing commitment. It helps readers choose a manageable route through a large medium rather than browse an undifferentiated catalogue.",
@@ -412,9 +563,9 @@ def make_reader(source, title, kind, sections, toc, extraction_method, source_ha
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="Reading edition of """ + safe_title + """. Original source preserved.">
 <title>""" + safe_title + """ — The Reading Room</title>
-<link rel="stylesheet" href="../assets/reading-room.css?v=14">
-<script src="../assets/reading-room-context.js?v=14" defer></script>
-<script src="../assets/reading-room.js?v=14" defer></script>
+<link rel="stylesheet" href="../assets/reading-room.css?v=15">
+<script src="../assets/reading-room-context.js?v=15" defer></script>
+<script src="../assets/reading-room.js?v=15" defer></script>
 <style>
 .rr-reader-intro{margin:12px 0 14px;padding:13px 15px;border:1px solid var(--rr-line);border-left:3px solid var(--rr-accent);border-radius:9px;background:var(--rr-panel)}
 .rr-reader-intro .kicker{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--rr-accent-strong);font-weight:750}
@@ -447,7 +598,7 @@ body.rr-reader .toc details a:first-of-type{margin-top:8px}
 <script>
 (function(){
   const q=document.getElementById('search');
-  if(!q)return;
+  if(!q || document.body.classList.contains('rr--poetry'))return;
   const pages=[...document.querySelectorAll('#content .page')];
   q.addEventListener('input',()=>{
     const term=q.value.trim().toLowerCase();
@@ -475,7 +626,7 @@ body.rr-reader .toc details a:first-of-type{margin-top:8px}
 def canonical_duplicate_alias(path, canonical):
     rel = "../" + canonical.relative_to(ROOT).as_posix()
     title = display_title(path)
-    return """<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Duplicate source edition — """ + escape(title) + """</title><link rel="stylesheet" href="../assets/reading-room.css?v=14"><script src="../assets/reading-room-context.js?v=14" defer></script><script src="../assets/reading-room.js?v=14" defer></script></head><body class="rr-page rr-reader rr--cinema"><main class="layout"><article><section class="hero"><div class="kicker">DUPLICATE SOURCE DOCUMENT</div><h1>""" + escape(title) + """</h1><p>This source document is byte-identical to another file in the archive. To avoid two competing copies of the same reading experience, this link opens the single maintained edition.</p><p><a class="link" href=""" + '"' + escape(rel) + '"' + """>Open the canonical reading edition ↗</a></p></section></article></main></body></html>"""
+    return """<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Duplicate source edition — """ + escape(title) + """</title><link rel="stylesheet" href="../assets/reading-room.css?v=15"><script src="../assets/reading-room-context.js?v=15" defer></script><script src="../assets/reading-room.js?v=15" defer></script></head><body class="rr-page rr-reader rr--cinema"><main class="layout"><article><section class="hero"><div class="kicker">DUPLICATE SOURCE DOCUMENT</div><h1>""" + escape(title) + """</h1><p>This source document is byte-identical to another file in the archive. To avoid two competing copies of the same reading experience, this link opens the single maintained edition.</p><p><a class="link" href=""" + '"' + escape(rel) + '"' + """>Open the canonical reading edition ↗</a></p></section></article></main></body></html>"""
 
 
 def build_archive_index(catalogue):
@@ -500,7 +651,7 @@ def build_archive_index(catalogue):
         '<option value="' + escape(category, quote=True) + '">' + escape(category) + ' (' + str(len(entries)) + ')</option>'
         for category, entries in sorted(categories.items())
     )
-    html = """<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Source-led reading editions for the Reading Room's books, films, art, writing, learning and reflection collections."><title>Document library — The Reading Room</title><link rel="stylesheet" href="../assets/reading-room.css?v=14"><script src="../assets/reading-room-context.js?v=14" defer></script><script src="../assets/reading-room.js?v=14" defer></script></head><body class="rr-page rr--mixed"><main class="rr-archive">
+    html = """<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Source-led reading editions for the Reading Room's books, films, art, writing, learning and reflection collections."><title>Document library — The Reading Room</title><link rel="stylesheet" href="../assets/reading-room.css?v=15"><script src="../assets/reading-room-context.js?v=15" defer></script><script src="../assets/reading-room.js?v=15" defer></script></head><body class="rr-page rr--mixed"><main class="rr-archive">
 <section class="rr-archive-hero"><div class="rr-eyebrow">THE READING ROOM · DOCUMENT LIBRARY</div><h1>Read beyond the title.</h1>
 <p>These editions are built from the original PDFs and Word documents in this library. Each page keeps the source text searchable, gives you a navigable reading view and links back to the untouched original. The descriptions below are drawn from the document itself wherever an opening passage provides useful context.</p>
 <p class="rr-archive-context">Browse by subject when you want a particular kind of material, or search for a person, theme, title or phrase. Open a reading edition to see its contents and work through one section at a time.</p></section>
@@ -538,7 +689,11 @@ def main():
         try:
             if source.suffix.lower() == ".pdf":
                 extracted, extraction_method = extract_pdf(source)
-                sections, toc = render_pdf_blocks(extracted)
+                if title.strip().lower() == "aag ki kavitayen":
+                    sections, toc, poem_count = render_poetry_pdf(extracted)
+                else:
+                    sections, toc = render_pdf_blocks(extracted)
+                    poem_count = 0
                 paragraph_count = 0
                 table_count = 0
             else:
@@ -554,7 +709,7 @@ def main():
             output.write_text(html, encoding="utf-8")
             category, _, _ = category_info(title)
             catalogue.append({"title": title, "source": source.name, "reader": output.name, "kind": kind, "sections": len(sections), "category": category, "description": summary})
-            report.append({"source": source.name, "output": "html/" + output.name, "sha256": digest, "status": "converted" if len(extracted.strip()) > 150 else "low-text-review", "extracted_chars": len(extracted), "sections": len(sections), "toc_entries": len(toc), "extraction": extraction_method, "docx_paragraphs": paragraph_count, "docx_tables": table_count, "docx_styles": {name: sum(1 for b in blocks if b[0] == "paragraph" and b[1]["style"] == name) for name in sorted({b[1]["style"] for b in blocks if b[0] == "paragraph"})} if source.suffix.lower() == ".docx" else {}, "output_bytes": output.stat().st_size})
+            report.append({"source": source.name, "output": "html/" + output.name, "sha256": digest, "status": "converted" if len(extracted.strip()) > 150 else "low-text-review", "extracted_chars": len(extracted), "sections": len(sections), "toc_entries": len(toc), "poem_count": poem_count if source.suffix.lower() == ".pdf" else 0, "extraction": extraction_method, "docx_paragraphs": paragraph_count, "docx_tables": table_count, "docx_styles": {name: sum(1 for b in blocks if b[0] == "paragraph" and b[1]["style"] == name) for name in sorted({b[1]["style"] for b in blocks if b[0] == "paragraph"})} if source.suffix.lower() == ".docx" else {}, "output_bytes": output.stat().st_size})
             print("Converted:", source.name, "->", output.name, "(" + str(len(sections)) + " sections)")
         except Exception as exc:
             report.append({"source": source.name, "output": "html/" + output.name, "sha256": digest, "status": "error", "error": str(exc)})

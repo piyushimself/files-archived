@@ -484,6 +484,33 @@ function buildOrderedFilmCatalogue(body,content,toolbar){
   update();body.classList.add("rr-film-catalogue");return true;
 }
 
+function buildPoetryReader(body,content,toolbar){
+  const poems=[...content.querySelectorAll(".poem-card")];
+  if(poems.length<10){buildGenericReader(body,content,toolbar);return;}
+  const poets=new Set(poems.map(card=>card.dataset.poet||"").filter(Boolean));
+  const volumes=new Set(poems.map(card=>card.dataset.volume||"").filter(Boolean));
+  const poetSelect=addSelect(toolbar.tools,"rr-reader-filter rr-poetry-poet-filter","poet",poets);
+  const volumeSelect=addSelect(toolbar.tools,"rr-reader-filter rr-poetry-volume-filter","collection section",volumes);
+  const empty=document.createElement("div");empty.className="rr-reader-empty";empty.textContent="No poems match these filters.";content.appendChild(empty);
+  const update=()=>{
+    const query=toolbar.input.value.trim().toLocaleLowerCase();let visible=0;
+    poems.forEach(card=>{
+      const show=(!query||(card.dataset.search||card.textContent).toLocaleLowerCase().includes(query))&&
+        (poetSelect.value==="all"||(card.dataset.poet||"")===poetSelect.value)&&
+        (volumeSelect.value==="all"||(card.dataset.volume||"")===volumeSelect.value);
+      card.hidden=!show;if(show)visible++;
+    });
+    content.querySelectorAll(".poetry-volume-group").forEach(group=>{
+      group.hidden=!group.querySelector(".poem-card:not([hidden])");
+    });
+    empty.hidden=visible>0;
+    toolbar.result.textContent=visible+" of "+poems.length+" poems";
+  };
+  [toolbar.input,poetSelect,volumeSelect].forEach(control=>control.addEventListener(control===toolbar.input?"input":"change",update));
+  update();
+  body.classList.add("rr-poetry-enhanced");
+}
+
 function initReaderControls(){
   document.querySelectorAll("body.rr-reader").forEach(body=>{
     if(body.dataset.rrReaderEnhanced==="1")return;
@@ -491,6 +518,7 @@ function initReaderControls(){
     if(!content||!toolbar)return;
     body.dataset.rrReaderEnhanced="1";
     const title=(body.querySelector(".hero h1")||body.querySelector("h1")||{}).textContent||"";
+    if(body.classList.contains("rr--poetry")){buildPoetryReader(body,content,toolbar);return;}
     const headings=[...content.querySelectorAll("h2,h3")];
     const filmMetaCount=headings.filter(h=>parseFilmMeta(h.textContent)).length;
     const numberedCount=headings.filter(h=>/^\s*\d{1,3}[.)]?\s+/.test(h.textContent)).length;
