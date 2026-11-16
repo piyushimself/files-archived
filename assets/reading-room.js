@@ -811,7 +811,8 @@ function buildSensitiveCinemaReader(body,content,toolbar){
     );
     pageNodes.forEach(node=>{
       if(node.classList.contains("page-label"))return;
-      const text=cinemaText(node.textContent||"");if(!text)return;
+      const rawText=node.textContent||"";
+      const text=cinemaText(rawText);if(!text)return;
       if(/^H[1-3]$/.test(node.tagName)){
         const upper=text.toUpperCase();
         if(/WHAT IT TEACHES/.test(upper)){
