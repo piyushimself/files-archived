@@ -7,6 +7,11 @@
 .rr-reader-intro{margin:12px 0 14px;padding:13px 15px;border:1px solid var(--rr-line);border-left:3px solid var(--rr-accent);border-radius:9px;background:var(--rr-panel)}
 .rr-reader-intro .kicker{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--rr-accent-strong);font-weight:750}
 .rr-reader-intro p{margin:5px 0 0!important;color:var(--rr-muted);font-size:12px!important;line-height:1.6!important}
+.rr-reader-tools{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin:10px 0 13px;padding:9px 11px;border:1px solid var(--rr-line);border-radius:8px;background:var(--rr-panel)}
+.rr-reader-tools label{font-size:11px;font-weight:700;color:var(--rr-muted)}
+.rr-reader-tools input{flex:1 1 240px;max-width:440px;min-height:34px!important;font-size:12px!important}
+body.rr-reader .layout.rr-no-toc{display:block!important;max-width:900px!important}
+body.rr-reader .layout.rr-no-toc article{max-width:860px;margin:0 auto}
 body.rr-reader .page{min-height:0}
 body.rr-reader .page h2,body.rr-reader .page h3{scroll-margin-top:78px}
 body.rr-reader .page li{margin:3px 0}
@@ -20,9 +25,10 @@ body.rr-reader .toc details summary{cursor:pointer;font-size:11px;font-weight:70
 body.rr-reader .toc details a:first-of-type{margin-top:8px}
 </style><link rel="stylesheet" href="../assets/reading-room.css?v=4"><script src="../assets/reading-room-context.js?v=4" defer></script><script src="../assets/reading-room.js?v=4" defer></script></head><body class="rr-page rr-reader rr--cinema">
 <nav class="toc"><details><summary>ON THIS PAGE · 22 sections</summary><a href="#bold-cinema">BOLD CINEMA</a><a href="#collection">COLLECTION</a><a href="#sensual-dramatic-fearless">Sensual • Dramatic • Fearless</a><a href="#being-1988">. Being (1988)</a><a href="#peculiar-children-2016">. Peculiar Children (2016)</a><a href="#section-2-50-erotic-drama-films">SECTION 2 — 50 EROTIC DRAMA FILMS</a><a href="#monica-bellucci">Monica Bellucci</a><a href="#eva-green-isabelle-huppert-juliette-binoche">Eva Green / Isabelle Huppert / Juliette Binoche</a><a href="#being-1988-2">Being (1988)</a><a href="#charlotte-gainsbourg-world-cinema">Charlotte Gainsbourg / World Cinema</a><a href="#french-cinema">French Cinema</a><a href="#japanese-cinema">Japanese Cinema</a><a href="#italian-cinema">Italian Cinema</a><a href="#american-cinema">American Cinema</a><a href="#spanish-korean-scandinavian-other">Spanish / Korean / Scandinavian / Other</a><a href="#section-4-sensual-mood-movies-easy-to-stream">SECTION 4 — SENSUAL MOOD MOVIES (EASY TO STREAM)</a><a href="#perfect-date-night-mood-films">Perfect Date Night / Mood Films</a><a href="#sophisticated-slow-burning">Sophisticated &amp; Slow-Burning</a><a href="#being-1988-3">Being (1988)</a><a href="#fun-accessible-sensual">Fun &amp; Accessible Sensual</a><a href="#atmospheric-artistic">Atmospheric &amp; Artistic</a><a href="#hidden-gems-worth-finding">Hidden Gems Worth Finding</a></details></nav>
-<main class="layout"><article>
+<main class=layout"><article>
 <section class="hero"><div class="kicker">SOURCE DOCUMENT · PDF · Film &amp; Cinema</div><h1>Bold Cinema Collection</h1><div class="meta">16 reading sections · Original file preserved · Search within this edition</div></section>
 <section class="rr-reader-intro"><div class="kicker">How to use this collection</div><p>Use this edition as a viewing reference. Choose a route or theme that interests you, then follow directors, regions, eras or related works rather than trying to complete every title.</p><p><a href="../Bold_Cinema_Collection.pdf" target="_blank" rel="noopener">Open original PDF ↗</a></p></section>
+<div class="rr-reader-tools"><label for="search">FIND IN THIS DOCUMENT</label><input id="search" type="search" placeholder="Search words, names or sections…" aria-label="Search within this document"></div>
 <div id="content"><section class="page" id="page-1"><div class="page-label">SOURCE PAGE 1</div><p>BOLD CINEMA COLLECTION Sensual &amp; Dramatic Masterpieces</p>
 <h2 id="bold-cinema">BOLD CINEMA</h2>
 <h2 id="collection">COLLECTION</h2>
@@ -123,5 +129,28 @@ body.rr-reader .toc details a:first-of-type{margin-top:8px}
 <footer class="footer">Converted from <a href="../Bold_Cinema_Collection.pdf">Bold_Cinema_Collection.pdf</a>. Extraction method: pdftotext. The original file is retained for images, complex layouts and visual details.</footer>
 </article></main>
 <script>
-(function(){const q=document.getElementById('search');if(!q)return;const pages=[...document.querySelectorAll('.page')];q.addEventListener('input',()=>{const term=q.value.trim().toLowerCase();pages.forEach(p=>{p.hidden=!!term&&!p.innerText.toLowerCase().includes(term)})});})();
+(function(){
+  const q=document.getElementById('search');
+  if(!q)return;
+  const pages=[...document.querySelectorAll('#content .page')];
+  q.addEventListener('input',()=>{
+    const term=q.value.trim().toLowerCase();
+    if(pages.length>1){
+      pages.forEach(page=>{page.hidden=!!term&&!page.innerText.toLowerCase().includes(term);});
+      return;
+    }
+    pages.forEach(page=>{
+      const targets=[...page.querySelectorAll('h2,h3,h4,p,li,tr,blockquote')];
+      targets.forEach(el=>{el.hidden=!!term&&!el.innerText.toLowerCase().includes(term);});
+      page.querySelectorAll('ul,ol').forEach(list=>{
+        const visible=[...list.children].some(child=>!child.hidden);
+        list.hidden=!!term&&!visible;
+      });
+      page.querySelectorAll('.table-wrap').forEach(wrap=>{
+        const rows=[...wrap.querySelectorAll('tbody tr')];
+        wrap.hidden=!!term&&rows.length>0&&!rows.some(row=>!row.hidden);
+      });
+    });
+  });
+})();;
 </script></body></html>
