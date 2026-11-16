@@ -10,7 +10,7 @@ A public, searchable reading portal for the repository's original HTML projects 
 | PDF source documents | 43 |
 | DOCX source documents | 3 |
 | Supporting files (README, Python script, two workflows, TXT, Pine Script) | 6 |
-| **Original files and supporting tools** | **87** |
+| **Original files and supporting tools** | **87** |\n| Public portal homepage | 1 |
 | HTML reading editions generated from PDF and DOCX sources | 46 |
 | HTML reading archive index | 1 |
 
@@ -24,7 +24,7 @@ The table below lists the original project files and supporting automation files
 
 | File | Type | About |
 |---|---|---|
-| [.github/workflows/convert-documents.yml](<.github/workflows/convert-documents.yml>) | YML | GitHub Actions workflow that installs conversion dependencies, builds HTML reading editions, and commits the output. |
+| [index.html](index.html) | HTML | Public landing page for browsing all original and converted HTML resources; generated automatically by the conversion script. |\n| [.github/workflows/deploy-pages.yml](<.github/workflows/deploy-pages.yml>) | YML | Builds and publishes the public HTML library to GitHub Pages. |\n| [.github/workflows/convert-documents.yml](<.github/workflows/convert-documents.yml>) | YML | GitHub Actions workflow that installs conversion dependencies, builds HTML reading editions, and commits the output. |
 | [1000_Creative_Educational_Cultural_Links.pdf](<1000_Creative_Educational_Cultural_Links.pdf>) | PDF | Large curated directory of creative, educational, and cultural links and resources. |
 | [1000_Google_Searches_Grand_Curiosity_Atlas.pdf](<1000_Google_Searches_Grand_Curiosity_Atlas.pdf>) | PDF | Collection of Google search prompts and discovery queries for broad curiosity-led research. |
 | [1000_Greatest_Fictional_Books.pdf](<1000_Greatest_Fictional_Books.pdf>) | PDF | Curated list or reference catalogue of notable fictional books. |
@@ -169,7 +169,7 @@ The following 46 HTML reading pages are generated from the PDF/DOCX originals. E
 
 - [Conversion script](tools/convert_documents.py) — extracts PDF text with Poppler, uses OCR as a fallback for image-only PDFs, extracts DOCX text and tables, and generates responsive HTML.
 - [GitHub Actions workflow](.github/workflows/convert-documents.yml) — runs the conversion when source documents, the script, or this inventory changes; it can also be run manually from the Actions tab.
-- [HTML output directory](html/) — generated reading pages and their index.\n- [Public portal homepage](index.html) — automatically lists every root-level original HTML page and every converted HTML edition.\n- [Pages deployment workflow](.github/workflows/deploy-pages.yml) — publishes the portal and its HTML resources to GitHub Pages.
+- [HTML output directory](html/) — generated reading pages and their index.\n- [Public portal homepage](index.html) — lists every root-level original HTML page and every converted HTML edition.\n- [Pages deployment workflow](.github/workflows/deploy-pages.yml) — publishes the portal and HTML resources to GitHub Pages.\n- [Public portal homepage](index.html) — automatically lists every root-level original HTML page and every converted HTML edition.\n- [Pages deployment workflow](.github/workflows/deploy-pages.yml) — publishes the portal and its HTML resources to GitHub Pages.
 
 ## Inventory notes
 
