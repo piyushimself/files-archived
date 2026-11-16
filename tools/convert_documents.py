@@ -154,10 +154,12 @@ def classify_resource(name):
         return ("Cross-Media Discovery","A unified catalogue spanning films, anime, books, poetry and art","film anime books poetry art mixed media")
     if "asian cinema" in value or "cinematic" in value or "film" in value or "movie" in value or "animated films" in value or "sensual mood" in value:
         return ("Film & Cinema","Filmographies, world cinema curricula and searchable viewing collections","film cinema movies animation directors countries decades")
-    if any(term in value for term in ("human development","life fiction","living curriculum","political comics","anime manga values")):
-        return ("Home Learning & Education","Structured curricula, reading pathways and guided learning resources","education homeschooling home learning curriculum stages lessons")
-    if "blackout poetry" in value:
-        return ("Poetry & Writing","Poetry lessons, writing exercises and creative language practice","poetry writing words blackout literature")
+    if any(term in value for term in ("human development","life fiction","living curriculum","political comics","anime manga values","education","homeschool","home school","schooling","curriculum","learning","child development")):
+        return ("Home Learning & Education","Structured curricula, educational resources and guided learning pathways","education homeschooling home learning curriculum stages lessons children")
+    if any(term in value for term in ("blackout poetry","poetry","poem","kavita","kavitayen")):
+        return ("Poetry & Writing","Poetry collections, lessons and creative language practice","poetry poems kavita kavitayen writing literature")
+    if any(term in value for term in ("music","album","playlist","listening")):
+        return ("Music & Listening","Album recommendations and listening paths","music albums artists listening records playlists")
     if "marginalia" in value:
         return ("Personal Journals & Tools","A private notebook for reading notes, memories and observations","journal diary notes reading music film")
     if "typewriter" in value:
