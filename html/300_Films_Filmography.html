@@ -1,0 +1,740 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Accessible HTML reading edition of 300 Films Filmography.">
+<title>300 Films Filmography — Reading Edition</title>
+<style>
+:root{color-scheme:light;--bg:#f5f3ee;--paper:#fffefa;--ink:#252923;--muted:#687168;--line:#e2e0d8;--accent:#356b68;--soft:#eaf0ed}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.75 system-ui,-apple-system,Segoe UI,sans-serif}
+header{background:var(--paper);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+.top{max-width:1180px;margin:auto;padding:12px 22px;display:flex;align-items:center;gap:14px}.brand{font-size:12px;font-weight:750;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);white-space:nowrap}
+.search{flex:1;min-width:120px;border:1px solid var(--line);border-radius:8px;padding:9px 12px;font:inherit;font-size:14px;background:var(--bg);color:var(--ink)}
+button,.link{border:1px solid var(--line);border-radius:8px;padding:8px 11px;background:var(--paper);color:var(--ink);font:inherit;font-size:13px;text-decoration:none;cursor:pointer}
+button:hover,.link:hover{border-color:var(--accent)}.layout{max-width:1180px;margin:30px auto;padding:0 22px;display:grid;grid-template-columns:230px minmax(0,1fr);gap:30px}
+.toc{position:sticky;top:82px;align-self:start;max-height:calc(100vh - 110px);overflow:auto;padding:16px;background:var(--paper);border:1px solid var(--line);border-radius:12px}
+.toc-title,.page-label{font-size:10px;font-weight:750;letter-spacing:.14em;color:var(--muted)}.toc a{display:block;color:var(--muted);font-size:13px;text-decoration:none;padding:5px 0;border-bottom:1px solid var(--line)}.toc a:hover{color:var(--accent)}
+article{min-width:0}.hero{padding:26px 30px;background:var(--paper);border:1px solid var(--line);border-radius:14px;margin-bottom:18px}
+.kicker{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);font-weight:750}.hero h1{font-size:clamp(26px,4vw,40px);line-height:1.2;letter-spacing:-.03em;margin:9px 0 8px}.meta{font-size:13px;color:var(--muted)}
+.page{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:28px 34px;margin:14px 0;overflow-wrap:anywhere}
+.page-label{margin-bottom:12px}h2{font-size:22px;line-height:1.3;margin:24px 0 10px;scroll-margin-top:90px}p{margin:0 0 14px}p:last-child{margin-bottom:0}
+.table-wrap{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:14px}td{border:1px solid var(--line);padding:8px;vertical-align:top}
+.empty{color:var(--muted);padding:18px;text-align:center}.footer{color:var(--muted);font-size:12px;padding:18px 4px}
+@media(max-width:760px){.top{padding:10px 14px;gap:8px;flex-wrap:wrap}.brand{width:100%}.search{order:2;flex-basis:100%}.layout{display:block;margin:16px auto;padding:0 12px}.toc{position:static;max-height:220px;margin-bottom:14px}.hero{padding:20px}.page{padding:20px 18px}body{font-size:15px}}
+@media(prefers-color-scheme:dark){:root{color-scheme:dark;--bg:#151816;--paper:#1d211e;--ink:#e8ece6;--muted:#a0aaa1;--line:#343b35;--accent:#8bc5b5;--soft:#27332e}.search{background:#151816}}
+</style></head><body>
+<header><div class="top"><a class="brand" href="index.html" style="text-decoration:none">THE READING ARCHIVE</a>
+<input id="search" class="search" type="search" placeholder="Search within this document…" aria-label="Search within this document">
+<a class="link" href="../300_Films_Filmography.pdf" target="_blank" rel="noopener">Original PDF ↗</a></div></header>
+<div class="layout"><nav class="toc"><div class="toc-title">ON THIS PAGE</div><a href="#300-films">300 FILMS</a><a href="#aglobalfilmography">AGLOBALFILMOGRAPHY</a><a href="#contemplative-slow-cinema">■ CONTEMPLATIVE &amp; SLOW CINEMA ■</a><a href="#jakrawal-nilthamrong-thailand-2021">Jakrawal Nilthamrong · Thailand · 2021</a><a href="#apichatpong-weerasethakul-thailand-2015">Apichatpong Weerasethakul · Thailand · 2015</a><a href="#3-uncle-boonmee-who-can-recall-his-past-lives">3 Uncle Boonmee Who Can Recall His Past Lives</a><a href="#apichatpong-weerasethakul-thailand-2010">Apichatpong Weerasethakul · Thailand · 2010</a><a href="#4-atanarjuat-the-fast-runner">4 Atanarjuat: The Fast Runner</a><a href="#zacharias-kunuk-canada-2001">Zacharias Kunuk · Canada · 2001</a><a href="#5-the-assassin">5 The Assassin</a><a href="#hou-hsiao-hsien-taiwan-2015">Hou Hsiao-Hsien · Taiwan · 2015</a><a href="#6-still-life">6 Still Life</a><a href="#jia-zhangke-china-2006">Jia Zhangke · China · 2006</a><a href="#7-mountains-may-depart">7 Mountains May Depart</a><a href="#jia-zhangke-china-2015">Jia Zhangke · China · 2015</a><a href="#8-the-turin-horse">8 The Turin Horse</a><a href="#b-la-tarr-hungary-2011">Béla Tarr · Hungary · 2011</a><a href="#9-s-t-ntang">9 Sátántangó</a><a href="#b-la-tarr-hungary-1994">Béla Tarr · Hungary · 1994</a><a href="#joris-ivens-marceline-loridan-france-1988">Joris Ivens &amp; Marceline Loridan · France · 1988</a><a href="#abbas-kiarostami-iran-1997">Abbas Kiarostami · Iran · 1997</a><a href="#13-the-wind-will-carry-us">13 The Wind Will Carry Us</a><a href="#abbas-kiarostami-iran-1999">Abbas Kiarostami · Iran · 1999</a><a href="#14-certified-copy">14 Certified Copy</a><a href="#abbas-kiarostami-france-italy-2010">Abbas Kiarostami · France/Italy · 2010</a><a href="#15-silence">15 Silence</a><a href="#spiritual-faith-journeys">■ SPIRITUAL &amp; FAITH JOURNEYS ■</a><a href="#zhang-yang-china-2015">Zhang Yang · China · 2015</a><a href="#17-samsara">17 Samsara</a><a href="#18-baraka">18 Baraka</a><a href="#19-into-great-silence">19 Into Great Silence</a><a href="#philip-gr-ning-germany-2005">Philip Gröning · Germany · 2005</a><a href="#ciro-guerra-colombia-2015">Ciro Guerra · Colombia · 2015</a><a href="#21-the-pillow-book">21 The Pillow Book</a><a href="#peter-greenaway-netherlands-1996">Peter Greenaway · Netherlands · 1996</a><a href="#xavier-beauvois-france-2010">Xavier Beauvois · France · 2010</a><a href="#24-badlands">24 Badlands</a><a href="#26-the-new-world">26 The New World</a><a href="#masahiro-shinoda-japan-1971">Masahiro Shinoda · Japan · 1971</a><a href="#28-ordet">28 Ordet</a><a href="#carl-theodor-dreyer-denmark-1955">Carl Theodor Dreyer · Denmark · 1955</a><a href="#carl-theodor-dreyer-france-1928">Carl Theodor Dreyer · France · 1928</a><a href="#30-winter-light">30 Winter Light</a><a href="#ingmar-bergman-sweden-1963">Ingmar Bergman · Sweden · 1963</a><a href="#world-cinema-masterworks">■ WORLD CINEMA MASTERWORKS ■</a><a href="#31-the-white-meadows">31 The White Meadows</a><a href="#mohammad-rasoulof-iran-2009">Mohammad Rasoulof · Iran · 2009</a><a href="#32-a-separation">32 A Separation</a><a href="#asghar-farhadi-iran-2011">Asghar Farhadi · Iran · 2011</a><a href="#33-the-salesman">33 The Salesman</a><a href="#asghar-farhadi-iran-2016">Asghar Farhadi · Iran · 2016</a><a href="#34-mula-sa-kung-ano-ang-noon">34 Mula Sa Kung Ano Ang Noon</a><a href="#lav-diaz-philippines-2014">Lav Diaz · Philippines · 2014</a><a href="#lav-diaz-philippines-2013">Lav Diaz · Philippines · 2013</a><a href="#36-ixcanul">36 Ixcanul</a><a href="#jayro-bustamante-guatemala-2015">Jayro Bustamante · Guatemala · 2015</a><a href="#37-monos">37 Monos</a><a href="#alejandro-landes-colombia-2019">Alejandro Landes · Colombia · 2019</a><a href="#38-the-wailing">38 The Wailing</a><a href="#39-burning">39 Burning</a><a href="#40-poetry">40 Poetry</a><a href="#41-peppermint-candy">41 Peppermint Candy</a><a href="#42-secret-sunshine">42 Secret Sunshine</a><a href="#43-the-handmaiden">43 The Handmaiden</a><a href="#44-shoplifters">44 Shoplifters</a><a href="#45-still-walking">45 Still Walking</a><a href="#documentary-truth">■ DOCUMENTARY TRUTH ■</a><a href="#48-honeyland">48 Honeyland</a><a href="#tamara-kotevska-north-macedonia-2019">Tamara Kotevska · North Macedonia · 2019</a><a href="#49-capernaum">49 Capernaum</a><a href="#nadine-labaki-lebanon-2018">Nadine Labaki · Lebanon · 2018</a><a href="#50-for-sama">50 For Sama</a><a href="#joshua-oppenheimer-indonesia-2012">Joshua Oppenheimer · Indonesia · 2012</a><a href="#joshua-oppenheimer-indonesia-2014">Joshua Oppenheimer · Indonesia · 2014</a><a href="#ari-folman-israel-2008">Ari Folman · Israel · 2008</a><a href="#54-stories-we-tell">54 Stories We Tell</a><a href="#sarah-polley-canada-2012">Sarah Polley · Canada · 2012</a><a href="#55-my-architect">55 My Architect</a><a href="#56-crumb">56 Crumb</a><a href="#57-tarnation">57 Tarnation</a><a href="#agn-s-varda-france-2000">Agnès Varda · France · 2000</a><a href="#59-faces-places">59 Faces Places</a><a href="#60-i-am-not-your-negro">60 I Am Not Your Negro</a><a href="#personal-journeys-road-films">■ PERSONAL JOURNEYS &amp; ROAD FILMS ■</a><a href="#62-the-motorcycle-diaries">62 The Motorcycle Diaries</a><a href="#walter-salles-brazil-argentina-2004">Walter Salles · Brazil/Argentina · 2004</a><a href="#63-central-station">63 Central Station</a><a href="#walter-salles-brazil-1998">Walter Salles · Brazil · 1998</a><a href="#64-patagonia">64 Patagonia</a><a href="#wim-wenders-germany-1976">Wim Wenders · Germany · 1976</a><a href="#66-paris-texas">66 Paris, Texas</a><a href="#wim-wenders-germany-1974">Wim Wenders · Germany · 1974</a><a href="#68-nebraska">68 Nebraska</a><a href="#takeshi-kitano-japan-1997">Takeshi Kitano · Japan · 1997</a><a href="#71-about-schmidt">71 About Schmidt</a><a href="#72-the-straight-story">72 The Straight Story</a><a href="#74-sideways">74 Sideways</a><a href="#75-hana">75 Hana</a><a href="#identity-belonging-displacement">■ IDENTITY, BELONGING &amp; DISPLACEMENT ■</a><a href="#76-people-that-are-not-me">76 People That Are Not Me</a><a href="#hadas-ben-aroya-israel-2016">Hadas Ben Aroya · Israel · 2016</a><a href="#77-mustang">77 Mustang</a><a href="#deniz-gamze-erg-ven-france-turkey-2015">Deniz Gamze Ergüven · France/Turkey · 2015</a><a href="#78-persepolis">78 Persepolis</a><a href="#marjane-satrapi-france-2007">Marjane Satrapi · France · 2007</a><a href="#agn-s-varda-france-2008">Agnès Varda · France · 2008</a><a href="#80-moonlight">80 Moonlight</a><a href="#83-atlantics">83 Atlantics</a><a href="#mati-diop-france-senegal-2019">Mati Diop · France/Senegal · 2019</a><a href="#84-rocks">84 Rocks</a><a href="#85-tanna">85 Tanna</a><a href="#martin-butler-bentley-dean-australia-2015">Martin Butler &amp; Bentley Dean · Australia · 2015</a><a href="#86-the-florida-project">86 The Florida Project</a><a href="#87-tangerine">87 Tangerine</a><a href="#88-american-honey">88 American Honey</a><a href="#89-songs-my-brothers-taught-me">89 Songs My Brothers Taught Me</a><a href="#90-the-rider">90 The Rider</a><a href="#family-memory-time">■ FAMILY, MEMORY &amp; TIME ■</a><a href="#91-the-mountains-sing">91 The Mountains Sing</a><a href="#yang-xiao-china-2021">Yang Xiao · China · 2021</a><a href="#92-aftersun">92 Aftersun</a><a href="#93-petite-maman">93 Petite Maman</a><a href="#c-line-sciamma-france-2021">Céline Sciamma · France · 2021</a><a href="#c-line-sciamma-france-2019">Céline Sciamma · France · 2019</a><a href="#95-tomboy">95 Tomboy</a><a href="#c-line-sciamma-france-2011">Céline Sciamma · France · 2011</a><a href="#97-the-farewell">97 The Farewell</a><a href="#98-minari">98 Minari</a><a href="#isao-takahata-japan-2013">Isao Takahata · Japan · 2013</a><a href="#isao-takahata-japan-1988">Isao Takahata · Japan · 1988</a><a href="#101-my-neighbor-totoro">101 My Neighbor Totoro</a><a href="#hayao-miyazaki-japan-1988">Hayao Miyazaki · Japan · 1988</a><a href="#102-only-yesterday">102 Only Yesterday</a><a href="#isao-takahata-japan-1991">Isao Takahata · Japan · 1991</a><a href="#103-wolf-children">103 Wolf Children</a><a href="#mamoru-hosoda-japan-2012">Mamoru Hosoda · Japan · 2012</a><a href="#104-when-marnie-was-there">104 When Marnie Was There</a><a href="#hiromasa-yonebayashi-japan-2014">Hiromasa Yonebayashi · Japan · 2014</a><a href="#105-i-lost-my-body">105 I Lost My Body</a><a href="#j-r-my-clapin-france-2019">Jérémy Clapin · France · 2019</a><a href="#animated-worlds-graphic-stories">■ ANIMATED WORLDS &amp; GRAPHIC STORIES ■</a><a href="#106-tatsumi">106 Tatsumi</a><a href="#eric-khoo-singapore-2011">Eric Khoo · Singapore · 2011</a><a href="#animated-japan-2021">Animated · Japan · 2021</a><a href="#ma-lys-vallade-liane-cho-han-france-2025">Maïlys Vallade &amp; Liane-Cho Han · France · 2025</a><a href="#109-the-red-turtle">109 The Red Turtle</a><a href="#110-flee">110 Flee</a><a href="#jonas-poher-rasmussen-denmark-2021">Jonas Poher Rasmussen · Denmark · 2021</a><a href="#111-funan">111 Funan</a><a href="#denis-do-france-luxembourg-2018">Denis Do · France/Luxembourg · 2018</a><a href="#112-long-way-north">112 Long Way North</a><a href="#r-mi-chabloz-marche-france-denmark-2015">Rémi Chabloz &amp; Marche · France/Denmark · 2015</a><a href="#113-the-breadwinner">113 The Breadwinner</a><a href="#nora-twomey-ireland-canada-2017">Nora Twomey · Ireland/Canada · 2017</a><a href="#marguerite-abouet-france-2013">Marguerite Abouet · France · 2013</a><a href="#115-ethel-ernest">115 Ethel &amp; Ernest</a><a href="#claude-barras-switzerland-2016">Claude Barras · Switzerland · 2016</a><a href="#117-chickenhead">117 Chickenhead</a><a href="#various-animators-international-2002">Various Animators · International · 2002</a><a href="#hayao-miyazaki-japan-1984">Hayao Miyazaki · Japan · 1984</a><a href="#graphic-novels-illustrated-stories">■ GRAPHIC NOVELS &amp; ILLUSTRATED STORIES ■</a><a href="#121-they-called-us-enemy">121 They Called Us Enemy</a><a href="#122-l-adoption-qinaya">122 L&#x27;Adoption – Qinaya</a><a href="#zidrou-monin-belgium-france-2014">Zidrou &amp; Monin · Belgium/France · 2014</a><a href="#123-how-do-you-live">123 How Do You Live?</a><a href="#yoshino-genzaburo-japan-1937">Yoshino Genzaburo · Japan · 1937</a><a href="#124-march-trilogy">124 March (Trilogy)</a><a href="#125-maus">125 Maus</a><a href="#126-saga">126 Saga</a><a href="#127-blankets">127 Blankets</a><a href="#128-fun-home">128 Fun Home</a><a href="#129-the-complete-persepolis">129 The Complete Persepolis</a><a href="#marjane-satrapi-france-2000">Marjane Satrapi · France · 2000</a><a href="#literature-that-moves-like-film">■ LITERATURE THAT MOVES LIKE FILM ■</a><a href="#131-the-mountain-is-you">131 The Mountain Is You</a><a href="#132-the-midnight-library">132 The Midnight Library</a><a href="#133-milkman">133 Milkman</a><a href="#134-a-man-called-ove">134 A Man Called Ove</a><a href="#fredrik-backman-sweden-2012">Fredrik Backman · Sweden · 2012</a><a href="#135-the-snow-child">135 The Snow Child</a><a href="#137-when-breath-becomes-air">137 When Breath Becomes Air</a><a href="#139-never-let-me-go">139 Never Let Me Go</a><a href="#140-the-unconsoled">140 The Unconsoled</a><a href="#war-history-witness">■ WAR, HISTORY &amp; WITNESS ■</a><a href="#elem-klimov-soviet-union-1985">Elem Klimov · Soviet Union · 1985</a><a href="#l-szl-nemes-hungary-2015">László Nemes · Hungary · 2015</a><a href="#143-turtles-can-fly">143 Turtles Can Fly</a><a href="#bahman-ghobadi-iran-iraq-2004">Bahman Ghobadi · Iran/Iraq · 2004</a><a href="#danis-tanovi-bosnia-2001">Danis Tanovi■ · Bosnia · 2001</a><a href="#145-paradise-now">145 Paradise Now</a><a href="#hany-abu-assad-palestine-2005">Hany Abu-Assad · Palestine · 2005</a><a href="#gillo-pontecorvo-algeria-italy-1966">Gillo Pontecorvo · Algeria/Italy · 1966</a><a href="#isao-takahata-japan-1988-2">Isao Takahata · Japan · 1988</a><a href="#148-hiroshima-mon-amour">148 Hiroshima Mon Amour</a><a href="#alain-resnais-france-japan-1959">Alain Resnais · France/Japan · 1959</a><a href="#alain-resnais-france-1956">Alain Resnais · France · 1956</a><a href="#nature-as-character">■ NATURE AS CHARACTER ■</a><a href="#werner-herzog-germany-1972">Werner Herzog · Germany · 1972</a><a href="#152-fitzcarraldo">152 Fitzcarraldo</a><a href="#werner-herzog-germany-1982">Werner Herzog · Germany · 1982</a><a href="#153-grizzly-man">153 Grizzly Man</a><a href="#154-leviathan">154 Leviathan</a><a href="#155-sweetgrass">155 Sweetgrass</a><a href="#patricio-guzm-n-chile-france-2010">Patricio Guzmán · Chile/France · 2010</a><a href="#157-the-pearl-button">157 The Pearl Button</a><a href="#patricio-guzm-n-chile-france-2015">Patricio Guzmán · Chile/France · 2015</a><a href="#158-koyaanisqatsi">158 Koyaanisqatsi</a><a href="#159-powaqqatsi">159 Powaqqatsi</a><a href="#160-anthropocene-the-human-epoch">160 Anthropocene: The Human Epoch</a><a href="#edward-burtynsky-canada-2018">Edward Burtynsky · Canada · 2018</a><a href="#cities-urban-souls">■ CITIES &amp; URBAN SOULS ■</a><a href="#fernando-meirelles-brazil-2002">Fernando Meirelles · Brazil · 2002</a><a href="#162-chungking-express">162 Chungking Express</a><a href="#163-happy-together">163 Happy Together</a><a href="#165-yi-yi">165 Yi Yi</a><a href="#edward-yang-taiwan-2000">Edward Yang · Taiwan · 2000</a><a href="#166-a-brighter-summer-day">166 A Brighter Summer Day</a><a href="#edward-yang-taiwan-1991">Edward Yang · Taiwan · 1991</a><a href="#167-millennium-mambo">167 Millennium Mambo</a><a href="#hou-hsiao-hsien-taiwan-2001">Hou Hsiao-Hsien · Taiwan · 2001</a><a href="#168-stranger-than-paradise">168 Stranger Than Paradise</a><a href="#abdellatif-kechiche-france-2013">Abdellatif Kechiche · France · 2013</a><a href="#grief-loss-healing">■ GRIEF, LOSS &amp; HEALING ■</a><a href="#172-three-colours-blue">172 Three Colours: Blue</a><a href="#173-three-colours-red">173 Three Colours: Red</a><a href="#julian-schnabel-france-2007">Julian Schnabel · France · 2007</a><a href="#175-ordinary-people">175 Ordinary People</a><a href="#176-rabbit-hole">176 Rabbit Hole</a><a href="#nanni-moretti-italy-2001">Nanni Moretti · Italy · 2001</a><a href="#178-a-ghost-story">178 A Ghost Story</a><a href="#179-endings-beginnings">179 Endings, Beginnings</a><a href="#180-land">180 Land</a><a href="#women-s-stories-female-gaze">■ WOMEN&#x27;S STORIES &amp; FEMALE GAZE ■</a><a href="#181-mustang">181 Mustang</a><a href="#deniz-gamze-erg-ven-france-turkey-2015-2">Deniz Gamze Ergüven · France/Turkey · 2015</a><a href="#182-the-piano">182 The Piano</a><a href="#jane-campion-new-zealand-1993">Jane Campion · New Zealand · 1993</a><a href="#c-line-sciamma-france-2019-2">Céline Sciamma · France · 2019</a><a href="#cristian-mungiu-romania-2007">Cristian Mungiu · Romania · 2007</a><a href="#185-ida">185 Ida</a><a href="#pawe-pawlikowski-poland-2013">Pawe■ Pawlikowski · Poland · 2013</a><a href="#186-cold-war">186 Cold War</a><a href="#pawe-pawlikowski-poland-2018">Pawe■ Pawlikowski · Poland · 2018</a><a href="#187-fish-tank">187 Fish Tank</a><a href="#188-rocks">188 Rocks</a><a href="#189-water">189 Water</a><a href="#deepa-mehta-canada-india-2005">Deepa Mehta · Canada/India · 2005</a><a href="#190-osama">190 Osama</a><a href="#siddiq-barmak-afghanistan-2003">Siddiq Barmak · Afghanistan · 2003</a><a href="#coming-of-age-youth">■ COMING OF AGE &amp; YOUTH ■</a><a href="#191-boyhood">191 Boyhood</a><a href="#192-the-400-blows">192 The 400 Blows</a><a href="#fran-ois-truffaut-france-1959">François Truffaut · France · 1959</a><a href="#fran-ois-truffaut-france-1976">François Truffaut · France · 1976</a><a href="#194-au-revoir-les-enfants">194 Au Revoir Les Enfants</a><a href="#louis-malle-france-1987">Louis Malle · France · 1987</a><a href="#197-spirited-away">197 Spirited Away</a><a href="#hayao-miyazaki-japan-2001">Hayao Miyazaki · Japan · 2001</a><a href="#198-kikujiro">198 Kikujiro</a><a href="#takeshi-kitano-japan-1999">Takeshi Kitano · Japan · 1999</a><a href="#federico-fellini-italy-1957">Federico Fellini · Italy · 1957</a><a href="#200-nobody-knows">200 Nobody Knows</a><a href="#latin-american-visions">■ LATIN AMERICAN VISIONS ■</a><a href="#202-amores-perros">202 Amores Perros</a><a href="#alejandro-gonz-lez-i-rritu-mexico-2000">Alejandro González Iñárritu · Mexico · 2000</a><a href="#203-y-tu-mam-tambi-n">203 Y Tu Mamá También</a><a href="#alfonso-cuar-n-mexico-2001">Alfonso Cuarón · Mexico · 2001</a><a href="#204-the-club">204 The Club</a><a href="#pablo-larra-n-chile-2015">Pablo Larraín · Chile · 2015</a><a href="#205-tony-manero">205 Tony Manero</a><a href="#pablo-larra-n-chile-2008">Pablo Larraín · Chile · 2008</a><a href="#206-wild-tales">206 Wild Tales</a><a href="#dami-n-szifr-n-argentina-2014">Damián Szifrón · Argentina · 2014</a><a href="#juan-jos-campanella-argentina-2009">Juan José Campanella · Argentina · 2009</a><a href="#agn-s-varda-france-1962">Agnès Varda · France · 1962</a><a href="#patricio-guzm-n-chile-france-2010-2">Patricio Guzmán · Chile/France · 2010</a><a href="#210-promising-young-woman">210 Promising Young Woman</a><a href="#magical-realism-the-surreal">■ MAGICAL REALISM &amp; THE SURREAL ■</a><a href="#212-tropical-malady">212 Tropical Malady</a><a href="#apichatpong-weerasethakul-thailand-2004">Apichatpong Weerasethakul · Thailand · 2004</a><a href="#213-blissfully-yours">213 Blissfully Yours</a><a href="#apichatpong-weerasethakul-thailand-2002">Apichatpong Weerasethakul · Thailand · 2002</a><a href="#v-ctor-erice-spain-1973">Víctor Erice · Spain · 1973</a><a href="#216-el-sur">216 El Sur</a><a href="#v-ctor-erice-spain-1983">Víctor Erice · Spain · 1983</a><a href="#217-hedgehog">217 Hedgehog</a><a href="#mona-achache-france-2009">Mona Achache · France · 2009</a><a href="#michel-gondry-france-2006">Michel Gondry · France · 2006</a><a href="#220-coraline">220 Coraline</a><a href="#exile-diaspora-longing">■ EXILE, DIASPORA &amp; LONGING ■</a><a href="#221-turtles-can-fly">221 Turtles Can Fly</a><a href="#bahman-ghobadi-iran-iraq-2004-2">Bahman Ghobadi · Iran/Iraq · 2004</a><a href="#hiroyuki-okiura-japan-2011">Hiroyuki Okiura · Japan · 2011</a><a href="#223-incendies">223 Incendies</a><a href="#denis-villeneuve-canada-2010">Denis Villeneuve · Canada · 2010</a><a href="#224-capernaum">224 Capernaum</a><a href="#nadine-labaki-lebanon-2018-2">Nadine Labaki · Lebanon · 2018</a><a href="#225-welcome">225 Welcome</a><a href="#philippe-lioret-france-2009">Philippe Lioret · France · 2009</a><a href="#226-the-visitor">226 The Visitor</a><a href="#227-brooklyn">227 Brooklyn</a><a href="#228-in-america">228 In America</a><a href="#229-dheepan">229 Dheepan</a><a href="#jacques-audiard-france-2015">Jacques Audiard · France · 2015</a><a href="#230-the-class">230 The Class</a><a href="#laurent-cantet-france-2008">Laurent Cantet · France · 2008</a><a href="#quiet-films-loud-feelings">■ QUIET FILMS, LOUD FEELINGS ■</a><a href="#cristian-mungiu-romania-2007-2">Cristian Mungiu · Romania · 2007</a><a href="#cristi-puiu-romania-2005">Cristi Puiu · Romania · 2005</a><a href="#dardenne-brothers-belgium-2011">Dardenne Brothers · Belgium · 2011</a><a href="#234-rosetta">234 Rosetta</a><a href="#dardenne-brothers-belgium-1999">Dardenne Brothers · Belgium · 1999</a><a href="#235-the-son">235 The Son</a><a href="#dardenne-brothers-belgium-2002">Dardenne Brothers · Belgium · 2002</a><a href="#236-two-days-one-night">236 Two Days, One Night</a><a href="#dardenne-brothers-belgium-2014">Dardenne Brothers · Belgium · 2014</a><a href="#238-leave-no-trace">238 Leave No Trace</a><a href="#239-first-reformed">239 First Reformed</a><a href="#240-paterson">240 Paterson</a><a href="#east-asian-essentials">■ EAST ASIAN ESSENTIALS ■</a><a href="#241-tokyo-story">241 Tokyo Story</a><a href="#yasujir-ozu-japan-1953">Yasujir■ Ozu · Japan · 1953</a><a href="#242-late-spring">242 Late Spring</a><a href="#yasujir-ozu-japan-1949">Yasujir■ Ozu · Japan · 1949</a><a href="#243-an-autumn-afternoon">243 An Autumn Afternoon</a><a href="#yasujir-ozu-japan-1962">Yasujir■ Ozu · Japan · 1962</a><a href="#yasujir-ozu-japan-1952">Yasujir■ Ozu · Japan · 1952</a><a href="#245-floating-weeds">245 Floating Weeds</a><a href="#yasujir-ozu-japan-1959">Yasujir■ Ozu · Japan · 1959</a><a href="#zhang-yimou-china-1991">Zhang Yimou · China · 1991</a><a href="#247-to-live">247 To Live</a><a href="#zhang-yimou-china-1994">Zhang Yimou · China · 1994</a><a href="#248-crouching-tiger-hidden-dragon">248 Crouching Tiger, Hidden Dragon</a><a href="#ang-lee-taiwan-2000">Ang Lee · Taiwan · 2000</a><a href="#249-eat-drink-man-woman">249 Eat Drink Man Woman</a><a href="#ang-lee-taiwan-1994">Ang Lee · Taiwan · 1994</a><a href="#hou-hsiao-hsien-taiwan-1989">Hou Hsiao-Hsien · Taiwan · 1989</a><a href="#european-masters">■ EUROPEAN MASTERS ■</a><a href="#251-the-mirror">251 The Mirror</a><a href="#andrei-tarkovsky-soviet-union-1975">Andrei Tarkovsky · Soviet Union · 1975</a><a href="#252-andrei-rublev">252 Andrei Rublev</a><a href="#andrei-tarkovsky-soviet-union-1966">Andrei Tarkovsky · Soviet Union · 1966</a><a href="#253-stalker">253 Stalker</a><a href="#andrei-tarkovsky-soviet-union-1979">Andrei Tarkovsky · Soviet Union · 1979</a><a href="#254-nostalghia">254 Nostalghia</a><a href="#andrei-tarkovsky-italy-1983">Andrei Tarkovsky · Italy · 1983</a><a href="#255-wild-strawberries">255 Wild Strawberries</a><a href="#ingmar-bergman-sweden-1957">Ingmar Bergman · Sweden · 1957</a><a href="#256-the-seventh-seal">256 The Seventh Seal</a><a href="#ingmar-bergman-sweden-1957-2">Ingmar Bergman · Sweden · 1957</a><a href="#ingmar-bergman-sweden-1982">Ingmar Bergman · Sweden · 1982</a><a href="#258-europa-europa">258 Europa Europa</a><a href="#agnieszka-holland-germany-france-1990">Agnieszka Holland · Germany/France · 1990</a><a href="#259-shoah">259 Shoah</a><a href="#claude-lanzmann-france-1985">Claude Lanzmann · France · 1985</a><a href="#florian-henckel-germany-2006">Florian Henckel · Germany · 2006</a><a href="#south-southeast-asian-cinema">■ SOUTH &amp; SOUTHEAST ASIAN CINEMA ■</a><a href="#261-pather-panchali">261 Pather Panchali</a><a href="#satyajit-ray-india-1955">Satyajit Ray · India · 1955</a><a href="#262-aparajito">262 Aparajito</a><a href="#satyajit-ray-india-1956">Satyajit Ray · India · 1956</a><a href="#satyajit-ray-india-1959">Satyajit Ray · India · 1959</a><a href="#264-charulata">264 Charulata</a><a href="#satyajit-ray-india-1964">Satyajit Ray · India · 1964</a><a href="#265-water">265 Water</a><a href="#deepa-mehta-canada-india-2005-2">Deepa Mehta · Canada/India · 2005</a><a href="#266-the-lunchbox">266 The Lunchbox</a><a href="#ritesh-batra-india-2013">Ritesh Batra · India · 2013</a><a href="#267-court">267 Court</a><a href="#chaitanya-tamhane-india-2014">Chaitanya Tamhane · India · 2014</a><a href="#268-burning">268 Burning</a><a href="#269-taxi-tehran">269 Taxi Tehran</a><a href="#jafar-panahi-iran-2015">Jafar Panahi · Iran · 2015</a><a href="#jafar-panahi-iran-2011">Jafar Panahi · Iran · 2011</a><a href="#african-cinema">■ AFRICAN CINEMA ■</a><a href="#271-atlantics">271 Atlantics</a><a href="#mati-diop-france-senegal-2019-2">Mati Diop · France/Senegal · 2019</a><a href="#272-moolaad">272 Moolaadé</a><a href="#ousmane-semb-ne-senegal-2004">Ousmane Sembène · Senegal · 2004</a><a href="#273-yeelen">273 Yeelen</a><a href="#souleymane-ciss-mali-1987">Souleymane Cissé · Mali · 1987</a><a href="#274-touki-bouki">274 Touki Bouki</a><a href="#djibril-diop-mamb-ty-senegal-1973">Djibril Diop Mambéty · Senegal · 1973</a><a href="#275-hyenas">275 Hyenas</a><a href="#djibril-diop-mamb-ty-senegal-1992">Djibril Diop Mambéty · Senegal · 1992</a><a href="#d-sir-ecar-ivory-coast-1985">Désiré Ecaré · Ivory Coast · 1985</a><a href="#277-an-african-election">277 An African Election</a><a href="#jarreth-merz-ghana-2011">Jarreth Merz · Ghana · 2011</a><a href="#jo-o-viana-guinea-bissau-2013">João Viana · Guinea-Bissau · 2013</a><a href="#279-war-witch">279 War Witch</a><a href="#jenna-bass-south-africa-2014">Jenna Bass · South Africa · 2014</a><a href="#281-ikiru">281 Ikiru</a><a href="#akira-kurosawa-japan-1952">Akira Kurosawa · Japan · 1952</a><a href="#282-the-bicycle-thieves">282 The Bicycle Thieves</a><a href="#vittorio-de-sica-italy-1948">Vittorio De Sica · Italy · 1948</a><a href="#majid-majidi-iran-1997">Majid Majidi · Iran · 1997</a><a href="#majid-majidi-iran-1999">Majid Majidi · Iran · 1999</a><a href="#285-earth">285 Earth</a><a href="#aleksandr-dovzhenko-soviet-union-1930">Aleksandr Dovzhenko · Soviet Union · 1930</a><a href="#gabriel-axel-denmark-1987">Gabriel Axel · Denmark · 1987</a><a href="#287-departures">287 Departures</a><a href="#289-the-class">289 The Class</a><a href="#laurent-cantet-france-2008-2">Laurent Cantet · France · 2008</a><a href="#290-amarcord">290 Amarcord</a><a href="#federico-fellini-italy-1973">Federico Fellini · Italy · 1973</a><a href="#federico-fellini-italy-1963">Federico Fellini · Italy · 1963</a><a href="#292-jeanne-dielman">292 Jeanne Dielman</a><a href="#chantal-akerman-belgium-1975">Chantal Akerman · Belgium · 1975</a><a href="#chantal-akerman-belgium-1977">Chantal Akerman · Belgium · 1977</a><a href="#294-ratcatcher">294 Ratcatcher</a><a href="#295-morvern-callar">295 Morvern Callar</a><a href="#297-the-white-ribbon">297 The White Ribbon</a><a href="#michael-haneke-germany-austria-2009">Michael Haneke · Germany/Austria · 2009</a><a href="#298-cach">298 Caché</a><a href="#michael-haneke-france-austria-2005">Michael Haneke · France/Austria · 2005</a><a href="#299-amour">299 Amour</a><a href="#michael-haneke-france-austria-2012">Michael Haneke · France/Austria · 2012</a><a href="#300-all-about-my-mother">300 All About My Mother</a><a href="#pedro-almod-var-spain-1999">Pedro Almodóvar · Spain · 1999</a><a href="#fin">FIN</a></nav><article><section class="hero"><div class="kicker">HTML READING EDITION · PDF</div><h1>300 Films Filmography</h1><div class="meta">Converted from the original source · Text may require review against the original document</div></section>
+<div id="content"><section class="page" id="page-1"><div class="page-label">PAGE 1</div><h2 id="300-films">300 FILMS</h2>
+<h2 id="aglobalfilmography">AGLOBALFILMOGRAPHY</h2>
+<p>Curated for open minds, restless hearts, and anyone who believes that cinema is the closest thing we have to living another life. Inspired by: Anatomy of Time · Paths of the Soul · Mula Sa Kung Ano Ang Noon Being in the World · The Mountains Sing · Once Upon a Time in Bolivia Peter and the Farm · People That Are Not Me · Tatsumi · Little Amélie They Called Us Enemy · L&#x27;Adoption · How Do You Live? · Funan # TITLE &amp; TAGLINE DIRECTOR COUNTRY · YEAR</p></section>
+<section class="page" id="page-2"><div class="page-label">PAGE 2</div><h2 id="contemplative-slow-cinema">■ CONTEMPLATIVE &amp; SLOW CINEMA ■</h2>
+<p>1 Anatomy of Time</p>
+<h2 id="jakrawal-nilthamrong-thailand-2021">Jakrawal Nilthamrong · Thailand · 2021</h2>
+<p>&quot;Time flows differently when you finally stop running from it.&quot; 2 Cemetery of Splendour</p>
+<h2 id="apichatpong-weerasethakul-thailand-2015">Apichatpong Weerasethakul · Thailand · 2015</h2>
+<p>&quot;Sleep is not the enemy — forgetting is.&quot;</p>
+<h2 id="3-uncle-boonmee-who-can-recall-his-past-lives">3 Uncle Boonmee Who Can Recall His Past Lives</h2>
+<h2 id="apichatpong-weerasethakul-thailand-2010">Apichatpong Weerasethakul · Thailand · 2010</h2>
+<p>&quot;What if every life you&#x27;ve lived is still with you tonight?&quot;</p>
+<h2 id="4-atanarjuat-the-fast-runner">4 Atanarjuat: The Fast Runner</h2>
+<h2 id="zacharias-kunuk-canada-2001">Zacharias Kunuk · Canada · 2001</h2>
+<p>&quot;A myth so ancient it feels like memory.&quot;</p>
+<h2 id="5-the-assassin">5 The Assassin</h2>
+<h2 id="hou-hsiao-hsien-taiwan-2015">Hou Hsiao-Hsien · Taiwan · 2015</h2>
+<p>&quot;Beauty and violence share the same silence.&quot;</p>
+<h2 id="6-still-life">6 Still Life</h2>
+<h2 id="jia-zhangke-china-2006">Jia Zhangke · China · 2006</h2>
+<p>&quot;Cities drown, and so do people — but some choose to swim.&quot;</p>
+<h2 id="7-mountains-may-depart">7 Mountains May Depart</h2>
+<h2 id="jia-zhangke-china-2015">Jia Zhangke · China · 2015</h2>
+<p>&quot;What you leave behind is never really gone.&quot;</p>
+<h2 id="8-the-turin-horse">8 The Turin Horse</h2>
+<h2 id="b-la-tarr-hungary-2011">Béla Tarr · Hungary · 2011</h2>
+<p>&quot;When the world ends, it ends slowly, in a farmhouse.&quot;</p>
+<h2 id="9-s-t-ntang">9 Sátántangó</h2>
+<h2 id="b-la-tarr-hungary-1994">Béla Tarr · Hungary · 1994</h2>
+<p>&quot;Seven hours of rain and truth — worth every minute.&quot; 10 In the Mood for Love Wong Kar-wai · Hong Kong · 2000 &quot;The love that dares not speak becomes the loudest thing.&quot; 11 A Tale of Wind</p>
+<h2 id="joris-ivens-marceline-loridan-france-1988">Joris Ivens &amp; Marceline Loridan · France · 1988</h2>
+<p>&quot;Even the wind has a story to tell at the end.&quot; 12 Taste of Cherry</p>
+<h2 id="abbas-kiarostami-iran-1997">Abbas Kiarostami · Iran · 1997</h2>
+<p>&quot;He wants to die, and every stranger gives him a reason to live.&quot;</p>
+<h2 id="13-the-wind-will-carry-us">13 The Wind Will Carry Us</h2>
+<h2 id="abbas-kiarostami-iran-1999">Abbas Kiarostami · Iran · 1999</h2>
+<p>&quot;We rush toward endings without noticing the living.&quot;</p>
+<h2 id="14-certified-copy">14 Certified Copy</h2>
+<h2 id="abbas-kiarostami-france-italy-2010">Abbas Kiarostami · France/Italy · 2010</h2>
+<p>&quot;Is it still real if it was never real to begin with?&quot;</p></section>
+<section class="page" id="page-3"><div class="page-label">PAGE 3</div><h2 id="15-silence">15 Silence</h2>
+<p>Martin Scorsese · USA · 2016 &quot;Faith tested to its very last breath.&quot;</p>
+<h2 id="spiritual-faith-journeys">■ SPIRITUAL &amp; FAITH JOURNEYS ■</h2>
+<p>16 Paths of the Soul</p>
+<h2 id="zhang-yang-china-2015">Zhang Yang · China · 2015</h2>
+<p>&quot;A 2,500-km pilgrimage that will recalibrate your soul.&quot;</p>
+<h2 id="17-samsara">17 Samsara</h2>
+<p>Ron Fricke · USA · 2011 &quot;A wordless prayer filmed across 25 countries.&quot;</p>
+<h2 id="18-baraka">18 Baraka</h2>
+<p>Ron Fricke · USA · 1992 &quot;When images replace language, something deeper speaks.&quot;</p>
+<h2 id="19-into-great-silence">19 Into Great Silence</h2>
+<h2 id="philip-gr-ning-germany-2005">Philip Gröning · Germany · 2005</h2>
+<p>&quot;Three hours inside a monastery — and it&#x27;s never boring.&quot; 20 Embrace of the Serpent</p>
+<h2 id="ciro-guerra-colombia-2015">Ciro Guerra · Colombia · 2015</h2>
+<p>&quot;The jungle remembers everything civilisation has destroyed.&quot;</p>
+<h2 id="21-the-pillow-book">21 The Pillow Book</h2>
+<h2 id="peter-greenaway-netherlands-1996">Peter Greenaway · Netherlands · 1996</h2>
+<p>&quot;The body is sacred text — read it carefully.&quot; 22 Of Gods and Men</p>
+<h2 id="xavier-beauvois-france-2010">Xavier Beauvois · France · 2010</h2>
+<p>&quot;Eight monks, one impossible choice, infinite dignity.&quot; 23 The Tree of Life Terrence Malick · USA · 2011 &quot;From the Big Bang to a child&#x27;s grief — all connected.&quot;</p>
+<h2 id="24-badlands">24 Badlands</h2>
+<p>Terrence Malick · USA · 1973 &quot;The land witnesses everything the law ignores.&quot; 25 Days of Heaven Terrence Malick · USA · 1978 &quot;The most beautiful film ever made about the worst kind of love.&quot;</p>
+<h2 id="26-the-new-world">26 The New World</h2>
+<p>Terrence Malick · USA · 2005 &quot;What does it mean to belong to a land?&quot; 27 Silence (Sh■saku End■)</p>
+<h2 id="masahiro-shinoda-japan-1971">Masahiro Shinoda · Japan · 1971</h2>
+<p>&quot;The original adaptation — raw, uncompromising, essential.&quot;</p>
+<h2 id="28-ordet">28 Ordet</h2>
+<h2 id="carl-theodor-dreyer-denmark-1955">Carl Theodor Dreyer · Denmark · 1955</h2>
+<p>&quot;The most devastating miracle ever put on screen.&quot;</p></section>
+<section class="page" id="page-4"><div class="page-label">PAGE 4</div><p>29 The Passion of Joan of Arc</p>
+<h2 id="carl-theodor-dreyer-france-1928">Carl Theodor Dreyer · France · 1928</h2>
+<p>&quot;A face carries a century of suffering in close-up.&quot;</p>
+<h2 id="30-winter-light">30 Winter Light</h2>
+<h2 id="ingmar-bergman-sweden-1963">Ingmar Bergman · Sweden · 1963</h2>
+<p>&quot;A priest loses God in the coldest possible way.&quot;</p>
+<h2 id="world-cinema-masterworks">■ WORLD CINEMA MASTERWORKS ■</h2>
+<h2 id="31-the-white-meadows">31 The White Meadows</h2>
+<h2 id="mohammad-rasoulof-iran-2009">Mohammad Rasoulof · Iran · 2009</h2>
+<p>&quot;A boat travels island to island collecting sorrows.&quot;</p>
+<h2 id="32-a-separation">32 A Separation</h2>
+<h2 id="asghar-farhadi-iran-2011">Asghar Farhadi · Iran · 2011</h2>
+<p>&quot;Moral complexity with no villains — only humans.&quot;</p>
+<h2 id="33-the-salesman">33 The Salesman</h2>
+<h2 id="asghar-farhadi-iran-2016">Asghar Farhadi · Iran · 2016</h2>
+<p>&quot;Dignity can be the most dangerous thing to protect.&quot;</p>
+<h2 id="34-mula-sa-kung-ano-ang-noon">34 Mula Sa Kung Ano Ang Noon</h2>
+<h2 id="lav-diaz-philippines-2014">Lav Diaz · Philippines · 2014</h2>
+<p>&quot;Eight hours in black-and-white that feel like a lifetime.&quot; 35 Norte, the End of History</p>
+<h2 id="lav-diaz-philippines-2013">Lav Diaz · Philippines · 2013</h2>
+<p>&quot;Dostoevsky reborn in the Philippine sun.&quot;</p>
+<h2 id="36-ixcanul">36 Ixcanul</h2>
+<h2 id="jayro-bustamante-guatemala-2015">Jayro Bustamante · Guatemala · 2015</h2>
+<p>&quot;A volcano, a girl, and a life she didn&#x27;t choose.&quot;</p>
+<h2 id="37-monos">37 Monos</h2>
+<h2 id="alejandro-landes-colombia-2019">Alejandro Landes · Colombia · 2019</h2>
+<p>&quot;Children with guns, mountains as gods — pure fever.&quot;</p>
+<h2 id="38-the-wailing">38 The Wailing</h2>
+<p>Na Hong-jin · South Korea · 2016 &quot;Evil arrives in a village wearing the face of a stranger.&quot;</p>
+<h2 id="39-burning">39 Burning</h2>
+<p>Lee Chang-dong · South Korea · 2018 &quot;Nothing in this film is what it seems — and everything is.&quot;</p>
+<h2 id="40-poetry">40 Poetry</h2>
+<p>Lee Chang-dong · South Korea · 2010 &quot;An old woman finds beauty while the world demands ugliness.&quot;</p>
+<h2 id="41-peppermint-candy">41 Peppermint Candy</h2>
+<p>Lee Chang-dong · South Korea · 2000 &quot;A life played backwards reveals every wound&#x27;s origin.&quot;</p>
+<h2 id="42-secret-sunshine">42 Secret Sunshine</h2>
+<p>Lee Chang-dong · South Korea · 2007 &quot;Can faith survive its own promises?&quot;</p></section>
+<section class="page" id="page-5"><div class="page-label">PAGE 5</div><h2 id="43-the-handmaiden">43 The Handmaiden</h2>
+<p>Park Chan-wook · South Korea · 2016 &quot;Deception layered on deception — and gorgeously so.&quot;</p>
+<h2 id="44-shoplifters">44 Shoplifters</h2>
+<p>Hirokazu Kore-eda · Japan · 2018 &quot;A family bound by choice, not blood — is still a family.&quot;</p>
+<h2 id="45-still-walking">45 Still Walking</h2>
+<p>Hirokazu Kore-eda · Japan · 2008 &quot;One summer day, a family, the weight of who isn&#x27;t there.&quot;</p>
+<h2 id="documentary-truth">■ DOCUMENTARY TRUTH ■</h2>
+<p>46 Peter and the Farm Tony Stone · USA · 2016 &quot;Cantankerous, brilliant, self-destructive — and deeply human.&quot; 47 Being in the World Tao Ruspoli · USA · 2010 &quot;Masters of craft reveal what it means to be fully alive.&quot;</p>
+<h2 id="48-honeyland">48 Honeyland</h2>
+<h2 id="tamara-kotevska-north-macedonia-2019">Tamara Kotevska · North Macedonia · 2019</h2>
+<p>&quot;The last wild beekeeper — and what greed does to balance.&quot;</p>
+<h2 id="49-capernaum">49 Capernaum</h2>
+<h2 id="nadine-labaki-lebanon-2018">Nadine Labaki · Lebanon · 2018</h2>
+<p>&quot;A 12-year-old sues his parents for being born — and he&#x27;s right.&quot;</p>
+<h2 id="50-for-sama">50 For Sama</h2>
+<p>Waad Al-Kateab · Syria/UK · 2019 &quot;A love letter to a daughter filmed inside a war.&quot; 51 The Act of Killing</p>
+<h2 id="joshua-oppenheimer-indonesia-2012">Joshua Oppenheimer · Indonesia · 2012</h2>
+<p>&quot;Killers reenact their murders — and something breaks.&quot; 52 The Look of Silence</p>
+<h2 id="joshua-oppenheimer-indonesia-2014">Joshua Oppenheimer · Indonesia · 2014</h2>
+<p>&quot;A son faces his brother&#x27;s killers — still in power.&quot; 53 Waltz with Bashir</p>
+<h2 id="ari-folman-israel-2008">Ari Folman · Israel · 2008</h2>
+<p>&quot;Animated war memories that hit harder than live action.&quot;</p>
+<h2 id="54-stories-we-tell">54 Stories We Tell</h2>
+<h2 id="sarah-polley-canada-2012">Sarah Polley · Canada · 2012</h2>
+<p>&quot;Every family has a story no one agrees on.&quot;</p>
+<h2 id="55-my-architect">55 My Architect</h2>
+<p>Nathaniel Kahn · USA · 2003 &quot;A son searches for the father who built the world.&quot;</p>
+<h2 id="56-crumb">56 Crumb</h2>
+<p>Terry Zwigoff · USA · 1994 &quot;The most fascinating, disturbing, brilliant artist portrait ever.&quot;</p></section>
+<section class="page" id="page-6"><div class="page-label">PAGE 6</div><h2 id="57-tarnation">57 Tarnation</h2>
+<p>Jonathan Caouette · USA · 2003 &quot;Assembled from home movies — and it&#x27;s a masterpiece.&quot; 58 The Gleaners and I</p>
+<h2 id="agn-s-varda-france-2000">Agnès Varda · France · 2000</h2>
+<p>&quot;What we throw away says everything about who we are.&quot;</p>
+<h2 id="59-faces-places">59 Faces Places</h2>
+<p>Agnès Varda &amp; JR · France · 2017 &quot;An old filmmaker and a young artist find magic in the ordinary.&quot;</p>
+<h2 id="60-i-am-not-your-negro">60 I Am Not Your Negro</h2>
+<p>Raoul Peck · France/USA · 2016 &quot;James Baldwin&#x27;s words land like thunder — still.&quot;</p>
+<h2 id="personal-journeys-road-films">■ PERSONAL JOURNEYS &amp; ROAD FILMS ■</h2>
+<p>61 Once Upon a Time in Bolivia Patrick L. Cordova · Bolivia/USA · 2013 &quot;Three days, two brothers, one road that changes everything.&quot;</p>
+<h2 id="62-the-motorcycle-diaries">62 The Motorcycle Diaries</h2>
+<h2 id="walter-salles-brazil-argentina-2004">Walter Salles · Brazil/Argentina · 2004</h2>
+<p>&quot;A road trip that created a revolution — inside one man.&quot;</p>
+<h2 id="63-central-station">63 Central Station</h2>
+<h2 id="walter-salles-brazil-1998">Walter Salles · Brazil · 1998</h2>
+<p>&quot;An old woman, a young boy, and the search for a father.&quot;</p>
+<h2 id="64-patagonia">64 Patagonia</h2>
+<p>Marc Evans · UK/Argentina · 2010 &quot;Two journeys, two continents, one emotional thread.&quot; 65 Kings of the Road</p>
+<h2 id="wim-wenders-germany-1976">Wim Wenders · Germany · 1976</h2>
+<p>&quot;Two men, a road, and silence more meaningful than talk.&quot;</p>
+<h2 id="66-paris-texas">66 Paris, Texas</h2>
+<p>Wim Wenders · USA/Germany · 1984 &quot;A man emerges from the desert carrying a mystery.&quot; 67 Alice in the Cities</p>
+<h2 id="wim-wenders-germany-1974">Wim Wenders · Germany · 1974</h2>
+<p>&quot;A child finds a lost man who finds himself.&quot;</p>
+<h2 id="68-nebraska">68 Nebraska</h2>
+<p>Alexander Payne · USA · 2013 &quot;Shot in black-and-white, it&#x27;s the most colourful kind of love.&quot; 69 Into the Wild Sean Penn · USA · 2007 &quot;He gave everything up — and maybe he was right.&quot; 70 Hana-bi</p>
+<h2 id="takeshi-kitano-japan-1997">Takeshi Kitano · Japan · 1997</h2>
+<p>&quot;A cop paints watercolours and tends his dying wife — quietly devastating.&quot;</p></section>
+<section class="page" id="page-7"><div class="page-label">PAGE 7</div><h2 id="71-about-schmidt">71 About Schmidt</h2>
+<p>Alexander Payne · USA · 2002 &quot;Retirement reveals the life never really lived.&quot;</p>
+<h2 id="72-the-straight-story">72 The Straight Story</h2>
+<p>David Lynch · USA · 1999 &quot;The most tender Lynch film — a lawnmower, a brother, 300 miles.&quot; 73 Of Time and the City Terence Davies · UK · 2008 &quot;A love letter to Liverpool that breaks your heart.&quot;</p>
+<h2 id="74-sideways">74 Sideways</h2>
+<p>Alexander Payne · USA · 2004 &quot;Wine, failure, and the grace of second chances.&quot;</p>
+<h2 id="75-hana">75 Hana</h2>
+<p>Hirokazu Kore-eda · Japan · 2006 &quot;A samurai who refuses to fight — and wins everything.&quot;</p>
+<h2 id="identity-belonging-displacement">■ IDENTITY, BELONGING &amp; DISPLACEMENT ■</h2>
+<h2 id="76-people-that-are-not-me">76 People That Are Not Me</h2>
+<h2 id="hadas-ben-aroya-israel-2016">Hadas Ben Aroya · Israel · 2016</h2>
+<p>&quot;She wants love without surrender — the most human want.&quot;</p>
+<h2 id="77-mustang">77 Mustang</h2>
+<h2 id="deniz-gamze-erg-ven-france-turkey-2015">Deniz Gamze Ergüven · France/Turkey · 2015</h2>
+<p>&quot;Five sisters, one house, one world that wants them smaller.&quot;</p>
+<h2 id="78-persepolis">78 Persepolis</h2>
+<h2 id="marjane-satrapi-france-2007">Marjane Satrapi · France · 2007</h2>
+<p>&quot;Growing up revolutionary in black, white, and pink.&quot; 79 The Beaches of Agnès</p>
+<h2 id="agn-s-varda-france-2008">Agnès Varda · France · 2008</h2>
+<p>&quot;A life of art told through sand, mirrors, and joy.&quot;</p>
+<h2 id="80-moonlight">80 Moonlight</h2>
+<p>Barry Jenkins · USA · 2016 &quot;Identity is not assigned — it&#x27;s discovered in the dark.&quot; 81 Medicine for Melancholy Barry Jenkins · USA · 2008 &quot;A night in San Francisco that lasts forever.&quot; 82 Beasts of the Southern Wild Benh Zeitlin · USA · 2012 &quot;A six-year-old girl holds her world together with her bare hands.&quot;</p>
+<h2 id="83-atlantics">83 Atlantics</h2>
+<h2 id="mati-diop-france-senegal-2019">Mati Diop · France/Senegal · 2019</h2>
+<p>&quot;Young men leave for sea; what remains haunts the shore.&quot;</p>
+<h2 id="84-rocks">84 Rocks</h2>
+<p>Sarah Gavron · UK · 2019 &quot;Teenage girls in London — raw, unscripted, achingly real.&quot;</p></section>
+<section class="page" id="page-8"><div class="page-label">PAGE 8</div><h2 id="85-tanna">85 Tanna</h2>
+<h2 id="martin-butler-bentley-dean-australia-2015">Martin Butler &amp; Bentley Dean · Australia · 2015</h2>
+<p>&quot;A love story on a Pacific island where tradition and heart collide.&quot;</p>
+<h2 id="86-the-florida-project">86 The Florida Project</h2>
+<p>Sean Baker · USA · 2017 &quot;Childhood magic lived in the shadow of poverty.&quot;</p>
+<h2 id="87-tangerine">87 Tangerine</h2>
+<p>Sean Baker · USA · 2015 &quot;Shot on iPhone, full of life that Hollywood ignores.&quot;</p>
+<h2 id="88-american-honey">88 American Honey</h2>
+<p>Andrea Arnold · USA/UK · 2016 &quot;The American road trip through America&#x27;s forgotten.&quot;</p>
+<h2 id="89-songs-my-brothers-taught-me">89 Songs My Brothers Taught Me</h2>
+<p>Chloé Zhao · USA · 2015 &quot;Pine Ridge Reservation — beauty and heartbreak in equal measure.&quot;</p>
+<h2 id="90-the-rider">90 The Rider</h2>
+<p>Chloé Zhao · USA · 2017 &quot;A rodeo cowboy injured and still, finding himself.&quot;</p>
+<h2 id="family-memory-time">■ FAMILY, MEMORY &amp; TIME ■</h2>
+<h2 id="91-the-mountains-sing">91 The Mountains Sing</h2>
+<h2 id="yang-xiao-china-2021">Yang Xiao · China · 2021</h2>
+<p>&quot;Youth, water, rock — summer as a thing that passes.&quot;</p>
+<h2 id="92-aftersun">92 Aftersun</h2>
+<p>Charlotte Wells · UK/USA · 2022 &quot;A father and daughter&#x27;s holiday — and the love you see too late.&quot;</p>
+<h2 id="93-petite-maman">93 Petite Maman</h2>
+<h2 id="c-line-sciamma-france-2021">Céline Sciamma · France · 2021</h2>
+<p>&quot;A child meets her mother as a child — time folds.&quot; 94 Portrait of a Lady on Fire</p>
+<h2 id="c-line-sciamma-france-2019">Céline Sciamma · France · 2019</h2>
+<p>&quot;A painting, a memory, an eternal look.&quot;</p>
+<h2 id="95-tomboy">95 Tomboy</h2>
+<h2 id="c-line-sciamma-france-2011">Céline Sciamma · France · 2011</h2>
+<p>&quot;One summer, ten years old, and everything at stake.&quot; 96 Father and Daughter Michaël Dudok de Wit · Netherlands · 2000 &quot;Eight minutes of animation that carry a lifetime of longing.&quot;</p>
+<h2 id="97-the-farewell">97 The Farewell</h2>
+<p>Lulu Wang · USA · 2019 &quot;A lie told out of love, and how it holds a family together.&quot;</p>
+<h2 id="98-minari">98 Minari</h2>
+<p>Lee Isaac Chung · USA · 2020 &quot;A Korean family plants roots in Arkansas soil — and hearts.&quot;</p></section>
+<section class="page" id="page-9"><div class="page-label">PAGE 9</div><p>99 The Tale of the Princess Kaguya</p>
+<h2 id="isao-takahata-japan-2013">Isao Takahata · Japan · 2013</h2>
+<p>&quot;A bamboo child returns to the sky — the most beautiful goodbye.&quot; 100 Grave of the Fireflies</p>
+<h2 id="isao-takahata-japan-1988">Isao Takahata · Japan · 1988</h2>
+<p>&quot;Never before has animation broken so completely.&quot;</p>
+<h2 id="101-my-neighbor-totoro">101 My Neighbor Totoro</h2>
+<h2 id="hayao-miyazaki-japan-1988">Hayao Miyazaki · Japan · 1988</h2>
+<p>&quot;Childhood is a country only some children find the map to.&quot;</p>
+<h2 id="102-only-yesterday">102 Only Yesterday</h2>
+<h2 id="isao-takahata-japan-1991">Isao Takahata · Japan · 1991</h2>
+<p>&quot;Memories of childhood visit a woman in her twenties.&quot;</p>
+<h2 id="103-wolf-children">103 Wolf Children</h2>
+<h2 id="mamoru-hosoda-japan-2012">Mamoru Hosoda · Japan · 2012</h2>
+<p>&quot;A mother raises two half-wolves — with absolute grace.&quot;</p>
+<h2 id="104-when-marnie-was-there">104 When Marnie Was There</h2>
+<h2 id="hiromasa-yonebayashi-japan-2014">Hiromasa Yonebayashi · Japan · 2014</h2>
+<p>&quot;A lonely girl finds a friend across a marsh and time.&quot;</p>
+<h2 id="105-i-lost-my-body">105 I Lost My Body</h2>
+<h2 id="j-r-my-clapin-france-2019">Jérémy Clapin · France · 2019</h2>
+<p>&quot;A severed hand searches for the boy it belonged to.&quot;</p>
+<h2 id="animated-worlds-graphic-stories">■ ANIMATED WORLDS &amp; GRAPHIC STORIES ■</h2>
+<h2 id="106-tatsumi">106 Tatsumi</h2>
+<h2 id="eric-khoo-singapore-2011">Eric Khoo · Singapore · 2011</h2>
+<p>&quot;The godfather of Japanese alternative manga — in motion.&quot; 107 Peleliu: Guernica of Paradise</p>
+<h2 id="animated-japan-2021">Animated · Japan · 2021</h2>
+<p>&quot;Two soldiers, one promise: survive the paradise that&#x27;s killing them.&quot; 108 Little Amélie or the Character of Rain</p>
+<h2 id="ma-lys-vallade-liane-cho-han-france-2025">Maïlys Vallade &amp; Liane-Cho Han · France · 2025</h2>
+<p>&quot;A girl in a bubble discovers that rain is just the sky&#x27;s tears.&quot;</p>
+<h2 id="109-the-red-turtle">109 The Red Turtle</h2>
+<p>Michaël Dudok de Wit · France/Japan · 2016 &quot;No words needed — this island tells everything.&quot;</p>
+<h2 id="110-flee">110 Flee</h2>
+<h2 id="jonas-poher-rasmussen-denmark-2021">Jonas Poher Rasmussen · Denmark · 2021</h2>
+<p>&quot;Animated truth is still truth — a refugee&#x27;s story, at last.&quot;</p>
+<h2 id="111-funan">111 Funan</h2>
+<h2 id="denis-do-france-luxembourg-2018">Denis Do · France/Luxembourg · 2018</h2>
+<p>&quot;A mother searches for her son through the Khmer Rouge.&quot;</p>
+<h2 id="112-long-way-north">112 Long Way North</h2>
+<h2 id="r-mi-chabloz-marche-france-denmark-2015">Rémi Chabloz &amp; Marche · France/Denmark · 2015</h2>
+<p>&quot;A girl sails to the Arctic to find her grandfather.&quot;</p></section>
+<section class="page" id="page-10"><div class="page-label">PAGE 10</div><h2 id="113-the-breadwinner">113 The Breadwinner</h2>
+<h2 id="nora-twomey-ireland-canada-2017">Nora Twomey · Ireland/Canada · 2017</h2>
+<p>&quot;A girl in Taliban-ruled Afghanistan becomes the family&#x27;s son.&quot; 114 Aya of Yop City</p>
+<h2 id="marguerite-abouet-france-2013">Marguerite Abouet · France · 2013</h2>
+<p>&quot;Life, love, and laughter in 1970s Ivory Coast.&quot;</p>
+<h2 id="115-ethel-ernest">115 Ethel &amp; Ernest</h2>
+<p>Roger Mainwood · UK · 2016 &quot;Two ordinary lives — and absolutely everything in them.&quot; 116 My Life as a Courgette</p>
+<h2 id="claude-barras-switzerland-2016">Claude Barras · Switzerland · 2016</h2>
+<p>&quot;Orphans find family in the least likely places.&quot;</p>
+<h2 id="117-chickenhead">117 Chickenhead</h2>
+<h2 id="various-animators-international-2002">Various Animators · International · 2002</h2>
+<p>&quot;Short films anthology — proof that six minutes can be a universe.&quot; 118 Batman: Mask of the Phantasm Bruce Timm · USA · 1993 &quot;The definitive Batman — and no one talks about it enough.&quot; 119 Nausicaä of the Valley of the Wind</p>
+<h2 id="hayao-miyazaki-japan-1984">Hayao Miyazaki · Japan · 1984</h2>
+<p>&quot;An eco-warrior princess 40 years ahead of her time.&quot; 120 When the Wind Blows Jimmy Murakami · UK · 1986 &quot;Two old people and a nuclear bomb — the saddest film ever drawn.&quot;</p>
+<h2 id="graphic-novels-illustrated-stories">■ GRAPHIC NOVELS &amp; ILLUSTRATED STORIES ■</h2>
+<h2 id="121-they-called-us-enemy">121 They Called Us Enemy</h2>
+<p>George Takei / Eisinger · USA · 2019 &quot;A Star Trek legend&#x27;s childhood in an internment camp.&quot;</p>
+<h2 id="122-l-adoption-qinaya">122 L&#x27;Adoption – Qinaya</h2>
+<h2 id="zidrou-monin-belgium-france-2014">Zidrou &amp; Monin · Belgium/France · 2014</h2>
+<p>&quot;An old man and a little girl, learning to be family.&quot;</p>
+<h2 id="123-how-do-you-live">123 How Do You Live?</h2>
+<h2 id="yoshino-genzaburo-japan-1937">Yoshino Genzaburo · Japan · 1937</h2>
+<p>&quot;The book that moved Miyazaki to tears — now move yourself.&quot;</p>
+<h2 id="124-march-trilogy">124 March (Trilogy)</h2>
+<p>John Lewis &amp; Andrew Aydin · USA · 2013 &quot;The civil rights movement in panels — history as graphic truth.&quot;</p>
+<h2 id="125-maus">125 Maus</h2>
+<p>Art Spiegelman · USA · 1991 &quot;Cats and mice tell the Holocaust — and it works because it must.&quot;</p>
+<h2 id="126-saga">126 Saga</h2>
+<p>Brian K. Vaughan · USA · 2012 &quot;A space opera about family values that defies every trope.&quot;</p></section>
+<section class="page" id="page-11"><div class="page-label">PAGE 11</div><h2 id="127-blankets">127 Blankets</h2>
+<p>Craig Thompson · USA · 2003 &quot;First love and lost faith, drawn with breathtaking intimacy.&quot;</p>
+<h2 id="128-fun-home">128 Fun Home</h2>
+<p>Alison Bechdel · USA · 2006 &quot;A daughter reconstructs her father&#x27;s secret life — and her own.&quot;</p>
+<h2 id="129-the-complete-persepolis">129 The Complete Persepolis</h2>
+<h2 id="marjane-satrapi-france-2000">Marjane Satrapi · France · 2000</h2>
+<p>&quot;The book before the film — even more essential.&quot; 130 In the Shadow of No Towers Art Spiegelman · USA · 2004 &quot;9/11 witnessed and processed in anguished panels.&quot;</p>
+<h2 id="literature-that-moves-like-film">■ LITERATURE THAT MOVES LIKE FILM ■</h2>
+<h2 id="131-the-mountain-is-you">131 The Mountain Is You</h2>
+<p>Brianna Wiest · USA · 2020 &quot;The only obstacle between you and everything is you.&quot;</p>
+<h2 id="132-the-midnight-library">132 The Midnight Library</h2>
+<p>Matt Haig · UK · 2020 &quot;Every life you didn&#x27;t live is still possible tonight.&quot;</p>
+<h2 id="133-milkman">133 Milkman</h2>
+<p>Anna Burns · UK · 2018 &quot;A nameless girl in a conflict zone walks and thinks her way free.&quot;</p>
+<h2 id="134-a-man-called-ove">134 A Man Called Ove</h2>
+<h2 id="fredrik-backman-sweden-2012">Fredrik Backman · Sweden · 2012</h2>
+<p>&quot;The grumpiest neighbour is the most secretly loving one.&quot;</p>
+<h2 id="135-the-snow-child">135 The Snow Child</h2>
+<p>Eowyn Ivey · USA · 2012 &quot;A couple in Alaska, a mysterious child, and a winter that heals.&quot; 136 The Old Man and the Sea Ernest Hemingway · USA · 1952 &quot;Three days, one fish, every human ambition.&quot;</p>
+<h2 id="137-when-breath-becomes-air">137 When Breath Becomes Air</h2>
+<p>Paul Kalanithi · USA · 2016 &quot;A neurosurgeon faces death and asks what makes a life.&quot; 138 The Remains of the Day Kazuo Ishiguro · UK · 1989 &quot;A butler&#x27;s tour of England becomes a tour of his unlived life.&quot;</p>
+<h2 id="139-never-let-me-go">139 Never Let Me Go</h2>
+<p>Kazuo Ishiguro · UK · 2005 &quot;Love in a world that&#x27;s already decided your fate.&quot;</p>
+<h2 id="140-the-unconsoled">140 The Unconsoled</h2>
+<p>Kazuo Ishiguro · UK · 1995 &quot;A pianist in an unnamed city — reality bends, feeling stays.&quot;</p></section>
+<section class="page" id="page-12"><div class="page-label">PAGE 12</div><h2 id="war-history-witness">■ WAR, HISTORY &amp; WITNESS ■</h2>
+<p>141 Come and See</p>
+<h2 id="elem-klimov-soviet-union-1985">Elem Klimov · Soviet Union · 1985</h2>
+<p>&quot;The most devastating war film ever made.&quot; 142 Son of Saul</p>
+<h2 id="l-szl-nemes-hungary-2015">László Nemes · Hungary · 2015</h2>
+<p>&quot;Auschwitz in close-up — unbearable and necessary.&quot;</p>
+<h2 id="143-turtles-can-fly">143 Turtles Can Fly</h2>
+<h2 id="bahman-ghobadi-iran-iraq-2004">Bahman Ghobadi · Iran/Iraq · 2004</h2>
+<p>&quot;Children in a refugee camp — and one girl who won&#x27;t speak.&quot; 144 No Man&#x27;s Land</p>
+<h2 id="danis-tanovi-bosnia-2001">Danis Tanovi■ · Bosnia · 2001</h2>
+<p>&quot;Two soldiers stuck in a trench — war as black comedy.&quot;</p>
+<h2 id="145-paradise-now">145 Paradise Now</h2>
+<h2 id="hany-abu-assad-palestine-2005">Hany Abu-Assad · Palestine · 2005</h2>
+<p>&quot;Two best friends, one decision, one night to change everything.&quot; 146 The Battle of Algiers</p>
+<h2 id="gillo-pontecorvo-algeria-italy-1966">Gillo Pontecorvo · Algeria/Italy · 1966</h2>
+<p>&quot;Colonialism documented with the precision of a wound.&quot; 147 Grave of the Fireflies</p>
+<h2 id="isao-takahata-japan-1988-2">Isao Takahata · Japan · 1988</h2>
+<p>&quot;Two children in post-war Japan — the most heartbreaking film.&quot;</p>
+<h2 id="148-hiroshima-mon-amour">148 Hiroshima Mon Amour</h2>
+<h2 id="alain-resnais-france-japan-1959">Alain Resnais · France/Japan · 1959</h2>
+<p>&quot;Memory and forgetting as acts of both love and violence.&quot; 149 Night and Fog</p>
+<h2 id="alain-resnais-france-1956">Alain Resnais · France · 1956</h2>
+<p>&quot;Thirty-two minutes that no one should look away from.&quot; 150 The Zone of Interest Jonathan Glazer · UK/Poland · 2023 &quot;Evil happens right next door — behind the garden wall.&quot;</p>
+<h2 id="nature-as-character">■ NATURE AS CHARACTER ■</h2>
+<p>151 Aguirre, the Wrath of God</p>
+<h2 id="werner-herzog-germany-1972">Werner Herzog · Germany · 1972</h2>
+<p>&quot;The jungle conquers men who think they conquer jungles.&quot;</p>
+<h2 id="152-fitzcarraldo">152 Fitzcarraldo</h2>
+<h2 id="werner-herzog-germany-1982">Werner Herzog · Germany · 1982</h2>
+<p>&quot;A man drags an opera house through the Amazon.&quot;</p></section>
+<section class="page" id="page-13"><div class="page-label">PAGE 13</div><h2 id="153-grizzly-man">153 Grizzly Man</h2>
+<p>Werner Herzog · USA · 2005 &quot;A man loved bears so completely he became part of their world.&quot;</p>
+<h2 id="154-leviathan">154 Leviathan</h2>
+<p>Lucien Castaing-Taylor · USA · 2012 &quot;Commercial fishing filmed like a fever dream.&quot;</p>
+<h2 id="155-sweetgrass">155 Sweetgrass</h2>
+<p>Lucien Castaing-Taylor · USA · 2009 &quot;The last American sheepherders drive their flock across Montana.&quot; 156 Nostalgia for the Light</p>
+<h2 id="patricio-guzm-n-chile-france-2010">Patricio Guzmán · Chile/France · 2010</h2>
+<p>&quot;Astronomers and mothers search for the disappeared.&quot;</p>
+<h2 id="157-the-pearl-button">157 The Pearl Button</h2>
+<h2 id="patricio-guzm-n-chile-france-2015">Patricio Guzmán · Chile/France · 2015</h2>
+<p>&quot;Water holds the memory of the murdered.&quot;</p>
+<h2 id="158-koyaanisqatsi">158 Koyaanisqatsi</h2>
+<p>Godfrey Reggio · USA · 1982 &quot;Life out of balance — filmed in time-lapse before it was cool.&quot;</p>
+<h2 id="159-powaqqatsi">159 Powaqqatsi</h2>
+<p>Godfrey Reggio · USA · 1988 &quot;Life in transformation — the developing world in motion.&quot;</p>
+<h2 id="160-anthropocene-the-human-epoch">160 Anthropocene: The Human Epoch</h2>
+<h2 id="edward-burtynsky-canada-2018">Edward Burtynsky · Canada · 2018</h2>
+<p>&quot;Humanity&#x27;s mark on the planet — beautiful and terrifying.&quot;</p>
+<h2 id="cities-urban-souls">■ CITIES &amp; URBAN SOULS ■</h2>
+<p>161 City of God</p>
+<h2 id="fernando-meirelles-brazil-2002">Fernando Meirelles · Brazil · 2002</h2>
+<p>&quot;Rio&#x27;s favelas through a photographer&#x27;s lens — life in fast frames.&quot;</p>
+<h2 id="162-chungking-express">162 Chungking Express</h2>
+<p>Wong Kar-wai · Hong Kong · 1994 &quot;Two love stories in one city at the speed of loneliness.&quot;</p>
+<h2 id="163-happy-together">163 Happy Together</h2>
+<p>Wong Kar-wai · Hong Kong · 1997 &quot;Buenos Aires, two men, and the love that can&#x27;t let go.&quot; 164 Lost in Translation Sofia Coppola · USA/Japan · 2003 &quot;Two strangers in Tokyo find something neither can name.&quot;</p>
+<h2 id="165-yi-yi">165 Yi Yi</h2>
+<h2 id="edward-yang-taiwan-2000">Edward Yang · Taiwan · 2000</h2>
+<p>&quot;A Taiwanese family over one year — three generations, one truth.&quot;</p>
+<h2 id="166-a-brighter-summer-day">166 A Brighter Summer Day</h2>
+<h2 id="edward-yang-taiwan-1991">Edward Yang · Taiwan · 1991</h2>
+<p>&quot;Four hours in 1960s Taiwan — a nation&#x27;s youth in crisis.&quot;</p></section>
+<section class="page" id="page-14"><div class="page-label">PAGE 14</div><h2 id="167-millennium-mambo">167 Millennium Mambo</h2>
+<h2 id="hou-hsiao-hsien-taiwan-2001">Hou Hsiao-Hsien · Taiwan · 2001</h2>
+<p>&quot;A young woman in slow-motion drift through the city.&quot;</p>
+<h2 id="168-stranger-than-paradise">168 Stranger Than Paradise</h2>
+<p>Jim Jarmusch · USA · 1984 &quot;Nothing happens, twice — and it&#x27;s perfect.&quot; 169 Night on Earth Jim Jarmusch · USA · 1991 &quot;Five taxi rides, five cities, one night, infinite humanity.&quot; 170 Blue Is the Warmest Colour</p>
+<h2 id="abdellatif-kechiche-france-2013">Abdellatif Kechiche · France · 2013</h2>
+<p>&quot;First love so real it&#x27;s uncomfortable to watch.&quot;</p>
+<h2 id="grief-loss-healing">■ GRIEF, LOSS &amp; HEALING ■</h2>
+<p>171 Manchester by the Sea Kenneth Lonergan · USA · 2016 &quot;Some grief cannot be fixed — only carried.&quot;</p>
+<h2 id="172-three-colours-blue">172 Three Colours: Blue</h2>
+<p>Krzysztof Kie■lowski · France · 1993 &quot;A widow destroys her past — and music finds her anyway.&quot;</p>
+<h2 id="173-three-colours-red">173 Three Colours: Red</h2>
+<p>Krzysztof Kie■lowski · France/Switzerland · 1994 &quot;A retired judge, a model, and the connections that save us.&quot; 174 The Diving Bell and the Butterfly</p>
+<h2 id="julian-schnabel-france-2007">Julian Schnabel · France · 2007</h2>
+<p>&quot;Locked-in syndrome — and an imagination that breaks free.&quot;</p>
+<h2 id="175-ordinary-people">175 Ordinary People</h2>
+<p>Robert Redford · USA · 1980 &quot;Grief tears a family apart in the most ordinary living room.&quot;</p>
+<h2 id="176-rabbit-hole">176 Rabbit Hole</h2>
+<p>John Cameron Mitchell · USA · 2010 &quot;A couple disagrees on how to survive their son&#x27;s death.&quot; 177 The Son&#x27;s Room</p>
+<h2 id="nanni-moretti-italy-2001">Nanni Moretti · Italy · 2001</h2>
+<p>&quot;A psychiatrist cannot heal his own family&#x27;s wound.&quot;</p>
+<h2 id="178-a-ghost-story">178 A Ghost Story</h2>
+<p>David Lowery · USA · 2017 &quot;A sheet-ghost watches time pass — and it&#x27;s profound.&quot;</p>
+<h2 id="179-endings-beginnings">179 Endings, Beginnings</h2>
+<p>Drake Doremus · USA · 2019 &quot;Grief opens a woman to love she isn&#x27;t ready for.&quot;</p>
+<h2 id="180-land">180 Land</h2>
+<p>Robin Wright · USA · 2021 &quot;She retreats to the wilderness; the wilderness teaches her to stay.&quot;</p></section>
+<section class="page" id="page-15"><div class="page-label">PAGE 15</div><h2 id="women-s-stories-female-gaze">■ WOMEN&#x27;S STORIES &amp; FEMALE GAZE ■</h2>
+<h2 id="181-mustang">181 Mustang</h2>
+<h2 id="deniz-gamze-erg-ven-france-turkey-2015-2">Deniz Gamze Ergüven · France/Turkey · 2015</h2>
+<p>&quot;Five sisters in rural Turkey, and the freedom they invent.&quot;</p>
+<h2 id="182-the-piano">182 The Piano</h2>
+<h2 id="jane-campion-new-zealand-1993">Jane Campion · New Zealand · 1993</h2>
+<p>&quot;A mute woman&#x27;s voice is in her fingers — no one hears it.&quot; 183 Portrait of a Lady on Fire</p>
+<h2 id="c-line-sciamma-france-2019-2">Céline Sciamma · France · 2019</h2>
+<p>&quot;A painting is a record of a gaze — and a love.&quot; 184 4 Months, 3 Weeks and 2 Days</p>
+<h2 id="cristian-mungiu-romania-2007">Cristian Mungiu · Romania · 2007</h2>
+<p>&quot;Communist Romania, one night, an impossible request.&quot;</p>
+<h2 id="185-ida">185 Ida</h2>
+<h2 id="pawe-pawlikowski-poland-2013">Pawe■ Pawlikowski · Poland · 2013</h2>
+<p>&quot;A nun, a secret, a black-and-white world in snow.&quot;</p>
+<h2 id="186-cold-war">186 Cold War</h2>
+<h2 id="pawe-pawlikowski-poland-2018">Pawe■ Pawlikowski · Poland · 2018</h2>
+<p>&quot;A love affair across the Iron Curtain — never quite possible.&quot;</p>
+<h2 id="187-fish-tank">187 Fish Tank</h2>
+<p>Andrea Arnold · UK · 2009 &quot;Fifteen and furious in an Essex tower block.&quot;</p>
+<h2 id="188-rocks">188 Rocks</h2>
+<p>Sarah Gavron · UK · 2019 &quot;Teenage girls caring for each other — the true social fabric.&quot;</p>
+<h2 id="189-water">189 Water</h2>
+<h2 id="deepa-mehta-canada-india-2005">Deepa Mehta · Canada/India · 2005</h2>
+<p>&quot;Widows in 1938 India and the life denied to them.&quot;</p>
+<h2 id="190-osama">190 Osama</h2>
+<h2 id="siddiq-barmak-afghanistan-2003">Siddiq Barmak · Afghanistan · 2003</h2>
+<p>&quot;The first film made post-Taliban — about a girl who dresses as a boy.&quot;</p>
+<h2 id="coming-of-age-youth">■ COMING OF AGE &amp; YOUTH ■</h2>
+<h2 id="191-boyhood">191 Boyhood</h2>
+<p>Richard Linklater · USA · 2014 &quot;Twelve years filmed as one — and it passes just like that.&quot;</p>
+<h2 id="192-the-400-blows">192 The 400 Blows</h2>
+<h2 id="fran-ois-truffaut-france-1959">François Truffaut · France · 1959</h2>
+<p>&quot;A boy runs to the sea — the first image of a soul&#x27;s longing.&quot;</p></section>
+<section class="page" id="page-16"><div class="page-label">PAGE 16</div><p>193 L&#x27;Argent de Poche</p>
+<h2 id="fran-ois-truffaut-france-1976">François Truffaut · France · 1976</h2>
+<p>&quot;Childhood stories — funny, sad, complete, and true.&quot;</p>
+<h2 id="194-au-revoir-les-enfants">194 Au Revoir Les Enfants</h2>
+<h2 id="louis-malle-france-1987">Louis Malle · France · 1987</h2>
+<p>&quot;A friendship in wartime, and a teacher&#x27;s unforgettable courage.&quot; 195 Stand by Me Rob Reiner · USA · 1986 &quot;Four boys walk to find a dead body — and find themselves.&quot; 196 Beasts of the Southern Wild Benh Zeitlin · USA · 2012 &quot;Six-year-old Hushpuppy faces the universe — and doesn&#x27;t blink.&quot;</p>
+<h2 id="197-spirited-away">197 Spirited Away</h2>
+<h2 id="hayao-miyazaki-japan-2001">Hayao Miyazaki · Japan · 2001</h2>
+<p>&quot;The greatest coming-of-age film — in a bathhouse for gods.&quot;</p>
+<h2 id="198-kikujiro">198 Kikujiro</h2>
+<h2 id="takeshi-kitano-japan-1999">Takeshi Kitano · Japan · 1999</h2>
+<p>&quot;A thug reluctantly escorts a boy to find his mother.&quot; 199 Nights of Cabiria</p>
+<h2 id="federico-fellini-italy-1957">Federico Fellini · Italy · 1957</h2>
+<p>&quot;A street prostitute&#x27;s heart is the most beautiful in Rome.&quot;</p>
+<h2 id="200-nobody-knows">200 Nobody Knows</h2>
+<p>Hirokazu Kore-eda · Japan · 2004 &quot;Four children abandoned in a Tokyo apartment — alone, surviving.&quot;</p>
+<h2 id="latin-american-visions">■ LATIN AMERICAN VISIONS ■</h2>
+<p>201 Once Upon a Time in Bolivia Patrick L. Cordova · Bolivia/USA · 2013 &quot;Brothers, landscape, and the roads between what is and what could be.&quot;</p>
+<h2 id="202-amores-perros">202 Amores Perros</h2>
+<h2 id="alejandro-gonz-lez-i-rritu-mexico-2000">Alejandro González Iñárritu · Mexico · 2000</h2>
+<p>&quot;Three stories, one crash, one city&#x27;s full moral weight.&quot;</p>
+<h2 id="203-y-tu-mam-tambi-n">203 Y Tu Mamá También</h2>
+<h2 id="alfonso-cuar-n-mexico-2001">Alfonso Cuarón · Mexico · 2001</h2>
+<p>&quot;A road trip that is secretly about a country falling apart.&quot;</p>
+<h2 id="204-the-club">204 The Club</h2>
+<h2 id="pablo-larra-n-chile-2015">Pablo Larraín · Chile · 2015</h2>
+<p>&quot;Disgraced priests in a coastal house — cold and necessary.&quot;</p>
+<h2 id="205-tony-manero">205 Tony Manero</h2>
+<h2 id="pablo-larra-n-chile-2008">Pablo Larraín · Chile · 2008</h2>
+<p>&quot;Pinochet&#x27;s Chile through a man obsessed with Travolta.&quot;</p>
+<h2 id="206-wild-tales">206 Wild Tales</h2>
+<h2 id="dami-n-szifr-n-argentina-2014">Damián Szifrón · Argentina · 2014</h2>
+<p>&quot;Six stories about revenge — all hilariously, terrifyingly human.&quot;</p></section>
+<section class="page" id="page-17"><div class="page-label">PAGE 17</div><p>207 The Secret in Their Eyes</p>
+<h2 id="juan-jos-campanella-argentina-2009">Juan José Campanella · Argentina · 2009</h2>
+<p>&quot;A retired detective and a 25-year-old case that won&#x27;t close.&quot; 208 Cleo de 5 à 7</p>
+<h2 id="agn-s-varda-france-1962">Agnès Varda · France · 1962</h2>
+<p>&quot;Two hours in Paris while a woman waits for a diagnosis.&quot; 209 Nostalgia for the Light</p>
+<h2 id="patricio-guzm-n-chile-france-2010-2">Patricio Guzmán · Chile/France · 2010</h2>
+<p>&quot;Bones in the desert, stars above — both are history.&quot;</p>
+<h2 id="210-promising-young-woman">210 Promising Young Woman</h2>
+<p>Emerald Fennell · USA · 2020 &quot;Rage shaped into a pastel weapon — and it lands.&quot;</p>
+<h2 id="magical-realism-the-surreal">■ MAGICAL REALISM &amp; THE SURREAL ■</h2>
+<p>211 Beasts of the Southern Wild Benh Zeitlin · USA · 2012 &quot;Aurochs are real if you need them to be real.&quot;</p>
+<h2 id="212-tropical-malady">212 Tropical Malady</h2>
+<h2 id="apichatpong-weerasethakul-thailand-2004">Apichatpong Weerasethakul · Thailand · 2004</h2>
+<p>&quot;Love and myth dissolve into each other in the Thai forest.&quot;</p>
+<h2 id="213-blissfully-yours">213 Blissfully Yours</h2>
+<h2 id="apichatpong-weerasethakul-thailand-2002">Apichatpong Weerasethakul · Thailand · 2002</h2>
+<p>&quot;A day in the jungle — and the borders between lives.&quot; 214 Pan&#x27;s Labyrinth Guillermo del Toro · Spain/Mexico · 2006 &quot;Fascist Spain and a fairy world — both are equally real.&quot; 215 The Spirit of the Beehive</p>
+<h2 id="v-ctor-erice-spain-1973">Víctor Erice · Spain · 1973</h2>
+<p>&quot;A girl meets Frankenstein and is never the same again.&quot;</p>
+<h2 id="216-el-sur">216 El Sur</h2>
+<h2 id="v-ctor-erice-spain-1983">Víctor Erice · Spain · 1983</h2>
+<p>&quot;A daughter discovers her father&#x27;s secret south.&quot;</p>
+<h2 id="217-hedgehog">217 Hedgehog</h2>
+<h2 id="mona-achache-france-2009">Mona Achache · France · 2009</h2>
+<p>&quot;A concierge hides her intelligence; a girl plans to die; then they meet.&quot; 218 The Science of Sleep</p>
+<h2 id="michel-gondry-france-2006">Michel Gondry · France · 2006</h2>
+<p>&quot;Dreams spill into waking life — and it&#x27;s beautiful chaos.&quot; 219 Eternal Sunshine of the Spotless Mind Michel Gondry · USA · 2004 &quot;Erase the love — and still love.&quot;</p>
+<h2 id="220-coraline">220 Coraline</h2>
+<p>Henry Selick · USA · 2009 &quot;Other mother wants to sew buttons over your eyes — and she loves you.&quot;</p></section>
+<section class="page" id="page-18"><div class="page-label">PAGE 18</div><h2 id="exile-diaspora-longing">■ EXILE, DIASPORA &amp; LONGING ■</h2>
+<h2 id="221-turtles-can-fly">221 Turtles Can Fly</h2>
+<h2 id="bahman-ghobadi-iran-iraq-2004-2">Bahman Ghobadi · Iran/Iraq · 2004</h2>
+<p>&quot;Stateless children on the eve of a war.&quot; 222 A Letter to Momo</p>
+<h2 id="hiroyuki-okiura-japan-2011">Hiroyuki Okiura · Japan · 2011</h2>
+<p>&quot;An unfinished letter, three strange spirits, one grieving girl.&quot;</p>
+<h2 id="223-incendies">223 Incendies</h2>
+<h2 id="denis-villeneuve-canada-2010">Denis Villeneuve · Canada · 2010</h2>
+<p>&quot;Twins follow their dead mother&#x27;s letter into a devastating truth.&quot;</p>
+<h2 id="224-capernaum">224 Capernaum</h2>
+<h2 id="nadine-labaki-lebanon-2018-2">Nadine Labaki · Lebanon · 2018</h2>
+<p>&quot;The unwanted find each other in the cracks of the city.&quot;</p>
+<h2 id="225-welcome">225 Welcome</h2>
+<h2 id="philippe-lioret-france-2009">Philippe Lioret · France · 2009</h2>
+<p>&quot;A swimming instructor teaches an Iraqi refugee to cross the Channel.&quot;</p>
+<h2 id="226-the-visitor">226 The Visitor</h2>
+<p>Tom McCarthy · USA · 2007 &quot;A grieving professor comes alive again through djembe drums.&quot;</p>
+<h2 id="227-brooklyn">227 Brooklyn</h2>
+<p>John Crowley · UK/Ireland · 2015 &quot;An immigrant girl learns that home is both places at once.&quot;</p>
+<h2 id="228-in-america">228 In America</h2>
+<p>Jim Sheridan · Ireland/USA · 2002 &quot;An Irish family in New York City carrying a dead child&#x27;s ghost.&quot;</p>
+<h2 id="229-dheepan">229 Dheepan</h2>
+<h2 id="jacques-audiard-france-2015">Jacques Audiard · France · 2015</h2>
+<p>&quot;Tamil refugees pose as a family — and slowly become one.&quot;</p>
+<h2 id="230-the-class">230 The Class</h2>
+<h2 id="laurent-cantet-france-2008">Laurent Cantet · France · 2008</h2>
+<p>&quot;A Paris classroom where every identity is a negotiation.&quot;</p>
+<h2 id="quiet-films-loud-feelings">■ QUIET FILMS, LOUD FEELINGS ■</h2>
+<p>231 4 Months, 3 Weeks and 2 Days</p>
+<h2 id="cristian-mungiu-romania-2007-2">Cristian Mungiu · Romania · 2007</h2>
+<p>&quot;The camera doesn&#x27;t look away — and neither should we.&quot; 232 The Death of Mr. Lazarescu</p>
+<h2 id="cristi-puiu-romania-2005">Cristi Puiu · Romania · 2005</h2>
+<p>&quot;A man navigates hospitals all night — Kafkaesque but true.&quot;</p></section>
+<section class="page" id="page-19"><div class="page-label">PAGE 19</div><p>233 The Kid with a Bike</p>
+<h2 id="dardenne-brothers-belgium-2011">Dardenne Brothers · Belgium · 2011</h2>
+<p>&quot;A boy abandoned and the woman who chooses to love him.&quot;</p>
+<h2 id="234-rosetta">234 Rosetta</h2>
+<h2 id="dardenne-brothers-belgium-1999">Dardenne Brothers · Belgium · 1999</h2>
+<p>&quot;A girl who just wants to keep her job — and it breaks you.&quot;</p>
+<h2 id="235-the-son">235 The Son</h2>
+<h2 id="dardenne-brothers-belgium-2002">Dardenne Brothers · Belgium · 2002</h2>
+<p>&quot;A carpenter and the boy who killed his son — they work together.&quot;</p>
+<h2 id="236-two-days-one-night">236 Two Days, One Night</h2>
+<h2 id="dardenne-brothers-belgium-2014">Dardenne Brothers · Belgium · 2014</h2>
+<p>&quot;Marion Cotillard spends a weekend asking strangers for her job.&quot; 237 Winter&#x27;s Bone Debra Granik · USA · 2010 &quot;A teenage girl searches for her father in the Ozarks — alone.&quot;</p>
+<h2 id="238-leave-no-trace">238 Leave No Trace</h2>
+<p>Debra Granik · USA · 2018 &quot;A father and daughter living off-grid — and what love requires.&quot;</p>
+<h2 id="239-first-reformed">239 First Reformed</h2>
+<p>Paul Schrader · USA · 2017 &quot;An upstate New York pastor&#x27;s faith collapses and ignites.&quot;</p>
+<h2 id="240-paterson">240 Paterson</h2>
+<p>Jim Jarmusch · USA · 2016 &quot;A bus driver writes secret poems — daily life as art.&quot;</p>
+<h2 id="east-asian-essentials">■ EAST ASIAN ESSENTIALS ■</h2>
+<h2 id="241-tokyo-story">241 Tokyo Story</h2>
+<h2 id="yasujir-ozu-japan-1953">Yasujir■ Ozu · Japan · 1953</h2>
+<p>&quot;Parents visit their adult children — and realise they&#x27;re strangers.&quot;</p>
+<h2 id="242-late-spring">242 Late Spring</h2>
+<h2 id="yasujir-ozu-japan-1949">Yasujir■ Ozu · Japan · 1949</h2>
+<p>&quot;A widower&#x27;s daughter refuses to marry — and he&#x27;s right to worry.&quot;</p>
+<h2 id="243-an-autumn-afternoon">243 An Autumn Afternoon</h2>
+<h2 id="yasujir-ozu-japan-1962">Yasujir■ Ozu · Japan · 1962</h2>
+<p>&quot;Ozu&#x27;s last film: a father, a daughter, a Japan changing around them.&quot; 244 The Flavour of Green Tea over Rice</p>
+<h2 id="yasujir-ozu-japan-1952">Yasujir■ Ozu · Japan · 1952</h2>
+<p>&quot;A mismatched couple — and the meal that saves their marriage.&quot;</p>
+<h2 id="245-floating-weeds">245 Floating Weeds</h2>
+<h2 id="yasujir-ozu-japan-1959">Yasujir■ Ozu · Japan · 1959</h2>
+<p>&quot;A theatre troupe stops in a town where its leader left a son.&quot; 246 Raise the Red Lantern</p>
+<h2 id="zhang-yimou-china-1991">Zhang Yimou · China · 1991</h2>
+<p>&quot;Concubines, ceremony, and power — Vermeer in Shanxi.&quot;</p></section>
+<section class="page" id="page-20"><div class="page-label">PAGE 20</div><h2 id="247-to-live">247 To Live</h2>
+<h2 id="zhang-yimou-china-1994">Zhang Yimou · China · 1994</h2>
+<p>&quot;A family survives Chinese history — barely, bravely, humanly.&quot;</p>
+<h2 id="248-crouching-tiger-hidden-dragon">248 Crouching Tiger, Hidden Dragon</h2>
+<h2 id="ang-lee-taiwan-2000">Ang Lee · Taiwan · 2000</h2>
+<p>&quot;Martial arts as emotion — every leap is a feeling.&quot;</p>
+<h2 id="249-eat-drink-man-woman">249 Eat Drink Man Woman</h2>
+<h2 id="ang-lee-taiwan-1994">Ang Lee · Taiwan · 1994</h2>
+<p>&quot;A chef who&#x27;s lost his sense of taste — and his daughters leaving.&quot; 250 A City of Sadness</p>
+<h2 id="hou-hsiao-hsien-taiwan-1989">Hou Hsiao-Hsien · Taiwan · 1989</h2>
+<p>&quot;1940s Taiwan through one family — history made intimate.&quot;</p>
+<h2 id="european-masters">■ EUROPEAN MASTERS ■</h2>
+<h2 id="251-the-mirror">251 The Mirror</h2>
+<h2 id="andrei-tarkovsky-soviet-union-1975">Andrei Tarkovsky · Soviet Union · 1975</h2>
+<p>&quot;Memory, poetry, and fire — no film is more personal.&quot;</p>
+<h2 id="252-andrei-rublev">252 Andrei Rublev</h2>
+<h2 id="andrei-tarkovsky-soviet-union-1966">Andrei Tarkovsky · Soviet Union · 1966</h2>
+<p>&quot;A medieval painter questions art in a world of violence.&quot;</p>
+<h2 id="253-stalker">253 Stalker</h2>
+<h2 id="andrei-tarkovsky-soviet-union-1979">Andrei Tarkovsky · Soviet Union · 1979</h2>
+<p>&quot;A journey to a place where wishes come true — beware.&quot;</p>
+<h2 id="254-nostalghia">254 Nostalghia</h2>
+<h2 id="andrei-tarkovsky-italy-1983">Andrei Tarkovsky · Italy · 1983</h2>
+<p>&quot;A Russian poet wanders Italy, carrying his homeland&#x27;s weight.&quot;</p>
+<h2 id="255-wild-strawberries">255 Wild Strawberries</h2>
+<h2 id="ingmar-bergman-sweden-1957">Ingmar Bergman · Sweden · 1957</h2>
+<p>&quot;An old professor reviews his life on a journey — quietly devastating.&quot;</p>
+<h2 id="256-the-seventh-seal">256 The Seventh Seal</h2>
+<h2 id="ingmar-bergman-sweden-1957-2">Ingmar Bergman · Sweden · 1957</h2>
+<p>&quot;A knight plays chess with Death — and loses time.&quot; 257 Fanny and Alexander</p>
+<h2 id="ingmar-bergman-sweden-1982">Ingmar Bergman · Sweden · 1982</h2>
+<p>&quot;A child&#x27;s view of love, death, and tyranny — Bergman&#x27;s farewell.&quot;</p>
+<h2 id="258-europa-europa">258 Europa Europa</h2>
+<h2 id="agnieszka-holland-germany-france-1990">Agnieszka Holland · Germany/France · 1990</h2>
+<p>&quot;A Jewish boy survives the Holocaust by becoming a Nazi soldier.&quot;</p>
+<h2 id="259-shoah">259 Shoah</h2>
+<h2 id="claude-lanzmann-france-1985">Claude Lanzmann · France · 1985</h2>
+<p>&quot;Nine hours of testimony — the definitive Holocaust document.&quot; 260 The Lives of Others</p>
+<h2 id="florian-henckel-germany-2006">Florian Henckel · Germany · 2006</h2>
+<p>&quot;A Stasi officer listens in — and slowly begins to feel.&quot;</p></section>
+<section class="page" id="page-21"><div class="page-label">PAGE 21</div><h2 id="south-southeast-asian-cinema">■ SOUTH &amp; SOUTHEAST ASIAN CINEMA ■</h2>
+<h2 id="261-pather-panchali">261 Pather Panchali</h2>
+<h2 id="satyajit-ray-india-1955">Satyajit Ray · India · 1955</h2>
+<p>&quot;A boy, a sister, and a poverty that carries its own beauty.&quot;</p>
+<h2 id="262-aparajito">262 Aparajito</h2>
+<h2 id="satyajit-ray-india-1956">Satyajit Ray · India · 1956</h2>
+<p>&quot;Apu leaves home — and everything changes forever.&quot; 263 The World of Apu</p>
+<h2 id="satyajit-ray-india-1959">Satyajit Ray · India · 1959</h2>
+<p>&quot;The Apu trilogy ends — with loss and something like grace.&quot;</p>
+<h2 id="264-charulata">264 Charulata</h2>
+<h2 id="satyajit-ray-india-1964">Satyajit Ray · India · 1964</h2>
+<p>&quot;A woman in 19th century Bengal discovers desire through reading.&quot;</p>
+<h2 id="265-water">265 Water</h2>
+<h2 id="deepa-mehta-canada-india-2005-2">Deepa Mehta · Canada/India · 2005</h2>
+<p>&quot;A child widow at 8 — colonial India, real suffering.&quot;</p>
+<h2 id="266-the-lunchbox">266 The Lunchbox</h2>
+<h2 id="ritesh-batra-india-2013">Ritesh Batra · India · 2013</h2>
+<p>&quot;A misdirected lunchbox begins a correspondence that changes two lives.&quot;</p>
+<h2 id="267-court">267 Court</h2>
+<h2 id="chaitanya-tamhane-india-2014">Chaitanya Tamhane · India · 2014</h2>
+<p>&quot;A folk singer faces a Kafkaesque trial in Mumbai.&quot;</p>
+<h2 id="268-burning">268 Burning</h2>
+<p>Lee Chang-dong · South Korea · 2018 &quot;Who burned the greenhouses? Every frame asks the question.&quot;</p>
+<h2 id="269-taxi-tehran">269 Taxi Tehran</h2>
+<h2 id="jafar-panahi-iran-2015">Jafar Panahi · Iran · 2015</h2>
+<p>&quot;A banned director drives a taxi — and films everyone.&quot; 270 This Is Not a Film</p>
+<h2 id="jafar-panahi-iran-2011">Jafar Panahi · Iran · 2011</h2>
+<p>&quot;Under house arrest, a filmmaker makes a film anyway.&quot;</p>
+<h2 id="african-cinema">■ AFRICAN CINEMA ■</h2>
+<h2 id="271-atlantics">271 Atlantics</h2>
+<h2 id="mati-diop-france-senegal-2019-2">Mati Diop · France/Senegal · 2019</h2>
+<p>&quot;Ghost story, love story, migration story — all three, always.&quot;</p>
+<h2 id="272-moolaad">272 Moolaadé</h2>
+<h2 id="ousmane-semb-ne-senegal-2004">Ousmane Sembène · Senegal · 2004</h2>
+<p>&quot;A woman shelters girls from FGM — tradition versus courage.&quot;</p></section>
+<section class="page" id="page-22"><div class="page-label">PAGE 22</div><h2 id="273-yeelen">273 Yeelen</h2>
+<h2 id="souleymane-ciss-mali-1987">Souleymane Cissé · Mali · 1987</h2>
+<p>&quot;Father vs son in ancient Mali — a myth told in golden light.&quot;</p>
+<h2 id="274-touki-bouki">274 Touki Bouki</h2>
+<h2 id="djibril-diop-mamb-ty-senegal-1973">Djibril Diop Mambéty · Senegal · 1973</h2>
+<p>&quot;Young Africans dream of Paris — the original African road film.&quot;</p>
+<h2 id="275-hyenas">275 Hyenas</h2>
+<h2 id="djibril-diop-mamb-ty-senegal-1992">Djibril Diop Mambéty · Senegal · 1992</h2>
+<p>&quot;A wealthy woman returns to her hometown for revenge.&quot; 276 Faces of Women</p>
+<h2 id="d-sir-ecar-ivory-coast-1985">Désiré Ecaré · Ivory Coast · 1985</h2>
+<p>&quot;Female desire and agency in West Africa — radical for its time.&quot;</p>
+<h2 id="277-an-african-election">277 An African Election</h2>
+<h2 id="jarreth-merz-ghana-2011">Jarreth Merz · Ghana · 2011</h2>
+<p>&quot;Ghana&#x27;s 2008 election — democracy in action, beautifully documented.&quot; 278 The Battle of Tabatô</p>
+<h2 id="jo-o-viana-guinea-bissau-2013">João Viana · Guinea-Bissau · 2013</h2>
+<p>&quot;A deaf man travels to see his dying father through post-war Guinea.&quot;</p>
+<h2 id="279-war-witch">279 War Witch</h2>
+<p>Kim Nguyen · Canada/DRC · 2012 &quot;A girl soldier in the Congo — told with haunting gentleness.&quot; 280 Love the One You Love</p>
+<h2 id="jenna-bass-south-africa-2014">Jenna Bass · South Africa · 2014</h2>
+<p>&quot;A love story told in overlapping time — Cape Town as mood.&quot; ■ THE ESSENTIAL SHELF — TWENTY TO SEE BEFORE YOU SLEEP ■</p>
+<h2 id="281-ikiru">281 Ikiru</h2>
+<h2 id="akira-kurosawa-japan-1952">Akira Kurosawa · Japan · 1952</h2>
+<p>&quot;A bureaucrat learns he&#x27;s dying — and finally starts to live.&quot;</p>
+<h2 id="282-the-bicycle-thieves">282 The Bicycle Thieves</h2>
+<h2 id="vittorio-de-sica-italy-1948">Vittorio De Sica · Italy · 1948</h2>
+<p>&quot;A father, a son, and a stolen bicycle — a whole world.&quot; 283 Children of Heaven</p>
+<h2 id="majid-majidi-iran-1997">Majid Majidi · Iran · 1997</h2>
+<p>&quot;A boy loses his sister&#x27;s shoes and shares his own instead.&quot; 284 The Color of Paradise</p>
+<h2 id="majid-majidi-iran-1999">Majid Majidi · Iran · 1999</h2>
+<p>&quot;A blind boy understands God through his fingers.&quot;</p>
+<h2 id="285-earth">285 Earth</h2>
+<h2 id="aleksandr-dovzhenko-soviet-union-1930">Aleksandr Dovzhenko · Soviet Union · 1930</h2>
+<p>&quot;Ukrainian peasants, collective farms, and a night dance.&quot; 286 Babette&#x27;s Feast</p>
+<h2 id="gabriel-axel-denmark-1987">Gabriel Axel · Denmark · 1987</h2>
+<p>&quot;A French chef cooks a feast for puritans — grace arrives.&quot;</p></section>
+<section class="page" id="page-23"><div class="page-label">PAGE 23</div><h2 id="287-departures">287 Departures</h2>
+<p>Y■jir■ Takita · Japan · 2008 &quot;A cellist becomes an encoffiner — and finds the sacred everywhere.&quot; 288 My Father and My Son Ça■an Irmak · Turkey · 2005 &quot;A father and estranged son reunite — with a child between them.&quot;</p>
+<h2 id="289-the-class">289 The Class</h2>
+<h2 id="laurent-cantet-france-2008-2">Laurent Cantet · France · 2008</h2>
+<p>&quot;A teacher, a classroom, a France arguing with itself.&quot;</p>
+<h2 id="290-amarcord">290 Amarcord</h2>
+<h2 id="federico-fellini-italy-1973">Federico Fellini · Italy · 1973</h2>
+<p>&quot;A town&#x27;s memories — absurd, tender, and political all at once.&quot; 291 8½</p>
+<h2 id="federico-fellini-italy-1963">Federico Fellini · Italy · 1963</h2>
+<p>&quot;A director who can&#x27;t make a film — the definitive film about film.&quot;</p>
+<h2 id="292-jeanne-dielman">292 Jeanne Dielman</h2>
+<h2 id="chantal-akerman-belgium-1975">Chantal Akerman · Belgium · 1975</h2>
+<p>&quot;Three days, a kitchen, and a revolution of pure observation.&quot; 293 News from Home</p>
+<h2 id="chantal-akerman-belgium-1977">Chantal Akerman · Belgium · 1977</h2>
+<p>&quot;New York City, a mother&#x27;s letters, and the distance between them.&quot;</p>
+<h2 id="294-ratcatcher">294 Ratcatcher</h2>
+<p>Lynne Ramsay · UK · 1999 &quot;1970s Glasgow, a boy, a dead friend, and a field of wheat.&quot;</p>
+<h2 id="295-morvern-callar">295 Morvern Callar</h2>
+<p>Lynne Ramsay · UK · 2002 &quot;A supermarket worker submits her dead boyfriend&#x27;s novel as her own.&quot; 296 We Need to Talk About Kevin Lynne Ramsay · UK/USA · 2011 &quot;A mother reconstructs what she missed — before the shooting.&quot;</p>
+<h2 id="297-the-white-ribbon">297 The White Ribbon</h2>
+<h2 id="michael-haneke-germany-austria-2009">Michael Haneke · Germany/Austria · 2009</h2>
+<p>&quot;A village&#x27;s hidden violence produces the next generation.&quot;</p>
+<h2 id="298-cach">298 Caché</h2>
+<h2 id="michael-haneke-france-austria-2005">Michael Haneke · France/Austria · 2005</h2>
+<p>&quot;Surveillance, guilt, and colonial France — watching without seeing.&quot;</p>
+<h2 id="299-amour">299 Amour</h2>
+<h2 id="michael-haneke-france-austria-2012">Michael Haneke · France/Austria · 2012</h2>
+<p>&quot;Love at its most enduring — and most devastating.&quot;</p>
+<h2 id="300-all-about-my-mother">300 All About My Mother</h2>
+<h2 id="pedro-almod-var-spain-1999">Pedro Almodóvar · Spain · 1999</h2>
+<p>&quot;Loss becomes generosity becomes life — the perfect final film.&quot;</p></section>
+<section class="page" id="page-24"><div class="page-label">PAGE 24</div><h2 id="fin">FIN</h2>
+<p>&quot;Cinema is a mirror by which we often see ourselves.&quot; Watch slowly. Watch often. Watch from everywhere.</p></section></div><div class="footer">Reading edition generated from <a href="../300_Films_Filmography.pdf">300_Films_Filmography.pdf</a>. The original file is preserved unchanged.</div></article></div>
+<script>
+const q=document.getElementById('search'), pages=[...document.querySelectorAll('.page')];
+q.addEventListener('input',()=>{const term=q.value.trim().toLowerCase();pages.forEach(p=>{p.hidden=!!term&&!p.innerText.toLowerCase().includes(term)})});
+</script></body></html>

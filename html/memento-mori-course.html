@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Accessible HTML reading edition of memento mori course.">
+<title>memento mori course — Reading Edition</title>
+<style>
+:root{color-scheme:light;--bg:#f5f3ee;--paper:#fffefa;--ink:#252923;--muted:#687168;--line:#e2e0d8;--accent:#356b68;--soft:#eaf0ed}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.75 system-ui,-apple-system,Segoe UI,sans-serif}
+header{background:var(--paper);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+.top{max-width:1180px;margin:auto;padding:12px 22px;display:flex;align-items:center;gap:14px}.brand{font-size:12px;font-weight:750;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);white-space:nowrap}
+.search{flex:1;min-width:120px;border:1px solid var(--line);border-radius:8px;padding:9px 12px;font:inherit;font-size:14px;background:var(--bg);color:var(--ink)}
+button,.link{border:1px solid var(--line);border-radius:8px;padding:8px 11px;background:var(--paper);color:var(--ink);font:inherit;font-size:13px;text-decoration:none;cursor:pointer}
+button:hover,.link:hover{border-color:var(--accent)}.layout{max-width:1180px;margin:30px auto;padding:0 22px;display:grid;grid-template-columns:230px minmax(0,1fr);gap:30px}
+.toc{position:sticky;top:82px;align-self:start;max-height:calc(100vh - 110px);overflow:auto;padding:16px;background:var(--paper);border:1px solid var(--line);border-radius:12px}
+.toc-title,.page-label{font-size:10px;font-weight:750;letter-spacing:.14em;color:var(--muted)}.toc a{display:block;color:var(--muted);font-size:13px;text-decoration:none;padding:5px 0;border-bottom:1px solid var(--line)}.toc a:hover{color:var(--accent)}
+article{min-width:0}.hero{padding:26px 30px;background:var(--paper);border:1px solid var(--line);border-radius:14px;margin-bottom:18px}
+.kicker{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);font-weight:750}.hero h1{font-size:clamp(26px,4vw,40px);line-height:1.2;letter-spacing:-.03em;margin:9px 0 8px}.meta{font-size:13px;color:var(--muted)}
+.page{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:28px 34px;margin:14px 0;overflow-wrap:anywhere}
+.page-label{margin-bottom:12px}h2{font-size:22px;line-height:1.3;margin:24px 0 10px;scroll-margin-top:90px}p{margin:0 0 14px}p:last-child{margin-bottom:0}
+.table-wrap{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:14px}td{border:1px solid var(--line);padding:8px;vertical-align:top}
+.empty{color:var(--muted);padding:18px;text-align:center}.footer{color:var(--muted);font-size:12px;padding:18px 4px}
+@media(max-width:760px){.top{padding:10px 14px;gap:8px;flex-wrap:wrap}.brand{width:100%}.search{order:2;flex-basis:100%}.layout{display:block;margin:16px auto;padding:0 12px}.toc{position:static;max-height:220px;margin-bottom:14px}.hero{padding:20px}.page{padding:20px 18px}body{font-size:15px}}
+@media(prefers-color-scheme:dark){:root{color-scheme:dark;--bg:#151816;--paper:#1d211e;--ink:#e8ece6;--muted:#a0aaa1;--line:#343b35;--accent:#8bc5b5;--soft:#27332e}.search{background:#151816}}
+</style></head><body>
+<header><div class="top"><a class="brand" href="index.html" style="text-decoration:none">THE READING ARCHIVE</a>
+<input id="search" class="search" type="search" placeholder="Search within this document…" aria-label="Search within this document">
+<a class="link" href="../memento-mori-course.pdf" target="_blank" rel="noopener">Original PDF ↗</a></div></header>
+<div class="layout"><nav class="toc"><div class="toc-title">ON THIS PAGE</div><a href="#a-curated-study-course">A CURATED STUDY COURSE</a><a href="#memento">Memento</a><a href="#mori">Mori</a><a href="#remember-that-you-will-die">REMEMBER THAT YOU WILL DIE</a><a href="#seven-units-fifty-works-every-medium">Seven Units · Fifty Works · Every Medium</a><a href="#introduction">INTRODUCTION</a><a href="#contents">CONTENTS</a><a href="#unit-i">UNIT I</a><a href="#read">READ</a><a href="#a-grief-observed-c-s-lewis">A Grief Observed — C.S. Lewis</a><a href="#1961-memoir-essay">1961 · MEMOIR / ESSAY</a><a href="#read-2">READ</a><a href="#2005-memoir">2005 · MEMOIR</a><a href="#read-3">READ</a><a href="#2013-essay-memoir">2013 · ESSAY / MEMOIR</a><a href="#watch">WATCH</a><a href="#ordinary-people-1980">Ordinary People (1980)</a><a href="#dir-robert-redford-drama">DIR. ROBERT REDFORD · DRAMA</a><a href="#watch-2">WATCH</a><a href="#dir-kenneth-lonergan-drama">DIR. KENNETH LONERGAN · DRAMA</a><a href="#watch-3">WATCH</a><a href="#aftersun-2022">Aftersun (2022)</a><a href="#dir-charlotte-wells-drama">DIR. CHARLOTTE WELLS · DRAMA</a><a href="#listen">LISTEN</a><a href="#sufjan-stevens-carrie-lowell">Sufjan Stevens — Carrie &amp; Lowell</a><a href="#2015-album-folk-indie">2015 · ALBUM · FOLK / INDIE</a><a href="#listen-2">LISTEN</a><a href="#podcast-ongoing">PODCAST · ONGOING</a><a href="#unit-ii">UNIT II</a><a href="#read-4">READ</a><a href="#1886-novella">1886 · NOVELLA</a><a href="#read-5">READ</a><a href="#when-breath-becomes-air-paul-kalanithi">When Breath Becomes Air — Paul Kalanithi</a><a href="#2016-memoir">2016 · MEMOIR</a><a href="#read-6">READ</a><a href="#being-mortal-atul-gawande">Being Mortal — Atul Gawande</a><a href="#2014-nonfiction">2014 · NONFICTION</a><a href="#watch-4">WATCH</a><a href="#ikiru-1952">Ikiru (1952)</a><a href="#dir-akira-kurosawa-drama">DIR. AKIRA KUROSAWA · DRAMA</a><a href="#watch-5">WATCH</a><a href="#the-savages-2007">The Savages (2007)</a><a href="#dir-tamara-jenkins-drama">DIR. TAMARA JENKINS · DRAMA</a><a href="#listen-3">LISTEN</a><a href="#death-sex-money-anna-sale">Death, Sex &amp; Money — Anna Sale</a><a href="#podcast-wnyc-studios">PODCAST · WNYC STUDIOS</a><a href="#listen-4">LISTEN</a><a href="#nick-cave-skeleton-tree">Nick Cave — Skeleton Tree</a><a href="#2016-album-post-rock-art">2016 · ALBUM · POST-ROCK / ART</a><a href="#4-memento-mori">4 MEMENTO MORI</a><a href="#unit-iii">UNIT III</a><a href="#afterlives-limbo-what-comes-next">Afterlives, Limbo &amp; What Comes Next</a><a href="#read-7">READ</a><a href="#the-divine-comedy-dante-alighieri">The Divine Comedy — Dante Alighieri</a><a href="#1320-epic-poem">~1320 · EPIC POEM</a><a href="#read-8">READ</a><a href="#2009-speculative-fiction">2009 · SPECULATIVE FICTION</a><a href="#read-9">READ</a><a href="#2017-novel">2017 · NOVEL</a><a href="#watch-6">WATCH</a><a href="#coco-2017">Coco (2017)</a><a href="#pixar-animated">PIXAR · ANIMATED</a><a href="#watch-7">WATCH</a><a href="#dir-powell-pressburger-fantasy">DIR. POWELL &amp; PRESSBURGER · FANTASY</a><a href="#watch-8">WATCH</a><a href="#nostalghia-1983">Nostalghia (1983)</a><a href="#dir-andrei-tarkovsky-drama">DIR. ANDREI TARKOVSKY · DRAMA</a><a href="#listen-5">LISTEN</a><a href="#radiolab-after-life-episodes">Radiolab — &quot;After Life&quot; Episodes</a><a href="#podcast-wnyc">PODCAST · WNYC</a><a href="#listen-6">LISTEN</a><a href="#1791-classical-choral">1791 · CLASSICAL / CHORAL</a><a href="#6-memento-mori">6 MEMENTO MORI</a><a href="#unit-iv">UNIT IV</a><a href="#war-mass-death-collective-mourning">War, Mass Death &amp; Collective Mourning</a><a href="#read-10">READ</a><a href="#1929-novel">1929 · NOVEL</a><a href="#read-11">READ</a><a href="#the-book-thief-markus-zusak">The Book Thief — Markus Zusak</a><a href="#2005-novel">2005 · NOVEL</a><a href="#read-12">READ</a><a href="#slaughterhouse-five-kurt-vonnegut">Slaughterhouse-Five — Kurt Vonnegut</a><a href="#1969-novel">1969 · NOVEL</a><a href="#watch-9">WATCH</a><a href="#dir-elem-klimov-war-drama">DIR. ELEM KLIMOV · WAR DRAMA</a><a href="#watch-10">WATCH</a><a href="#dir-laszlo-nemes-drama">DIR. LASZLO NEMES · DRAMA</a><a href="#listen-7">LISTEN</a><a href="#war-requiem-benjamin-britten">War Requiem — Benjamin Britten</a><a href="#1962-orchestral-choral">1962 · ORCHESTRAL / CHORAL</a><a href="#listen-8">LISTEN</a><a href="#podcast-dan-carlin-6-parts">PODCAST · DAN CARLIN · 6 PARTS</a><a href="#unit-v">UNIT V</a><a href="#read-13">READ</a><a href="#the-lovely-bones-alice-sebold">The Lovely Bones — Alice Sebold</a><a href="#2002-novel">2002 · NOVEL</a><a href="#read-14">READ</a><a href="#a-monster-calls-patrick-ness">A Monster Calls — Patrick Ness</a><a href="#2011-ya-novel">2011 · YA NOVEL</a><a href="#read-15">READ</a><a href="#kindertotenlied-friedrich-ruckert">Kindertotenlied — Friedrich Ruckert</a><a href="#1872-poetry">1872 · POETRY</a><a href="#watch-11">WATCH</a><a href="#dir-isao-takahata-animated">DIR. ISAO TAKAHATA · ANIMATED</a><a href="#watch-12">WATCH</a><a href="#about-time-2013">About Time (2013)</a><a href="#dir-richard-curtis-drama-fantasy">DIR. RICHARD CURTIS · DRAMA / FANTASY</a><a href="#listen-9">LISTEN</a><a href="#kindertotenlieder-gustav-mahler">Kindertotenlieder — Gustav Mahler</a><a href="#1904-song-cycle-classical">1904 · SONG CYCLE · CLASSICAL</a><a href="#8-memento-mori">8 MEMENTO MORI</a><a href="#unit-vi">UNIT VI</a><a href="#read-16">READ</a><a href="#meditations-marcus-aurelius">Meditations — Marcus Aurelius</a><a href="#170-ce-philosophy">~170 CE · PHILOSOPHY</a><a href="#read-17">READ</a><a href="#1973-philosophy-psychology">1973 · PHILOSOPHY / PSYCHOLOGY</a><a href="#read-18">READ</a><a href="#2008-existential-psychotherapy">2008 · EXISTENTIAL PSYCHOTHERAPY</a><a href="#read-19">READ</a><a href="#8th-century-spiritual-text">8TH CENTURY · SPIRITUAL TEXT</a><a href="#watch-13">WATCH</a><a href="#the-seventh-seal-1957">The Seventh Seal (1957)</a><a href="#dir-ingmar-bergman-drama">DIR. INGMAR BERGMAN · DRAMA</a><a href="#listen-10">LISTEN</a><a href="#shelly-kagan-death-yale-open-course">Shelly Kagan — &quot;Death&quot; Yale Open Course</a><a href="#podcast-lecture-series-yale-university">PODCAST / LECTURE SERIES · YALE UNIVERSITY</a><a href="#listen-11">LISTEN</a><a href="#four-last-songs-richard-strauss">Four Last Songs — Richard Strauss</a><a href="#1948-classical-soprano">1948 · CLASSICAL / SOPRANO</a><a href="#unit-vii">UNIT VII</a><a href="#read-20">READ</a><a href="#2005-novel-2">2005 · NOVEL</a><a href="#read-21">READ</a><a href="#the-vegetarian-han-kang">The Vegetarian — Han Kang</a><a href="#2007-novel">2007 · NOVEL</a><a href="#read-22">READ</a><a href="#slaughterhouse-five-kurt-vonnegut-2">Slaughterhouse-Five — Kurt Vonnegut</a><a href="#1969-novel-2">1969 · NOVEL</a><a href="#watch-14">WATCH</a><a href="#dir-hal-ashby-dark-comedy">DIR. HAL ASHBY · DARK COMEDY</a><a href="#watch-15">WATCH</a><a href="#dir-armando-iannucci-dark-comedy">DIR. ARMANDO IANNUCCI · DARK COMEDY</a><a href="#watch-16">WATCH</a><a href="#six-feet-under-2001-2005">Six Feet Under (2001–2005)</a><a href="#hbo-series-drama-dark-comedy">HBO SERIES · DRAMA / DARK COMEDY</a><a href="#listen-12">LISTEN</a><a href="#the-reith-lectures-mortal-coil-jarvis-cocker">The Reith Lectures — &quot;Mortal Coil&quot; — Jarvis Cocker</a><a href="#bbc-radio-4-2023">BBC RADIO 4 · 2023</a><a href="#listen-13">LISTEN</a><a href="#audiobook-15th-century">AUDIOBOOK · 15TH CENTURY</a><a href="#10-memento-mori">10 MEMENTO MORI</a><a href="#seven-units-fifty-works-every-medium-2">Seven Units · Fifty Works · Every Medium</a><a href="#12-memento-mori">12 MEMENTO MORI</a></nav><article><section class="hero"><div class="kicker">HTML READING EDITION · PDF</div><h1>memento mori course</h1><div class="meta">Converted from the original source · Text may require review against the original document</div></section>
+<div id="content"><section class="page" id="page-1"><div class="page-label">PAGE 1</div><p>■ ✦ ■</p>
+<h2 id="a-curated-study-course">A CURATED STUDY COURSE</h2>
+<h2 id="memento">Memento</h2>
+<h2 id="mori">Mori</h2>
+<p>Death in Literature, Film &amp; Sound</p>
+<h2 id="remember-that-you-will-die">REMEMBER THAT YOU WILL DIE</h2>
+<h2 id="seven-units-fifty-works-every-medium">Seven Units · Fifty Works · Every Medium</h2></section>
+<section class="page" id="page-2"><div class="page-label">PAGE 2</div><h2 id="introduction">INTRODUCTION</h2>
+<p>This is a course on death — not a morbid exercise, but a considered attempt to engage with the one certainty of existence through the greatest art humanity has made about it. Arranged in seven thematic units, each moving through a different angle of mortality, the course pairs literary works with films, musical compositions, and audio material. Every unit can be approached independently, but taken together they form a complete education in what it means to be a creature who knows it will die. The works selected span centuries and cultures: Tolstoy and Tarkovsky, Marcus Aurelius and Nick Cave, Dante and Pixar. Ancient wisdom alongside contemporary grief. Each entry carries a format tag — READ, WATCH, or LISTEN — and a curatorial note on why it belongs and what it offers. READ Books, poetry, essays, memoirs, philosophy WATCH Films, series, documentary LISTEN Music, podcasts, audiobooks, lectures</p>
+<h2 id="contents">CONTENTS</h2>
+<p>Unit I — Grief, Loss &amp; the Wound That Stays How the living are haunted. The private archaeology of losing someone — and the strange, p… Unit II — The Art of Dying Well The deathbed as a moral and spiritual theater. How humans approach their own end — with te… Unit III — Afterlives, Limbo &amp; What Comes Next Heaven, hell, purgatory, reincarnation, nothingness — and the stories cultures tell to mak… Unit IV — War, Mass Death &amp; Collective Mourning When death comes wholesale. Literature and film struggling to make meaning of industrializ… Unit V — The Death of Children &amp; the Young The death considered most unjust. How art grapples with lives cut before flowering — and t… Unit VI — Philosophy of Death &amp; Mortality The thinkers who stared longest. From Stoic acceptance to existentialist defiance to Buddh… Unit VII — Dark Comedy &amp; Death&#x27;s Absurdity Laughing at the abyss. The tradition of finding in death not only tragedy but farce — and …</p></section>
+<section class="page" id="page-3"><div class="page-label">PAGE 3</div><h2 id="unit-i">UNIT I</h2>
+<p>Grief, Loss &amp; the Wound That Stays How the living are haunted. The private archaeology of losing someone — and the strange, persistent ways we carry the dead. &quot;Grief is the price we pay for love.&quot; — QUEEN ELIZABETH II</p>
+<h2 id="read">READ</h2>
+<h2 id="a-grief-observed-c-s-lewis">A Grief Observed — C.S. Lewis</h2>
+<h2 id="1961-memoir-essay">1961 · MEMOIR / ESSAY</h2>
+<p>Lewis&#x27;s raw journal kept after his wife&#x27;s death. Ruthlessly honest about faith, rage, and the unreliability of memory.</p>
+<h2 id="read-2">READ</h2>
+<p>The Year of Magical Thinking — Joan Didion</p>
+<h2 id="2005-memoir">2005 · MEMOIR</h2>
+<p>The finest modern memoir on grief. Didion charts the delusions the mind constructs to refuse death.</p>
+<h2 id="read-3">READ</h2>
+<p>Levels of Life — Julian Barnes</p>
+<h2 id="2013-essay-memoir">2013 · ESSAY / MEMOIR</h2>
+<p>Three-part meditation on ballooning, photography, and widowhood — one of the most precise books ever written on loss.</p>
+<h2 id="watch">WATCH</h2>
+<h2 id="ordinary-people-1980">Ordinary People (1980)</h2>
+<h2 id="dir-robert-redford-drama">DIR. ROBERT REDFORD · DRAMA</h2>
+<p>A family fracturing after the death of a son. Quiet, devastating, and criminally underrated.</p>
+<h2 id="watch-2">WATCH</h2>
+<p>Manchester by the Sea (2016)</p>
+<h2 id="dir-kenneth-lonergan-drama">DIR. KENNETH LONERGAN · DRAMA</h2>
+<p>Grief as paralysis. A man trapped in a past he cannot outrun. Devastatingly restrained.</p>
+<h2 id="watch-3">WATCH</h2>
+<h2 id="aftersun-2022">Aftersun (2022)</h2>
+<h2 id="dir-charlotte-wells-drama">DIR. CHARLOTTE WELLS · DRAMA</h2>
+<p>Memory, absence, and a father&#x27;s hidden despair. What we don&#x27;t see is what destroys us.</p>
+<h2 id="listen">LISTEN</h2>
+<h2 id="sufjan-stevens-carrie-lowell">Sufjan Stevens — Carrie &amp; Lowell</h2>
+<h2 id="2015-album-folk-indie">2015 · ALBUM · FOLK / INDIE</h2>
+<p>An album-length elegy for his mother. Sparse, haunted, and deeply liturgical in its grief.</p>
+<h2 id="listen-2">LISTEN</h2>
+<p>Terrible, Thanks for Asking — Nora McInerny</p>
+<h2 id="podcast-ongoing">PODCAST · ONGOING</h2>
+<p>Real stories of loss, told without sanitizing. The most honest audio space on grief in popular culture. ✦✦✦ 3</p></section>
+<section class="page" id="page-4"><div class="page-label">PAGE 4</div><h2 id="unit-ii">UNIT II</h2>
+<p>The Art of Dying Well The deathbed as a moral and spiritual theater. How humans approach their own end — with terror, dignity, resignation, or grace. &quot;It is not death that a man should fear, but he should fear never beginning to live.&quot; — MARCUS AURELIUS</p>
+<h2 id="read-4">READ</h2>
+<p>The Death of Ivan Ilyich — Leo Tolstoy</p>
+<h2 id="1886-novella">1886 · NOVELLA</h2>
+<p>The essential literary text on dying. A man of conventional success confronts the meaninglessness of his life as death approaches. Short; devastating.</p>
+<h2 id="read-5">READ</h2>
+<h2 id="when-breath-becomes-air-paul-kalanithi">When Breath Becomes Air — Paul Kalanithi</h2>
+<h2 id="2016-memoir">2016 · MEMOIR</h2>
+<p>A neurosurgeon diagnosed with terminal cancer turns to literature and asks what makes a life worth living. Profound and beautifully written.</p>
+<h2 id="read-6">READ</h2>
+<h2 id="being-mortal-atul-gawande">Being Mortal — Atul Gawande</h2>
+<h2 id="2014-nonfiction">2014 · NONFICTION</h2>
+<p>A surgeon&#x27;s case for why medicine must reckon with mortality rather than fight it at all costs.</p>
+<h2 id="watch-4">WATCH</h2>
+<h2 id="ikiru-1952">Ikiru (1952)</h2>
+<h2 id="dir-akira-kurosawa-drama">DIR. AKIRA KUROSAWA · DRAMA</h2>
+<p>A bureaucrat given months to live seeks meaning. Kurosawa&#x27;s most humane film and one of the great works of world cinema.</p>
+<h2 id="watch-5">WATCH</h2>
+<h2 id="the-savages-2007">The Savages (2007)</h2>
+<h2 id="dir-tamara-jenkins-drama">DIR. TAMARA JENKINS · DRAMA</h2>
+<p>Two adult siblings navigate placing their aging father in a nursing home. Funny, achingly honest, and unsparing.</p>
+<h2 id="listen-3">LISTEN</h2>
+<h2 id="death-sex-money-anna-sale">Death, Sex &amp; Money — Anna Sale</h2>
+<h2 id="podcast-wnyc-studios">PODCAST · WNYC STUDIOS</h2>
+<p>Long-form conversations about the hard parts of life — including terminal illness, end-of-life decisions, and legacy.</p>
+<h2 id="listen-4">LISTEN</h2>
+<h2 id="nick-cave-skeleton-tree">Nick Cave — Skeleton Tree</h2>
+<h2 id="2016-album-post-rock-art">2016 · ALBUM · POST-ROCK / ART</h2>
+<p>Recorded during and after the death of Cave&#x27;s teenage son. A document of the impossible task of making art while grief is still wet. ✦✦✦</p>
+<h2 id="4-memento-mori">4 MEMENTO MORI</h2></section>
+<section class="page" id="page-5"><div class="page-label">PAGE 5</div><h2 id="unit-iii">UNIT III</h2>
+<h2 id="afterlives-limbo-what-comes-next">Afterlives, Limbo &amp; What Comes Next</h2>
+<p>Heaven, hell, purgatory, reincarnation, nothingness — and the stories cultures tell to make peace with the unknown. &quot;Death is not an event in life: we do not live to experience death.&quot; — LUDWIG WITTGENSTEIN</p>
+<h2 id="read-7">READ</h2>
+<h2 id="the-divine-comedy-dante-alighieri">The Divine Comedy — Dante Alighieri</h2>
+<h2 id="1320-epic-poem">~1320 · EPIC POEM</h2>
+<p>The architecture of the medieval afterlife. Start with the Hollander or Ciardi translation. Inferno alone is a masterpiece.</p>
+<h2 id="read-8">READ</h2>
+<p>Sum: Forty Tales from the Afterlives — David Eagleman</p>
+<h2 id="2009-speculative-fiction">2009 · SPECULATIVE FICTION</h2>
+<p>Forty radically different visions of what happens after death. Playful, melancholy, and philosophically rich.</p>
+<h2 id="read-9">READ</h2>
+<p>Lincoln in the Bardo — George Saunders</p>
+<h2 id="2017-novel">2017 · NOVEL</h2>
+<p>Ghosts refusing to pass on, a grieving president, and a meditation on attachment. Formally wild; emotionally overwhelming.</p>
+<h2 id="watch-6">WATCH</h2>
+<h2 id="coco-2017">Coco (2017)</h2>
+<h2 id="pixar-animated">PIXAR · ANIMATED</h2>
+<p>The Mexican Dia de los Muertos tradition brought to gorgeous life. One of cinema&#x27;s most loving treatments of remembrance.</p>
+<h2 id="watch-7">WATCH</h2>
+<p>A Matter of Life and Death (1946)</p>
+<h2 id="dir-powell-pressburger-fantasy">DIR. POWELL &amp; PRESSBURGER · FANTASY</h2>
+<p>A pilot between worlds argues for his life before a celestial court. Staggeringly beautiful and philosophically playful.</p>
+<h2 id="watch-8">WATCH</h2>
+<h2 id="nostalghia-1983">Nostalghia (1983)</h2>
+<h2 id="dir-andrei-tarkovsky-drama">DIR. ANDREI TARKOVSKY · DRAMA</h2>
+<p>The liminal space between worlds — a poet&#x27;s journey through fog, water, and light. Slow cinema at its most transcendent.</p>
+<h2 id="listen-5">LISTEN</h2>
+<h2 id="radiolab-after-life-episodes">Radiolab — &quot;After Life&quot; Episodes</h2>
+<h2 id="podcast-wnyc">PODCAST · WNYC</h2>
+<p>Scientific and philosophical investigations of what death is, when it happens, and whether anything persists.</p>
+<h2 id="listen-6">LISTEN</h2>
+<p>Requiem in D Minor, K.626 — Mozart</p>
+<h2 id="1791-classical-choral">1791 · CLASSICAL / CHORAL</h2>
+<p>Left unfinished at his death. The Lacrimosa may be the most moving two minutes in Western music. Use the Gardiner recording. 5</p></section>
+<section class="page" id="page-6"><div class="page-label">PAGE 6</div><p>✦✦✦</p>
+<h2 id="6-memento-mori">6 MEMENTO MORI</h2></section>
+<section class="page" id="page-7"><div class="page-label">PAGE 7</div><h2 id="unit-iv">UNIT IV</h2>
+<h2 id="war-mass-death-collective-mourning">War, Mass Death &amp; Collective Mourning</h2>
+<p>When death comes wholesale. Literature and film struggling to make meaning of industrialized killing and the grief of entire generations. &quot;So it goes.&quot; — KURT VONNEGUT, SLAUGHTERHOUSE-FIVE</p>
+<h2 id="read-10">READ</h2>
+<p>All Quiet on the Western Front — Erich Maria Remarque</p>
+<h2 id="1929-novel">1929 · NOVEL</h2>
+<p>The definitive anti-war novel. A young German soldier watches his generation obliterated. Read it before watching any war film.</p>
+<h2 id="read-11">READ</h2>
+<h2 id="the-book-thief-markus-zusak">The Book Thief — Markus Zusak</h2>
+<h2 id="2005-novel">2005 · NOVEL</h2>
+<p>Narrated by Death himself. WWII Germany seen through a girl who steals books. Death as a weary, reluctant witness.</p>
+<h2 id="read-12">READ</h2>
+<h2 id="slaughterhouse-five-kurt-vonnegut">Slaughterhouse-Five — Kurt Vonnegut</h2>
+<h2 id="1969-novel">1969 · NOVEL</h2>
+<p>&quot;So it goes.&quot; Vonnegut&#x27;s refrain, repeated at every death, becomes the novel&#x27;s moral argument. Absurdist and heartbroken.</p>
+<h2 id="watch-9">WATCH</h2>
+<p>Come and See (1985)</p>
+<h2 id="dir-elem-klimov-war-drama">DIR. ELEM KLIMOV · WAR DRAMA</h2>
+<p>The most devastating war film ever made. A boy&#x27;s face documents what mass death does to human consciousness.</p>
+<h2 id="watch-10">WATCH</h2>
+<p>Son of Saul (2015)</p>
+<h2 id="dir-laszlo-nemes-drama">DIR. LASZLO NEMES · DRAMA</h2>
+<p>A Sonderkommando at Auschwitz. Shot in extreme close-up; the horror exists in peripheral blur. An ethical masterpiece.</p>
+<h2 id="listen-7">LISTEN</h2>
+<h2 id="war-requiem-benjamin-britten">War Requiem — Benjamin Britten</h2>
+<h2 id="1962-orchestral-choral">1962 · ORCHESTRAL / CHORAL</h2>
+<p>The Latin Mass for the Dead interwoven with Wilfred Owen&#x27;s WWI poetry. A monumental meditation on war and sacrifice.</p>
+<h2 id="listen-8">LISTEN</h2>
+<p>Hardcore History — &quot;Blueprint for Armageddon&quot;</p>
+<h2 id="podcast-dan-carlin-6-parts">PODCAST · DAN CARLIN · 6 PARTS</h2>
+<p>Six episodes on WWI&#x27;s industrial slaughter. The most immersive audio history ever produced. Essential preparation for the literature. ✦✦✦ 7</p></section>
+<section class="page" id="page-8"><div class="page-label">PAGE 8</div><h2 id="unit-v">UNIT V</h2>
+<p>The Death of Children &amp; the Young The death considered most unjust. How art grapples with lives cut before flowering — and the particular grief of those left behind. &quot;No parents should have to bury their child.&quot; — THEODEN, THE LORD OF THE RINGS</p>
+<h2 id="read-13">READ</h2>
+<h2 id="the-lovely-bones-alice-sebold">The Lovely Bones — Alice Sebold</h2>
+<h2 id="2002-novel">2002 · NOVEL</h2>
+<p>A murdered girl narrates her family&#x27;s grief from heaven. The novel&#x27;s radical perspective reshapes how we think about death and witness.</p>
+<h2 id="read-14">READ</h2>
+<h2 id="a-monster-calls-patrick-ness">A Monster Calls — Patrick Ness</h2>
+<h2 id="2011-ya-novel">2011 · YA NOVEL</h2>
+<p>A boy whose mother is dying is visited by a monster demanding truth. One of the most emotionally honest books about anticipatory grief.</p>
+<h2 id="read-15">READ</h2>
+<h2 id="kindertotenlied-friedrich-ruckert">Kindertotenlied — Friedrich Ruckert</h2>
+<h2 id="1872-poetry">1872 · POETRY</h2>
+<p>Poems written after the death of two children. Raw paternal grief that Mahler later set to music. Read alongside the song cycle.</p>
+<h2 id="watch-11">WATCH</h2>
+<p>Grave of the Fireflies (1988)</p>
+<h2 id="dir-isao-takahata-animated">DIR. ISAO TAKAHATA · ANIMATED</h2>
+<p>Two orphaned children in WWII Japan. Perhaps the saddest film ever made. Anime as high tragedy.</p>
+<h2 id="watch-12">WATCH</h2>
+<h2 id="about-time-2013">About Time (2013)</h2>
+<h2 id="dir-richard-curtis-drama-fantasy">DIR. RICHARD CURTIS · DRAMA / FANTASY</h2>
+<p>Time travel as a meditation on presence, loss, and the value of unrepeatable moments with those we love.</p>
+<h2 id="listen-9">LISTEN</h2>
+<h2 id="kindertotenlieder-gustav-mahler">Kindertotenlieder — Gustav Mahler</h2>
+<h2 id="1904-song-cycle-classical">1904 · SONG CYCLE · CLASSICAL</h2>
+<p>Five songs on the death of children, set for voice and orchestra. Use the Kathleen Ferrier or Janet Baker recording. Inconsolable. ✦✦✦</p>
+<h2 id="8-memento-mori">8 MEMENTO MORI</h2></section>
+<section class="page" id="page-9"><div class="page-label">PAGE 9</div><h2 id="unit-vi">UNIT VI</h2>
+<p>Philosophy of Death &amp; Mortality The thinkers who stared longest. From Stoic acceptance to existentialist defiance to Buddhist dissolution of the self. &quot;Death is nothing to us, since when we exist, death is not yet present, and when death is present, then we do not exist.&quot; — EPICURUS</p>
+<h2 id="read-16">READ</h2>
+<h2 id="meditations-marcus-aurelius">Meditations — Marcus Aurelius</h2>
+<h2 id="170-ce-philosophy">~170 CE · PHILOSOPHY</h2>
+<p>The Stoic emperor&#x27;s private journal. &quot;Death smiles at us all; all a man can do is smile back.&quot; Use the Gregory Hays translation.</p>
+<h2 id="read-17">READ</h2>
+<p>The Denial of Death — Ernest Becker</p>
+<h2 id="1973-philosophy-psychology">1973 · PHILOSOPHY / PSYCHOLOGY</h2>
+<p>Pulitzer Prize winner. All human culture and civilization is, Becker argues, a response to the terror of death. A singular book.</p>
+<h2 id="read-18">READ</h2>
+<p>Staring at the Sun — Irvin D. Yalom</p>
+<h2 id="2008-existential-psychotherapy">2008 · EXISTENTIAL PSYCHOTHERAPY</h2>
+<p>A psychiatrist on overcoming death anxiety. The most practical philosophical guide to mortality in the modern canon.</p>
+<h2 id="read-19">READ</h2>
+<p>The Tibetan Book of the Dead</p>
+<h2 id="8th-century-spiritual-text">8TH CENTURY · SPIRITUAL TEXT</h2>
+<p>A guide to the dying and the dead, read aloud to ease the transition. A completely different civilizational relationship to death.</p>
+<h2 id="watch-13">WATCH</h2>
+<h2 id="the-seventh-seal-1957">The Seventh Seal (1957)</h2>
+<h2 id="dir-ingmar-bergman-drama">DIR. INGMAR BERGMAN · DRAMA</h2>
+<p>A knight plays chess with Death. Bergman&#x27;s most iconic film — a direct confrontation with meaninglessness and the silence of God.</p>
+<h2 id="listen-10">LISTEN</h2>
+<h2 id="shelly-kagan-death-yale-open-course">Shelly Kagan — &quot;Death&quot; Yale Open Course</h2>
+<h2 id="podcast-lecture-series-yale-university">PODCAST / LECTURE SERIES · YALE UNIVERSITY</h2>
+<p>Yale philosopher Shelly Kagan&#x27;s open course on death is freely available online. Start from lecture one and do not stop.</p>
+<h2 id="listen-11">LISTEN</h2>
+<h2 id="four-last-songs-richard-strauss">Four Last Songs — Richard Strauss</h2>
+<h2 id="1948-classical-soprano">1948 · CLASSICAL / SOPRANO</h2>
+<p>Composed at 84, Strauss&#x27;s farewell to life. &quot;Im Abendrot&quot; ends with two larks ascending. Use the Jessye Norman recording. ✦✦✦ 9</p></section>
+<section class="page" id="page-10"><div class="page-label">PAGE 10</div><h2 id="unit-vii">UNIT VII</h2>
+<p>Dark Comedy &amp; Death&#x27;s Absurdity Laughing at the abyss. The tradition of finding in death not only tragedy but farce — and how humor has always been a survival strategy. &quot;Always look on the bright side of death.&quot; — MONTY PYTHON&#x27;S LIFE OF BRIAN</p>
+<h2 id="read-20">READ</h2>
+<p>Death with Interruptions — Jose Saramago</p>
+<h2 id="2005-novel-2">2005 · NOVEL</h2>
+<p>Death stops working in a small country. A satirical exploration of what mortality actually provides to civilization and meaning.</p>
+<h2 id="read-21">READ</h2>
+<h2 id="the-vegetarian-han-kang">The Vegetarian — Han Kang</h2>
+<h2 id="2007-novel">2007 · NOVEL</h2>
+<p>A woman&#x27;s body as a site of death-drive and refusal. Disturbing, surreal, and unlike anything else in contemporary fiction.</p>
+<h2 id="read-22">READ</h2>
+<h2 id="slaughterhouse-five-kurt-vonnegut-2">Slaughterhouse-Five — Kurt Vonnegut</h2>
+<h2 id="1969-novel-2">1969 · NOVEL</h2>
+<p>Revisited here for its comedy: Vonnegut&#x27;s &quot;So it goes&quot; is one of literature&#x27;s great absurdist inventions. Laugh and weep.</p>
+<h2 id="watch-14">WATCH</h2>
+<p>Harold and Maude (1971)</p>
+<h2 id="dir-hal-ashby-dark-comedy">DIR. HAL ASHBY · DARK COMEDY</h2>
+<p>A death-obsessed boy befriends a 79-year-old woman who loves being alive. The greatest argument for embracing mortality ever put on film.</p>
+<h2 id="watch-15">WATCH</h2>
+<p>The Death of Stalin (2017)</p>
+<h2 id="dir-armando-iannucci-dark-comedy">DIR. ARMANDO IANNUCCI · DARK COMEDY</h2>
+<p>Power, fear, and political death rendered as farce. Shows how the machinery of death makes fools of everyone around it.</p>
+<h2 id="watch-16">WATCH</h2>
+<h2 id="six-feet-under-2001-2005">Six Feet Under (2001–2005)</h2>
+<h2 id="hbo-series-drama-dark-comedy">HBO SERIES · DRAMA / DARK COMEDY</h2>
+<p>Every episode begins with a death. A funeral home family as lens on mortality, identity, and what it means to actually be alive.</p>
+<h2 id="listen-12">LISTEN</h2>
+<h2 id="the-reith-lectures-mortal-coil-jarvis-cocker">The Reith Lectures — &quot;Mortal Coil&quot; — Jarvis Cocker</h2>
+<h2 id="bbc-radio-4-2023">BBC RADIO 4 · 2023</h2>
+<p>The Pulp frontman&#x27;s surprising and genuinely wise BBC lectures on death in popular culture, music, and everyday life.</p>
+<h2 id="listen-13">LISTEN</h2>
+<p>Ars Moriendi (Medieval Manual on Dying)</p>
+<h2 id="audiobook-15th-century">AUDIOBOOK · 15TH CENTURY</h2>
+<p>Medieval guidance on how to die well. Listen alongside Gawande&#x27;s Being Mortal for its deep historical echo.</p>
+<h2 id="10-memento-mori">10 MEMENTO MORI</h2></section>
+<section class="page" id="page-11"><div class="page-label">PAGE 11</div><p>✦✦✦ 11</p></section>
+<section class="page" id="page-12"><div class="page-label">PAGE 12</div><p>—✦— Omnia mors aequat Death makes all things equal</p>
+<h2 id="seven-units-fifty-works-every-medium-2">Seven Units · Fifty Works · Every Medium</h2>
+<h2 id="12-memento-mori">12 MEMENTO MORI</h2></section></div><div class="footer">Reading edition generated from <a href="../memento-mori-course.pdf">memento-mori-course.pdf</a>. The original file is preserved unchanged.</div></article></div>
+<script>
+const q=document.getElementById('search'), pages=[...document.querySelectorAll('.page')];
+q.addEventListener('input',()=>{const term=q.value.trim().toLowerCase();pages.forEach(p=>{p.hidden=!!term&&!p.innerText.toLowerCase().includes(term)})});
+</script></body></html>
