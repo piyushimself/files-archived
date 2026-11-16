@@ -78,12 +78,87 @@ function initHubFilters(){
     input.addEventListener("input",update);select.addEventListener("change",update);update();
   });
 }
+
+function initReaderControls(){
+  document.querySelectorAll("body.rr-reader").forEach(body=>{
+    const input=body.querySelector('.rr-reader-tools input[type="search"], #search');
+    const content=body.querySelector("#content");
+    if(!input||!content||input.dataset.rrReaderWired==="1")return;
+    input.dataset.rrReaderWired="1";
+    const tools=input.closest(".rr-reader-tools");
+    const pageSelect=document.createElement("select");
+    pageSelect.className="rr-reader-page-filter";
+    pageSelect.setAttribute("aria-label","Filter by source page");
+    pageSelect.innerHTML='<option value="all">All source pages</option>';
+    const sectionSelect=document.createElement("select");
+    sectionSelect.className="rr-reader-section-filter";
+    sectionSelect.setAttribute("aria-label","Filter by section");
+    sectionSelect.innerHTML='<option value="all">All sections</option>';
+    const result=document.createElement("span");
+    result.className="rr-reader-results";
+    result.setAttribute("aria-live","polite");
+    if(tools){tools.appendChild(pageSelect);tools.appendChild(sectionSelect);tools.appendChild(result);}
+    const empty=document.createElement("div");
+    empty.className="rr-reader-empty";
+    empty.textContent="No matching sections. Try a different search or clear the filters.";
+    content.appendChild(empty);
+    const pages=[...content.querySelectorAll(":scope > .page")];
+    const groups=[];
+    let groupId=0;
+    pages.forEach((page,pageIndex)=>{
+      const label=page.querySelector(".page-label");
+      const pageName=label?label.textContent.trim():"Source page "+(pageIndex+1);
+      const opt=document.createElement("option");opt.value=String(pageIndex);opt.textContent=pageName;pageSelect.appendChild(opt);
+      let current=null;
+      [...page.children].forEach(node=>{
+        if(node.classList.contains("page-label"))return;
+        if(/^H[23]$/.test(node.tagName)){
+          current={id:String(groupId++),page:pageIndex,title:node.textContent.trim(),nodes:[],text:""};
+          groups.push(current);
+          const so=document.createElement("option");so.value=current.id;so.textContent=current.title.slice(0,100);sectionSelect.appendChild(so);
+        }
+        if(!current){
+          current={id:String(groupId++),page:pageIndex,title:pageName+" · Introduction",nodes:[],text:""};
+          groups.push(current);
+        }
+        current.nodes.push(node);
+        current.text+=(node.textContent||"")+" ";
+      });
+      page.dataset.rrPage=String(pageIndex);
+    });
+    function update(){
+      const query=input.value.trim().toLocaleLowerCase();
+      const selectedPage=pageSelect.value,selectedSection=sectionSelect.value;
+      let visible=0;
+      groups.forEach(group=>{
+        const pageMatch=selectedPage==="all"||selectedPage===String(group.page);
+        const sectionMatch=selectedSection==="all"||selectedSection===group.id;
+        const searchMatch=!query||group.text.toLocaleLowerCase().includes(query);
+        const show=pageMatch&&sectionMatch&&searchMatch;
+        group.nodes.forEach(node=>node.hidden=!show);
+        if(show)visible++;
+      });
+      pages.forEach((page,index)=>{
+        const show=groups.some(group=>group.page===index&&group.nodes.some(node=>!node.hidden));
+        page.hidden=!show;
+      });
+      empty.style.display=visible?"none":"block";
+      result.textContent=visible+" sections shown · "+groups.length+" total";
+    }
+    input.addEventListener("input",update);
+    pageSelect.addEventListener("change",()=>{sectionSelect.value="all";update();});
+    sectionSelect.addEventListener("change",update);
+    update();
+  });
+}
+
 function start(){
   setupTheme();
   const key=siteKey(),manifest=window.READING_ROOM_CONTEXT||{},meta=manifest[key]||null;
   buildNav(key,meta);
   addContext(key,meta);
   initHubFilters();
+  initReaderControls();
 }
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",start);else start();
 })();
