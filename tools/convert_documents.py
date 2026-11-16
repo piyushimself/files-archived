@@ -145,69 +145,52 @@ q.addEventListener('input',()=>{const term=q.value.trim().toLowerCase();pages.fo
 </script></body></html>"""
 
 
+def classify_resource(name):
+    value = name.lower()
+    rules = [
+        (("manga","manhwa","anime","comic"),("Anime & Manga","Illustrated stories and visual worlds","manga anime comics manhwa")),
+        (("film","cinema","movie","filmmak","cinematic","animated"),("Film & Cinema","Filmographies, cinema guides and viewing paths","film cinema movies animation")),
+        (("art","watercol","collage","poetry","bob ross","creative","typewriter"),("Art & Creative Practice","Art resources, making and creative exercises","art drawing painting collage poetry")),
+        (("book","reading","fiction","literature","story","kids","child","curriculum"),("Books, Stories & Learning","Reading lists, stories and learning paths","books reading fiction literature kids education")),
+        (("prompt","inspiration","thinker","meditation","memento","life_worth","emotion","wonder","mind","values"),("Ideas & Reflection","Prompts, philosophy and curiosity","prompts inspiration philosophy reflection thinkers")),
+        (("security","cyber","crypto","trading","pine"),("Technology & Security","Cybersecurity, technical learning and market tools","technology security cybersecurity crypto trading")),
+        (("tracker","generator","app","diary","loom","tasks"),("Interactive Tools","Trackers, generators and browser-based utilities","interactive tools tracker generator app")),
+        (("resource","google_search","links","atlas","reference","guide"),("Reference & Discovery","Resource directories and curated indexes","reference discovery resources links guides atlas")),
+    ]
+    for needles, result in rules:
+        if any(term in value for term in needles):
+            return result
+    return ("Explore & Miscellany","Other collections and useful starting points","miscellaneous collection explore")
+
+
 def build_public_portal():
-    """Create the public landing page for original and converted HTML resources."""
-    originals = sorted(
-        [p for p in ROOT.glob("*.html") if p.name.lower() != "index.html"],
-        key=lambda p: p.name.lower()
-    )
-    converted = sorted(
-        [p for p in OUT.glob("*.html") if p.name.lower() != "index.html"],
-        key=lambda p: p.name.lower()
-    )
+    originals = sorted([p for p in ROOT.glob("*.html") if p.name.lower() != "index.html"], key=lambda p:p.name.lower())
+    converted = sorted([p for p in OUT.glob("*.html") if p.name.lower() != "index.html"], key=lambda p:p.name.lower())
+    resources = []
+    for path, kind in [(p,"original") for p in originals] + [(p,"converted") for p in converted]:
+        title = path.stem.replace("_"," ").replace("-"," ")
+        category, desc, synonyms = classify_resource(path.stem.replace("_"," ").replace("-"," "))
+        href = path.name if kind == "original" else "html/" + path.name
+        resources.append((title,path.name,href,kind,category,desc,synonyms))
+    categories = sorted({r[4] for r in resources})
+    counts = {c:sum(r[4] == c for r in resources) for c in categories}
     cards = []
-    for path in originals:
-        title = path.stem.replace("_", " ").replace("-", " ")
-        cards.append(
-            '<a class="card" data-kind="original" href="' + escape(path.name) + '">'
-            '<span class="tag">ORIGINAL HTML</span><strong>' + escape(title) +
-            '</strong><small>' + escape(path.name) + '</small></a>'
-        )
-    for path in converted:
-        title = path.stem.replace("_", " ").replace("-", " ")
-        cards.append(
-            '<a class="card" data-kind="converted" href="html/' + escape(path.name) + '">'
-            '<span class="tag converted">CONVERTED DOCUMENT</span><strong>' + escape(title) +
-            '</strong><small>' + escape(path.name) + '</small></a>'
-        )
-    page = """<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="A public, searchable library of original HTML projects and converted PDF/DOCX reading editions.">
-<title>Reading Room — Public Library</title>
-<style>
-:root{color-scheme:light;--bg:#f3f2ed;--paper:#fffefa;--ink:#202720;--muted:#687168;--line:#dfdfd6;--accent:#326b64;--soft:#e8f0ec}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-a{color:inherit}.shell{max-width:1200px;margin:0 auto;padding:34px 24px 60px}
-.topline{display:flex;justify-content:space-between;align-items:center;gap:12px;color:var(--muted);font-size:11px;letter-spacing:.13em;text-transform:uppercase;font-weight:750}
-.brand{color:var(--accent)}.hero{padding:36px 0 26px}.hero h1{font-size:clamp(34px,6vw,58px);letter-spacing:-.055em;line-height:1.05;margin:12px 0}.hero p{max-width:680px;color:var(--muted);font-size:16px;margin:12px 0 0}
-.stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}.stat{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:10px 14px;font-size:12px;color:var(--muted)}.stat b{font-size:18px;color:var(--ink);margin-right:5px}
-.controls{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(12px);padding:12px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-input{flex:1;min-width:210px;padding:12px 14px;border:1px solid var(--line);border-radius:9px;background:var(--paper);font:inherit;color:var(--ink);outline:none}input:focus{border-color:var(--accent)}
-.tabs{display:flex;gap:6px;flex-wrap:wrap}.tab{border:1px solid var(--line);background:var(--paper);color:var(--muted);padding:9px 12px;border-radius:8px;font:inherit;font-size:12px;cursor:pointer}.tab.active{background:var(--soft);border-color:var(--accent);color:var(--accent);font-weight:700}
-.section-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin:24px 0 12px}.section-head h2{font-size:18px;margin:0}.section-head span{color:var(--muted);font-size:12px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,245px),1fr));gap:11px}
-.card{display:flex;flex-direction:column;gap:7px;min-height:116px;padding:16px;background:var(--paper);border:1px solid var(--line);border-radius:11px;text-decoration:none;transition:border-color .15s,transform .15s}
-.card:hover{border-color:var(--accent);transform:translateY(-2px)}.card strong{font-size:15px;line-height:1.35;font-weight:680}.card small{color:var(--muted);font-size:11px;overflow-wrap:anywhere}
-.tag{font-size:9px;letter-spacing:.12em;font-weight:800;color:#526d62}.tag.converted{color:#80633b}
-.empty{display:none;padding:28px;text-align:center;color:var(--muted);background:var(--paper);border:1px dashed var(--line);border-radius:10px}
-footer{margin-top:36px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:12px}
-@media(max-width:640px){.shell{padding:22px 14px 40px}.hero{padding:28px 0 20px}.hero p{font-size:14px}.controls{position:static}.controls input{flex-basis:100%}.grid{grid-template-columns:1fr}.card{min-height:0}}
-@media(prefers-color-scheme:dark){:root{color-scheme:dark;--bg:#141916;--paper:#1d2420;--ink:#e8eee9;--muted:#a2ada5;--line:#344039;--accent:#8dc7b4;--soft:#263a31}.controls{background:color-mix(in srgb,var(--bg) 92%,transparent)}.tag{color:#a4c8b4}.tag.converted{color:#d9bb83}}
-</style></head><body><main class="shell">
-<div class="topline"><span class="brand">THE READING ROOM</span><span>PUBLIC DIGITAL LIBRARY</span></div>
-<section class="hero"><div class="brand">A PERSONAL COLLECTION · OPEN ACCESS</div><h1>Explore the library.</h1><p>Browse original interactive HTML projects alongside clean, searchable reading editions converted from the PDF and Word collection. Search by title or filename, then open any resource directly.</p>
-<div class="stats"><div class="stat"><b>""" + str(len(originals)) + """</b> original HTML pages</div><div class="stat"><b>""" + str(len(converted)) + """</b> converted reading pages</div><div class="stat"><b>""" + str(len(originals) + len(converted)) + """</b> pages in total</div></div></section>
-<div class="controls"><input id="search" type="search" placeholder="Search titles and filenames…" aria-label="Search library"><div class="tabs"><button class="tab active" data-filter="all">All pages</button><button class="tab" data-filter="original">Original HTML</button><button class="tab" data-filter="converted">Converted documents</button></div></div>
-<div class="section-head"><h2>Library catalogue</h2><span id="result-count">""" + str(len(originals) + len(converted)) + """ resources</span></div>
-<div class="grid" id="grid">""" + "".join(cards) + """</div><div class="empty" id="empty">No matching pages. Try another search.</div>
-<footer>Public reading portal · Original files remain unchanged · Converted editions may need comparison with their source documents for complex layouts or scanned text.</footer>
-</main><script>
-const search=document.getElementById('search'), cards=[...document.querySelectorAll('.card')], tabs=[...document.querySelectorAll('.tab')], count=document.getElementById('result-count'), empty=document.getElementById('empty');let filter='all';
-function update(){const q=search.value.trim().toLowerCase();let visible=0;cards.forEach(card=>{const ok=(filter==='all'||card.dataset.kind===filter)&&card.innerText.toLowerCase().includes(q);card.hidden=!ok;if(ok)visible++});count.textContent=visible+' resource'+(visible===1?'':'s');empty.style.display=visible?'none':'block'}
-search.addEventListener('input',update);tabs.forEach(tab=>tab.addEventListener('click',()=>{filter=tab.dataset.filter;tabs.forEach(x=>x.classList.toggle('active',x===tab));update()}));
-</script></body></html>"""
-    (ROOT / "index.html").write_text(page, encoding="utf-8")
-    print("Generated public portal:", len(originals), "original HTML +", len(converted), "converted HTML.")
+    for title,filename,href,kind,category,desc,synonyms in resources:
+        label = "Interactive HTML" if kind == "original" else "Reading edition"
+        search = " ".join((title,filename,category,synonyms)).lower()
+        cards.append('<a class="card" href="'+escape(href)+'" data-kind="'+kind+'" data-category="'+escape(category)+'" data-search="'+escape(search)+'"><div class="meta"><span>'+escape(category)+'</span><small>'+label+'</small></div><strong>'+escape(title)+'</strong><p>'+escape(desc)+'</p><div class="bottom">'+("Original page" if kind=="original" else "Converted from source document")+' <b>Open ↗</b></div></a>')
+    filters = ''.join('<button class="chip" data-category="'+escape(c)+'">'+escape(c)+' <i>'+str(counts[c])+'</i></button>' for c in categories)
+    template = """<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="A curated, searchable digital library of film, manga, art, books, ideas, learning resources and interactive tools."><title>The Reading Room — Digital Library</title><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet"><style>
+:root{color-scheme:light;--bg:#f4f1fb;--paper:#fff;--ink:#211d32;--muted:#706b80;--line:#e2dced;--accent:#6652a3;--strong:#4f3c8c;--teal:#347d78}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 'DM Sans',sans-serif}.wrap{max-width:1240px;margin:auto;padding:28px 34px 60px}.mast{display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:18px;color:var(--muted);font-size:11px;letter-spacing:.12em;text-transform:uppercase}.mast b{font:800 13px Manrope;color:var(--strong)}.hero{padding:42px 0 26px}.eyebrow{color:var(--teal);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}h1{font:800 clamp(35px,5vw,55px)/1.1 Manrope;letter-spacing:-.05em;margin:10px 0}.hero p{max-width:700px;color:var(--muted);font-size:16px;margin:0}.stats{display:flex;gap:9px;flex-wrap:wrap;margin:22px 0}.stat{background:#ffffffa8;border:1px solid var(--line);border-radius:9px;padding:8px 12px;color:var(--muted);font-size:12px}.stat b{color:var(--ink);margin-right:4px}.discovery{position:sticky;top:0;z-index:5;background:#f4f1fbf2;backdrop-filter:blur(14px);padding:13px 0;border-block:1px solid var(--line)}.searchrow{display:flex;gap:9px}.searchrow input{flex:1;min-width:0;height:46px;border:1px solid #d8d0e7;border-radius:10px;padding:0 14px;background:var(--paper);font:14px 'DM Sans';color:var(--ink)}button,select{cursor:pointer;font:600 12px 'DM Sans'}.reset,select{border:1px solid var(--line);border-radius:9px;padding:0 13px;background:var(--paper);color:var(--ink)}.filters{display:flex;gap:7px;overflow:auto;padding-top:11px}.chip{white-space:nowrap;border:1px solid var(--line);border-radius:30px;background:var(--paper);color:var(--muted);padding:7px 11px}.chip i{font-style:normal;opacity:.7;margin-left:3px}.chip.active{background:var(--strong);color:white;border-color:var(--strong)}.toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:22px 0 12px}.toolbar h2{font:700 19px Manrope;margin:0}.count{font-size:12px;color:var(--muted)}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.card{display:flex;flex-direction:column;gap:10px;min-height:155px;padding:16px;background:var(--paper);border:1px solid var(--line);border-radius:13px;text-decoration:none;transition:.15s}.card:hover{transform:translateY(-2px);border-color:#b7a9d8;box-shadow:0 8px 24px #30204d10}.meta,.bottom{display:flex;justify-content:space-between;align-items:center;gap:8px}.meta span{font-size:10px;font-weight:700;color:var(--accent)}.meta small{font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:var(--teal);font-weight:700}.card strong{font:700 15px/1.35 Manrope}.card p{font-size:12px;color:var(--muted);margin:0}.bottom{margin-top:auto;border-top:1px solid #f0edf5;padding-top:8px;font-size:10px;color:var(--muted)}.bottom b{color:var(--accent)}.empty{display:none;padding:32px;text-align:center;color:var(--muted);background:var(--paper);border:1px dashed var(--line);border-radius:12px}footer{margin-top:32px;border-top:1px solid var(--line);padding-top:15px;color:var(--muted);font-size:11px}footer a{color:var(--accent)}[hidden]{display:none!important}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #6652a355;outline-offset:2px}
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:620px){.wrap{padding:18px 14px 40px}.hero{padding:28px 0 18px}h1{font-size:36px}.hero p{font-size:14px}.discovery{position:static;margin:0 -14px;padding:11px 14px}.grid{grid-template-columns:1fr;gap:9px}.card{min-height:0;padding:14px}.toolbar h2{font-size:16px}.mast span{font-size:9px}}
+@media(prefers-color-scheme:dark){:root{color-scheme:dark;--bg:#171522;--paper:#211e2e;--ink:#f0edf7;--muted:#b1aabd;--line:#393348;--accent:#b6a4ed;--strong:#9b85df;--teal:#83c7bd}.discovery{background:#171522f2}.searchrow input,.reset,select,.chip{background:var(--paper);color:var(--ink);border-color:var(--line)}.stat{background:#211e2e}.bottom{border-color:#393348}}
+</style></head><body><main class="wrap"><header class="mast"><b>THE READING ROOM</b><span>A personal digital library · Open access</span></header><section class="hero"><div class="eyebrow">Curated knowledge · Stories · Creative practice</div><h1>A library for a curious life.</h1><p>Explore a growing collection of cinema, manga, art, books, learning paths, ideas and interactive tools. Search titles and related topics, narrow by subject, and open original pages or clean reading editions.</p></section><div class="stats"><div class="stat"><b>__TOTAL__</b> resources</div><div class="stat"><b>__ORIGINAL__</b> original interactive pages</div><div class="stat"><b>__CONVERTED__</b> converted reading editions</div><div class="stat"><b>__CATS__</b> subject areas</div></div><section class="discovery"><div class="searchrow"><input id="search" type="search" placeholder="Search titles, subjects or related ideas…" aria-label="Search library"><button class="reset" id="reset">Reset</button></div><div class="filters"><button class="chip active" data-category="all">All subjects <i>__TOTAL__</i></button>__FILTERS__</div></section><div class="toolbar"><div><h2 id="heading">Explore the collection</h2><div class="count" id="count">__TOTAL__ resources</div></div><select id="sort" aria-label="Sort resources"><option value="az">A–Z</option><option value="za">Z–A</option><option value="original">Original pages first</option><option value="converted">Reading editions first</option></select></div><div class="grid" id="grid">__CARDS__</div><div class="empty" id="empty">No matching resources. Try a broader search or reset the filters.</div><footer>Original files remain unchanged. Converted editions are text-first reading copies; check source files for complex layouts or scanned material.<br><a href="html/index.html">Converted-document archive ↗</a> · <a href="https://github.com/piyushimself/files">Repository ↗</a></footer></main><script>
+const search=document.getElementById('search'),cards=[...document.querySelectorAll('.card')],chips=[...document.querySelectorAll('.chip')],count=document.getElementById('count'),empty=document.getElementById('empty'),sort=document.getElementById('sort');let category='all';function update(){const q=search.value.trim().toLowerCase();let n=0;const list=[...cards].sort((a,b)=>{if(sort.value==='za')return b.querySelector('strong').textContent.localeCompare(a.querySelector('strong').textContent);if(['original','converted'].includes(sort.value))return (a.dataset.kind===sort.value?-1:1)-(b.dataset.kind===sort.value?-1:1);return a.querySelector('strong').textContent.localeCompare(b.querySelector('strong').textContent)});list.forEach(c=>{const ok=(category==='all'||c.dataset.category===category)&&(!q||c.dataset.search.includes(q));c.hidden=!ok;if(ok)n++;document.getElementById('grid').appendChild(c)});count.textContent=n+' of '+cards.length+' resources';empty.style.display=n?'none':'block';document.getElementById('heading').textContent=category==='all'?'Explore the collection':category}chips.forEach(b=>b.addEventListener('click',()=>{category=b.dataset.category;chips.forEach(x=>x.classList.toggle('active',x===b));update()}));search.addEventListener('input',update);sort.addEventListener('change',update);document.getElementById('reset').addEventListener('click',()=>{search.value='';category='all';sort.value='az';chips.forEach(x=>x.classList.toggle('active',x.dataset.category==='all'));update()});update();</script></body></html>"""
+    values = {"__TOTAL__":str(len(resources)),"__ORIGINAL__":str(len(originals)),"__CONVERTED__":str(len(converted)),"__CATS__":str(len(categories)),"__FILTERS__":filters,"__CARDS__":"".join(cards)}
+    for marker,value in values.items():
+        template=template.replace(marker,value)
+    (ROOT/"index.html").write_text(template,encoding="utf-8")
+    print("Generated categorized portal:",len(resources),"resources across",len(categories),"subjects.")
 
 def main():
     sources = sorted([*ROOT.glob("*.pdf"), *ROOT.glob("*.docx")], key=lambda p:p.name.lower())
