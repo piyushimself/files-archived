@@ -1,6 +1,6 @@
 # Document & Creative Library
 
-A browsable inventory of the repository, with file type and a short description of each resource. Descriptions are based on filenames and the visible purpose of existing pages; entries marked as uncertain should be checked against the source contents.
+A public, searchable reading portal for the repository's original HTML projects and converted PDF/DOCX reading editions, plus a complete file inventory. Descriptions are based on filenames and visible page purposes; ambiguous entries are marked for content-level review.
 
 ## Repository summary
 
@@ -9,9 +9,9 @@ A browsable inventory of the repository, with file type and a short description 
 | Existing root-level HTML projects | 35 |
 | PDF source documents | 43 |
 | DOCX source documents | 3 |
-| Supporting files (README, Python script, workflow, TXT, Pine Script) | 5 |
-| **Current repository files before generated HTML editions** | **86** |
-| HTML reading editions planned/generated from PDF and DOCX sources | 46 |
+| Supporting files (README, Python script, two workflows, TXT, Pine Script) | 6 |
+| **Original files and supporting tools** | **87** |
+| HTML reading editions generated from PDF and DOCX sources | 46 |
 | HTML reading archive index | 1 |
 
 ## Main HTML reading archive
@@ -20,7 +20,7 @@ Once the conversion workflow has completed and pushed its output, open the [HTML
 
 ## Complete repository inventory
 
-The table below lists every file present in the repository at the time this inventory was updated, including supporting automation files.
+The table below lists the original project files and supporting automation files. Generated reading editions are listed in the following section.
 
 | File | Type | About |
 |---|---|---|
@@ -169,7 +169,7 @@ The following 46 HTML reading pages are generated from the PDF/DOCX originals. E
 
 - [Conversion script](tools/convert_documents.py) — extracts PDF text with Poppler, uses OCR as a fallback for image-only PDFs, extracts DOCX text and tables, and generates responsive HTML.
 - [GitHub Actions workflow](.github/workflows/convert-documents.yml) — runs the conversion when source documents, the script, or this inventory changes; it can also be run manually from the Actions tab.
-- [HTML output directory](html/) — generated reading pages and their index.
+- [HTML output directory](html/) — generated reading pages and their index.\n- [Public portal homepage](index.html) — automatically lists every root-level original HTML page and every converted HTML edition.\n- [Pages deployment workflow](.github/workflows/deploy-pages.yml) — publishes the portal and its HTML resources to GitHub Pages.
 
 ## Inventory notes
 
