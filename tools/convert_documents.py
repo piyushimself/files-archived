@@ -85,7 +85,9 @@ def extract_docx(path):
                         text_html += marker
             if para.text.strip() or "<img " in text_html:
                 style = para.style.name if para.style else "Normal"
-                blocks.append(("paragraph", {"html": text_html, "text": para.text.strip(), "style": style}))
+                visible_runs = [run for run in para.runs if (run.text or "").strip()]
+                is_bold = bool(visible_runs) and all(run.bold for run in visible_runs)
+                blocks.append(("paragraph", {"html": text_html, "text": para.text.strip(), "style": style, "bold": is_bold}))
         elif tag == "tbl":
             table = Table(child, doc)
             rows = [[cell.text.strip() for cell in row.cells] for row in table.rows]
@@ -260,12 +262,24 @@ def render_docx_blocks(blocks):
         if kind == "paragraph":
             style = value["style"].lower()
             html = value["html"]
-            if style.startswith("heading") or style in ("title", "subtitle"):
+            text = value["text"] or re.sub(r"<[^>]+>", "", html)
+            formatted_heading = (
+                value.get("bold", False)
+                and 3 <= len(text) <= 88
+                and len(text.split()) <= 10
+                and not text.endswith((".", ",", ";", ":", "?", "!"))
+                and not re.match(r"^\s*\d+[.)]\s+", text)
+            )
+            is_heading = style.startswith("heading") or style in ("title", "subtitle") or formatted_heading
+            if is_heading:
                 flush_list()
                 level_match = re.search(r"(\d+)", style)
-                level = int(level_match.group(1)) if level_match else (1 if style == "title" else 2)
+                if level_match:
+                    level = int(level_match.group(1))
+                else:
+                    level = 1 if style == "title" else (2 if style.startswith("heading") else 2)
                 level = min(max(level, 1), 4)
-                heading_text = value["text"] or re.sub(r"<[^>]+>", "", html)
+                heading_text = text
                 base = slug(heading_text)
                 anchor, suffix = base, 2
                 while anchor in used:
@@ -273,7 +287,7 @@ def render_docx_blocks(blocks):
                 used.add(anchor)
                 toc.append((anchor, heading_text))
                 parts.append('<h' + str(level + 1) + ' id="' + anchor + '">' + html + '</h' + str(level + 1) + '>')
-            elif style.startswith("list bullet") or style.startswith("list number") or style.startswith("list continue"):
+            elif style.startswith("list bullet") or style.startswith("list number") or style.startswith("list continue") or style == "list paragraph":
                 next_kind = "ol" if "number" in style else "ul"
                 if list_kind and list_kind != next_kind:
                     flush_list()
@@ -294,7 +308,6 @@ def render_docx_blocks(blocks):
                 parts.append('<div class="table-wrap"><table>' + head + body + "</table></div>")
     flush_list()
     return ['<section class="page">' + "\n".join(parts) + "</section>"], toc
-
 
 def category_info(title):
     value = title.lower()
@@ -325,6 +338,7 @@ def make_reader(source, title, kind, sections, toc, extraction_method, source_ha
         toc_block = '<nav class="toc"><div class="toc-title">ON THIS PAGE</div>' + "".join('<a href="#' + escape(anchor) + '">' + escape(label) + "</a>" for anchor, label in toc) + "</nav>"
     else:
         toc_block = ""
+    layout_class = "layout" if toc else "layout rr-no-toc"
     body = "\n".join(sections)
     if len(body) < 100:
         body = '<section class="page"><p>No readable text could be extracted. Please open the original source document for the complete material.</p></section>'
@@ -339,6 +353,11 @@ def make_reader(source, title, kind, sections, toc, extraction_method, source_ha
 .rr-reader-intro{margin:12px 0 14px;padding:13px 15px;border:1px solid var(--rr-line);border-left:3px solid var(--rr-accent);border-radius:9px;background:var(--rr-panel)}
 .rr-reader-intro .kicker{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--rr-accent-strong);font-weight:750}
 .rr-reader-intro p{margin:5px 0 0!important;color:var(--rr-muted);font-size:12px!important;line-height:1.6!important}
+.rr-reader-tools{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin:10px 0 13px;padding:9px 11px;border:1px solid var(--rr-line);border-radius:8px;background:var(--rr-panel)}
+.rr-reader-tools label{font-size:11px;font-weight:700;color:var(--rr-muted)}
+.rr-reader-tools input{flex:1 1 240px;max-width:440px;min-height:34px!important;font-size:12px!important}
+body.rr-reader .layout.rr-no-toc{display:block!important;max-width:900px!important}
+body.rr-reader .layout.rr-no-toc article{max-width:860px;margin:0 auto}
 body.rr-reader .page{min-height:0}
 body.rr-reader .page h2,body.rr-reader .page h3{scroll-margin-top:78px}
 body.rr-reader .page li{margin:3px 0}
@@ -352,14 +371,38 @@ body.rr-reader .toc details summary{cursor:pointer;font-size:11px;font-weight:70
 body.rr-reader .toc details a:first-of-type{margin-top:8px}
 </style></head><body class="rr-page rr-reader rr--""" + theme + """">
 """ + toc_block + """
-<main class="layout"><article>
+<main class=""" + layout_class + """"><article>
 <section class="hero"><div class="kicker">SOURCE DOCUMENT · """ + kind + """ · """ + escape(category) + """</div><h1>""" + safe_title + """</h1><div class="meta">""" + str(len(sections)) + """ reading sections · Original file preserved · Search within this edition</div></section>
 <section class="rr-reader-intro"><div class="kicker">How to use this collection</div><p>""" + escape(guidance) + """</p><p><a href=""" + '"' + escape(source_rel) + '"' + """ target="_blank" rel="noopener">Open original """ + kind + """ ↗</a></p></section>
+<div class="rr-reader-tools"><label for="search">FIND IN THIS DOCUMENT</label><input id="search" type="search" placeholder="Search words, names or sections…" aria-label="Search within this document"></div>
 <div id="content">""" + body + """</div>
 <footer class="footer">Converted from <a href=""" + '"' + escape(source_rel) + '"' + """>""" + escape(source.name) + """</a>. Extraction method: """ + escape(extraction_method) + """. The original file is retained for images, complex layouts and visual details.</footer>
 </article></main>
 <script>
-(function(){const q=document.getElementById('search');if(!q)return;const pages=[...document.querySelectorAll('.page')];q.addEventListener('input',()=>{const term=q.value.trim().toLowerCase();pages.forEach(p=>{p.hidden=!!term&&!p.innerText.toLowerCase().includes(term)})});})();
+(function(){
+  const q=document.getElementById('search');
+  if(!q)return;
+  const pages=[...document.querySelectorAll('#content .page')];
+  q.addEventListener('input',()=>{
+    const term=q.value.trim().toLowerCase();
+    if(pages.length>1){
+      pages.forEach(page=>{page.hidden=!!term&&!page.innerText.toLowerCase().includes(term);});
+      return;
+    }
+    pages.forEach(page=>{
+      const targets=[...page.querySelectorAll('h2,h3,h4,p,li,tr,blockquote')];
+      targets.forEach(el=>{el.hidden=!!term&&!el.innerText.toLowerCase().includes(term);});
+      page.querySelectorAll('ul,ol').forEach(list=>{
+        const visible=[...list.children].some(child=>!child.hidden);
+        list.hidden=!!term&&!visible;
+      });
+      page.querySelectorAll('.table-wrap').forEach(wrap=>{
+        const rows=[...wrap.querySelectorAll('tbody tr')];
+        wrap.hidden=!!term&&rows.length>0&&!rows.some(row=>!row.hidden);
+      });
+    });
+  });
+})();;
 </script></body></html>"""
 
 
@@ -422,7 +465,7 @@ def main():
             output.write_text(html, encoding="utf-8")
             category, _, _ = category_info(title)
             catalogue.append({"title": title, "source": source.name, "reader": output.name, "kind": kind, "sections": len(sections), "category": category})
-            report.append({"source": source.name, "output": "html/" + output.name, "sha256": digest, "status": "converted" if len(extracted.strip()) > 150 else "low-text-review", "extracted_chars": len(extracted), "sections": len(sections), "toc_entries": len(toc), "extraction": extraction_method, "docx_paragraphs": paragraph_count, "docx_tables": table_count, "output_bytes": output.stat().st_size})
+            report.append({"source": source.name, "output": "html/" + output.name, "sha256": digest, "status": "converted" if len(extracted.strip()) > 150 else "low-text-review", "extracted_chars": len(extracted), "sections": len(sections), "toc_entries": len(toc), "extraction": extraction_method, "docx_paragraphs": paragraph_count, "docx_tables": table_count, "docx_styles": {name: sum(1 for b in blocks if b[0] == "paragraph" and b[1]["style"] == name) for name in sorted({b[1]["style"] for b in blocks if b[0] == "paragraph"})} if source.suffix.lower() == ".docx" else {}, "output_bytes": output.stat().st_size})
             print("Converted:", source.name, "->", output.name, "(" + str(len(sections)) + " sections)")
         except Exception as exc:
             report.append({"source": source.name, "output": "html/" + output.name, "sha256": digest, "status": "error", "error": str(exc)})
