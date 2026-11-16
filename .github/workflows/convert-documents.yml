@@ -78,6 +78,14 @@ jobs:
                   assert 'reading-room.css?v=4' in body, f'Missing shared stylesheet: {page}'
               assert 'class=\"rr-page' in body, f'Missing Reading Room page scope: {page}'
               assert body.count('reading-room.js?v=4') == 1, f'Duplicate or missing shared script: {page}'
+          for item in report['sources']:
+              if item['status'] != 'converted':
+                  continue
+              reader = (root/item['output']).read_text(encoding='utf-8', errors='replace')
+              assert 'id="search"' in reader, f'Missing within-document search: {item["output"]}'
+              if item.get('toc_entries', 0) == 0:
+                  assert 'rr-no-toc' in reader, f'Missing wide layout for no-TOC reader: {item["output"]}'
+              assert '../' + item['source'] in reader, f'Missing original source link: {item["output"]}'
           print(f'PASS: {len(sources)} source documents; {report["reader_count"]} reading editions; {len(list((root/"collections").glob("*.html")))} subject pages; {len(html_pages)} HTML files checked.')
           print('Extraction statuses:', {s: sum(1 for x in report['sources'] if x['status']==s) for s in sorted({x['status'] for x in report['sources']})})
           PY

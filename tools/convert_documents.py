@@ -371,7 +371,7 @@ body.rr-reader .toc details summary{cursor:pointer;font-size:11px;font-weight:70
 body.rr-reader .toc details a:first-of-type{margin-top:8px}
 </style></head><body class="rr-page rr-reader rr--""" + theme + """">
 """ + toc_block + """
-<main class=""" + layout_class + """"><article>
+<main class=\"""" + layout_class + """\"><article>
 <section class="hero"><div class="kicker">SOURCE DOCUMENT · """ + kind + """ · """ + escape(category) + """</div><h1>""" + safe_title + """</h1><div class="meta">""" + str(len(sections)) + """ reading sections · Original file preserved · Search within this edition</div></section>
 <section class="rr-reader-intro"><div class="kicker">How to use this collection</div><p>""" + escape(guidance) + """</p><p><a href=""" + '"' + escape(source_rel) + '"' + """ target="_blank" rel="noopener">Open original """ + kind + """ ↗</a></p></section>
 <div class="rr-reader-tools"><label for="search">FIND IN THIS DOCUMENT</label><input id="search" type="search" placeholder="Search words, names or sections…" aria-label="Search within this document"></div>
