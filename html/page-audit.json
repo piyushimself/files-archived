@@ -1,0 +1,2021 @@
+{
+  "page_count": 91,
+  "families": {
+    "interactive-catalogue-or-index": 19,
+    "editorial-or-learning-page": 14,
+    "interactive-tool-or-tutorial": 4,
+    "collection-hub": 8,
+    "source-reading-edition": 45,
+    "homepage": 1
+  },
+  "pages_with_local_link_issues": 0,
+  "local_link_issue_count": 0,
+  "hard_error_count": 0,
+  "duplicate_id_page_count": 0,
+  "duplicate_id_count": 0,
+  "hard_errors": [],
+  "pages": [
+    {
+      "path": "300_animated_films.html",
+      "title": "300 Essential Animated Films",
+      "family": "interactive-catalogue-or-index",
+      "bytes": 49115,
+      "h1": 1,
+      "headings": 1,
+      "inputs": 1,
+      "selects": 5,
+      "buttons": 0,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "Big_library.html",
+      "title": "Archived shortcut — Big library",
+      "family": "editorial-or-learning-page",
+      "bytes": 819,
+      "h1": 1,
+      "headings": 1,
+      "inputs": 0,
+      "selects": 0,
+      "buttons": 0,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "Qwen_html_20260604_f25nf6z8p.html",
+      "title": "100 Manga That Will Change How You Think",
+      "family": "interactive-catalogue-or-index",
+      "bytes": 54137,
+      "h1": 1,
+      "headings": 0,
+      "inputs": 0,
+      "selects": 0,
+      "buttons": 0,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "The_Curators_Library.html",
+      "title": "The Curator's Library",
+      "family": "editorial-or-learning-page",
+      "bytes": 676106,
+      "h1": 1,
+      "headings": 2,
+      "inputs": 1,
+      "selects": 0,
+      "buttons": 20,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "anime-manga-values-curriculum.html",
+      "title": "200 Works — Anime & Manga for a Life of Reflection",
+      "family": "interactive-catalogue-or-index",
+      "bytes": 140659,
+      "h1": 1,
+      "headings": 1,
+      "inputs": 0,
+      "selects": 0,
+      "buttons": 14,
+      "cards": 1608,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "asian_cinema_curriculum (1).html",
+      "title": "Asian Cinema Curriculum",
+      "family": "editorial-or-learning-page",
+      "bytes": 84034,
+      "h1": 1,
+      "headings": 1,
+      "inputs": 1,
+      "selects": 0,
+      "buttons": 18,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "blackout_poetry_tutorial.html",
+      "title": "Blackout Poetry — A Tutorial",
+      "family": "interactive-tool-or-tutorial",
+      "bytes": 62256,
+      "h1": 1,
+      "headings": 41,
+      "inputs": 0,
+      "selects": 0,
+      "buttons": 22,
+      "cards": 13,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "bob_ross_complete_guide.html",
+      "title": "Bob Ross — The Joy of Painting: Complete Guide",
+      "family": "editorial-or-learning-page",
+      "bytes": 69008,
+      "h1": 1,
+      "headings": 1,
+      "inputs": 1,
+      "selects": 0,
+      "buttons": 5,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "cinematic-database (1).html",
+      "title": "CINÉMA OBSCURA — Global Film Database",
+      "family": "interactive-catalogue-or-index",
+      "bytes": 192043,
+      "h1": 1,
+      "headings": 1,
+      "inputs": 1,
+      "selects": 3,
+      "buttons": 10,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "cinematic_canon (1).html",
+      "title": "The Cinematic Canon — 1400+ Critically Acclaimed Films",
+      "family": "interactive-catalogue-or-index",
+      "bytes": 188864,
+      "h1": 1,
+      "headings": 1,
+      "inputs": 1,
+      "selects": 5,
+      "buttons": 3,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "collage-idea-generato - Theme.html",
+      "title": "Collage Idea Generator — No Sanity Included",
+      "family": "interactive-tool-or-tutorial",
+      "bytes": 22372,
+      "h1": 1,
+      "headings": 2,
+      "inputs": 0,
+      "selects": 0,
+      "buttons": 14,
+      "cards": 3,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "collage-idea-generator.html",
+      "title": "Collage Brief Generator",
+      "family": "interactive-tool-or-tutorial",
+      "bytes": 22280,
+      "h1": 1,
+      "headings": 2,
+      "inputs": 0,
+      "selects": 0,
+      "buttons": 14,
+      "cards": 3,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "collections/anime-and-manga.html",
+      "title": "Anime, manga & comics — The Reading Room",
+      "family": "collection-hub",
+      "bytes": 12714,
+      "h1": 1,
+      "headings": 6,
+      "inputs": 1,
+      "selects": 1,
+      "buttons": 2,
+      "cards": 18,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "collections/art-and-making.html",
+      "title": "Art & creative practice — The Reading Room",
+      "family": "collection-hub",
+      "bytes": 8355,
+      "h1": 1,
+      "headings": 6,
+      "inputs": 1,
+      "selects": 1,
+      "buttons": 2,
+      "cards": 10,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "collections/books-and-reading.html",
+      "title": "Books & reading journeys — The Reading Room",
+      "family": "collection-hub",
+      "bytes": 9326,
+      "h1": 1,
+      "headings": 6,
+      "inputs": 1,
+      "selects": 1,
+      "buttons": 2,
+      "cards": 11,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "collections/children-and-family.html",
+      "title": "Children & family learning — The Reading Room",
+      "family": "collection-hub",
+      "bytes": 7635,
+      "h1": 1,
+      "headings": 6,
+      "inputs": 1,
+      "selects": 1,
+      "buttons": 2,
+      "cards": 8,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "collections/cinema.html",
+      "title": "Cinema & the moving image — The Reading Room",
+      "family": "collection-hub",
+      "bytes": 15805,
+      "h1": 1,
+      "headings": 6,
+      "inputs": 1,
+      "selects": 1,
+      "buttons": 2,
+      "cards": 24,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "collections/ideas-and-reflection.html",
+      "title": "Ideas & reflection — The Reading Room",
+      "family": "collection-hub",
+      "bytes": 11289,
+      "h1": 1,
+      "headings": 6,
+      "inputs": 1,
+      "selects": 1,
+      "buttons": 2,
+      "cards": 15,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "collections/poetry-and-writing.html",
+      "title": "Poetry & writing — The Reading Room",
+      "family": "collection-hub",
+      "bytes": 7078,
+      "h1": 1,
+      "headings": 6,
+      "inputs": 1,
+      "selects": 1,
+      "buttons": 2,
+      "cards": 8,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "collections/work-and-tools.html",
+      "title": "Work, security & personal tools — The Reading Room",
+      "family": "collection-hub",
+      "bytes": 6092,
+      "h1": 1,
+      "headings": 5,
+      "inputs": 1,
+      "selects": 1,
+      "buttons": 2,
+      "cards": 5,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "film_collection_v8.html",
+      "title": "The Complete Film Collection — 1,619 Films",
+      "family": "interactive-catalogue-or-index",
+      "bytes": 779905,
+      "h1": 1,
+      "headings": 1,
+      "inputs": 2,
+      "selects": 6,
+      "buttons": 17,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "four-arcs-library.html",
+      "title": "The Four Arcs — Library of Human Experience",
+      "family": "editorial-or-learning-page",
+      "bytes": 689573,
+      "h1": 1,
+      "headings": 1,
+      "inputs": 0,
+      "selects": 0,
+      "buttons": 6,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "free-art-resources.html",
+      "title": "Free Creative Art Resources",
+      "family": "editorial-or-learning-page",
+      "bytes": 38303,
+      "h1": 1,
+      "headings": 1,
+      "inputs": 0,
+      "selects": 0,
+      "buttons": 9,
+      "cards": 168,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "grand_library (2).html",
+      "title": "Archived shortcut — grand library (2)",
+      "family": "editorial-or-learning-page",
+      "bytes": 851,
+      "h1": 1,
+      "headings": 1,
+      "inputs": 0,
+      "selects": 0,
+      "buttons": 0,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "html/1000_Creative_Educational_Cultural_Links.html",
+      "title": "1000 Creative Educational Cultural Links — The Reading Room",
+      "family": "source-reading-edition",
+      "bytes": 274856,
+      "h1": 1,
+      "headings": 888,
+      "inputs": 1,
+      "selects": 0,
+      "buttons": 0,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "html/1000_Google_Searches_Grand_Curiosity_Atlas.html",
+      "title": "The Grand Curiosity Atlas — 1,000 Search Trails — The Reading Room",
+      "family": "source-reading-edition",
+      "bytes": 77420,
+      "h1": 1,
+      "headings": 23,
+      "inputs": 1,
+      "selects": 0,
+      "buttons": 0,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "html/1000_Greatest_Fictional_Books.html",
+      "title": "1000 Greatest Fictional Books — The Reading Room",
+      "family": "source-reading-edition",
+      "bytes": 277714,
+      "h1": 1,
+      "headings": 919,
+      "inputs": 1,
+      "selects": 0,
+      "buttons": 0,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "html/1000_Inspirations.html",
+      "title": "1000 Inspirations — The Reading Room",
+      "family": "source-reading-edition",
+      "bytes": 89787,
+      "h1": 1,
+      "headings": 21,
+      "inputs": 1,
+      "selects": 0,
+      "buttons": 0,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "html/1000_Writing_Prompts.html",
+      "title": "1000 Writing Prompts — The Reading Room",
+      "family": "source-reading-edition",
+      "bytes": 106319,
+      "h1": 1,
+      "headings": 29,
+      "inputs": 1,
+      "selects": 0,
+      "buttons": 0,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "html/100_essential_films.html",
+      "title": "100 Essential Films — The Reading Room",
+      "family": "source-reading-edition",
+      "bytes": 63188,
+      "h1": 1,
+      "headings": 123,
+      "inputs": 1,
+      "selects": 0,
+      "buttons": 0,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "html/2000_Inspirations (1).html",
+      "title": "2000 Inspirations — The Reading Room",
+      "family": "source-reading-edition",
+      "bytes": 74639,
+      "h1": 1,
+      "headings": 6,
+      "inputs": 1,
+      "selects": 0,
+      "buttons": 0,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "html/200_Films_Like_Frida.html",
+      "title": "200 Films Like Frida — The Reading Room",
+      "family": "source-reading-edition",
+      "bytes": 63132,
+      "h1": 1,
+      "headings": 214,
+      "inputs": 1,
+      "selects": 0,
+      "buttons": 0,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "html/200_prompts_emotion_wonder_v2.html",
+      "title": "200 prompts emotion wonder v2 — The Reading Room",
+      "family": "source-reading-edition",
+      "bytes": 105049,
+      "h1": 1,
+      "headings": 272,
+      "inputs": 1,
+      "selects": 0,
+      "buttons": 0,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "html/200_prompts_mind_detox_v2.html",
+      "title": "200 prompts mind detox v2 — The Reading Room",
+      "family": "source-reading-edition",
+      "bytes": 96907,
+      "h1": 1,
+      "headings": 255,
+      "inputs": 1,
+      "selects": 0,
+      "buttons": 0,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "html/200_thinkers_quiet_mind_v2.html",
+      "title": "200 thinkers quiet mind v2 — The Reading Room",
+      "family": "source-reading-edition",
+      "bytes": 145602,
+      "h1": 1,
+      "headings": 924,
+      "inputs": 1,
+      "selects": 0,
+      "buttons": 0,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "html/300_Films_Filmography.html",
+      "title": "300 Films Filmography — The Reading Room",
+      "family": "source-reading-edition",
+      "bytes": 86487,
+      "h1": 1,
+      "headings": 393,
+      "inputs": 1,
+      "selects": 0,
+      "buttons": 0,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "html/500_Films_500_Music_Global_Guide.html",
+      "title": "A Life Worth Living — 500 Films & 500 Music — The Reading Room",
+      "family": "source-reading-edition",
+      "bytes": 161491,
+      "h1": 1,
+      "headings": 330,
+      "inputs": 1,
+      "selects": 0,
+      "buttons": 0,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "html/500_Manga_Movies.html",
+      "title": "500 Films Based on Manga — The Reading Room",
+      "family": "source-reading-edition",
+      "bytes": 164565,
+      "h1": 1,
+      "headings": 774,
+      "inputs": 1,
+      "selects": 0,
+      "buttons": 0,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "html/50_e_art_films.html",
+      "title": "50 Bold, Intimate & Thought-Provoking Art Films — The Reading Room",
+      "family": "source-reading-edition",
+      "bytes": 37906,
+      "h1": 1,
+      "headings": 65,
+      "inputs": 1,
+      "selects": 0,
+      "buttons": 0,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "html/A_Filmmakers_Reading_List.html",
+      "title": "A Filmmaker's Reading List — The Reading Room",
+      "family": "source-reading-edition",
+      "bytes": 88547,
+      "h1": 1,
+      "headings": 389,
+      "inputs": 1,
+      "selects": 0,
+      "buttons": 0,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "html/A_Life_Worth_Living_500_Suggestions.html",
+      "title": "A Life Worth Living — 500 Suggestions — The Reading Room",
+      "family": "source-reading-edition",
+      "bytes": 72070,
+      "h1": 1,
+      "headings": 8,
+      "inputs": 1,
+      "selects": 0,
+      "buttons": 0,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "html/Aag_Ki_Kavitayen.html",
+      "title": "Aag Ki Kavitayen — The Reading Room",
+      "family": "source-reading-edition",
+      "bytes": 80989,
+      "h1": 1,
+      "headings": 334,
+      "inputs": 1,
+      "selects": 0,
+      "buttons": 0,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "html/All_Film_Collections_Combined_compressed (1).html",
+      "title": "Archived shortcut — All Film Collections Combined compressed (1)",
+      "family": "interactive-catalogue-or-index",
+      "bytes": 929,
+      "h1": 1,
+      "headings": 1,
+      "inputs": 0,
+      "selects": 0,
+      "buttons": 0,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "html/All_Film_Collections_Combined_compressed.html",
+      "title": "All Film Collections Combined compressed — The Reading Room",
+      "family": "source-reading-edition",
+      "bytes": 1853999,
+      "h1": 1,
+      "headings": 4087,
+      "inputs": 1,
+      "selects": 0,
+      "buttons": 0,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "html/Bold_Cinema_Collection.html",
+      "title": "Bold Cinema Collection — The Reading Room",
+      "family": "source-reading-edition",
+      "bytes": 37655,
+      "h1": 1,
+      "headings": 23,
+      "inputs": 1,
+      "selects": 0,
+      "buttons": 0,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "html/Cybersecurity_Stories_For_Your_Teams.html",
+      "title": "Cybersecurity Stories For Your Teams — The Reading Room",
+      "family": "source-reading-edition",
+      "bytes": 103023,
+      "h1": 1,
+      "headings": 237,
+      "inputs": 1,
+      "selects": 0,
+      "buttons": 0,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "html/Cybersecurity_Storytelling_Movies.html",
+      "title": "Cybersecurity Storytelling Movies — The Reading Room",
+      "family": "source-reading-edition",
+      "bytes": 64899,
+      "h1": 1,
+      "headings": 35,
+      "inputs": 1,
+      "selects": 0,
+      "buttons": 0,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "html/Films_That_Open_New_Human_Domains.html",
+      "title": "Films That Open New Human Domains — The Reading Room",
+      "family": "source-reading-edition",
+      "bytes": 89884,
+      "h1": 1,
+      "headings": 194,
+      "inputs": 1,
+      "selects": 0,
+      "buttons": 0,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "html/Free_Art_Resource_Library.html",
+      "title": "Free Art Resource Library — The Reading Room",
+      "family": "source-reading-edition",
+      "bytes": 12276,
+      "h1": 1,
+      "headings": 13,
+      "inputs": 1,
+      "selects": 0,
+      "buttons": 0,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "html/Global_Kids_Books_Complete_Guide.html",
+      "title": "Global Kids Books — Complete Guide — The Reading Room",
+      "family": "source-reading-edition",
+      "bytes": 59520,
+      "h1": 1,
+      "headings": 187,
+      "inputs": 1,
+      "selects": 0,
+      "buttons": 0,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "html/Global_Kids_Reading_Guide_FINAL (1).html",
+      "title": "Global Kids Reading Guide FINAL — The Reading Room",
+      "family": "source-reading-edition",
+      "bytes": 67316,
+      "h1": 1,
+      "headings": 213,
+      "inputs": 1,
+      "selects": 0,
+      "buttons": 0,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "html/Personal_Reference_Film_Books_Art.html",
+      "title": "Personal Reference Film Books Art — The Reading Room",
+      "family": "source-reading-edition",
+      "bytes": 45320,
+      "h1": 1,
+      "headings": 99,
+      "inputs": 1,
+      "selects": 0,
+      "buttons": 0,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "html/Reading_Course_Emotions_Wonder.html",
+      "title": "Reading Course Emotions Wonder — The Reading Room",
+      "family": "source-reading-edition",
+      "bytes": 44509,
+      "h1": 1,
+      "headings": 117,
+      "inputs": 1,
+      "selects": 0,
+      "buttons": 0,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "html/Three_Year_Old_Reading_Guide (1).html",
+      "title": "Three-Year-Old Reading Guide — The Reading Room",
+      "family": "source-reading-edition",
+      "bytes": 30455,
+      "h1": 1,
+      "headings": 58,
+      "inputs": 1,
+      "selects": 0,
+      "buttons": 0,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "html/World_Stories_3YearOld_Guide.html",
+      "title": "World Stories for Three-Year-Olds — The Reading Room",
+      "family": "source-reading-edition",
+      "bytes": 24147,
+      "h1": 1,
+      "headings": 48,
+      "inputs": 1,
+      "selects": 0,
+      "buttons": 0,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "html/asian_books_curriculum.html",
+      "title": "asian books curriculum — The Reading Room",
+      "family": "source-reading-edition",
+      "bytes": 117174,
+      "h1": 1,
+      "headings": 82,
+      "inputs": 1,
+      "selects": 0,
+      "buttons": 0,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "html/asian_cinema_curriculum.html",
+      "title": "asian cinema curriculum — The Reading Room",
+      "family": "source-reading-edition",
+      "bytes": 71788,
+      "h1": 1,
+      "headings": 59,
+      "inputs": 1,
+      "selects": 0,
+      "buttons": 0,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "html/cinema_900 (1).html",
+      "title": "cinema 900 — The Reading Room",
+      "family": "source-reading-edition",
+      "bytes": 164813,
+      "h1": 1,
+      "headings": 140,
+      "inputs": 1,
+      "selects": 0,
+      "buttons": 0,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "html/complete_movie_encyclopedia.html",
+      "title": "Complete Movie Encyclopedia — The Reading Room",
+      "family": "source-reading-edition",
+      "bytes": 206755,
+      "h1": 1,
+      "headings": 113,
+      "inputs": 1,
+      "selects": 0,
+      "buttons": 0,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "html/complete_movie_ratings.html",
+      "title": "Complete Movie Ratings — The Reading Room",
+      "family": "source-reading-edition",
+      "bytes": 45349,
+      "h1": 1,
+      "headings": 32,
+      "inputs": 1,
+      "selects": 0,
+      "buttons": 0,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "html/complete_movie_ratings_647.html",
+      "title": "Complete Movie Ratings — 647 Films — The Reading Room",
+      "family": "source-reading-edition",
+      "bytes": 160034,
+      "h1": 1,
+      "headings": 495,
+      "inputs": 1,
+      "selects": 0,
+      "buttons": 0,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "html/definitive_anime_encyclopedia.html",
+      "title": "The Definitive Anime Encyclopedia — The Reading Room",
+      "family": "source-reading-edition",
+      "bytes": 193838,
+      "h1": 1,
+      "headings": 220,
+      "inputs": 1,
+      "selects": 0,
+      "buttons": 0,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "html/index.html",
+      "title": "Document library — The Reading Room",
+      "family": "editorial-or-learning-page",
+      "bytes": 46559,
+      "h1": 1,
+      "headings": 1,
+      "inputs": 1,
+      "selects": 1,
+      "buttons": 0,
+      "cards": 46,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "html/library-3.html",
+      "title": "library 3 — The Reading Room",
+      "family": "source-reading-edition",
+      "bytes": 451042,
+      "h1": 1,
+      "headings": 631,
+      "inputs": 1,
+      "selects": 0,
+      "buttons": 0,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "html/manga_recommendations.html",
+      "title": "manga recommendations — The Reading Room",
+      "family": "source-reading-edition",
+      "bytes": 13674,
+      "h1": 1,
+      "headings": 12,
+      "inputs": 1,
+      "selects": 0,
+      "buttons": 0,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "html/masters_of_art.html",
+      "title": "masters of art — The Reading Room",
+      "family": "source-reading-edition",
+      "bytes": 78138,
+      "h1": 1,
+      "headings": 3,
+      "inputs": 1,
+      "selects": 0,
+      "buttons": 0,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "html/masters_of_e_art_cinema.html",
+      "title": "masters of e art cinema — The Reading Room",
+      "family": "source-reading-edition",
+      "bytes": 29332,
+      "h1": 1,
+      "headings": 16,
+      "inputs": 1,
+      "selects": 0,
+      "buttons": 0,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "html/meditation_on_death.html",
+      "title": "A Meditation on Death — The Reading Room",
+      "family": "source-reading-edition",
+      "bytes": 53220,
+      "h1": 1,
+      "headings": 51,
+      "inputs": 1,
+      "selects": 0,
+      "buttons": 0,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "html/memento-mori-course.html",
+      "title": "Memento Mori — A Curated Study Course — The Reading Room",
+      "family": "source-reading-edition",
+      "bytes": 34884,
+      "h1": 1,
+      "headings": 168,
+      "inputs": 1,
+      "selects": 0,
+      "buttons": 0,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "html/sensitive_cinema.html",
+      "title": "sensitive cinema — The Reading Room",
+      "family": "source-reading-edition",
+      "bytes": 99234,
+      "h1": 1,
+      "headings": 186,
+      "inputs": 1,
+      "selects": 0,
+      "buttons": 0,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "html/ultimate_anime_guide.html",
+      "title": "ultimate anime guide — The Reading Room",
+      "family": "source-reading-edition",
+      "bytes": 68820,
+      "h1": 1,
+      "headings": 112,
+      "inputs": 1,
+      "selects": 0,
+      "buttons": 0,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "human-development-curriculum.html",
+      "title": "Human Development Curriculum — Anime & Manga",
+      "family": "interactive-catalogue-or-index",
+      "bytes": 111560,
+      "h1": 1,
+      "headings": 41,
+      "inputs": 0,
+      "selects": 0,
+      "buttons": 0,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "index.html",
+      "title": "The Reading Room — A Library for a Curious Life",
+      "family": "homepage",
+      "bytes": 9024,
+      "h1": 1,
+      "headings": 9,
+      "inputs": 0,
+      "selects": 0,
+      "buttons": 2,
+      "cards": 20,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "life-fiction-curriculum.html",
+      "title": "The Fiction of Living — A Curriculum for the Soul",
+      "family": "editorial-or-learning-page",
+      "bytes": 42231,
+      "h1": 1,
+      "headings": 9,
+      "inputs": 0,
+      "selects": 0,
+      "buttons": 0,
+      "cards": 22,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "living-curriculum-2026.html",
+      "title": "How to Live — A Complete Curriculum · 2026",
+      "family": "editorial-or-learning-page",
+      "bytes": 55760,
+      "h1": 1,
+      "headings": 15,
+      "inputs": 0,
+      "selects": 0,
+      "buttons": 0,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "manga-1000.html",
+      "title": "1200 Manga — The Complete Reading Atlas",
+      "family": "interactive-catalogue-or-index",
+      "bytes": 135622,
+      "h1": 1,
+      "headings": 1,
+      "inputs": 1,
+      "selects": 0,
+      "buttons": 11,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "manga-archive-v4.html",
+      "title": "Archived shortcut — manga archive v4",
+      "family": "interactive-catalogue-or-index",
+      "bytes": 831,
+      "h1": 1,
+      "headings": 1,
+      "inputs": 0,
+      "selects": 0,
+      "buttons": 0,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "manga-comics-master.html",
+      "title": "Manga & Comics Master Index — 2718 Titles",
+      "family": "interactive-catalogue-or-index",
+      "bytes": 1026662,
+      "h1": 1,
+      "headings": 1,
+      "inputs": 1,
+      "selects": 0,
+      "buttons": 6,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "manga-guide.html",
+      "title": "50 Manga to Read — A Moving Journey",
+      "family": "interactive-catalogue-or-index",
+      "bytes": 39699,
+      "h1": 1,
+      "headings": 8,
+      "inputs": 0,
+      "selects": 0,
+      "buttons": 0,
+      "cards": 300,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "manga-index.html",
+      "title": "DARK INK — Transgressive Manga Index",
+      "family": "interactive-catalogue-or-index",
+      "bytes": 253332,
+      "h1": 1,
+      "headings": 1,
+      "inputs": 1,
+      "selects": 3,
+      "buttons": 20,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "manhwa300.html",
+      "title": "🔞 300 Adult Het Romance Manhwa",
+      "family": "editorial-or-learning-page",
+      "bytes": 74200,
+      "h1": 1,
+      "headings": 1,
+      "inputs": 1,
+      "selects": 1,
+      "buttons": 0,
+      "cards": 6,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "manhwa_300_filter_app.html",
+      "title": "",
+      "family": "editorial-or-learning-page",
+      "bytes": 59341,
+      "h1": 1,
+      "headings": 2,
+      "inputs": 1,
+      "selects": 1,
+      "buttons": 0,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "marginalia-diary.html",
+      "title": "Marginalia — a daily notebook",
+      "family": "interactive-catalogue-or-index",
+      "bytes": 23413,
+      "h1": 1,
+      "headings": 1,
+      "inputs": 5,
+      "selects": 2,
+      "buttons": 5,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "political-comics-list.html",
+      "title": "Political Comics & Manga — World Curriculum",
+      "family": "interactive-catalogue-or-index",
+      "bytes": 59474,
+      "h1": 1,
+      "headings": 2,
+      "inputs": 0,
+      "selects": 0,
+      "buttons": 18,
+      "cards": 412,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "sen-mood-movies.html",
+      "title": "Sensual Mood Cinema — 660 Films",
+      "family": "interactive-catalogue-or-index",
+      "bytes": 61313,
+      "h1": 1,
+      "headings": 1,
+      "inputs": 1,
+      "selects": 0,
+      "buttons": 0,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "taboo-comics.html",
+      "title": "FORBIDDEN PAGES — The Transgressive Comics Index",
+      "family": "interactive-catalogue-or-index",
+      "bytes": 589893,
+      "h1": 1,
+      "headings": 1,
+      "inputs": 1,
+      "selects": 4,
+      "buttons": 21,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "the-loom-tracker.html",
+      "title": "The Loom — four threads",
+      "family": "editorial-or-learning-page",
+      "bytes": 22871,
+      "h1": 1,
+      "headings": 6,
+      "inputs": 3,
+      "selects": 0,
+      "buttons": 4,
+      "cards": 5,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "top500_adult_manga.html",
+      "title": "Top 500 Adult Manga — Definitive List",
+      "family": "interactive-catalogue-or-index",
+      "bytes": 90355,
+      "h1": 1,
+      "headings": 1,
+      "inputs": 1,
+      "selects": 0,
+      "buttons": 10,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "top500_manga.html",
+      "title": "Archived shortcut — top500 manga",
+      "family": "interactive-catalogue-or-index",
+      "bytes": 818,
+      "h1": 1,
+      "headings": 1,
+      "inputs": 0,
+      "selects": 0,
+      "buttons": 0,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "typewriter.html",
+      "title": "Typewriter",
+      "family": "editorial-or-learning-page",
+      "bytes": 2841,
+      "h1": 1,
+      "headings": 1,
+      "inputs": 0,
+      "selects": 1,
+      "buttons": 1,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    },
+    {
+      "path": "watercolour_tasks (1).html",
+      "title": "Watercolour Journal — 30 Adult Painting Tasks",
+      "family": "interactive-tool-or-tutorial",
+      "bytes": 30585,
+      "h1": 1,
+      "headings": 1,
+      "inputs": 0,
+      "selects": 0,
+      "buttons": 9,
+      "cards": 0,
+      "asset_versions": {
+        "css": [
+          "11"
+        ],
+        "js": [
+          "11"
+        ]
+      },
+      "duplicate_ids": [],
+      "local_link_issues": []
+    }
+  ]
+}
