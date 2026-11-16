@@ -551,9 +551,58 @@ def document_summary(title, extracted, fallback):
 
 
 
+CINEMA_READER_OVERRIDES = {
+    "cinema 900": {
+        "kind": "cinema-900",
+        "title": "Cinema 900",
+        "meta": "900 curated films · 3 distinct viewing routes",
+        "summary": "A three-part cinema atlas: 300 world-cinema masterpieces, 300 sensual and mood-led films, and 300 explicit erotic-art selections. The first route spans regions and traditions; the second follows longing, intimacy and atmosphere; the third is an adult-only route.",
+        "guidance": "Start with World Cinema for a broad route through countries and traditions. Choose Sensual & Mood Cinema for atmosphere and relationships. The Explicit Erotic Art list is separate and intended for adults; review its content advisory before browsing."
+    },
+    "complete movie encyclopedia": {
+        "kind": "movie-encyclopedia",
+        "title": "Complete Movie Encyclopedia",
+        "meta": "647 unique films · IMDb · Rotten Tomatoes · India streaming notes",
+        "summary": "A reference work bringing together essential cinema, erotic art films, anime and director-led genre collections. Entries combine IMDb and Rotten Tomatoes scores, editorial descriptions and source-era notes on where to watch in India.",
+        "guidance": "Use the collection sections to explore by theme or filmmaker. IMDb is an audience score; Rotten Tomatoes is the share of positive critic reviews. Streaming notes in this source are dated 2025 and should be treated as historical pointers, not live availability."
+    },
+    "complete movie ratings": {
+        "kind": "movie-ratings",
+        "title": "Complete Movie Ratings",
+        "meta": "218 unique titles · IMDb audience scores · Rotten Tomatoes critic scores",
+        "summary": "A comparison reference for the films collected in this session, organised across essential cinema, erotic art films and anime. A title may appear in more than one source section; the stated total refers to unique titles, not the sum of section counts.",
+        "guidance": "IMDb is an audience rating out of 10. Rotten Tomatoes is the percentage of critics who reviewed a film positively, not an average score. A 100% Tomatometer does not mean a perfect film, and scores for older or less-reviewed titles may rely on small samples."
+    },
+    "sensitive cinema": {
+        "kind": "sensitive-cinema",
+        "title": "Sensitive Cinema",
+        "meta": "253 films · 15 thematic categories · Reflection-led viewing",
+        "summary": "A guided collection across animation, world cinema, documentary and quiet drama. It pairs film notes with reflective prompts about empathy, grief, identity, family, memory and social conditions.",
+        "guidance": "This is a reflective guide, not a ranking or a set of objective lessons. It includes difficult themes such as war, trauma, illness, political violence, sexuality and loss. Check the film notes and choose according to your comfort."
+    }
+}
+
+
 def make_reader(source, title, kind, sections, toc, extraction_method, source_hash, summary):
-    safe_title = escape(title)
+    override = CINEMA_READER_OVERRIDES.get(title.strip().lower())
     category, theme, guidance = category_info(title)
+    reader_kind = ""
+    intro_kicker = "About this collection"
+    search_label = "FIND IN THIS DOCUMENT"
+    display_title = title
+    if override:
+        reader_kind = override["kind"]
+        display_title = override["title"]
+        summary = override["summary"]
+        guidance = override["guidance"]
+        category = "Film & Cinema"
+        theme = "cinema"
+        edition_meta = override["meta"]
+        intro_kicker = "Reader’s guide"
+        search_label = "SEARCH THIS COLLECTION"
+    else:
+        edition_meta = (str(len(toc)) + " poems · Original sequence preserved · Search by poet or section") if theme == "poetry" else (str(len(sections)) + " reading sections · Original file preserved · Search within this edition")
+    safe_title = escape(display_title)
     source_rel = "../" + source.relative_to(ROOT).as_posix()
     if len(toc) > 12:
         toc_block = '<nav class="toc"><details><summary>ON THIS PAGE · ' + str(len(toc)) + ' sections</summary>' + "".join('<a href="#' + escape(anchor) + '">' + escape(label) + "</a>" for anchor, label in toc) + "</details></nav>"
@@ -565,7 +614,9 @@ def make_reader(source, title, kind, sections, toc, extraction_method, source_ha
     body = "\n".join(sections)
     if len(body) < 100:
         body = '<section class="page"><p>No readable text could be extracted. Please open the original source document for the complete material.</p></section>'
-    edition_meta = (str(len(toc)) + " poems · Original sequence preserved · Search by poet or section") if theme == "poetry" else (str(len(sections)) + " reading sections · Original file preserved · Search within this edition")
+    body_attributes = ' class="rr-page rr-reader rr--' + theme + '"'
+    if reader_kind:
+        body_attributes += ' data-reader-kind="' + escape(reader_kind, quote=True) + '"'
     return """<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="Reading edition of """ + safe_title + """. Original source preserved.">
@@ -593,41 +644,17 @@ body.rr-reader .page a{overflow-wrap:anywhere}
 body.rr-reader .page-label{margin-bottom:8px}
 body.rr-reader .toc details summary{cursor:pointer;font-size:11px;font-weight:700;color:var(--rr-ink)}
 body.rr-reader .toc details a:first-of-type{margin-top:8px}
-</style></head><body class="rr-page rr-reader rr--""" + theme + """">
+</style></head><body""" + body_attributes + """>
 """ + toc_block + """
 <main class=\"""" + layout_class + """\"><article>
 <section class="hero"><div class="kicker">SOURCE DOCUMENT · """ + kind + """ · """ + escape(category) + """</div><h1>""" + safe_title + """</h1><div class="meta">""" + edition_meta + """</div></section>
-<section class="rr-reader-intro"><div class="kicker">About this collection</div><p class="rr-reader-summary">""" + escape(summary) + """</p><p class="rr-reader-guidance"><strong>Suggested approach:</strong> """ + escape(guidance) + """</p><p><a href=""" + '"' + escape(source_rel) + '"' + """ target="_blank" rel="noopener">Open original """ + kind + """ ↗</a></p></section>
-<div class="rr-reader-tools"><label for="search">FIND IN THIS DOCUMENT</label><input id="search" type="search" placeholder="Search words, names or sections…" aria-label="Search within this document"></div>
+<section class="rr-reader-intro"><div class="kicker">""" + intro_kicker + """</div><p class="rr-reader-summary">""" + escape(summary) + """</p><p class="rr-reader-guidance"><strong>How to use this edition:</strong> """ + escape(guidance) + """</p><p><a href=\"""" + '"' + escape(source_rel) + '"' + """ target="_blank" rel="noopener">Open original """ + kind + """ ↗</a></p></section>
+<div class="rr-reader-tools"><label for="search">""" + search_label + """</label><input id="search" type="search" placeholder="Search titles, directors, years, themes or ratings…" aria-label="Search this collection"></div>
 <div id="content">""" + body + """</div>
-<footer class="footer">Converted from <a href=""" + '"' + escape(source_rel) + '"' + """>""" + escape(source.name) + """</a>. Extraction method: """ + escape(extraction_method) + """. The original file is retained for images, complex layouts and visual details.</footer>
-</article></main>
-<script>
-(function(){
-  const q=document.getElementById('search');
-  if(!q || document.body.classList.contains('rr--poetry'))return;
-  const pages=[...document.querySelectorAll('#content .page')];
-  q.addEventListener('input',()=>{
-    const term=q.value.trim().toLowerCase();
-    if(pages.length>1){
-      pages.forEach(page=>{page.hidden=!!term&&!page.innerText.toLowerCase().includes(term);});
-      return;
-    }
-    pages.forEach(page=>{
-      const targets=[...page.querySelectorAll('h2,h3,h4,p,li,tr,blockquote')];
-      targets.forEach(el=>{el.hidden=!!term&&!el.innerText.toLowerCase().includes(term);});
-      page.querySelectorAll('ul,ol').forEach(list=>{
-        const visible=[...list.children].some(child=>!child.hidden);
-        list.hidden=!!term&&!visible;
-      });
-      page.querySelectorAll('.table-wrap').forEach(wrap=>{
-        const rows=[...wrap.querySelectorAll('tbody tr')];
-        wrap.hidden=!!term&&rows.length>0&&!rows.some(row=>!row.hidden);
-      });
-    });
-  });
-})();;
-</script></body></html>"""
+<footer class="footer">Converted from <a href=\"""" + '"' + escape(source_rel) + '"' + """">""" + escape(source.name) + """</a>. Extraction method: """ + escape(extraction_method) + """. The original file is retained for images, complex layouts and visual details.</footer>
+</article></main></body></html>"""
+
+
 
 
 def canonical_duplicate_alias(path, canonical):
