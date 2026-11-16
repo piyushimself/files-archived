@@ -1,0 +1,44 @@
+name: Convert PDF and DOCX documents to HTML
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '**/*.pdf'
+      - '**/*.docx'
+      - 'tools/convert_documents.py'
+      - '.github/workflows/convert-documents.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: document-html-conversion
+  cancel-in-progress: false
+
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Install document tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y poppler-utils tesseract-ocr
+          python -m pip install --upgrade pip
+          python -m pip install python-docx
+      - name: Convert all PDFs and DOCX files
+        run: python tools/convert_documents.py
+      - name: Commit generated HTML
+        run: |
+          if [[ -n "$(git status --porcelain html/)" ]]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add html/
+            git commit -m "Generate HTML reading editions for PDF and DOCX files"
+            git push
+          else
+            echo "HTML output is already up to date."
+          fi
