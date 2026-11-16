@@ -20,8 +20,11 @@ async function boot(relativePath) {
   dom.window.READING_ROOM_CONTEXT = {};
   dom.window.__rrErrors = [];
   dom.window.addEventListener("error", event => dom.window.__rrErrors.push(String(event.error || event.message)));
+  const ready = dom.window.document.readyState === "loading"
+    ? new Promise(resolve => dom.window.document.addEventListener("DOMContentLoaded", resolve, { once: true }))
+    : Promise.resolve();
   dom.window.eval(sharedJS);
-  dom.window.document.dispatchEvent(new dom.window.Event("DOMContentLoaded", { bubbles: true }));
+  await ready;
   await new Promise(resolve => setTimeout(resolve, 0));
   return dom;
 }

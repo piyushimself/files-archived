@@ -486,8 +486,9 @@ function buildOrderedFilmCatalogue(body,content,toolbar){
 
 function initReaderControls(){
   document.querySelectorAll("body.rr-reader").forEach(body=>{
+    if(body.dataset.rrReaderEnhanced==="1")return;
     const content=body.querySelector("#content"),toolbar=readerToolbar(body);
-    if(!content||!toolbar||body.dataset.rrReaderEnhanced==="1")return;
+    if(!content||!toolbar)return;
     body.dataset.rrReaderEnhanced="1";
     const title=(body.querySelector(".hero h1")||body.querySelector("h1")||{}).textContent||"";
     const headings=[...content.querySelectorAll("h2,h3")];
