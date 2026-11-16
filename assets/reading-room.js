@@ -17,8 +17,31 @@ function siteKey(){
   return at>=0?parts.slice(at+1).join("/"):(parts.slice(-2).join("/")||"index.html");
 }
 function basePrefix(key){return key.startsWith("html/")||key.startsWith("collections/")?"../":"";}
+function wireHeader(header){
+  const menu=header.querySelector(".rr-menu-toggle");
+  const nav=header.querySelector(".rr-navlinks");
+  if(menu&&nav&&menu.dataset.rrWired!=="1"){
+    menu.dataset.rrWired="1";
+    menu.addEventListener("click",function(){
+      const open=nav.classList.toggle("is-open");
+      menu.setAttribute("aria-expanded",String(open));
+      menu.textContent=open?"Close":"Menu";
+    });
+  }
+  const theme=header.querySelector(".rr-theme-toggle");
+  if(theme&&theme.dataset.rrWired!=="1"){
+    theme.dataset.rrWired="1";
+    theme.addEventListener("click",function(){
+      const next=document.documentElement.dataset.theme==="dark"?"light":"dark";
+      document.documentElement.dataset.theme=next;
+      try{localStorage.setItem("rr-theme",next);}catch(e){}
+      theme.title=next==="dark"?"Switch to light theme":"Switch to dark theme";
+    });
+  }
+}
 function buildNav(key,meta){
-  if(document.querySelector(".rr-site-header"))return;
+  const existing=document.querySelector(".rr-site-header");
+  if(existing){wireHeader(existing);return;}
   document.querySelectorAll(".rr-contextbar").forEach(n=>n.remove());
   const prefix=basePrefix(key);
   const header=document.createElement("header");
@@ -27,11 +50,9 @@ function buildNav(key,meta){
   const links=NAV.map(([slug,label,path])=>'<a href="'+prefix+path+'"'+(active===slug?' aria-current="page"':'')+'>'+label+'</a>').join("");
   header.innerHTML='<a class="rr-brand" href="'+prefix+'index.html"><span class="rr-brand-mark">R</span>THE READING ROOM</a><nav class="rr-navlinks" aria-label="Main collections">'+links+'</nav><div class="rr-header-actions"><button type="button" class="rr-theme-toggle" aria-label="Switch colour theme" title="Switch colour theme">◐</button><button type="button" class="rr-menu-toggle" aria-expanded="false" aria-label="Open navigation">Menu</button></div>';
   document.body.insertBefore(header,document.body.firstChild);
-  const menu=header.querySelector(".rr-menu-toggle"),nav=header.querySelector(".rr-navlinks");
-  menu.addEventListener("click",function(){const open=nav.classList.toggle("is-open");menu.setAttribute("aria-expanded",String(open));menu.textContent=open?"Close":"Menu";});
-  const theme=header.querySelector(".rr-theme-toggle");
-  theme.addEventListener("click",function(){const next=document.documentElement.dataset.theme==="dark"?"light":"dark";document.documentElement.dataset.theme=next;try{localStorage.setItem("rr-theme",next);}catch(e){};theme.title=next==="dark"?"Switch to light theme":"Switch to dark theme";});
+  wireHeader(header);
 }
+
 function setupTheme(){
   let pref=null;try{pref=localStorage.getItem("rr-theme");}catch(e){}
   if(pref==="light"||pref==="dark")document.documentElement.dataset.theme=pref;
