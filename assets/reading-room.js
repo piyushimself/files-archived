@@ -534,7 +534,7 @@ function cinemaSplitCredit(value){
   if(words.length<3)return {title:value||"",director:""};
   let n=2;
   const last3=words.slice(-3).join(" ");
-  if(/^(?:Alejandro|Carl|Jean-Luc|Jean-Pierre|Abdellatif|Gillo|Mikhail|Mohsen|Lars von|Costa-Gavras|Fernando Meirelles|Bille August|Satyajit Ray|Sanjay Leela)$/i.test(last3))n=3;
+  if(/^(?:Alejandro|Carl Theodor|Jean-Luc|Jean-Pierre|Abdellatif|Gillo|Mikhail|Mohsen|Lars von|Costa-Gavras|Fernando Meirelles|Bille August|Satyajit Ray|Sanjay Leela)\b/i.test(last3))n=3;
   if(/^(?:von|del|van|de|di)$/i.test(words[words.length-2]))n=3;
   if(words.length<=n)n=2;
   return {title:words.slice(0,-n).join(" "),director:words.slice(-n).join(" ")};
@@ -713,7 +713,7 @@ function cinemaBuildFilmReader(body,content,toolbar,kind){
   const allCards=[...wrapper.querySelectorAll(".rr-cinema-entry")];
   const empty=document.createElement("div");empty.className="rr-cinema-empty";empty.textContent="No film entries match these filters. Clear a filter or try another search.";wrapper.appendChild(empty);
   const validIds=new Set(groups.map(g=>g.id).filter(Boolean));
-  document.querySelectorAll(".toc a[href^='#']").forEach(a=>{const id=a.getAttribute("href").slice(1);a.hidden=!validIds.has(id);});
+  document.querySelectorAll(".toc a[href^='#']").forEach(a=>{const id=a.getAttribute("href").slice(1);if(!validIds.has(id))a.remove();});
   const summary=document.querySelector(".toc summary");if(summary)summary.textContent="EXPLORE "+validIds.size+" COLLECTIONS";
   const originalOrder=new Map(allCards.map((card,i)=>[card,i]));
   const update=()=>{
