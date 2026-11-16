@@ -104,9 +104,9 @@ function readerToolbar(body){
 }
 function parseFilmMeta(value){
   const text=(value||"").trim();
-  const match=text.match(/^(.+?)\s*[·•]\s*([^·•]+?)\s*[·•]\s*((?:18|19|20)\d{2})$/);
+  const match=text.match(/^(.+?)\s*[·•]\s*([^·•]+?)\s*[·•]\s*((?:18|19|20)\d{2})(?:\s+(.*))?$/);
   if(!match)return null;
-  return {director:match[1].trim(),country:match[2].trim(),year:match[3]};
+  return {director:match[1].trim(),country:match[2].trim(),year:match[3],tail:(match[4]||"").trim()};
 }
 function quoteFromText(text){
   const match=(text||"").match(/["“]([^"”]+)["”]/);
@@ -137,7 +137,7 @@ function buildFilmCatalogue(body,content,toolbar){
     if(!text)return;
     if(!current){intro.push(text);return;}
     const meta=parseFilmMeta(text);
-    if(meta){current.director=meta.director;current.country=meta.country;current.year=meta.year;return;}
+    if(meta){current.director=meta.director;current.country=meta.country;current.year=meta.year;if(meta.tail){const q=quoteFromText(meta.tail);if(q)current.tagline=current.tagline?current.tagline+" "+q:q;const residue=meta.tail.replace(/["“][\s\S]*?["”]/,"").trim();if(residue)current.notes.push(residue);}return;}
     const quote=quoteFromText(text);
     if(quote){current.tagline= current.tagline ? current.tagline+" "+quote : quote;return;}
     if(text.length>1)current.notes.push(text);
@@ -165,7 +165,11 @@ function buildFilmCatalogue(body,content,toolbar){
           groups.push({title:category,anchor:node.id||""});
           return;
         }
-        if(current)addNote(text);else intro.push(text);
+        if(/^(?:300 FILMS|A?GLOBAL FILMOGRAPHY|TITLE.*TAGLINE.*DIRECTOR)/i.test(text)){
+          if(node.id)intro.push("##ANCHOR##"+node.id);
+          return;
+        }
+        if(current){if(node.id)current.metaAnchors.push(node.id);addNote(text);}else {if(node.id)intro.push("##ANCHOR##"+node.id);intro.push(text);}
         return;
       }
       if(node.tagName==="UL"||node.tagName==="OL"){
@@ -187,7 +191,8 @@ function buildFilmCatalogue(body,content,toolbar){
             startRecord(numbered[1],visibleTitle,pageIndex,"");
             const q=quoteFromText(bodyText);if(q)current.tagline=q;
             const meta=parseFilmMeta(bodyText);
-            if(meta){current.director=meta.director;current.country=meta.country;current.year=meta.year;}
+            if(meta){current.director=meta.director;current.country=meta.country;current.year=meta.year;if(meta.tail){const q2=quoteFromText(meta.tail);if(q2)current.tagline=q2;}}
+            else {const inline=bodyText.match(/^([\\s\\S]+?)\\s*[·•]\\s*([^·•]+?)\\s*[·•]\\s*((?:18|19|20)\\d{2})(?:\\s+(.*))?$/);if(inline){current.country=inline[2].trim();current.year=inline[3];const q2=quoteFromText(inline[4]||"");if(q2)current.tagline=q2;}}
             if(quoteIndex>=0){
               const tail=bodyText.slice(quoteIndex).replace(/["“][\s\S]*?["”]/,"").trim();
               if(tail)addNote(tail);
@@ -219,11 +224,12 @@ function buildFilmCatalogue(body,content,toolbar){
   if(intro.length){
     const introBox=document.createElement("section");introBox.className="rr-filmography-intro";
     const introTitle=document.createElement("h2");introTitle.textContent="About this selection";introBox.appendChild(introTitle);
-    const p=document.createElement("p");p.textContent=intro.join(" ");introBox.appendChild(p);wrapper.appendChild(introBox);
+    intro.filter(v=>v.startsWith("##ANCHOR##")).forEach(v=>{const a=document.createElement("span");a.id=v.slice(10);a.className="rr-film-anchor";introBox.appendChild(a);});
+    const p=document.createElement("p");p.textContent=intro.filter(v=>!v.startsWith("##ANCHOR##")).join(" ");introBox.appendChild(p);wrapper.appendChild(introBox);
   }
   groupsByName.forEach((items,name)=>{
     const section=document.createElement("section");section.className="rr-film-group";section.dataset.category=name;
-    const heading=document.createElement("h2");heading.className="rr-film-group-title";heading.textContent=name;section.appendChild(heading);
+    const heading=document.createElement("h2");heading.className="rr-film-group-title";heading.textContent=name;const groupAnchor=groups.find(g=>g.title===name&&g.anchor);if(groupAnchor)heading.id=groupAnchor.anchor;section.appendChild(heading);
     const grid=document.createElement("div");grid.className="rr-film-grid";
     items.forEach(record=>{
       const card=document.createElement("article");card.className="rr-film-card";
