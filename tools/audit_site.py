@@ -122,7 +122,7 @@ def main():
             "title": " ".join(parser.title_text).strip(),
             "family": family,
             "bytes": len(raw.encode("utf-8")),
-            "h1": len(re.findall(r"<h1\\b", raw, re.I)),
+            "h1": len(re.findall(r"<h1(?:\\s|>)", raw, re.I)),
             "headings": len(parser.headings),
             "inputs": sum(1 for x in parser.inputs if x["tag"] == "input"),
             "selects": sum(1 for x in parser.inputs if x["tag"] == "select"),
