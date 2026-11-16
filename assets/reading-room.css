@@ -272,3 +272,101 @@ body.rr-page :focus-visible{outline:3px solid color-mix(in srgb,var(--rr-accent)
 html[data-theme=dark] body.rr-page{--rr-bg:#171c22;--rr-panel:#202833;--rr-surface:#252f3a;--rr-ink:#edf1f5;--rr-muted:#b0bbc7;--rr-line:#3a4755;--rr-accent:#91a9c7;--rr-accent-strong:#b4c8e0;--rr-accent-soft:#2b3948;--rr-warm:#d0a184;--rr-shadow:0 4px 18px rgba(0,0,0,.18)}
 @media(prefers-color-scheme:dark){html:not([data-theme=light]) body.rr-page{--rr-bg:#171c22;--rr-panel:#202833;--rr-surface:#252f3a;--rr-ink:#edf1f5;--rr-muted:#b0bbc7;--rr-line:#3a4755;--rr-accent:#91a9c7;--rr-accent-strong:#b4c8e0;--rr-accent-soft:#2b3948;--rr-warm:#d0a184;--rr-shadow:0 4px 18px rgba(0,0,0,.18)}}
 @media print{.rr-site-header,.rr-page-context,.rr-library-toolbar,.rr-archive-tools{display:none!important}body.rr-page{background:#fff!important;color:#111!important}.rr-resource-card{break-inside:avoid}}
+
+
+/* READING ROOM · READER ALIGNMENT FIX V6
+   One fluid grid definition; no fixed-width content column. */
+body.rr-reader .layout{
+  display:grid!important;
+  grid-template-columns:minmax(190px,225px) minmax(0,1fr)!important;
+  align-items:start!important;
+  column-gap:24px!important;
+  row-gap:16px!important;
+  width:min(100% - 36px,1180px)!important;
+  max-width:1180px!important;
+  margin:20px auto!important;
+  padding:0!important;
+  box-sizing:border-box!important;
+}
+body.rr-reader .layout > .toc{
+  align-self:start!important;
+  min-width:0!important;
+  width:100%!important;
+  max-width:none!important;
+  margin:0!important;
+  box-sizing:border-box!important;
+}
+body.rr-reader .layout > article{
+  align-self:start!important;
+  justify-self:stretch!important;
+  min-width:0!important;
+  width:100%!important;
+  max-width:900px!important;
+  margin:0!important;
+  box-sizing:border-box!important;
+}
+body.rr-reader .layout > article > :is(.hero,.rr-reader-intro,.rr-reader-tools,#content,.footer){
+  width:100%!important;
+  max-width:100%!important;
+  box-sizing:border-box!important;
+}
+body.rr-reader .layout .page{
+  display:block!important;
+  width:100%!important;
+  max-width:none!important;
+  min-width:0!important;
+  margin:13px 0!important;
+  box-sizing:border-box!important;
+  text-align:left!important;
+}
+body.rr-reader .layout .page :is(h1,h2,h3,h4,p,ul,ol,blockquote,table){
+  text-align:left;
+}
+body.rr-reader .layout .page :is(p,li,blockquote){
+  max-width:78ch;
+}
+body.rr-reader .toc details[open]{
+  max-height:calc(100vh - 145px);
+  overflow:auto;
+}
+body.rr-reader .toc details summary{
+  position:sticky;
+  top:0;
+  z-index:1;
+  padding:5px 0 9px;
+  background:var(--rr-panel);
+}
+@media(max-width:980px) and (min-width:761px){
+  body.rr-reader .layout{
+    grid-template-columns:minmax(170px,200px) minmax(0,1fr)!important;
+    column-gap:17px!important;
+    width:calc(100% - 28px)!important;
+  }
+}
+@media(max-width:760px){
+  body.rr-reader .layout{
+    display:block!important;
+    width:100%!important;
+    max-width:100%!important;
+    margin:11px auto!important;
+    padding:0 12px!important;
+  }
+  body.rr-reader .layout > .toc{
+    position:static!important;
+    width:100%!important;
+    max-width:none!important;
+    margin:0 0 12px!important;
+  }
+  body.rr-reader .layout > article{
+    width:100%!important;
+    max-width:none!important;
+    margin:0!important;
+  }
+  body.rr-reader .layout .page{
+    width:100%!important;
+    margin:10px 0!important;
+    padding:19px 16px!important;
+  }
+  body.rr-reader .toc details[open]{max-height:210px}
+  body.rr-reader .toc details summary{position:static}
+}

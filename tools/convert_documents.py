@@ -329,6 +329,7 @@ def category_info(title):
 
 
 SUMMARY_OVERRIDES = {
+    "films that open new human domains": "A guided film and documentary collection organised around domains of human experience — childhood, care, illness, family, solitude, war, creativity and more. Each selection pairs a film with the human perspective it can help a viewer understand, making this a route for reflective watching rather than a ranked watchlist.",
     "the definitive anime encyclopedia": "A broad anime viewing reference covering 100 essential films and 100 essential series across genres and eras. Use it to plan a first watchlist or trace how styles, studios and creators changed from early television to contemporary work.",
     "manga recommendations": "A compact manga shortlist for readers drawn to romance, mystery and feel-good storytelling, with a simple rating key to help compare recommendations. Treat it as a welcoming starting shelf rather than a comprehensive canon.",
     "ultimate anime guide": "A time-aware guide to essential anime films and series, organised around genre and viewing commitment. It helps readers choose a manageable route through a large medium rather than browse an undifferentiated catalogue.",
@@ -411,9 +412,9 @@ def make_reader(source, title, kind, sections, toc, extraction_method, source_ha
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="Reading edition of """ + safe_title + """. Original source preserved.">
 <title>""" + safe_title + """ — The Reading Room</title>
-<link rel="stylesheet" href="../assets/reading-room.css?v=5">
-<script src="../assets/reading-room-context.js?v=5" defer></script>
-<script src="../assets/reading-room.js?v=5" defer></script>
+<link rel="stylesheet" href="../assets/reading-room.css?v=6">
+<script src="../assets/reading-room-context.js?v=6" defer></script>
+<script src="../assets/reading-room.js?v=6" defer></script>
 <style>
 .rr-reader-intro{margin:12px 0 14px;padding:13px 15px;border:1px solid var(--rr-line);border-left:3px solid var(--rr-accent);border-radius:9px;background:var(--rr-panel)}
 .rr-reader-intro .kicker{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--rr-accent-strong);font-weight:750}
@@ -474,7 +475,7 @@ body.rr-reader .toc details a:first-of-type{margin-top:8px}
 def canonical_duplicate_alias(path, canonical):
     rel = "../" + canonical.relative_to(ROOT).as_posix()
     title = display_title(path)
-    return """<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Duplicate source edition — """ + escape(title) + """</title><link rel="stylesheet" href="../assets/reading-room.css?v=5"><script src="../assets/reading-room-context.js?v=5" defer></script><script src="../assets/reading-room.js?v=5" defer></script></head><body class="rr-page rr-reader rr--cinema"><main class="layout"><article><section class="hero"><div class="kicker">DUPLICATE SOURCE DOCUMENT</div><h1>""" + escape(title) + """</h1><p>This source document is byte-identical to another file in the archive. To avoid two competing copies of the same reading experience, this link opens the single maintained edition.</p><p><a class="link" href=""" + '"' + escape(rel) + '"' + """>Open the canonical reading edition ↗</a></p></section></article></main></body></html>"""
+    return """<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Duplicate source edition — """ + escape(title) + """</title><link rel="stylesheet" href="../assets/reading-room.css?v=6"><script src="../assets/reading-room-context.js?v=6" defer></script><script src="../assets/reading-room.js?v=6" defer></script></head><body class="rr-page rr-reader rr--cinema"><main class="layout"><article><section class="hero"><div class="kicker">DUPLICATE SOURCE DOCUMENT</div><h1>""" + escape(title) + """</h1><p>This source document is byte-identical to another file in the archive. To avoid two competing copies of the same reading experience, this link opens the single maintained edition.</p><p><a class="link" href=""" + '"' + escape(rel) + '"' + """>Open the canonical reading edition ↗</a></p></section></article></main></body></html>"""
 
 
 def build_archive_index(catalogue):
@@ -499,7 +500,7 @@ def build_archive_index(catalogue):
         '<option value="' + escape(category, quote=True) + '">' + escape(category) + ' (' + str(len(entries)) + ')</option>'
         for category, entries in sorted(categories.items())
     )
-    html = """<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Source-led reading editions for the Reading Room's books, films, art, writing, learning and reflection collections."><title>Document library — The Reading Room</title><link rel="stylesheet" href="../assets/reading-room.css?v=5"><script src="../assets/reading-room-context.js?v=5" defer></script><script src="../assets/reading-room.js?v=5" defer></script></head><body class="rr-page rr--mixed"><main class="rr-archive">
+    html = """<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Source-led reading editions for the Reading Room's books, films, art, writing, learning and reflection collections."><title>Document library — The Reading Room</title><link rel="stylesheet" href="../assets/reading-room.css?v=6"><script src="../assets/reading-room-context.js?v=6" defer></script><script src="../assets/reading-room.js?v=6" defer></script></head><body class="rr-page rr--mixed"><main class="rr-archive">
 <section class="rr-archive-hero"><div class="rr-eyebrow">THE READING ROOM · DOCUMENT LIBRARY</div><h1>Read beyond the title.</h1>
 <p>These editions are built from the original PDFs and Word documents in this library. Each page keeps the source text searchable, gives you a navigable reading view and links back to the untouched original. The descriptions below are drawn from the document itself wherever an opening passage provides useful context.</p>
 <p class="rr-archive-context">Browse by subject when you want a particular kind of material, or search for a person, theme, title or phrase. Open a reading edition to see its contents and work through one section at a time.</p></section>
