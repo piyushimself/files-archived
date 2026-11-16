@@ -24,3 +24,12 @@ body.rr-page :is(th,td){border-color:var(--rr-line)}
 .rr-contextbar em{font-style:normal;color:var(--rr-accent);font-weight:700}
 body.rr-page :focus-visible{outline:3px solid color-mix(in srgb,var(--rr-accent) 45%,transparent);outline-offset:2px}
 @media(max-width:650px){.rr-contextbar{padding:9px 14px;gap:8px;font-size:9px}.rr-contextbar span{white-space:normal;text-align:right}body.rr-page :is(button,select){min-height:36px}body.rr-page :is(.controls,.filters){gap:7px}}
+
+/* Clean reading editions: consistent paper surfaces, comfortable measure and responsive reading rhythm. */
+body.rr-reader :is(.hero,.page,.toc){background:var(--rr-surface)!important;color:var(--rr-ink)!important;border-color:var(--rr-line)!important}
+body.rr-reader .hero h1{font-size:clamp(1.65rem,3.5vw,2.45rem);line-height:1.2}
+body.rr-reader .page{padding:clamp(18px,3vw,30px);margin:12px 0}
+body.rr-reader .toc a{color:var(--rr-muted)}
+body.rr-reader .toc a:hover{color:var(--rr-accent)}
+body.rr-reader .top .brand{color:var(--rr-accent)}
+@media(max-width:760px){body.rr-reader .layout{margin:14px auto}body.rr-reader .page{padding:18px 16px}}
