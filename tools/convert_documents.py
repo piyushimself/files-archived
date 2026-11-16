@@ -1,285 +1,441 @@
 #!/usr/bin/env python3
-"""Convert repository PDFs and DOCX files into searchable, responsive HTML readers."""
+"""Convert repository PDF/DOCX sources into structured, searchable Reading Room editions."""
 from pathlib import Path
 from html import escape
+import base64
+import hashlib
+import json
 import re
 import subprocess
 import tempfile
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "html"
+ASSETS = ROOT / "assets"
 OUT.mkdir(exist_ok=True)
 
+URL_RE = re.compile(r"https?://[^\s<>\]\[\"']+", re.I)
+BULLET_RE = re.compile(r"^\s*(?:[•▪◦‣●○■□*-]|(?:\d{1,3}|[A-Za-z])[.)])\s+")
+NUMBER_RE = re.compile(r"^\s*(\d{1,3})[.)]\s+")
+HEADING_RE = re.compile(r"^\s*(?:#{1,4}\s+)?(.+?)\s*$")
+
+
+def run_command(args):
+    return subprocess.run(args, check=True, capture_output=True, text=True)
+
+
 def extract_pdf(path):
-    result = subprocess.run(
-        ["pdftotext", "-layout", "-enc", "UTF-8", str(path), "-"],
-        check=True, capture_output=True, text=True
-    )
-    text = result.stdout.strip()
+    result = run_command(["pdftotext", "-layout", "-enc", "UTF-8", str(path), "-"])
+    text = result.stdout.replace("\x00", "").strip()
     if text:
-        return text
-    # OCR fallback for image-only PDFs. Only invoked when normal text extraction is empty.
+        return text, "pdftotext"
+    # OCR is deliberately a fallback: most files are text PDFs and do not need it.
     pages = []
     with tempfile.TemporaryDirectory() as tmp:
         prefix = str(Path(tmp) / "page")
-        subprocess.run(["pdftoppm", "-r", "160", "-png", str(path), prefix],
-                       check=True, capture_output=True)
-        for image in sorted(Path(tmp).glob("page-*.png")):
-            page = subprocess.run(["tesseract", str(image), "stdout"],
-                                  check=True, capture_output=True, text=True)
+        run_command(["pdftoppm", "-r", "170", "-png", str(path), prefix])
+        for image_path in sorted(Path(tmp).glob("page-*.png")):
+            page = run_command(["tesseract", str(image_path), "stdout"])
             pages.append(page.stdout.strip())
-    return "\n\f\n".join(pages)
+    return "\n\f\n".join(pages), "ocr"
+
+
+def paragraph_html(paragraph):
+    """Keep run-level bold and italic from a DOCX paragraph."""
+    bits = []
+    for run in paragraph.runs:
+        value = escape(run.text or "")
+        if not value:
+            continue
+        if run.bold:
+            value = "<strong>" + value + "</strong>"
+        if run.italic:
+            value = "<em>" + value + "</em>"
+        bits.append(value)
+    return "".join(bits) or escape(paragraph.text or "")
+
 
 def extract_docx(path):
+    """Read paragraphs and tables in their real XML order, not in separate batches."""
     from docx import Document
+    from docx.text.paragraph import Paragraph
+    from docx.table import Table
+    from docx.oxml.ns import qn
+
     doc = Document(path)
     blocks = []
-    for paragraph in doc.paragraphs:
-        value = paragraph.text.strip()
-        if value:
-            style = paragraph.style.name if paragraph.style else ""
-            blocks.append(("heading" if style.lower().startswith("heading") or style == "Title" else "text", value))
-    for table in doc.tables:
-        blocks.append(("table", [[cell.text.strip() for cell in row.cells] for row in table.rows]))
-    return blocks
+    body = doc.element.body
+    for child in body.iterchildren():
+        tag = child.tag.rsplit("}", 1)[-1]
+        if tag == "p":
+            para = Paragraph(child, doc)
+            text_html = paragraph_html(para)
+            # Preserve inline pictures at their run positions when possible.
+            for run in para.runs:
+                drawing_nodes = run._element.xpath(".//a:blip")
+                for drawing in drawing_nodes:
+                    rel_id = drawing.get(qn("r:embed"))
+                    if rel_id and rel_id in doc.part.related_parts:
+                        part = doc.part.related_parts[rel_id]
+                        mime = getattr(part, "content_type", "image/png")
+                        encoded = base64.b64encode(part.blob).decode("ascii")
+                        marker = '<img class="docx-inline-image" alt="Image from original document" src="data:' + escape(mime) + ';base64,' + encoded + '">'
+                        # A picture-only paragraph still gets a visible image. For mixed
+                        # text/picture runs, keep a useful image preview after the text.
+                        text_html += marker
+            if para.text.strip() or "<img " in text_html:
+                style = para.style.name if para.style else "Normal"
+                blocks.append(("paragraph", {"html": text_html, "text": para.text.strip(), "style": style}))
+        elif tag == "tbl":
+            table = Table(child, doc)
+            rows = [[cell.text.strip() for cell in row.cells] for row in table.rows]
+            blocks.append(("table", rows))
+    return blocks, len(doc.paragraphs), len(doc.tables)
+
 
 def slug(text):
     return re.sub(r"[^a-z0-9]+", "-", text.lower()).strip("-") or "section"
 
+
+def display_title(path):
+    name = path.stem.replace("_", " ").replace("-", " ")
+    name = re.sub(r"\s+\(1\)$", "", name).strip()
+    special = {
+        "aag ki kavitayen": "Aag Ki Kavitayen",
+        "1000 google searches grand curiosity atlas": "The Grand Curiosity Atlas — 1,000 Search Trails",
+        "500 films 500 music global guide": "A Life Worth Living — 500 Films & 500 Music",
+        "1000 greatest fictional books": "1000 Greatest Fictional Books",
+        "free art resource library": "Free Art Resource Library",
+        "global kids books complete guide": "Global Kids Books — Complete Guide",
+        "three year old reading guide": "Three-Year-Old Reading Guide",
+        "world stories 3yearold guide": "World Stories for Three-Year-Olds",
+        "a filmmakers reading list": "A Filmmaker's Reading List",
+        "a life worth living 500 suggestions": "A Life Worth Living — 500 Suggestions",
+        "complete movie encyclopedia": "Complete Movie Encyclopedia",
+        "complete movie ratings": "Complete Movie Ratings",
+        "complete movie ratings 647": "Complete Movie Ratings — 647 Films",
+        "definitive anime encyclopedia": "The Definitive Anime Encyclopedia",
+        "memento mori course": "Memento Mori — A Curated Study Course",
+        "meditation on death": "A Meditation on Death",
+        "500 manga movies": "500 Films Based on Manga",
+        "200 films like frida": "200 Films Like Frida",
+        "100 essential films": "100 Essential Films",
+        "50 e art films": "50 Bold, Intimate & Thought-Provoking Art Films",
+    }
+    return special.get(name.lower(), name)
+
+
+def auto_link(text):
+    """Escape extracted text first, then make plain URLs safe and clickable."""
+    safe = escape(text)
+    def link(match):
+        url = match.group(0).rstrip(".,;:)")
+        tail = match.group(0)[len(url):]
+        escaped_url = escape(url, quote=True)
+        return '<a href="' + escaped_url + '" target="_blank" rel="noopener noreferrer">' + escape(url) + '</a>' + escape(tail)
+    return URL_RE.sub(link, safe)
+
+
 def looks_like_heading(line):
-    line = line.strip()
-    if not line or len(line) > 100 or len(line) < 3:
+    value = line.strip()
+    if not 3 <= len(value) <= 88:
         return False
-    if line.startswith(("#", "•", "-", "–", "—")):
+    if BULLET_RE.match(value) or value.endswith((".", ",", ";", ":", "?", "!")):
         return False
-    words = line.split()
-    if len(words) <= 9 and (line.isupper() or (line.istitle() and not line.endswith((".", ",", ";", ":")))):
+    if URL_RE.search(value):
+        return False
+    words = value.split()
+    if len(words) > 10:
+        return False
+    # All-caps section labels and short title-case lines are useful navigational cues.
+    alpha = re.sub(r"[^A-Za-z]", "", value)
+    if len(alpha) < 3:
+        return False
+    all_caps = alpha.isupper() and len(words) <= 9
+    title_case = value.istitle() and len(words) <= 8
+    numbered_section = bool(re.match(r"^(?:PART|PHASE|SECTION|CHAPTER|UNIT|MODULE|LIST)\s+[IVX\d]+", value, re.I))
+    return all_caps or title_case or numbered_section
+
+
+def is_noise_line(line):
+    value = line.strip()
+    if not value:
+        return True
+    if re.fullmatch(r"(?:page\s*)?\d{1,4}", value, re.I):
+        return True
+    if re.fullmatch(r"[-_=•·\s]{3,}", value):
         return True
     return False
+
+
+def render_pdf_page(raw, page_number, toc, used):
+    lines = []
+    for line in raw.replace("\r\n", "\n").replace("\r", "\n").splitlines():
+        line = re.sub(r"[ \t]+", " ", line).strip()
+        if is_noise_line(line):
+            continue
+        lines.append(line)
+
+    chunks = []
+    paragraphs = []
+    list_kind = None
+    list_items = []
+
+    def flush_paragraph():
+        nonlocal paragraphs
+        if paragraphs:
+            text = " ".join(paragraphs).strip()
+            if text:
+                chunks.append("<p>" + auto_link(text) + "</p>")
+            paragraphs = []
+
+    def flush_list():
+        nonlocal list_kind, list_items
+        if list_items:
+            tag = "ol" if list_kind == "ol" else "ul"
+            chunks.append("<" + tag + ">" + "".join("<li>" + auto_link(item) + "</li>" for item in list_items) + "</" + tag + ">")
+        list_kind, list_items = None, []
+
+    for line in lines:
+        is_bullet = bool(BULLET_RE.match(line))
+        if looks_like_heading(line):
+            flush_paragraph()
+            flush_list()
+            heading = re.sub(r"^(?:#{1,4}\s+)", "", line).strip()
+            heading = re.sub(r"^[•▪◦‣●○■□]\s*", "", heading)
+            anchor_base = slug(heading)
+            anchor, suffix = anchor_base, 2
+            while anchor in used:
+                anchor, suffix = anchor_base + "-" + str(suffix), suffix + 1
+            used.add(anchor)
+            toc.append((anchor, heading))
+            chunks.append('<h2 id="' + anchor + '">' + escape(heading) + "</h2>")
+        elif is_bullet:
+            flush_paragraph()
+            match = BULLET_RE.match(line)
+            marker = match.group(0)
+            item = line[len(marker):].strip()
+            number = NUMBER_RE.match(line)
+            kind = "ol" if number else "ul"
+            if list_kind and list_kind != kind:
+                flush_list()
+            list_kind = kind
+            if item:
+                list_items.append(item)
+        else:
+            flush_list()
+            # Avoid destroying short line breaks such as verse or question prompts.
+            if len(line) < 95 and not line.endswith((",", ";")) and paragraphs and len(paragraphs[-1]) > 90:
+                flush_paragraph()
+            paragraphs.append(line)
+    flush_paragraph()
+    flush_list()
+    if not chunks:
+        return ""
+    return '<section class="page" id="page-' + str(page_number) + '"><div class="page-label">SOURCE PAGE ' + str(page_number) + '</div>' + "\n".join(chunks) + "</section>"
+
 
 def render_pdf_blocks(text):
     pages = text.replace("\r\n", "\n").replace("\r", "\n").split("\f")
     rendered, toc, used = [], [], set()
     for number, raw in enumerate(pages, 1):
-        lines = [re.sub(r"[ \t]+", " ", x).strip() for x in raw.splitlines()]
-        lines = [x for x in lines if x]
-        if not lines:
-            continue
-        parts, paragraph = [], []
-        def flush():
-            if paragraph:
-                parts.append("<p>" + escape(" ".join(paragraph)) + "</p>")
-                paragraph.clear()
-        for line in lines:
-            if looks_like_heading(line):
-                flush()
-                heading = line.lstrip("# ").strip()
-                base = slug(heading)
+        section = render_pdf_page(raw, number, toc, used)
+        if section:
+            rendered.append(section)
+    return rendered, toc
+
+
+def render_docx_blocks(blocks):
+    parts, toc, used = [], [], set()
+    list_kind, list_items = None, []
+
+    def flush_list():
+        nonlocal list_kind, list_items
+        if list_items:
+            tag = "ol" if list_kind == "ol" else "ul"
+            parts.append("<" + tag + ">" + "".join("<li>" + item + "</li>" for item in list_items) + "</" + tag + ">")
+        list_kind, list_items = None, []
+
+    for kind, value in blocks:
+        if kind == "paragraph":
+            style = value["style"].lower()
+            html = value["html"]
+            if style.startswith("heading") or style in ("title", "subtitle"):
+                flush_list()
+                level_match = re.search(r"(\d+)", style)
+                level = int(level_match.group(1)) if level_match else (1 if style == "title" else 2)
+                level = min(max(level, 1), 4)
+                heading_text = value["text"] or re.sub(r"<[^>]+>", "", html)
+                base = slug(heading_text)
                 anchor, suffix = base, 2
                 while anchor in used:
                     anchor, suffix = base + "-" + str(suffix), suffix + 1
                 used.add(anchor)
-                toc.append((anchor, heading))
-                parts.append('<h2 id="' + anchor + '">' + escape(heading) + '</h2>')
+                toc.append((anchor, heading_text))
+                parts.append('<h' + str(level + 1) + ' id="' + anchor + '">' + html + '</h' + str(level + 1) + '>')
+            elif style.startswith("list bullet") or style.startswith("list number") or style.startswith("list continue"):
+                next_kind = "ol" if "number" in style else "ul"
+                if list_kind and list_kind != next_kind:
+                    flush_list()
+                list_kind = next_kind
+                list_items.append(html)
             else:
-                paragraph.append(line)
-        flush()
-        rendered.append('<section class="page" id="page-' + str(number) + '"><div class="page-label">PAGE ' + str(number) + '</div>' + "\n".join(parts) + '</section>')
-    return rendered, toc
-
-def render_docx_blocks(blocks):
-    parts, toc, used = [], [], set()
-    for kind, value in blocks:
-        if kind == "heading":
-            base = slug(value)
-            anchor, suffix = base, 2
-            while anchor in used:
-                anchor, suffix = base + "-" + str(suffix), suffix + 1
-            used.add(anchor)
-            toc.append((anchor, value))
-            parts.append('<h2 id="' + anchor + '">' + escape(value) + '</h2>')
+                flush_list()
+                if html.strip():
+                    parts.append("<p>" + html + "</p>")
         elif kind == "table":
-            rows = "".join("<tr>" + "".join("<td>" + escape(c) + "</td>" for c in row) + "</tr>" for row in value)
-            parts.append('<div class="table-wrap"><table>' + rows + '</table></div>')
-        else:
-            parts.append("<p>" + escape(value) + "</p>")
-    return ['<section class="page">' + "\n".join(parts) + '</section>'], toc
+            flush_list()
+            rows = value
+            if rows:
+                header = rows[0]
+                head = "<thead><tr>" + "".join("<th scope=\"col\">" + escape(cell) + "</th>" for cell in header) + "</tr></thead>"
+                body_rows = rows[1:] if len(rows) > 1 else []
+                body = "<tbody>" + "".join("<tr>" + "".join("<td>" + escape(cell) + "</td>" for cell in row) + "</tr>" for row in body_rows) + "</tbody>"
+                parts.append('<div class="table-wrap"><table>' + head + body + "</table></div>")
+    flush_list()
+    return ['<section class="page">' + "\n".join(parts) + "</section>"], toc
 
-def make_reader(source, title, kind, sections, toc):
+
+def category_info(title):
+    value = title.lower()
+    if any(x in value for x in ("kid", "children", "three year", "world stories")):
+        return ("Home Learning & Education", "learning", "This guide is designed to support shared reading and curiosity. Use age bands and stages as flexible guidance, follow the child's attention, and return to favourite stories.")
+    if any(x in value for x in ("manga", "anime", "comic")):
+        return ("Anime & Manga", "manga", "Use the contents and section headings to find a route through the medium. Larger lists are references for discovery; shorter guides and curricula offer a more deliberate starting point.")
+    if any(x in value for x in ("film", "cinema", "movie")):
+        return ("Film & Cinema", "cinema", "Use this edition as a viewing reference. Choose a route or theme that interests you, then follow directors, regions, eras or related works rather than trying to complete every title.")
+    if any(x in value for x in ("art", "watercolour", "artist")):
+        return ("Art & Creative Practice", "art", "Choose one medium or artist to study at a time. Pair a reference section with a small practical exercise, and keep the source document for visual examples.")
+    if any(x in value for x in ("poetry", "kavit", "writing", "prompts")):
+        return ("Poetry & Writing", "literary", "Read slowly and use the collection as a prompt for your own practice. You can open at any section; there is no requirement to follow the sequence from the beginning.")
+    if any(x in value for x in ("cyber", "security")):
+        return ("Technology & Security", "tools", "Use the material as a discussion and learning aid. Translate analogies into concrete technical decisions, threat scenarios and controls before applying them in a real environment.")
+    if any(x in value for x in ("thinker", "meditation", "death", "mori", "inspiration", "wonder", "life worth")):
+        return ("Ideas & Reflection", "literary", "Choose a theme that is relevant to you and give it time. These are reading and reflection resources, not a programme that needs to be completed at speed.")
+    return ("Books & Reference", "mixed", "Use the contents and headings to navigate the source. Follow one theme or section at a time; the original PDF or DOCX remains available for layout-dependent material.")
+
+
+def make_reader(source, title, kind, sections, toc, extraction_method, source_hash):
     safe_title = escape(title)
-    category, description, _ = classify_resource(title)
-    theme = {
-        "Film & Cinema": "cinema",
-        "Home Learning & Education": "learning",
-        "Poetry & Writing": "literary",
-        "Music & Listening": "mixed",
-        "Music & Cross-Media": "mixed",
-        "Cross-Media Discovery": "mixed",
-        "Anime & Manga": "manga",
-        "Art & Creative Practice": "art",
-        "Ideas & Reflection": "literary",
-        "Technology & Security": "tools",
-        "Interactive Tools": "tools",
-        "Personal Journals & Tools": "tools",
-        "Writing Tools": "art",
-        "Reference & Discovery": "mixed",
-        "Explore & Miscellany": "mixed",
-    }.get(category, "mixed")
+    category, theme, guidance = category_info(title)
     source_rel = "../" + source.relative_to(ROOT).as_posix()
-    nav = "".join('<a href="#' + escape(anchor) + '">' + escape(label) + '</a>' for anchor, label in toc)
+    if len(toc) > 12:
+        toc_block = '<nav class="toc"><details><summary>ON THIS PAGE · ' + str(len(toc)) + ' sections</summary>' + "".join('<a href="#' + escape(anchor) + '">' + escape(label) + "</a>" for anchor, label in toc) + "</details></nav>"
+    elif toc:
+        toc_block = '<nav class="toc"><div class="toc-title">ON THIS PAGE</div>' + "".join('<a href="#' + escape(anchor) + '">' + escape(label) + "</a>" for anchor, label in toc) + "</nav>"
+    else:
+        toc_block = ""
     body = "\n".join(sections)
-    toc_block = '<nav class="toc"><div class="toc-title">ON THIS PAGE</div>' + nav + '</nav>' if nav else ""
+    if len(body) < 100:
+        body = '<section class="page"><p>No readable text could be extracted. Please open the original source document for the complete material.</p></section>'
     return """<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Accessible HTML reading edition of """ + safe_title + """.">
-<title>""" + safe_title + """ — Reading Edition</title>
+<meta name="description" content="Reading edition of """ + safe_title + """. Original source preserved.">
+<title>""" + safe_title + """ — The Reading Room</title>
+<link rel="stylesheet" href="../assets/reading-room.css?v=4">
+<script src="../assets/reading-room-context.js?v=4" defer></script>
+<script src="../assets/reading-room.js?v=4" defer></script>
 <style>
-:root{color-scheme:light;--bg:#f5f3ee;--paper:#fffefa;--ink:#252923;--muted:#687168;--line:#e2e0d8;--accent:#356b68;--soft:#eaf0ed}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.75 system-ui,-apple-system,Segoe UI,sans-serif}
-header{background:var(--paper);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
-.top{max-width:1180px;margin:auto;padding:12px 22px;display:flex;align-items:center;gap:14px}.brand{font-size:12px;font-weight:750;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);white-space:nowrap}
-.search{flex:1;min-width:120px;border:1px solid var(--line);border-radius:8px;padding:9px 12px;font:inherit;font-size:14px;background:var(--bg);color:var(--ink)}
-button,.link{border:1px solid var(--line);border-radius:8px;padding:8px 11px;background:var(--paper);color:var(--ink);font:inherit;font-size:13px;text-decoration:none;cursor:pointer}
-button:hover,.link:hover{border-color:var(--accent)}.layout{max-width:1180px;margin:30px auto;padding:0 22px;display:grid;grid-template-columns:230px minmax(0,1fr);gap:30px}
-.toc{position:sticky;top:82px;align-self:start;max-height:calc(100vh - 110px);overflow:auto;padding:16px;background:var(--paper);border:1px solid var(--line);border-radius:12px}
-.toc-title,.page-label{font-size:10px;font-weight:750;letter-spacing:.14em;color:var(--muted)}.toc a{display:block;color:var(--muted);font-size:13px;text-decoration:none;padding:5px 0;border-bottom:1px solid var(--line)}.toc a:hover{color:var(--accent)}
-article{min-width:0}.hero{padding:26px 30px;background:var(--paper);border:1px solid var(--line);border-radius:14px;margin-bottom:18px}
-.kicker{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);font-weight:750}.hero h1{font-size:clamp(26px,4vw,40px);line-height:1.2;letter-spacing:-.03em;margin:9px 0 8px}.meta{font-size:13px;color:var(--muted)}
-.page{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:28px 34px;margin:14px 0;overflow-wrap:anywhere}
-.page-label{margin-bottom:12px}h2{font-size:22px;line-height:1.3;margin:24px 0 10px;scroll-margin-top:90px}p{margin:0 0 14px}p:last-child{margin-bottom:0}
-.table-wrap{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:14px}td{border:1px solid var(--line);padding:8px;vertical-align:top}
-.empty{color:var(--muted);padding:18px;text-align:center}.footer{color:var(--muted);font-size:12px;padding:18px 4px}
-@media(max-width:760px){.top{padding:10px 14px;gap:8px;flex-wrap:wrap}.brand{width:100%}.search{order:2;flex-basis:100%}.layout{display:block;margin:16px auto;padding:0 12px}.toc{position:static;max-height:220px;margin-bottom:14px}.hero{padding:20px}.page{padding:20px 18px}body{font-size:15px}}
-@media(prefers-color-scheme:dark){:root{color-scheme:dark;--bg:#151816;--paper:#1d211e;--ink:#e8ece6;--muted:#a0aaa1;--line:#343b35;--accent:#8bc5b5;--soft:#27332e}.search{background:#151816}}
-</style><link rel="stylesheet" href="../assets/reading-room.css"></head><body class="rr-page rr-reader rr--""" + theme + """">
-<nav class="rr-contextbar"><a href="../index.html">← THE READING ROOM</a><span><em>""" + escape(category) + """</em> · """ + escape(description) + """</span></nav>
-<header><div class="top"><a class="brand" href="index.html" style="text-decoration:none">THE READING ARCHIVE</a>
-<input id="search" class="search" type="search" placeholder="Search within this document…" aria-label="Search within this document">
-<a class="link" href=""" + '"' + escape(source_rel) + '"' + """ target="_blank" rel="noopener">Original """ + kind + """ ↗</a></div></header>
-<div class="layout">""" + toc_block + """<article><section class="hero"><div class="kicker">HTML READING EDITION · """ + kind + """</div><h1>""" + safe_title + """</h1><div class="meta">Converted from the original source · Text may require review against the original document</div></section>
-<div id="content">""" + body + """</div><div class="footer">Reading edition generated from <a href=""" + '"' + escape(source_rel) + '"' + """>""" + escape(source.name) + """</a>. The original file is preserved unchanged.</div></article></div>
+.rr-reader-intro{margin:12px 0 14px;padding:13px 15px;border:1px solid var(--rr-line);border-left:3px solid var(--rr-accent);border-radius:9px;background:var(--rr-panel)}
+.rr-reader-intro .kicker{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--rr-accent-strong);font-weight:750}
+.rr-reader-intro p{margin:5px 0 0!important;color:var(--rr-muted);font-size:12px!important;line-height:1.6!important}
+body.rr-reader .page{min-height:0}
+body.rr-reader .page h2,body.rr-reader .page h3{scroll-margin-top:78px}
+body.rr-reader .page li{margin:3px 0}
+body.rr-reader .page img.docx-inline-image{display:block;max-width:100%;height:auto;margin:12px auto;border-radius:6px}
+body.rr-reader .page table{min-width:520px}
+body.rr-reader .page th{background:var(--rr-accent-soft);font-weight:700}
+body.rr-reader .page blockquote{margin:12px 0;padding:8px 14px;border-left:3px solid var(--rr-accent);background:var(--rr-panel);color:var(--rr-muted)}
+body.rr-reader .page a{overflow-wrap:anywhere}
+body.rr-reader .page-label{margin-bottom:8px}
+body.rr-reader .toc details summary{cursor:pointer;font-size:11px;font-weight:700;color:var(--rr-ink)}
+body.rr-reader .toc details a:first-of-type{margin-top:8px}
+</style></head><body class="rr-page rr-reader rr--""" + theme + """">
+""" + toc_block + """
+<main class="layout"><article>
+<section class="hero"><div class="kicker">SOURCE DOCUMENT · """ + kind + """ · """ + escape(category) + """</div><h1>""" + safe_title + """</h1><div class="meta">""" + str(len(sections)) + """ reading sections · Original file preserved · Search within this edition</div></section>
+<section class="rr-reader-intro"><div class="kicker">How to use this collection</div><p>""" + escape(guidance) + """</p><p><a href=""" + '"' + escape(source_rel) + '"' + """ target="_blank" rel="noopener">Open original """ + kind + """ ↗</a></p></section>
+<div id="content">""" + body + """</div>
+<footer class="footer">Converted from <a href=""" + '"' + escape(source_rel) + '"' + """>""" + escape(source.name) + """</a>. Extraction method: """ + escape(extraction_method) + """. The original file is retained for images, complex layouts and visual details.</footer>
+</article></main>
 <script>
-const q=document.getElementById('search'), pages=[...document.querySelectorAll('.page')];
-q.addEventListener('input',()=>{const term=q.value.trim().toLowerCase();pages.forEach(p=>{p.hidden=!!term&&!p.innerText.toLowerCase().includes(term)})});
+(function(){const q=document.getElementById('search');if(!q)return;const pages=[...document.querySelectorAll('.page')];q.addEventListener('input',()=>{const term=q.value.trim().toLowerCase();pages.forEach(p=>{p.hidden=!!term&&!p.innerText.toLowerCase().includes(term)})});})();
 </script></body></html>"""
 
 
-def classify_resource(name):
-    value = name.lower().replace("_", " ").replace("-", " ")
-    # Specific collections first: filename meaning takes precedence over broad keywords.
-    if "four arcs" in value:
-        return ("Music & Cross-Media","A multi-medium journey through films, books, albums, manga and poetry","music albums listening records poems films books")
-    if "curator" in value or all(term in value for term in ("film", "book", "art")):
-        return ("Cross-Media Discovery","A unified catalogue spanning films, anime, books, poetry and art","film anime books poetry art mixed media")
-    if "film" in value and "music" in value:
-        return ("Music & Cross-Media","A combined guide to cinema and its musical worlds","film cinema music soundtracks albums directors")
-    if "asian cinema" in value or "cinematic" in value or "film" in value or "movie" in value or "animated films" in value or "sensual mood" in value:
-        return ("Film & Cinema","Filmographies, world cinema curricula and searchable viewing collections","film cinema movies animation directors countries decades")
-    if any(term in value for term in ("human development","life fiction","living curriculum","political comics","anime manga values","education","homeschool","home school","schooling","curriculum","learning","child development","kids","children","three year","3yearold","world stories")):
-        return ("Home Learning & Education","Structured curricula, educational resources and guided learning pathways","education homeschooling home learning curriculum stages lessons children")
-    if any(term in value for term in ("blackout poetry","poetry","poem","kavita","kavitayen")):
-        return ("Poetry & Writing","Poetry collections, lessons and creative language practice","poetry poems kavita kavitayen writing literature")
-    if any(term in value for term in ("music","album","playlist","listening")):
-        return ("Music & Listening","Album recommendations and listening paths","music albums artists listening records playlists")
-    if "marginalia" in value:
-        return ("Personal Journals & Tools","A private notebook for reading notes, memories and observations","journal diary notes reading music film")
-    if "typewriter" in value:
-        return ("Writing Tools","A focused writing surface for drafting and printing","writing typewriter drafting print")
-    if any(term in value for term in ("manga","manhwa","anime","comic")):
-        return ("Anime & Manga","Illustrated stories, manga indexes and comics reading guides","manga anime comics manhwa graphic novels")
-    if any(term in value for term in ("art","watercol","collage","bob ross","creative")):
-        return ("Art & Creative Practice","Art resources, painting guides and hands-on creative exercises","art drawing painting collage watercolor creative")
-    if any(term in value for term in ("prompt","inspiration","thinker","meditation","memento","life worth","emotion","wonder","mind","values","fictional books")):
-        return ("Ideas & Reflection","Prompts, philosophy and resources for thoughtful living","prompts inspiration philosophy reflection thinkers")
-    if any(term in value for term in ("security","cyber","crypto","trading","pine")):
-        return ("Technology & Security","Cybersecurity, technical learning and market tools","technology security cybersecurity crypto trading")
-    if any(term in value for term in ("tracker","generator","app","loom","tasks")):
-        return ("Interactive Tools","Trackers, generators and browser-based utilities","interactive tools tracker generator app")
-    if any(term in value for term in ("resource","google search","links","atlas","reference","guide")):
-        return ("Reference & Discovery","Resource directories and curated indexes","reference discovery resources links guides atlas")
-    return ("Explore & Miscellany","Other collections and useful starting points","miscellaneous collection explore")
+def canonical_duplicate_alias(path, canonical):
+    rel = "../" + canonical.relative_to(ROOT).as_posix()
+    title = display_title(path)
+    return """<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Duplicate source edition — """ + escape(title) + """</title><link rel="stylesheet" href="../assets/reading-room.css?v=4"><script src="../assets/reading-room-context.js?v=4" defer></script><script src="../assets/reading-room.js?v=4" defer></script></head><body class="rr-page rr-reader rr--cinema"><main class="layout"><article><section class="hero"><div class="kicker">DUPLICATE SOURCE DOCUMENT</div><h1>""" + escape(title) + """</h1><p>This source document is byte-identical to another file in the archive. To avoid two competing copies of the same reading experience, this link opens the single maintained edition.</p><p><a class="link" href=""" + '"' + escape(rel) + '"' + """>Open the canonical reading edition ↗</a></p></section></article></main></body></html>"""
 
 
-def build_public_portal():
-    originals = sorted([p for p in ROOT.glob("*.html") if p.name.lower() != "index.html"], key=lambda p:p.name.lower())
-    converted = sorted([p for p in OUT.glob("*.html") if p.name.lower() != "index.html"], key=lambda p:p.name.lower())
-    resources = []
-    for path, kind in [(p,"original") for p in originals] + [(p,"converted") for p in converted]:
-        title = path.stem.replace("_"," ").replace("-"," ")
-        category, desc, synonyms = classify_resource(path.stem.replace("_"," ").replace("-"," "))
-        href = path.name if kind == "original" else "html/" + path.name
-        resources.append((title,path.name,href,kind,category,desc,synonyms))
-    categories = sorted({r[4] for r in resources})
-    counts = {c:sum(r[4] == c for r in resources) for c in categories}
+def build_archive_index(catalogue):
+    categories = {}
+    for row in catalogue:
+        categories.setdefault(row["category"], []).append(row)
     cards = []
-    for title,filename,href,kind,category,desc,synonyms in resources:
-        label = "Interactive HTML" if kind == "original" else "Reading edition"
-        search = " ".join((title,filename,category,synonyms)).lower()
-        cards.append('<a class="card" href="'+escape(href)+'" data-kind="'+kind+'" data-category="'+escape(category)+'" data-search="'+escape(search)+'"><div class="meta"><span>'+escape(category)+'</span><small>'+label+'</small></div><strong>'+escape(title)+'</strong><p>'+escape(desc)+'</p><div class="bottom">'+("Original page" if kind=="original" else "Converted from source document")+' <b>Open ↗</b></div></a>')
-    filters = ''.join('<button class="chip" data-category="'+escape(c)+'">'+escape(c)+' <i>'+str(counts[c])+'</i></button>' for c in categories)
-    template = """<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="A curated, searchable digital library of film, manga, art, books, ideas, learning resources and interactive tools."><title>The Reading Room — Digital Library</title><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet"><style>
-:root{color-scheme:light;--bg:#f4f1fb;--paper:#fff;--ink:#211d32;--muted:#706b80;--line:#e2dced;--accent:#6652a3;--strong:#4f3c8c;--teal:#347d78}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 'DM Sans',sans-serif}.wrap{max-width:1240px;margin:auto;padding:28px 34px 60px}.mast{display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:18px;color:var(--muted);font-size:11px;letter-spacing:.12em;text-transform:uppercase}.mast b{font:800 13px Manrope;color:var(--strong)}.hero{padding:42px 0 26px}.eyebrow{color:var(--teal);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}h1{font:800 clamp(35px,5vw,55px)/1.1 Manrope;letter-spacing:-.05em;margin:10px 0}.hero p{max-width:700px;color:var(--muted);font-size:16px;margin:0}.stats{display:flex;gap:9px;flex-wrap:wrap;margin:22px 0}.stat{background:#ffffffa8;border:1px solid var(--line);border-radius:9px;padding:8px 12px;color:var(--muted);font-size:12px}.stat b{color:var(--ink);margin-right:4px}.discovery{position:sticky;top:0;z-index:5;background:#f4f1fbf2;backdrop-filter:blur(14px);padding:13px 0;border-block:1px solid var(--line)}.searchrow{display:flex;gap:9px}.searchrow input{flex:1;min-width:0;height:46px;border:1px solid #d8d0e7;border-radius:10px;padding:0 14px;background:var(--paper);font:14px 'DM Sans';color:var(--ink)}button,select{cursor:pointer;font:600 12px 'DM Sans'}.reset,select{border:1px solid var(--line);border-radius:9px;padding:0 13px;background:var(--paper);color:var(--ink)}.filters{display:flex;gap:7px;overflow:auto;padding-top:11px}.chip{white-space:nowrap;border:1px solid var(--line);border-radius:30px;background:var(--paper);color:var(--muted);padding:7px 11px}.chip i{font-style:normal;opacity:.7;margin-left:3px}.chip.active{background:var(--strong);color:white;border-color:var(--strong)}.toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:22px 0 12px}.toolbar h2{font:700 19px Manrope;margin:0}.count{font-size:12px;color:var(--muted)}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.card{display:flex;flex-direction:column;gap:10px;min-height:155px;padding:16px;background:var(--paper);border:1px solid var(--line);border-radius:13px;text-decoration:none;transition:.15s}.card:hover{transform:translateY(-2px);border-color:#b7a9d8;box-shadow:0 8px 24px #30204d10}.meta,.bottom{display:flex;justify-content:space-between;align-items:center;gap:8px}.meta span{font-size:10px;font-weight:700;color:var(--accent)}.meta small{font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:var(--teal);font-weight:700}.card strong{font:700 15px/1.35 Manrope}.card p{font-size:12px;color:var(--muted);margin:0}.bottom{margin-top:auto;border-top:1px solid #f0edf5;padding-top:8px;font-size:10px;color:var(--muted)}.bottom b{color:var(--accent)}.empty{display:none;padding:32px;text-align:center;color:var(--muted);background:var(--paper);border:1px dashed var(--line);border-radius:12px}footer{margin-top:32px;border-top:1px solid var(--line);padding-top:15px;color:var(--muted);font-size:11px}footer a{color:var(--accent)}[hidden]{display:none!important}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #6652a355;outline-offset:2px}
-@media(max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:620px){.wrap{padding:18px 14px 40px}.hero{padding:28px 0 18px}h1{font-size:36px}.hero p{font-size:14px}.discovery{position:static;margin:0 -14px;padding:11px 14px}.grid{grid-template-columns:1fr;gap:9px}.card{min-height:0;padding:14px}.toolbar h2{font-size:16px}.mast span{font-size:9px}}
-@media(prefers-color-scheme:dark){:root{color-scheme:dark;--bg:#171522;--paper:#211e2e;--ink:#f0edf7;--muted:#b1aabd;--line:#393348;--accent:#b6a4ed;--strong:#9b85df;--teal:#83c7bd}.discovery{background:#171522f2}.searchrow input,.reset,select,.chip{background:var(--paper);color:var(--ink);border-color:var(--line)}.stat{background:#211e2e}.bottom{border-color:#393348}}
-</style><link rel="stylesheet" href="../assets/reading-room.css"></head><body class="rr-page rr--mixed"><nav class="rr-contextbar"><a href="../index.html">← THE READING ROOM</a><span><em>Reference & Discovery</em> · Search and browse all converted reading editions</span></nav><main class="wrap"><header class="mast"><b>THE READING ROOM</b><span>A personal digital library · Open access</span></header><section class="hero"><div class="eyebrow">Curated knowledge · Stories · Creative practice</div><h1>A library for a curious life.</h1><p>Explore a growing collection of cinema, manga, art, books, learning paths, ideas and interactive tools. Search titles and related topics, narrow by subject, and open original pages or clean reading editions.</p></section><div class="stats"><div class="stat"><b>__TOTAL__</b> resources</div><div class="stat"><b>__ORIGINAL__</b> original interactive pages</div><div class="stat"><b>__CONVERTED__</b> converted reading editions</div><div class="stat"><b>__CATS__</b> subject areas</div></div><section class="discovery"><div class="searchrow"><input id="search" type="search" placeholder="Search titles, subjects or related ideas…" aria-label="Search library"><button class="reset" id="reset">Reset</button></div><div class="filters"><button class="chip active" data-category="all">All subjects <i>__TOTAL__</i></button>__FILTERS__</div></section><div class="toolbar"><div><h2 id="heading">Explore the collection</h2><div class="count" id="count">__TOTAL__ resources</div></div><select id="sort" aria-label="Sort resources"><option value="az">A–Z</option><option value="za">Z–A</option><option value="original">Original pages first</option><option value="converted">Reading editions first</option></select></div><div class="grid" id="grid">__CARDS__</div><div class="empty" id="empty">No matching resources. Try a broader search or reset the filters.</div><footer>Original files remain unchanged. Converted editions are text-first reading copies; check source files for complex layouts or scanned material.<br><a href="html/index.html">Converted-document archive ↗</a> · <a href="https://github.com/piyushimself/files">Repository ↗</a></footer></main><script>
-const search=document.getElementById('search'),cards=[...document.querySelectorAll('.card')],chips=[...document.querySelectorAll('.chip')],count=document.getElementById('count'),empty=document.getElementById('empty'),sort=document.getElementById('sort');let category='all';function update(){const q=search.value.trim().toLowerCase();let n=0;const list=[...cards].sort((a,b)=>{if(sort.value==='za')return b.querySelector('strong').textContent.localeCompare(a.querySelector('strong').textContent);if(['original','converted'].includes(sort.value))return (a.dataset.kind===sort.value?-1:1)-(b.dataset.kind===sort.value?-1:1);return a.querySelector('strong').textContent.localeCompare(b.querySelector('strong').textContent)});list.forEach(c=>{const ok=(category==='all'||c.dataset.category===category)&&(!q||c.dataset.search.includes(q));c.hidden=!ok;if(ok)n++;document.getElementById('grid').appendChild(c)});count.textContent=n+' of '+cards.length+' resources';empty.style.display=n?'none':'block';document.getElementById('heading').textContent=category==='all'?'Explore the collection':category}chips.forEach(b=>b.addEventListener('click',()=>{category=b.dataset.category;chips.forEach(x=>x.classList.toggle('active',x===b));update()}));search.addEventListener('input',update);sort.addEventListener('change',update);document.getElementById('reset').addEventListener('click',()=>{search.value='';category='all';sort.value='az';chips.forEach(x=>x.classList.toggle('active',x.dataset.category==='all'));update()});update();</script></body></html>"""
-    values = {"__TOTAL__":str(len(resources)),"__ORIGINAL__":str(len(originals)),"__CONVERTED__":str(len(converted)),"__CATS__":str(len(categories)),"__FILTERS__":filters,"__CARDS__":"".join(cards)}
-    for marker,value in values.items():
-        template=template.replace(marker,value)
-    (ROOT/"index.html").write_text(template,encoding="utf-8")
-    print("Generated categorized portal:",len(resources),"resources across",len(categories),"subjects.")
+    for category, entries in sorted(categories.items()):
+        for row in entries:
+            cards.append('<a class="rr-resource-card" href="' + escape(row["reader"]) + '" data-search="' + escape((row["title"] + " " + row["source"] + " " + row["category"]).lower(), quote=True) + '"><span class="rr-resource-kind">' + escape(category) + ' · ' + escape(row["kind"]) + '</span><strong>' + escape(row["title"]) + '</strong><p>' + str(row["sections"]) + ' reading sections · Original: ' + escape(row["source"]) + '</p><span class="rr-open">Read this edition ↗</span></a>')
+    filters = "".join('<button type="button" class="rr-archive-chip" data-cat="' + escape(category, quote=True) + '">' + escape(category) + ' <i>' + str(len(entries)) + '</i></button>' for category, entries in sorted(categories.items()))
+    html = """<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Source-document reading editions — The Reading Room</title><link rel="stylesheet" href="../assets/reading-room.css?v=4"><script src="../assets/reading-room-context.js?v=4" defer></script><script src="../assets/reading-room.js?v=4" defer></script><style>
+.rr-archive{max-width:1120px;margin:auto;padding:20px 18px 50px}.rr-archive-hero{padding:20px 0;border-bottom:1px solid var(--rr-line)}.rr-archive-hero h1{font-size:30px!important;margin:6px 0}.rr-archive-hero p{max-width:760px;color:var(--rr-muted);font-size:14px!important}.rr-archive-tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:12px 0}.rr-archive-tools input{flex:1 1 240px;max-width:480px}.rr-archive-filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}.rr-archive-chip{border:1px solid var(--rr-line);border-radius:18px;padding:5px 9px;background:var(--rr-panel);color:var(--rr-muted);font-size:11px!important;cursor:pointer}.rr-archive-chip.active{background:var(--rr-accent-strong);color:white}.rr-archive-chip i{font-style:normal;opacity:.8}.rr-archive-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.rr-archive-count{color:var(--rr-muted);font-size:11px;margin-left:auto}@media(max-width:760px){.rr-archive{padding:14px 12px 35px}.rr-archive-grid{grid-template-columns:1fr}.rr-archive-tools input{max-width:none}}
+</style></head><body class="rr-page rr--mixed"><main class="rr-archive"><section class="rr-archive-hero"><div class="rr-eyebrow">THE READING ROOM · SOURCE DOCUMENTS</div><h1>Read the original collection, in a cleaner format.</h1><p>These editions come from the PDFs and DOCX files in the repository. They are organised by subject and include a link to the original document. Search by title or source filename, or choose a subject below. Check the original where images, page design or tables carry important meaning.</p></section><div class="rr-archive-tools"><input id="archive-search" type="search" placeholder="Search titles, subjects or source filenames…" aria-label="Search reading editions"><span class="rr-archive-count" id="archive-count"></span></div><div class="rr-archive-filters"><button class="rr-archive-chip active" type="button" data-cat="all">All subjects</button>""" + filters + """</div><div class="rr-archive-grid" id="archive-grid">""" + "".join(cards) + """</div><p id="archive-empty" hidden>No matching editions. Try a wider search or choose all subjects.</p><footer class="rr-site-footer"><a href="../index.html">← Return to the Reading Room</a></footer></main><script>
+(function(){const q=document.getElementById('archive-search'),cards=[...document.querySelectorAll('.rr-resource-card')],chips=[...document.querySelectorAll('.rr-archive-chip')],count=document.getElementById('archive-count'),empty=document.getElementById('archive-empty');let cat='all';function update(){const term=q.value.trim().toLowerCase();let n=0;cards.forEach(c=>{const ok=(cat==='all'||c.querySelector('.rr-resource-kind').textContent.startsWith(cat))&&(!term||c.dataset.search.includes(term));c.hidden=!ok;if(ok)n++;});count.textContent=n+' of '+cards.length+' editions';empty.hidden=n>0;}chips.forEach(b=>b.addEventListener('click',()=>{cat=b.dataset.cat;chips.forEach(x=>x.classList.toggle('active',x===b));update();}));q.addEventListener('input',update);update();})();
+</script></body></html>"""
+    (OUT / "index.html").write_text(html, encoding="utf-8")
 
-
-def build_archive_index():
-    files = sorted((p for p in OUT.glob("*.html") if p.name != "index.html"), key=lambda p:p.name.lower())
-    source_files = {p.stem.lower(): p for p in [*ROOT.glob("*.pdf"), *ROOT.glob("*.docx")]}
-    cards=[]
-    for p in files:
-        category, desc, synonyms = classify_resource(p.stem.replace("_"," ").replace("-"," "))
-        src=source_files.get(p.stem.lower())
-        kind=src.suffix.upper().lstrip(".") if src else "DOCUMENT"
-        title=p.stem.replace("_"," ").replace("-"," ")
-        searchable=" ".join((title,p.name,src.name if src else "",category,synonyms)).lower()
-        cards.append(f'<a class="card" href="{escape(p.name)}" data-category="{escape(category)}" data-search="{escape(searchable)}"><div class="meta"><span>{escape(category)}</span><small>{kind} · READING EDITION</small></div><strong>{escape(title)}</strong><p>{escape(desc)}</p><div class="bottom">Converted document <b>Read ↗</b></div></a>')
-    cats=sorted({classify_resource(p.stem.replace("_"," ").replace("-"," "))[0] for p in files})
-    filters="".join(f'<button class="chip" data-category="{escape(c)}">{escape(c)} <i>{sum(classify_resource(p.stem.replace("_"," ").replace("-"," "))[0]==c for p in files)}</i></button>' for c in cats)
-    html="""<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Reading Archive — The Reading Room</title><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet"><style>
-:root{color-scheme:light;--bg:#f4f1fb;--paper:#fff;--ink:#211d32;--muted:#706b80;--line:#e2dced;--accent:#6652a3;--strong:#4f3c8c;--teal:#347d78}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 'DM Sans',sans-serif}.wrap{max-width:1240px;margin:auto;padding:28px 34px 60px}.mast{display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:16px;font-size:11px;letter-spacing:.12em;color:var(--muted)}.mast b{font:800 13px Manrope;color:var(--strong)}a{color:var(--accent)}.hero{padding:40px 0 20px}.eyebrow{font-size:11px;font-weight:700;letter-spacing:.14em;color:var(--teal)}h1{font:800 clamp(34px,5vw,50px)/1.1 Manrope;letter-spacing:-.05em;margin:10px 0}.hero p{color:var(--muted);max-width:720px}.stats{display:flex;gap:9px;flex-wrap:wrap;margin:18px 0}.stat{padding:8px 12px;border:1px solid var(--line);border-radius:9px;background:#ffffffa8;color:var(--muted);font-size:12px}.stat b{color:var(--ink)}.discovery{position:sticky;top:0;z-index:3;background:#f4f1fbf2;padding:13px 0;border-block:1px solid var(--line);backdrop-filter:blur(12px)}.searchrow{display:flex;gap:9px}.searchrow input{flex:1;min-width:0;height:46px;border:1px solid #d8d0e7;border-radius:10px;padding:0 14px;font:14px 'DM Sans';background:var(--paper);color:var(--ink)}button,select{font:600 12px 'DM Sans';cursor:pointer}.reset,select,.chip{border:1px solid var(--line);border-radius:9px;background:var(--paper);color:var(--ink);padding:8px 12px}.filters{display:flex;gap:7px;overflow:auto;padding-top:10px}.chip{white-space:nowrap;border-radius:30px;color:var(--muted)}.chip i{font-style:normal;margin-left:4px}.chip.active{background:var(--strong);color:white}.toolbar{display:flex;justify-content:space-between;align-items:center;padding:20px 0 12px}.toolbar h2{font:700 18px Manrope;margin:0}.count{font-size:12px;color:var(--muted)}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.card{display:flex;flex-direction:column;gap:9px;min-height:145px;padding:16px;border:1px solid var(--line);border-radius:13px;background:var(--paper);color:var(--ink);text-decoration:none}.card:hover{border-color:#b7a9d8;transform:translateY(-2px)}.meta,.bottom{display:flex;justify-content:space-between;gap:8px}.meta span{font-size:10px;font-weight:700;color:var(--accent)}.meta small{font-size:9px;color:var(--teal);font-weight:700}.card strong{font:700 15px/1.35 Manrope}.card p{font-size:12px;color:var(--muted);margin:0}.bottom{margin-top:auto;border-top:1px solid var(--line);padding-top:8px;font-size:10px;color:var(--muted)}.empty{display:none;text-align:center;padding:30px;color:var(--muted)}[hidden]{display:none!important}footer{margin-top:30px;border-top:1px solid var(--line);padding-top:14px;font-size:11px;color:var(--muted)}@media(max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:620px){.wrap{padding:18px 14px 40px}.hero{padding:26px 0 16px}h1{font-size:35px}.discovery{position:static;margin:0 -14px;padding:11px 14px}.grid{grid-template-columns:1fr;gap:9px}.card{min-height:0;padding:14px}}@media(prefers-color-scheme:dark){:root{color-scheme:dark;--bg:#171522;--paper:#211e2e;--ink:#f0edf7;--muted:#b1aabd;--line:#393348;--accent:#b6a4ed;--strong:#9b85df;--teal:#83c7bd}.discovery{background:#171522f2}.stat{background:#211e2e}.searchrow input,.reset,select,.chip{background:var(--paper);color:var(--ink);border-color:var(--line)}}
-</style><link rel="stylesheet" href="../assets/reading-room.css"></head><body class="rr-page rr--mixed"><nav class="rr-contextbar"><a href="../index.html">← THE READING ROOM</a><span><em>Reference & Discovery</em> · Search and browse all converted reading editions</span></nav><main class="wrap"><header class="mast"><b>THE READING ROOM</b><a href="../index.html">← BACK TO COMPLETE LIBRARY</a></header><section class="hero"><div class="eyebrow">THE READING ARCHIVE · __TOTAL__ EDITIONS</div><h1>Read, explore, discover.</h1><p>Converted editions, organised by subject. Search titles and related topics, filter by category, and open a clean reading copy. Original source files remain preserved.</p></section><div class="stats"><div class="stat"><b>__TOTAL__</b> reading editions</div><div class="stat"><b>__CATS__</b> subject areas</div><div class="stat">Search by title, filename or topic</div></div><section class="discovery"><div class="searchrow"><input id="search" type="search" placeholder="Search titles, subjects or related ideas…" aria-label="Search archive"><button class="reset" id="reset">Reset</button></div><div class="filters"><button class="chip active" data-category="all">All subjects <i>__TOTAL__</i></button>__FILTERS__</div></section><div class="toolbar"><div><h2 id="heading">All reading editions</h2><div class="count" id="count">__TOTAL__ editions</div></div><select id="sort"><option value="az">A–Z</option><option value="za">Z–A</option></select></div><div class="grid" id="grid">__CARDS__</div><div class="empty" id="empty">No matching documents. Try another search or reset filters.</div><footer>For complex layouts, images or tables, consult the original PDF or DOCX. <a href="../index.html">Return to all library resources ↗</a></footer></main><script>const q=document.getElementById('search'),cards=[...document.querySelectorAll('.card')],chips=[...document.querySelectorAll('.chip')],count=document.getElementById('count'),empty=document.getElementById('empty'),sort=document.getElementById('sort');let cat='all';function update(){let n=0;[...cards].sort((a,b)=>sort.value==='za'?b.innerText.localeCompare(a.innerText):a.innerText.localeCompare(b.innerText)).forEach(c=>{let ok=(cat==='all'||c.dataset.category===cat)&&(!q.value||c.dataset.search.includes(q.value.toLowerCase()));c.hidden=!ok;if(ok)n++;document.getElementById('grid').appendChild(c)});count.textContent=n+' of '+cards.length+' editions';empty.style.display=n?'none':'block';document.getElementById('heading').textContent=cat==='all'?'All reading editions':cat}chips.forEach(b=>b.onclick=()=>{cat=b.dataset.category;chips.forEach(x=>x.classList.toggle('active',x===b));update()});q.oninput=update;sort.onchange=update;document.getElementById('reset').onclick=()=>{q.value='';cat='all';sort.value='az';chips.forEach(x=>x.classList.toggle('active',x.dataset.category==='all'));update()};update();</script></body></html>"""
-    for k,v in {"__TOTAL__":str(len(files)),"__CATS__":str(len(cats)),"__FILTERS__":filters,"__CARDS__":"".join(cards)}.items():
-        html=html.replace(k,v)
-    (OUT/"index.html").write_text(html,encoding="utf-8")
-    print("Generated redesigned archive index:",len(files),"documents.")
 
 def main():
-    sources = sorted([*ROOT.glob("*.pdf"), *ROOT.glob("*.docx")], key=lambda p:p.name.lower())
+    sources = sorted([*ROOT.glob("*.pdf"), *ROOT.glob("*.docx")], key=lambda p: p.name.lower())
     catalogue = []
+    hashes = {}
+    report = []
     for source in sources:
-        title = source.stem.replace("_", " ").replace("-", " ")
+        title = display_title(source)
         kind = source.suffix[1:].upper()
+        digest = hashlib.sha256(source.read_bytes()).hexdigest()
+        output = OUT / (source.stem + ".html")
+        if digest in hashes:
+            canonical_source, canonical_reader = hashes[digest]
+            output.write_text(canonical_duplicate_alias(source, canonical_reader), encoding="utf-8")
+            category, _, _ = category_info(title)
+            catalogue.append({"title": title, "source": source.name, "reader": output.name, "kind": kind, "sections": 0, "category": category})
+            report.append({"source": source.name, "output": "html/" + output.name, "sha256": digest, "status": "duplicate-alias", "canonical_source": canonical_source, "extracted_chars": 0})
+            print("Duplicate:", source.name, "->", canonical_source)
+            continue
+        hashes[digest] = (source.name, output)
         try:
             if source.suffix.lower() == ".pdf":
-                sections, toc = render_pdf_blocks(extract_pdf(source))
+                extracted, extraction_method = extract_pdf(source)
+                sections, toc = render_pdf_blocks(extracted)
+                paragraph_count = 0
+                table_count = 0
             else:
-                sections, toc = render_docx_blocks(extract_docx(source))
+                blocks, paragraph_count, table_count = extract_docx(source)
+                sections, toc = render_docx_blocks(blocks)
+                extraction_method = "python-docx"
+                extracted = " ".join((b[1].get("text", "") if b[0] == "paragraph" else " ".join(" ".join(row) for row in b[1])) for b in blocks)
             if not sections:
-                sections = ['<section class="page"><p>No extractable text was found. Please consult the original document.</p></section>']
-            filename = source.stem + ".html"
-            (OUT / filename).write_text(make_reader(source, title, kind, sections, toc), encoding="utf-8")
-            catalogue.append((title, filename, source.name, kind, len(sections)))
-            print("Converted:", source.name, "->", filename)
+                sections = ['<section class="page"><p>No readable text was extracted. Please open the original source document.</p></section>']
+            html = make_reader(source, title, kind, sections, toc, extraction_method, digest)
+            output.write_text(html, encoding="utf-8")
+            category, _, _ = category_info(title)
+            catalogue.append({"title": title, "source": source.name, "reader": output.name, "kind": kind, "sections": len(sections), "category": category})
+            report.append({"source": source.name, "output": "html/" + output.name, "sha256": digest, "status": "converted" if len(extracted.strip()) > 150 else "low-text-review", "extracted_chars": len(extracted), "sections": len(sections), "toc_entries": len(toc), "extraction": extraction_method, "docx_paragraphs": paragraph_count, "docx_tables": table_count, "output_bytes": output.stat().st_size})
+            print("Converted:", source.name, "->", output.name, "(" + str(len(sections)) + " sections)")
         except Exception as exc:
-            print("ERROR:", source.name, str(exc))
+            report.append({"source": source.name, "output": "html/" + output.name, "sha256": digest, "status": "error", "error": str(exc)})
             raise
-    cards = []
-    for title, filename, original, kind, count in catalogue:
-        cards.append('<a class="item" href="' + escape(filename) + '"><strong>' + escape(title) + '</strong><span>' + escape(kind) + ' · ' + str(count) + ' content sections</span><small>Original: ' + escape(original) + '</small></a>')
-    index = """<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Document Reading Archive</title><style>
-:root{--bg:#f5f3ee;--paper:#fffefa;--ink:#252923;--muted:#687168;--line:#e2e0d8;--accent:#356b68}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,sans-serif}.wrap{max-width:1100px;margin:48px auto;padding:0 22px}header{margin-bottom:24px}.k{font-size:11px;letter-spacing:.15em;color:var(--accent);font-weight:800}h1{font-size:clamp(28px,5vw,44px);line-height:1.15;margin:8px 0}.sub{color:var(--muted)}input{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:9px;background:var(--paper);font:inherit;margin:14px 0 20px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}.item{display:flex;flex-direction:column;gap:5px;text-decoration:none;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:11px;padding:16px}.item:hover{border-color:var(--accent);transform:translateY(-1px)}.item span,.item small{color:var(--muted);font-size:12px}.count{font-size:13px;color:var(--muted)}@media(prefers-color-scheme:dark){:root{--bg:#151816;--paper:#1d211e;--ink:#e8ece6;--muted:#a0aaa1;--line:#343b35;--accent:#8bc5b5}}@media(max-width:600px){.wrap{margin:28px auto;padding:0 14px}.grid{grid-template-columns:1fr}}</style></head><body><main class="wrap"><header><div class="k">THE READING ARCHIVE</div><h1>Document Library</h1><p class="sub">Search and read the HTML editions. Original PDFs and DOCX files remain in the repository.</p><div class="count">""" + str(len(catalogue)) + """ converted documents</div></header><input id="q" type="search" placeholder="Search titles or original filenames…" aria-label="Search documents"><div class="grid" id="grid">""" + "".join(cards) + """</div></main><script>const q=document.getElementById('q');q.addEventListener('input',()=>{const v=q.value.toLowerCase();document.querySelectorAll('.item').forEach(x=>x.hidden=!x.innerText.toLowerCase().includes(v))});</script></body></html>"""
-    (OUT / "index.html").write_text(index, encoding="utf-8")
-    print("Generated", len(catalogue), "HTML readers and index.")
-    build_public_portal()
-    build_archive_index()
+    expected = len(sources)
+    if len(catalogue) != expected:
+        raise SystemExit("Conversion count mismatch: expected " + str(expected) + ", built " + str(len(catalogue)))
+    build_archive_index(catalogue)
+    report_path = OUT / "conversion-report.json"
+    report_path.write_text(json.dumps({"source_count": expected, "reader_count": len(catalogue), "sources": report}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    statuses = {x["status"]: sum(1 for y in report if y["status"] == x["status"]) for x in report}
+    print("Conversion complete:", expected, "source documents;", statuses, "report:", report_path)
+    
 
 if __name__ == "__main__":
     main()

@@ -7,8 +7,10 @@ on:
       - 'index.html'
       - '*.html'
       - 'html/**'
+      - 'collections/**'
       - 'assets/**'
       - '.github/workflows/deploy-pages.yml'
+      - '.github/workflows/convert-documents.yml'
   workflow_dispatch:
 
 permissions:
@@ -35,10 +37,11 @@ jobs:
           enablement: true
       - name: Assemble public website
         run: |
-          mkdir -p _site/html
+          mkdir -p _site/html _site/collections _site/assets
           cp ./*.html _site/
-          cp -R assets _site/assets
+          cp -R assets/. _site/assets/
           cp -R html/. _site/html/
+          cp -R collections/. _site/collections/
           touch _site/.nojekyll
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
