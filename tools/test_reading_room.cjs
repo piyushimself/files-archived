@@ -174,7 +174,7 @@ async function testStructuredCinemaReaders(){
     }else{
       if(item.kind==="movie-ratings"){
         const headings=[...d.querySelectorAll("#content h1,#content h2,#content h3")].map(h=>h.textContent.trim());
-        assert.ok(!headings.some(h=>/^74\\s+Shoah/i.test(h)),"Numbered film 74 must remain a catalogue entry, not a heading");
+        assert.ok(!headings.some(h=>/^74\s+Shoah/i.test(h)),"Numbered film 74 must remain a catalogue entry, not a heading");
         assert.ok(!headings.includes("Senses)"),"Wrapped film-title continuation must not become a section heading");
       }
       assert.ok(d.querySelector(".rr-cinema-sort"),item.file+" should expose catalogue sorting");
