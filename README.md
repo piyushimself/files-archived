@@ -10,13 +10,16 @@ A public, searchable reading portal for the repository's original HTML projects 
 | PDF source documents | 43 |
 | DOCX source documents | 3 |
 | Supporting files (README, Python script, two workflows, TXT, Pine Script) | 6 |
-| **Original files and supporting tools** | **87** |\n| Public portal homepage | 1 |
+| **Original files and supporting tools** | **87** |
+| Public portal homepage | 1 |
 | HTML reading editions generated from PDF and DOCX sources | 46 |
 | HTML reading archive index | 1 |
 
-## Main HTML reading archive
+## Public library website
 
-Once the conversion workflow has completed and pushed its output, open the [HTML reading archive](html/index.html). It contains a searchable index and a separate reading page for each of the 46 PDF/DOCX source documents. The original files are preserved.
+**Public website:** [Reading Room — Original & Converted HTML](https://piyushimself.github.io/files/)
+
+The website provides a searchable, mobile-friendly catalogue of all 35 original root-level HTML projects and all 46 converted PDF/DOCX reading editions. Filter by original or converted content, or search by title and filename. The [converted-document index](html/index.html) is also available directly. Original PDF and DOCX files remain unchanged.
 
 ## Complete repository inventory
 
@@ -24,7 +27,8 @@ The table below lists the original project files and supporting automation files
 
 | File | Type | About |
 |---|---|---|
-| [index.html](index.html) | HTML | Public landing page for browsing all original and converted HTML resources; generated automatically by the conversion script. |\n| [.github/workflows/deploy-pages.yml](<.github/workflows/deploy-pages.yml>) | YML | Builds and publishes the public HTML library to GitHub Pages. |\n| [.github/workflows/convert-documents.yml](<.github/workflows/convert-documents.yml>) | YML | GitHub Actions workflow that installs conversion dependencies, builds HTML reading editions, and commits the output. |
+| [index.html](index.html) | HTML | Public landing page for browsing all original and converted HTML resources; generated automatically by the conversion script. |
+| [.github/workflows/deploy-pages.yml](<.github/workflows/deploy-pages.yml>) | YML | Builds and publishes the public HTML library to GitHub Pages. |\n| [.github/workflows/convert-documents.yml](<.github/workflows/convert-documents.yml>) | YML | GitHub Actions workflow that installs conversion dependencies, builds HTML reading editions, and commits the output. |
 | [1000_Creative_Educational_Cultural_Links.pdf](<1000_Creative_Educational_Cultural_Links.pdf>) | PDF | Large curated directory of creative, educational, and cultural links and resources. |
 | [1000_Google_Searches_Grand_Curiosity_Atlas.pdf](<1000_Google_Searches_Grand_Curiosity_Atlas.pdf>) | PDF | Collection of Google search prompts and discovery queries for broad curiosity-led research. |
 | [1000_Greatest_Fictional_Books.pdf](<1000_Greatest_Fictional_Books.pdf>) | PDF | Curated list or reference catalogue of notable fictional books. |
