@@ -762,12 +762,13 @@ function buildSensitiveCinemaReader(body,content,toolbar){
     const h=document.createElement("h3");h.className="rr-sensitive-subheading";h.textContent=text;if(id)h.id=id;current.section.appendChild(h);
   };
   const addParagraph=(value)=>{
-    let text=cinemaText(value);
+    const raw=String(value||"");
+    let text=cinemaText(raw);
     text=text.replace(/\s*(?:The Complete Movie Encyclopedia|Complete Movie Ratings:)[\s\S]*?Page\s+\d+\s*$/i,"").trim();
     text=text.replace(/\s+Page\s+\d+\s*[·|][\s\S]*$/i,"").trim();
     if(!text)return;
     const ratingMatches=[...text.matchAll(/★\s*(\d(?:\.\d)?)/g)].map(m=>m[1]);
-    const clean=text.replace(/\s*★\s*\d(?:\.\d)?/g,"").trim();
+    let clean=text.replace(/\s*★\s*\d(?:\.\d)?/g,"").trim();
     const card=document.createElement("article");card.className="rr-sensitive-entry"+(lessonMode?" is-lesson":"");
     card.dataset.search=text.toLocaleLowerCase();card.dataset.category=current?current.name:"Film notes";
     if(ratingMatches.length){
@@ -775,7 +776,24 @@ function buildSensitiveCinemaReader(body,content,toolbar){
       ratingMatches.forEach(value=>{const badge=document.createElement("span");badge.textContent="IMDb "+value;ratings.appendChild(badge);});
       card.appendChild(ratings);
     }
-    const p=document.createElement("p");p.textContent=clean||text;card.appendChild(p);
+
+    // The source uses a category mark between each film title and its
+    // country/year metadata. Use it as a boundary for a readable entry.
+    const marked=raw.match(/^\s*(.*?)\s+■\s*([A-Z]{2,6})\s+([\s\S]+)$/);
+    if(marked){
+      const title=cinemaText(marked[1]);
+      const rest=cinemaText(marked[3]);
+      const meta=rest.match(/^(.+?)\s+·\s+((?:18|19|20)\d{2})\s+·\s+([\s\S]+)$/);
+      if(title){
+        const h=document.createElement("h3");h.className="rr-sensitive-entry-title";h.textContent=title;card.appendChild(h);
+      }
+      const category=document.createElement("span");category.className="rr-sensitive-kind";category.textContent=marked[2];card.appendChild(category);
+      if(meta){
+        const line=document.createElement("p");line.className="rr-sensitive-meta";line.textContent=meta[1]+" · "+meta[2];card.appendChild(line);
+        clean=meta[3];
+      }else clean=rest;
+    }
+    const p=document.createElement("p");p.className="rr-sensitive-entry-copy";p.textContent=clean||text;card.appendChild(p);
     if(current){current.section.appendChild(card);current.entries.push(card);}else{ensure("Film notes","").section.appendChild(card);}
     if(!/■|·|(?:18|19|20)\d{2}/.test(text))lessonMode=false;
   };
