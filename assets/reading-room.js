@@ -590,6 +590,182 @@ function initArtResourceSearch(){
   input.addEventListener("input",update);update();
 }
 
+
+function initMangaGuideCatalogue(){
+  const body=document.querySelector("body.rr--manga"),cards=[...document.querySelectorAll(".manga-card")];
+  if(!body||cards.length<15||body.dataset.rrMangaGuide==="1")return;
+  body.dataset.rrMangaGuide="1";
+  const host=document.createElement("section");host.className="rr-manga-guide-tools";
+  const input=document.createElement("input");input.type="search";input.placeholder="Search titles, Japanese names, genres or descriptions…";input.setAttribute("aria-label","Search manga guide");
+  const genre=new Set(),feel=new Set(),length=new Set();
+  cards.forEach(card=>{
+    const add=(selector,set)=>{const value=card.querySelector(selector)?.textContent.trim();if(value)set.add(value);};
+    add(".tag-genre",genre);add(".tag-feel",feel);add(".tag-length",length);
+  });
+  const genreSelect=addSelect(host,"rr-reader-filter","genre",genre);
+  const feelSelect=addSelect(host,"rr-reader-filter","reading mood",feel);
+  const lengthSelect=addSelect(host,"rr-reader-filter","publication status",length);
+  const count=document.createElement("span");count.className="rr-catalogue-count";count.setAttribute("aria-live","polite");
+  const clear=document.createElement("button");clear.type="button";clear.className="rr-reader-clear";clear.textContent="Clear";
+  host.prepend(input);host.appendChild(count);host.appendChild(clear);
+  const header=body.querySelector("header");
+  if(header)header.insertAdjacentElement("afterend",host);else cards[0].closest(".tier-block")?.insertAdjacentElement("beforebegin",host);
+  const update=()=>{
+    const q=input.value.trim().toLocaleLowerCase();let visible=0;
+    cards.forEach(card=>{
+      const g=card.querySelector(".tag-genre")?.textContent.trim()||"";
+      const f=card.querySelector(".tag-feel")?.textContent.trim()||"";
+      const l=card.querySelector(".tag-length")?.textContent.trim()||"";
+      const show=(!q||(card.textContent||"").toLocaleLowerCase().includes(q))&&
+        (genreSelect.value==="all"||genreSelect.value===g)&&
+        (feelSelect.value==="all"||feelSelect.value===f)&&
+        (lengthSelect.value==="all"||lengthSelect.value===l);
+      card.hidden=!show;if(show)visible++;
+    });
+    document.querySelectorAll(".tier-block").forEach(tier=>{tier.hidden=!tier.querySelector(".manga-card:not([hidden])");});
+    count.textContent=visible+" of "+cards.length+" manga";
+  };
+  [input,genreSelect,feelSelect,lengthSelect].forEach(el=>el.addEventListener(el===input?"input":"change",update));
+  clear.addEventListener("click",()=>{input.value="";[genreSelect,feelSelect,lengthSelect].forEach(s=>s.value="all");update();});
+  update();
+}
+function initPoliticalComicsFinder(){
+  const body=document.querySelector("body.rr--comics,body"),panels=[...document.querySelectorAll(".tab-panel")];
+  if(!panels.length||!document.querySelector(".filter-btn[onclick*='filterCards']")||body.dataset.rrPoliticalFinder==="1")return;
+  body.dataset.rrPoliticalFinder="1";
+  const allCards=[...panels.flatMap(panel=>[...panel.querySelectorAll(".card")])];
+  if(allCards.length<20)return;
+  const host=document.createElement("section");host.className="rr-political-tools";
+  const input=document.createElement("input");input.type="search";input.placeholder="Search titles, creators, countries and themes…";input.setAttribute("aria-label","Search political comics and manga");
+  const formats=new Set(allCards.map(card=>card.dataset.format||"").filter(Boolean));
+  const regions=new Set(allCards.map(card=>card.dataset.region||"").filter(Boolean));
+  const formatSelect=addSelect(host,"rr-reader-filter","format",formats);
+  const regionSelect=addSelect(host,"rr-reader-filter","region",regions);
+  const count=document.createElement("span");count.className="rr-catalogue-count";count.setAttribute("aria-live","polite");
+  const clear=document.createElement("button");clear.type="button";clear.className="rr-reader-clear";clear.textContent="Clear search";
+  host.prepend(input);host.appendChild(count);host.appendChild(clear);
+  const tabs=document.querySelector(".tab-btn")?.parentElement;
+  if(tabs)tabs.insertAdjacentElement("afterend",host);else panels[0].insertAdjacentElement("beforebegin",host);
+  const update=()=>{
+    const active=document.querySelector(".tab-panel.active")||panels[0];
+    const query=input.value.trim().toLocaleLowerCase();let visible=0,total=0;
+    panels.forEach(panel=>{
+      const isActive=panel===active;
+      [...panel.querySelectorAll(".card")].forEach(card=>{
+        if(!isActive){card.style.removeProperty("display");return;}
+        total++;
+        const format=card.dataset.format||"",region=card.dataset.region||"";
+        const show=!card.classList.contains("hidden")&&
+          (!query||(card.textContent||"").toLocaleLowerCase().includes(query))&&
+          (formatSelect.value==="all"||format===formatSelect.value)&&
+          (regionSelect.value==="all"||region===regionSelect.value);
+        card.style.display=show?"":"none";if(show)visible++;
+      });
+      panel.querySelectorAll(".card-grid").forEach(grid=>{
+        const shown=[...grid.querySelectorAll(".card")].some(card=>card.style.display!=="none"&&!card.classList.contains("hidden"));
+        const header=grid.previousElementSibling?.classList.contains("section-header")?grid.previousElementSibling:null;
+        grid.hidden=isActive&&!shown;if(header)header.hidden=isActive&&!shown;
+      });
+    });
+    count.textContent=visible+" of "+total+" items in "+(active.id==="tab-fiction"?"fiction":"nonfiction");
+  };
+  [input,formatSelect,regionSelect].forEach(el=>el.addEventListener(el===input?"input":"change",update));
+  clear.addEventListener("click",()=>{input.value="";formatSelect.value="all";regionSelect.value="all";update();});
+  document.querySelectorAll(".filter-btn,.tab-btn").forEach(button=>button.addEventListener("click",()=>setTimeout(update,0)));
+  update();
+}
+function initCurriculumBookFinder(){
+  const body=document.body;
+  const bookCards=[...body.querySelectorAll(".book-card")];
+  const books=[...body.querySelectorAll(".books-list > .book")];
+  const entries=bookCards.length?bookCards:books;
+  if(entries.length<12||body.dataset.rrBookFinder==="1")return;
+  body.dataset.rrBookFinder="1";
+  const host=document.createElement("section");host.className="rr-curriculum-tools";
+  const input=document.createElement("input");input.type="search";input.placeholder="Search titles, authors, traditions or reading notes…";input.setAttribute("aria-label","Search curriculum books");
+  const originSet=new Set(),descriptorSet=new Set(),stageSet=new Set();
+  const metaFor=entry=>entry.querySelector(".book-origin,.book-origin-tag")?.textContent.replace(/\s+/g," ").trim()||"";
+  const descriptorFor=entry=>entry.querySelector(".book-type-tag")?.textContent.trim()||(()=>{
+    const meta=metaFor(entry);return meta.includes("·")?meta.split("·").slice(1).join("·").trim():"";
+  })();
+  const stageFor=entry=>{
+    const stage=entry.closest(".stage,.stage-block");
+    return stage?.querySelector(".stage-title")?.textContent.replace(/\s+/g," ").trim()||"";
+  };
+  entries.forEach(entry=>{
+    const meta=metaFor(entry),origin=meta.includes("·")?meta.split("·")[0].replace(/[^\p{L}\p{N}\s&/-]/gu,"").trim():meta;
+    if(origin)originSet.add(origin);
+    const descriptor=descriptorFor(entry);if(descriptor)descriptorSet.add(descriptor);
+    const stage=stageFor(entry);if(stage)stageSet.add(stage);
+  });
+  const originSelect=addSelect(host,"rr-reader-filter","tradition / origin",originSet);
+  const descriptorSelect=addSelect(host,"rr-reader-filter","form / period",descriptorSet);
+  const stageSelect=stageSet.size?addSelect(host,"rr-reader-filter","stage",stageSet):null;
+  const count=document.createElement("span");count.className="rr-catalogue-count";count.setAttribute("aria-live","polite");
+  const clear=document.createElement("button");clear.type="button";clear.className="rr-reader-clear";clear.textContent="Clear";
+  host.prepend(input);host.appendChild(count);host.appendChild(clear);
+  const anchor=body.querySelector(".hero");
+  if(anchor)anchor.insertAdjacentElement("afterend",host);else entries[0].parentElement.insertAdjacentElement("beforebegin",host);
+  const update=()=>{
+    const q=input.value.trim().toLocaleLowerCase();let visible=0;
+    entries.forEach(entry=>{
+      const meta=metaFor(entry),origin=meta.includes("·")?meta.split("·")[0].replace(/[^\p{L}\p{N}\s&/-]/gu,"").trim():meta;
+      const descriptor=descriptorFor(entry),stage=stageFor(entry);
+      const show=(!q||(entry.textContent||"").toLocaleLowerCase().includes(q))&&
+        (originSelect.value==="all"||origin===originSelect.value)&&
+        (descriptorSelect.value==="all"||descriptor===descriptorSelect.value)&&
+        (!stageSelect||stageSelect.value==="all"||stage===stageSelect.value);
+      entry.hidden=!show;if(show)visible++;
+    });
+    body.querySelectorAll(".stage,.stage-block").forEach(stage=>{
+      const direct=[...stage.querySelectorAll(".book-card,.book")];
+      if(direct.length)stage.hidden=!direct.some(item=>!item.hidden);
+    });
+    count.textContent=visible+" of "+entries.length+" reading selections";
+  };
+  [input,originSelect,descriptorSelect].concat(stageSelect?[stageSelect]:[]).forEach(el=>el.addEventListener(el===input?"input":"change",update));
+  clear.addEventListener("click",()=>{input.value="";[originSelect,descriptorSelect].forEach(s=>s.value="all");if(stageSelect)stageSelect.value="all";update();});
+  update();
+}
+function initValuesCurriculumFinder(){
+  const body=document.querySelector("body.rr--learning");
+  const cards=[...document.querySelectorAll(".cards-grid .card")];
+  if(!body||cards.length<40||body.dataset.rrValuesFinder==="1")return;
+  body.dataset.rrValuesFinder="1";
+  const host=document.createElement("section");host.className="rr-curriculum-tools";
+  const input=document.createElement("input");input.type="search";input.placeholder="Search titles, creators, themes or reflections…";input.setAttribute("aria-label","Search anime and manga curriculum");
+  const themes=new Set();
+  cards.forEach(card=>{
+    const raw=card.querySelector(".card-theme-tag")?.textContent||"";
+    raw.replace(/^[▸►·\s]+/,"").split(/[·•,;]/).map(v=>v.trim()).filter(Boolean).forEach(v=>themes.add(v));
+  });
+  const themeSelect=addSelect(host,"rr-reader-filter","theme",themes);
+  const count=document.createElement("span");count.className="rr-catalogue-count";count.setAttribute("aria-live","polite");
+  const clear=document.createElement("button");clear.type="button";clear.className="rr-reader-clear";clear.textContent="Clear";
+  host.prepend(input);host.appendChild(themeSelect);host.appendChild(count);host.appendChild(clear);
+  const filterBar=body.querySelector(".filter-bar");
+  if(filterBar)filterBar.insertAdjacentElement("afterend",host);else cards[0].closest("section")?.insertAdjacentElement("beforebegin",host);
+  const update=()=>{
+    const q=input.value.trim().toLocaleLowerCase();let visible=0;
+    cards.forEach(card=>{
+      const theme=(card.querySelector(".card-theme-tag")?.textContent||"").replace(/^[▸►·\s]+/,"").trim();
+      const show=!card.classList.contains("hidden")&&
+        (!q||(card.textContent||"").toLocaleLowerCase().includes(q))&&
+        (themeSelect.value==="all"||theme.split(/[·•,;]/).map(v=>v.trim()).includes(themeSelect.value));
+      card.style.display=show?"":"none";if(show)visible++;
+    });
+    body.querySelectorAll(".section").forEach(section=>{
+      const own=[...section.querySelectorAll(".cards-grid .card")];
+      if(own.length)section.hidden=!own.some(card=>card.style.display!=="none"&&!card.classList.contains("hidden"));
+    });
+    count.textContent=visible+" of "+cards.length+" works";
+  };
+  [input,themeSelect].forEach(el=>el.addEventListener(el===input?"input":"change",update));
+  clear.addEventListener("click",()=>{input.value="";themeSelect.value="all";update();});
+  body.querySelectorAll(".filter-btn,.nav-tab").forEach(btn=>btn.addEventListener("click",()=>setTimeout(update,0)));
+  update();
+}
+
 function start(){
   setupTheme();
   const key=siteKey(),manifest=window.READING_ROOM_CONTEXT||{},meta=manifest[key]||null;
@@ -599,6 +775,10 @@ function start(){
   initReaderControls();
   initLearningCurriculum();
   initArtResourceSearch();
+  initMangaGuideCatalogue();
+  initPoliticalComicsFinder();
+  initCurriculumBookFinder();
+  initValuesCurriculumFinder();
 }
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",start);else start();
 })();
