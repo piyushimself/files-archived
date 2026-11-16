@@ -678,3 +678,9 @@ body.rr-reader .rr-film-card{min-height:160px!important}
  body.rr-reader .rr-film-card{transition:none!important}
  body.rr-reader .rr-film-card:hover{transform:none!important}
 }
+/* Semantic page heading for legacy interactive surfaces whose visible title is rendered as a logo or dynamic artwork. */
+body.rr-page .rr-sr-only{
+  position:absolute!important;width:1px!important;height:1px!important;padding:0!important;
+  margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;
+  white-space:nowrap!important;border:0!important;
+}
