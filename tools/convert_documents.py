@@ -387,7 +387,7 @@ def build_archive_index(catalogue):
 
 
 def main():
-    sources = sorted([*ROOT.glob("*.pdf"), *ROOT.glob("*.docx")], key=lambda p: p.name.lower())
+    sources = sorted([*ROOT.glob("*.pdf"), *ROOT.glob("*.docx")], key=lambda p: ("(1)" in p.stem.lower(), p.name.lower()))
     catalogue = []
     hashes = {}
     report = []
