@@ -748,6 +748,7 @@ function cinemaBuildFilmReader(body,content,toolbar,kind){
   return true;
 }
 function buildSensitiveCinemaReader(body,content,toolbar){
+  body.dataset.sensitiveSourceColumns=String(content.querySelectorAll(".rr-source-column").length);
   const wrapper=document.createElement("div");wrapper.className="rr-sensitive-catalogue";
   const groups=[];let current=null,lessonMode=false;
   const ensure=(name,id)=>{
