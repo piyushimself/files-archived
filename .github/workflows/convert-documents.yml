@@ -10,6 +10,7 @@ on:
       - 'tools/convert_documents.py'
       - 'tools/build_site.py'
       - 'tools/audit_site.py'
+      - 'tools/test_reading_room.cjs'
       - 'README.md'
       - '*.html'
       - 'html/**'
