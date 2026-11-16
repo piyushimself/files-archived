@@ -543,7 +543,14 @@ function cinemaParseEntry(segment,kind){
   const m=(segment||"").match(/^(\d{1,3})[.)]?\s+([\s\S]+)$/);
   if(!m)return null;
   const number=m[1],body=m[2].trim();
-  const ym=body.match(/\b(?:18|19|20)\d{2}\b/);
+  const yearMatches=[...body.matchAll(/\b(?:18|19|20)\d{2}\b/g)];
+  let ym=null;
+  for(const candidate of yearMatches){
+    const afterCandidate=body.slice(candidate.index+4);
+    const scoreOk=kind==="movie-ratings"?/\d\.\d\/10\s+\d{1,3}%/.test(afterCandidate.slice(0,100)):kind==="movie-encyclopedia"?/\d\.\d\s+\d{1,3}%/.test(afterCandidate.slice(0,100)):/\d\.\d/.test(afterCandidate.slice(0,65));
+    if(scoreOk)ym=candidate;
+  }
+  if(!ym)ym=yearMatches[0];
   if(!ym)return null;
   const before=body.slice(0,ym.index).trim();
   const after=body.slice(ym.index+4).trim();
