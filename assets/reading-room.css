@@ -1418,3 +1418,15 @@ body.rr-sensitive-structured .rr-cinema-empty[hidden]{display:none!important}
  body.rr-cinema-structured .rr-reader-tools{grid-template-columns:1fr!important}
  body.rr-cinema-structured .rr-reader-tools>*{grid-column:1!important}
 }
+
+
+/* Sensitive Cinema: keep the original editorial columns readable when the
+   interactive reader has not yet enhanced the page. */
+body.rr-reader .rr-source-columns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;align-items:start}
+body.rr-reader .rr-source-column{min-width:0}
+body.rr-sensitive-structured .rr-sensitive-entry-title{margin:0 0 5px!important;font-size:16px!important;line-height:1.35!important;color:var(--rr-ink)!important}
+body.rr-sensitive-structured .rr-sensitive-meta{margin:3px 0 7px!important;font-size:11px!important;font-weight:650!important;letter-spacing:.02em;color:var(--rr-muted)!important}
+body.rr-sensitive-structured .rr-sensitive-kind{display:inline-block;margin:0 0 7px;padding:3px 7px;border-radius:5px;background:var(--rr-accent-soft);color:var(--rr-accent-strong);font:700 10px/1.2 Inter,system-ui,sans-serif}
+body.rr-sensitive-structured .rr-sensitive-entry-copy{margin:0!important;font-size:14px!important;line-height:1.68!important;color:var(--rr-ink)!important}
+body.rr-sensitive-structured .rr-sensitive-entry.is-lesson{border-left:3px solid var(--rr-accent-strong);background:var(--rr-panel)}
+@media(max-width:760px){body.rr-reader .rr-source-columns{grid-template-columns:1fr;gap:12px}}

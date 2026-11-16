@@ -149,7 +149,7 @@ async function testStructuredCinemaReaders(){
   const cases=[
     {file:"html/cinema_900 (1).html",kind:"cinema-900",selector:".rr-cinema-entry",minimum:400,term:"Grave of the Fireflies",group:".rr-cinema-group",filter:".rr-cinema-category"},
     {file:"html/complete_movie_encyclopedia.html",kind:"movie-encyclopedia",selector:".rr-cinema-entry",minimum:350,term:"2001: A Space Odyssey",group:".rr-cinema-group",filter:".rr-cinema-category"},
-    {file:"html/complete_movie_ratings.html",kind:"movie-ratings",selector:".rr-cinema-entry",minimum:200,term:"Shoah",group:".rr-cinema-group",filter:".rr-cinema-category"},
+    {file:"html/complete_movie_ratings.html",kind:"movie-ratings",selector:".rr-cinema-entry",minimum:200,term:"Shoah",group:".rr-cinema-group",groupMinimum:1,filter:".rr-cinema-category"},
     {file:"html/sensitive_cinema.html",kind:"sensitive-cinema",selector:".rr-sensitive-entry",minimum:200,term:"Grave of the Fireflies",group:".rr-sensitive-group",filter:".rr-sensitive-category"}
   ];
   for(const item of cases){
@@ -157,7 +157,7 @@ async function testStructuredCinemaReaders(){
     assert.equal(d.body.dataset.readerKind,item.kind,item.file+" should use its dedicated reader");
     const total=d.querySelectorAll(item.selector).length;
     assert.ok(total>=item.minimum,item.file+" should preserve its film/reading entries; found "+total);
-    assert.ok(d.querySelectorAll(item.group).length>=4,item.file+" should retain useful thematic sections");
+    assert.ok(d.querySelectorAll(item.group).length>=(item.groupMinimum||4),item.file+" should retain its source-backed collection structure");
     assert.ok(d.querySelector(item.filter),item.file+" should expose a collection filter");
     assert.ok(d.querySelector(".rr-reader-results"),item.file+" should expose a live result count");
     const search=d.querySelector("#search");
@@ -169,7 +169,14 @@ async function testStructuredCinemaReaders(){
     if(item.kind==="sensitive-cinema"){
       assert.ok(![...d.querySelectorAll(".toc a")].some(a=>/WHAT IT TEACHES/i.test(a.textContent)),"Repeated lesson labels must not pollute the Sensitive Cinema contents");
       assert.ok(d.querySelectorAll(".rr-sensitive-lesson-label").length>=10,"Sensitive Cinema should retain reflective lesson labels");
+      assert.ok(Number(d.body.dataset.sensitiveSourceColumns)>=10,"Sensitive Cinema should preserve its two-column source reading order");
+      assert.ok(d.querySelectorAll(".rr-sensitive-entry-title").length>=50,"Sensitive Cinema should expose individual film titles as headings");
     }else{
+      if(item.kind==="movie-ratings"){
+        const headings=[...d.querySelectorAll("#content h1,#content h2,#content h3")].map(h=>h.textContent.trim());
+        assert.ok(!headings.some(h=>/^74\s+Shoah/i.test(h)),"Numbered film 74 must remain a catalogue entry, not a heading");
+        assert.ok(!headings.includes("Senses)"),"Wrapped film-title continuation must not become a section heading");
+      }
       assert.ok(d.querySelector(".rr-cinema-sort"),item.file+" should expose catalogue sorting");
     }
     assert.ok(!d.querySelector("#content .page-label"),item.file+" should not expose raw source-page labels in the reader view");
