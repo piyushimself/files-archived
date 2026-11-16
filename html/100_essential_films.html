@@ -1,543 +1,476 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Accessible HTML reading edition of 100 essential films.">
-<title>100 essential films — Reading Edition</title>
+<meta name="description" content="Reading edition of 100 Essential Films. Original source preserved.">
+<title>100 Essential Films — The Reading Room</title>
+
+<script src="../assets/reading-room.js?v=4" defer></script>
 <style>
-:root{color-scheme:light;--bg:#f5f3ee;--paper:#fffefa;--ink:#252923;--muted:#687168;--line:#e2e0d8;--accent:#356b68;--soft:#eaf0ed}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.75 system-ui,-apple-system,Segoe UI,sans-serif}
-header{background:var(--paper);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
-.top{max-width:1180px;margin:auto;padding:12px 22px;display:flex;align-items:center;gap:14px}.brand{font-size:12px;font-weight:750;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);white-space:nowrap}
-.search{flex:1;min-width:120px;border:1px solid var(--line);border-radius:8px;padding:9px 12px;font:inherit;font-size:14px;background:var(--bg);color:var(--ink)}
-button,.link{border:1px solid var(--line);border-radius:8px;padding:8px 11px;background:var(--paper);color:var(--ink);font:inherit;font-size:13px;text-decoration:none;cursor:pointer}
-button:hover,.link:hover{border-color:var(--accent)}.layout{max-width:1180px;margin:30px auto;padding:0 22px;display:grid;grid-template-columns:230px minmax(0,1fr);gap:30px}
-.toc{position:sticky;top:82px;align-self:start;max-height:calc(100vh - 110px);overflow:auto;padding:16px;background:var(--paper);border:1px solid var(--line);border-radius:12px}
-.toc-title,.page-label{font-size:10px;font-weight:750;letter-spacing:.14em;color:var(--muted)}.toc a{display:block;color:var(--muted);font-size:13px;text-decoration:none;padding:5px 0;border-bottom:1px solid var(--line)}.toc a:hover{color:var(--accent)}
-article{min-width:0}.hero{padding:26px 30px;background:var(--paper);border:1px solid var(--line);border-radius:14px;margin-bottom:18px}
-.kicker{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);font-weight:750}.hero h1{font-size:clamp(26px,4vw,40px);line-height:1.2;letter-spacing:-.03em;margin:9px 0 8px}.meta{font-size:13px;color:var(--muted)}
-.page{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:28px 34px;margin:14px 0;overflow-wrap:anywhere}
-.page-label{margin-bottom:12px}h2{font-size:22px;line-height:1.3;margin:24px 0 10px;scroll-margin-top:90px}p{margin:0 0 14px}p:last-child{margin-bottom:0}
-.table-wrap{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:14px}td{border:1px solid var(--line);padding:8px;vertical-align:top}
-.empty{color:var(--muted);padding:18px;text-align:center}.footer{color:var(--muted);font-size:12px;padding:18px 4px}
-@media(max-width:760px){.top{padding:10px 14px;gap:8px;flex-wrap:wrap}.brand{width:100%}.search{order:2;flex-basis:100%}.layout{display:block;margin:16px auto;padding:0 12px}.toc{position:static;max-height:220px;margin-bottom:14px}.hero{padding:20px}.page{padding:20px 18px}body{font-size:15px}}
-@media(prefers-color-scheme:dark){:root{color-scheme:dark;--bg:#151816;--paper:#1d211e;--ink:#e8ece6;--muted:#a0aaa1;--line:#343b35;--accent:#8bc5b5;--soft:#27332e}.search{background:#151816}}
-</style><link rel="stylesheet" href="../assets/reading-room.css"></head><body class="rr-page rr-reader rr--cinema">
-<nav class="rr-contextbar"><a href="../index.html">← THE READING ROOM</a><span><em>Film &amp; Cinema</em> · Filmographies, world cinema curricula and searchable viewing collections</span></nav>
-<header><div class="top"><a class="brand" href="index.html" style="text-decoration:none">THE READING ARCHIVE</a>
-<input id="search" class="search" type="search" placeholder="Search within this document…" aria-label="Search within this document">
-<a class="link" href="../100_essential_films.pdf" target="_blank" rel="noopener">Original PDF ↗</a></div></header>
-<div class="layout"><nav class="toc"><div class="toc-title">ON THIS PAGE</div><a href="#100-films-that">100 Films That</a><a href="#avant-garde">Avant-Garde</a><a href="#why-this-list">Why This List</a><a href="#war-psychological">WAR / PSYCHOLOGICAL</a><a href="#01-apocalypse-now">01. Apocalypse Now</a><a href="#why-it-matters">WHY IT MATTERS:</a><a href="#adult-erotic">ADULT / EROTIC</a><a href="#why-it-matters-2">WHY IT MATTERS:</a><a href="#biographical-philosophical">BIOGRAPHICAL / PHILOSOPHICAL</a><a href="#03-andrei-rublev">03. Andrei Rublev</a><a href="#why-it-matters-3">WHY IT MATTERS:</a><a href="#crime-drama">CRIME / DRAMA</a><a href="#04-amores-perros">04. Amores Perros</a><a href="#why-it-matters-4">WHY IT MATTERS:</a><a href="#social-realism-drama">SOCIAL REALISM / DRAMA</a><a href="#05-bicycle-thieves">05. Bicycle Thieves</a><a href="#vittorio-de-sica-italy-rome-1948">Vittorio De Sica · Italy · Rome · 1948</a><a href="#why-it-matters-5">WHY IT MATTERS:</a><a href="#mystery-philosophical">MYSTERY / PHILOSOPHICAL</a><a href="#06-blow-up">06. Blow-Up</a><a href="#why-it-matters-6">WHY IT MATTERS:</a><a href="#lgbtq-adult-erotic">LGBTQ+ / ADULT / EROTIC</a><a href="#why-it-matters-7">WHY IT MATTERS:</a><a href="#romance-lgbtq">ROMANCE / LGBTQ+</a><a href="#08-brokeback-mountain">08. Brokeback Mountain</a><a href="#why-it-matters-8">WHY IT MATTERS:</a><a href="#drama-film-noir">DRAMA / FILM NOIR</a><a href="#09-citizen-kane">09. Citizen Kane</a><a href="#why-it-matters-9">WHY IT MATTERS:</a><a href="#thriller-psychological">THRILLER / PSYCHOLOGICAL</a><a href="#10-cache-hidden">10. Cache (Hidden)</a><a href="#why-it-matters-10">WHY IT MATTERS:</a><a href="#war-horror">WAR / HORROR</a><a href="#why-it-matters-11">WHY IT MATTERS:</a><a href="#drama-political">DRAMA / POLITICAL</a><a href="#12-dogville">12. Dogville</a><a href="#why-it-matters-12">WHY IT MATTERS:</a><a href="#musical-tragedy">MUSICAL / TRAGEDY</a><a href="#why-it-matters-13">WHY IT MATTERS:</a><a href="#psychological-surrealist">PSYCHOLOGICAL / SURREALIST</a><a href="#14-dogtooth-kynodontas">14. Dogtooth (Kynodontas)</a><a href="#why-it-matters-14">WHY IT MATTERS:</a><a href="#adult-erotic-mystery">ADULT / EROTIC / MYSTERY</a><a href="#15-eyes-wide-shut">15. Eyes Wide Shut</a><a href="#why-it-matters-15">WHY IT MATTERS:</a><a href="#sci-fi-romance">SCI-FI / ROMANCE</a><a href="#why-it-matters-16">WHY IT MATTERS:</a><a href="#drama-fantasy">DRAMA / FANTASY</a><a href="#ingmar-bergman-sweden-uppsala-1982">Ingmar Bergman · Sweden · Uppsala · 1982</a><a href="#why-it-matters-17">WHY IT MATTERS:</a><a href="#psychological-black-comedy">PSYCHOLOGICAL / BLACK COMEDY</a><a href="#18-fight-club">18. Fight Club</a><a href="#why-it-matters-18">WHY IT MATTERS:</a><a href="#thriller-horror">THRILLER / HORROR</a><a href="#19-funny-games">19. Funny Games</a><a href="#why-it-matters-19">WHY IT MATTERS:</a><a href="#animation-war">ANIMATION / WAR</a><a href="#why-it-matters-20">WHY IT MATTERS:</a><a href="#drama-existential">DRAMA / EXISTENTIAL</a><a href="#21-goodbye-dragon-inn">21. Goodbye Dragon Inn</a><a href="#why-it-matters-21">WHY IT MATTERS:</a><a href="#war-drama">WAR / DRAMA</a><a href="#masaki-kobayashi-japan-manchuria-1959-61">Masaki Kobayashi · Japan · Manchuria · 1959–61</a><a href="#why-it-matters-22">WHY IT MATTERS:</a><a href="#new-wave-romance">NEW WAVE / ROMANCE</a><a href="#23-hiroshima-mon-amour">23. Hiroshima Mon Amour</a><a href="#why-it-matters-23">WHY IT MATTERS:</a><a href="#drama-philosophical">DRAMA / PHILOSOPHICAL</a><a href="#24-ikiru-to-live">24. Ikiru (To Live)</a><a href="#akira-kurosawa-japan-tokyo-1952">Akira Kurosawa · Japan · Tokyo · 1952</a><a href="#why-it-matters-24">WHY IT MATTERS:</a><a href="#romance-drama">ROMANCE / DRAMA</a><a href="#why-it-matters-25">WHY IT MATTERS:</a><a href="#new-wave-romance-2">NEW WAVE / ROMANCE</a><a href="#why-it-matters-26">WHY IT MATTERS:</a><a href="#drama-feminist">DRAMA / FEMINIST</a><a href="#chantal-akerman-belgium-brussels-1975">Chantal Akerman · Belgium · Brussels · 1975</a><a href="#why-it-matters-27">WHY IT MATTERS:</a><a href="#social-realism-drama-2">SOCIAL REALISM / DRAMA</a><a href="#28-kes">28. Kes</a><a href="#why-it-matters-28">WHY IT MATTERS:</a><a href="#psychological-horror">PSYCHOLOGICAL / HORROR</a><a href="#why-it-matters-29">WHY IT MATTERS:</a><a href="#adult-erotic-drama">ADULT / EROTIC / DRAMA</a><a href="#why-it-matters-30">WHY IT MATTERS:</a><a href="#social-realism-surrealist">SOCIAL REALISM / SURREALIST</a><a href="#31-los-olvidados">31. Los Olvidados</a><a href="#luis-bu-uel-mexico-mexico-city-1950">Luis Buñuel · Mexico · Mexico City · 1950</a><a href="#why-it-matters-31">WHY IT MATTERS:</a><a href="#mystery-drama">MYSTERY / DRAMA</a><a href="#32-l-avventura">32. L&#x27;Avventura</a><a href="#why-it-matters-32">WHY IT MATTERS:</a><a href="#crime-thriller">CRIME / THRILLER</a><a href="#33-m">33. M</a><a href="#fritz-lang-germany-berlin-1931">Fritz Lang · Germany · Berlin · 1931</a><a href="#why-it-matters-33">WHY IT MATTERS:</a><a href="#surrealist-mystery">SURREALIST / MYSTERY</a><a href="#34-mulholland-drive">34. Mulholland Drive</a><a href="#why-it-matters-34">WHY IT MATTERS:</a><a href="#drama-lgbtq">DRAMA / LGBTQ+</a><a href="#35-moonlight">35. Moonlight</a><a href="#why-it-matters-35">WHY IT MATTERS:</a><a href="#adult-erotic-drama-2">ADULT / EROTIC / DRAMA</a><a href="#why-it-matters-36">WHY IT MATTERS:</a><a href="#musical-political">MUSICAL / POLITICAL</a><a href="#37-nashville">37. Nashville</a><a href="#why-it-matters-37">WHY IT MATTERS:</a><a href="#thriller-mystery">THRILLER / MYSTERY</a><a href="#38-oldboy">38. Oldboy</a><a href="#why-it-matters-38">WHY IT MATTERS:</a><a href="#drama-philosophical-2">DRAMA / PHILOSOPHICAL</a><a href="#39-ordet-the-word">39. Ordet (The Word)</a><a href="#carl-theodor-dreyer-denmark-jutland-1955">Carl Theodor Dreyer · Denmark · Jutland · 1955</a><a href="#why-it-matters-39">WHY IT MATTERS:</a><a href="#black-comedy-thriller">BLACK COMEDY / THRILLER</a><a href="#40-parasite">40. Parasite</a><a href="#why-it-matters-40">WHY IT MATTERS:</a><a href="#psychological-avant-garde">PSYCHOLOGICAL / AVANT-GARDE</a><a href="#41-persona">41. Persona</a><a href="#why-it-matters-41">WHY IT MATTERS:</a><a href="#horror-thriller">HORROR / THRILLER</a><a href="#42-psycho">42. Psycho</a><a href="#why-it-matters-42">WHY IT MATTERS:</a><a href="#mystery-drama-2">MYSTERY / DRAMA</a><a href="#43-rashomon">43. Rashomon</a><a href="#akira-kurosawa-japan-feudal-kyoto-1950">Akira Kurosawa · Japan · Feudal Kyoto · 1950</a><a href="#why-it-matters-43">WHY IT MATTERS:</a><a href="#war-social-realism">WAR / SOCIAL REALISM</a><a href="#44-rome-open-city">44. Rome, Open City</a><a href="#roberto-rossellini-italy-rome-1945">Roberto Rossellini · Italy · Rome · 1945</a><a href="#why-it-matters-44">WHY IT MATTERS:</a><a href="#war-drama-2">WAR / DRAMA</a><a href="#45-ran">45. Ran</a><a href="#akira-kurosawa-japan-feudal-japan-1985">Akira Kurosawa · Japan · Feudal Japan · 1985</a><a href="#why-it-matters-45">WHY IT MATTERS:</a><a href="#sci-fi-philosophical">SCI-FI / PHILOSOPHICAL</a><a href="#46-stalker">46. Stalker</a><a href="#why-it-matters-46">WHY IT MATTERS:</a><a href="#film-noir-drama">FILM NOIR / DRAMA</a><a href="#47-sunset-boulevard">47. Sunset Boulevard</a><a href="#why-it-matters-47">WHY IT MATTERS:</a><a href="#documentary">DOCUMENTARY</a><a href="#48-shoah">48. Shoah</a><a href="#why-it-matters-48">WHY IT MATTERS:</a><a href="#drama-fantasy-2">DRAMA / FANTASY</a><a href="#why-it-matters-49">WHY IT MATTERS:</a><a href="#drama-existential-2">DRAMA / EXISTENTIAL</a><a href="#50-s-t-ntang">50. Sátántangó</a><a href="#why-it-matters-50">WHY IT MATTERS:</a><a href="#drama-family">DRAMA / FAMILY</a><a href="#51-tokyo-story">51. Tokyo Story</a><a href="#why-it-matters-51">WHY IT MATTERS:</a><a href="#psychological-crime">PSYCHOLOGICAL / CRIME</a><a href="#52-taxi-driver">52. Taxi Driver</a><a href="#why-it-matters-52">WHY IT MATTERS:</a><a href="#existential-drama">EXISTENTIAL / DRAMA</a><a href="#53-the-turin-horse">53. The Turin Horse</a><a href="#why-it-matters-53">WHY IT MATTERS:</a><a href="#drama-philosophical-3">DRAMA / PHILOSOPHICAL</a><a href="#why-it-matters-54">WHY IT MATTERS:</a><a href="#sci-fi-horror">SCI-FI / HORROR</a><a href="#why-it-matters-55">WHY IT MATTERS:</a><a href="#social-realism-drama-3">SOCIAL REALISM / DRAMA</a><a href="#vittorio-de-sica-italy-rome-1952">Vittorio De Sica · Italy · Rome · 1952</a><a href="#why-it-matters-56">WHY IT MATTERS:</a><a href="#drama-surrealist">DRAMA / SURREALIST</a><a href="#57-viridiana">57. Viridiana</a><a href="#why-it-matters-57">WHY IT MATTERS:</a><a href="#thriller-psychological-2">THRILLER / PSYCHOLOGICAL</a><a href="#58-vertigo">58. Vertigo</a><a href="#why-it-matters-58">WHY IT MATTERS:</a><a href="#fantasy-drama">FANTASY / DRAMA</a><a href="#why-it-matters-59">WHY IT MATTERS:</a><a href="#drama-philosophical-4">DRAMA / PHILOSOPHICAL</a><a href="#60-wild-strawberries">60. Wild Strawberries</a><a href="#why-it-matters-60">WHY IT MATTERS:</a><a href="#drama-family-2">DRAMA / FAMILY</a><a href="#edward-yang-taiwan-taipei-2000">Edward Yang · Taiwan · Taipei · 2000</a><a href="#why-it-matters-61">WHY IT MATTERS:</a><a href="#political-thriller">POLITICAL / THRILLER</a><a href="#62-z">62. Z</a><a href="#why-it-matters-62">WHY IT MATTERS:</a><a href="#crime-thriller-2">CRIME / THRILLER</a><a href="#63-zodiac">63. Zodiac</a><a href="#why-it-matters-63">WHY IT MATTERS:</a><a href="#drama-philosophical-5">DRAMA / PHILOSOPHICAL</a><a href="#64-au-hasard-balthazar">64. Au Hasard Balthazar</a><a href="#robert-bresson-france-rural-france-1966">Robert Bresson · France · Rural France · 1966</a><a href="#why-it-matters-64">WHY IT MATTERS:</a><a href="#political-war">POLITICAL / WAR</a><a href="#why-it-matters-65">WHY IT MATTERS:</a><a href="#film-noir-crime">FILM NOIR / CRIME</a><a href="#66-chinatown">66. Chinatown</a><a href="#why-it-matters-66">WHY IT MATTERS:</a><a href="#documentary-drama">DOCUMENTARY / DRAMA</a><a href="#67-close-up">67. Close-Up</a><a href="#abbas-kiarostami-iran-tehran-1990">Abbas Kiarostami · Iran · Tehran · 1990</a><a href="#why-it-matters-67">WHY IT MATTERS:</a><a href="#new-wave-drama">NEW WAVE / DRAMA</a><a href="#agn-s-varda-france-paris-1962">Agnès Varda · France · Paris · 1962</a><a href="#why-it-matters-68">WHY IT MATTERS:</a><a href="#martial-arts-romance">MARTIAL ARTS / ROMANCE</a><a href="#69-crouching-tiger-hidden-dragon">69. Crouching Tiger, Hidden Dragon</a><a href="#why-it-matters-69">WHY IT MATTERS:</a><a href="#drama-existential-3">DRAMA / EXISTENTIAL</a><a href="#70-damnation-k-rhozat">70. Damnation (Kárhozat)</a><a href="#why-it-matters-70">WHY IT MATTERS:</a><a href="#sci-fi-fantasy">SCI-FI / FANTASY</a><a href="#71-dune-1984">71. Dune (1984)</a><a href="#why-it-matters-71">WHY IT MATTERS:</a><a href="#western-surrealist-cult">WESTERN / SURREALIST / CULT</a><a href="#72-el-topo">72. El Topo</a><a href="#why-it-matters-72">WHY IT MATTERS:</a><a href="#thriller-surrealist">THRILLER / SURREALIST</a><a href="#73-europa-zentropa">73. Europa (Zentropa)</a><a href="#why-it-matters-73">WHY IT MATTERS:</a><a href="#drama-adult-erotic">DRAMA / ADULT / EROTIC</a><a href="#why-it-matters-74">WHY IT MATTERS:</a><a href="#drama-adventure">DRAMA / ADVENTURE</a><a href="#75-fitzcarraldo">75. Fitzcarraldo</a><a href="#why-it-matters-75">WHY IT MATTERS:</a><a href="#drama-new-wave">DRAMA / NEW WAVE</a><a href="#76-four-hundred-blows">76. Four Hundred Blows</a><a href="#fran-ois-truffaut-france-paris-1959">François Truffaut · France · Paris · 1959</a><a href="#why-it-matters-76">WHY IT MATTERS:</a><a href="#silent-action-comedy">SILENT / ACTION / COMEDY</a><a href="#77-the-general">77. The General</a><a href="#why-it-matters-77">WHY IT MATTERS:</a><a href="#drama-social-realism">DRAMA / SOCIAL REALISM</a><a href="#78-george-washington">78. George Washington</a><a href="#why-it-matters-78">WHY IT MATTERS:</a><a href="#avant-garde-surrealist">AVANT-GARDE / SURREALIST</a><a href="#79-holy-motors">79. Holy Motors</a><a href="#leos-carax-france-paris-2012">Leos Carax · France · Paris · 2012</a><a href="#why-it-matters-79">WHY IT MATTERS:</a><a href="#political-drama">POLITICAL / DRAMA</a><a href="#80-i-am-cuba-soy-cuba">80. I Am Cuba (Soy Cuba)</a><a href="#why-it-matters-80">WHY IT MATTERS:</a><a href="#adult-erotic-black-comedy">ADULT / EROTIC / BLACK COMEDY</a><a href="#shohei-imamura-japan-osaka-1966">Shohei Imamura · Japan · Osaka · 1966</a><a href="#why-it-matters-81">WHY IT MATTERS:</a><a href="#documentary-social-realism">DOCUMENTARY / SOCIAL REALISM</a><a href="#why-it-matters-82">WHY IT MATTERS:</a><a href="#thriller-horror-2">THRILLER / HORROR</a><a href="#83-jaws">83. Jaws</a><a href="#why-it-matters-83">WHY IT MATTERS:</a><a href="#documentary-2">DOCUMENTARY</a><a href="#why-it-matters-84">WHY IT MATTERS:</a><a href="#adult-erotic-drama-3">ADULT / EROTIC / DRAMA</a><a href="#85-love-2015">85. Love (2015)</a><a href="#gaspar-no-france-paris-2015">Gaspar Noé · France · Paris · 2015</a><a href="#why-it-matters-85">WHY IT MATTERS:</a><a href="#documentary-silent">DOCUMENTARY / SILENT /</a><a href="#avant-garde-2">AVANT-GARDE</a><a href="#why-it-matters-86">WHY IT MATTERS:</a><a href="#political-drama-2">POLITICAL / DRAMA</a><a href="#87-mephisto">87. Mephisto</a><a href="#istv-n-szab-hungary-berlin-1981">István Szabó · Hungary · Berlin · 1981</a><a href="#why-it-matters-87">WHY IT MATTERS:</a><a href="#avant-garde-biographical">AVANT-GARDE / BIOGRAPHICAL</a><a href="#88-mirror-zerkalo">88. Mirror (Zerkalo)</a><a href="#why-it-matters-88">WHY IT MATTERS:</a><a href="#drama-comedy">DRAMA / COMEDY</a><a href="#federico-fellini-italy-rome-1957">Federico Fellini · Italy · Rome · 1957</a><a href="#why-it-matters-89">WHY IT MATTERS:</a><a href="#fantasy-war">FANTASY / WAR</a><a href="#why-it-matters-90">WHY IT MATTERS:</a><a href="#drama-political-2">DRAMA / POLITICAL</a><a href="#91-platform-zhantai">91. Platform (Zhantai)</a><a href="#why-it-matters-91">WHY IT MATTERS:</a><a href="#horror-political">HORROR / POLITICAL</a><a href="#why-it-matters-92">WHY IT MATTERS:</a><a href="#documentary-avant-garde">DOCUMENTARY / AVANT-GARDE</a><a href="#93-sans-soleil">93. Sans Soleil</a><a href="#why-it-matters-93">WHY IT MATTERS:</a><a href="#drama-psychological">DRAMA / PSYCHOLOGICAL</a><a href="#ingmar-bergman-sweden-stockholm-1973">Ingmar Bergman · Sweden · Stockholm · 1973</a><a href="#why-it-matters-94">WHY IT MATTERS:</a><a href="#drama-romance">DRAMA / ROMANCE</a><a href="#95-taipei-story-qingmei-zhuma">95. Taipei Story (Qingmei Zhuma)</a><a href="#edward-yang-taiwan-taipei-1985">Edward Yang · Taiwan · Taipei · 1985</a><a href="#why-it-matters-95">WHY IT MATTERS:</a><a href="#surrealist-black-comedy">SURREALIST / BLACK COMEDY</a><a href="#why-it-matters-96">WHY IT MATTERS:</a><a href="#black-comedy-political">BLACK COMEDY / POLITICAL</a><a href="#why-it-matters-97">WHY IT MATTERS:</a><a href="#romance-drama-2">ROMANCE / DRAMA</a><a href="#98-the-piano">98. The Piano</a><a href="#why-it-matters-98">WHY IT MATTERS:</a><a href="#drama-philosophical-6">DRAMA / PHILOSOPHICAL</a><a href="#99-the-seventh-seal">99. The Seventh Seal</a><a href="#ingmar-bergman-sweden-medieval-sweden-1957">Ingmar Bergman · Sweden · Medieval Sweden · 1957</a><a href="#why-it-matters-99">WHY IT MATTERS:</a><a href="#sci-fi-philosophical-2">SCI-FI / PHILOSOPHICAL</a><a href="#100-2001-a-space-odyssey">100. 2001: A Space Odyssey</a><a href="#why-it-matters-100">WHY IT MATTERS:</a></nav><article><section class="hero"><div class="kicker">HTML READING EDITION · PDF</div><h1>100 essential films</h1><div class="meta">Converted from the original source · Text may require review against the original document</div></section>
-<div id="content"><section class="page" id="page-1"><div class="page-label">PAGE 1</div><h2 id="100-films-that">100 Films That</h2>
+.rr-reader-intro{margin:12px 0 14px;padding:13px 15px;border:1px solid var(--rr-line);border-left:3px solid var(--rr-accent);border-radius:9px;background:var(--rr-panel)}
+.rr-reader-intro .kicker{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--rr-accent-strong);font-weight:750}
+.rr-reader-intro p{margin:5px 0 0!important;color:var(--rr-muted);font-size:12px!important;line-height:1.6!important}
+body.rr-reader .page{min-height:0}
+body.rr-reader .page h2,body.rr-reader .page h3{scroll-margin-top:78px}
+body.rr-reader .page li{margin:3px 0}
+body.rr-reader .page img.docx-inline-image{display:block;max-width:100%;height:auto;margin:12px auto;border-radius:6px}
+body.rr-reader .page table{min-width:520px}
+body.rr-reader .page th{background:var(--rr-accent-soft);font-weight:700}
+body.rr-reader .page blockquote{margin:12px 0;padding:8px 14px;border-left:3px solid var(--rr-accent);background:var(--rr-panel);color:var(--rr-muted)}
+body.rr-reader .page a{overflow-wrap:anywhere}
+body.rr-reader .page-label{margin-bottom:8px}
+body.rr-reader .toc details summary{cursor:pointer;font-size:11px;font-weight:700;color:var(--rr-ink)}
+body.rr-reader .toc details a:first-of-type{margin-top:8px}
+</style><link rel="stylesheet" href="../assets/reading-room.css?v=4"><script src="../assets/reading-room-context.js?v=4" defer></script><script src="../assets/reading-room.js?v=4" defer></script></head><body class="rr-page rr-reader rr--cinema">
+<nav class="toc"><details><summary>ON THIS PAGE · 122 sections</summary><a href="#100-films-that">100 Films That</a><a href="#avant-garde">Avant-Garde</a><a href="#why-this-list">Why This List</a><a href="#war-psychological">WAR / PSYCHOLOGICAL</a><a href="#adult-erotic">ADULT / EROTIC</a><a href="#biographical-philosophical">BIOGRAPHICAL / PHILOSOPHICAL</a><a href="#crime-drama">CRIME / DRAMA</a><a href="#social-realism-drama">SOCIAL REALISM / DRAMA</a><a href="#mystery-philosophical">MYSTERY / PHILOSOPHICAL</a><a href="#lgbtq-adult-erotic">LGBTQ+ / ADULT / EROTIC</a><a href="#romance-lgbtq">ROMANCE / LGBTQ+</a><a href="#drama-film-noir">DRAMA / FILM NOIR</a><a href="#thriller-psychological">THRILLER / PSYCHOLOGICAL</a><a href="#war-horror">WAR / HORROR</a><a href="#drama-political">DRAMA / POLITICAL</a><a href="#musical-tragedy">MUSICAL / TRAGEDY</a><a href="#psychological-surrealist">PSYCHOLOGICAL / SURREALIST</a><a href="#adult-erotic-mystery">ADULT / EROTIC / MYSTERY</a><a href="#sci-fi-romance">SCI-FI / ROMANCE</a><a href="#drama-fantasy">DRAMA / FANTASY</a><a href="#ingmar-bergman-sweden-uppsala-1982">Ingmar Bergman · Sweden · Uppsala · 1982</a><a href="#psychological-black-comedy">PSYCHOLOGICAL / BLACK COMEDY</a><a href="#thriller-horror">THRILLER / HORROR</a><a href="#animation-war">ANIMATION / WAR</a><a href="#drama-existential">DRAMA / EXISTENTIAL</a><a href="#war-drama">WAR / DRAMA</a><a href="#masaki-kobayashi-japan-manchuria-1959-61">Masaki Kobayashi · Japan · Manchuria · 1959–61</a><a href="#new-wave-romance">NEW WAVE / ROMANCE</a><a href="#drama-philosophical">DRAMA / PHILOSOPHICAL</a><a href="#akira-kurosawa-japan-tokyo-1952">Akira Kurosawa · Japan · Tokyo · 1952</a><a href="#romance-drama">ROMANCE / DRAMA</a><a href="#new-wave-romance-2">NEW WAVE / ROMANCE</a><a href="#drama-feminist">DRAMA / FEMINIST</a><a href="#chantal-akerman-belgium-brussels-1975">Chantal Akerman · Belgium · Brussels · 1975</a><a href="#social-realism-drama-2">SOCIAL REALISM / DRAMA</a><a href="#psychological-horror">PSYCHOLOGICAL / HORROR</a><a href="#adult-erotic-drama">ADULT / EROTIC / DRAMA</a><a href="#social-realism-surrealist">SOCIAL REALISM / SURREALIST</a><a href="#mystery-drama">MYSTERY / DRAMA</a><a href="#crime-thriller">CRIME / THRILLER</a><a href="#fritz-lang-germany-berlin-1931">Fritz Lang · Germany · Berlin · 1931</a><a href="#surrealist-mystery">SURREALIST / MYSTERY</a><a href="#drama-lgbtq">DRAMA / LGBTQ+</a><a href="#adult-erotic-drama-2">ADULT / EROTIC / DRAMA</a><a href="#musical-political">MUSICAL / POLITICAL</a><a href="#thriller-mystery">THRILLER / MYSTERY</a><a href="#drama-philosophical-2">DRAMA / PHILOSOPHICAL</a><a href="#black-comedy-thriller">BLACK COMEDY / THRILLER</a><a href="#psychological-avant-garde">PSYCHOLOGICAL / AVANT-GARDE</a><a href="#horror-thriller">HORROR / THRILLER</a><a href="#mystery-drama-2">MYSTERY / DRAMA</a><a href="#war-social-realism">WAR / SOCIAL REALISM</a><a href="#roberto-rossellini-italy-rome-1945">Roberto Rossellini · Italy · Rome · 1945</a><a href="#war-drama-2">WAR / DRAMA</a><a href="#sci-fi-philosophical">SCI-FI / PHILOSOPHICAL</a><a href="#film-noir-drama">FILM NOIR / DRAMA</a><a href="#documentary">DOCUMENTARY</a><a href="#drama-fantasy-2">DRAMA / FANTASY</a><a href="#drama-existential-2">DRAMA / EXISTENTIAL</a><a href="#drama-family">DRAMA / FAMILY</a><a href="#psychological-crime">PSYCHOLOGICAL / CRIME</a><a href="#existential-drama">EXISTENTIAL / DRAMA</a><a href="#drama-philosophical-3">DRAMA / PHILOSOPHICAL</a><a href="#sci-fi-horror">SCI-FI / HORROR</a><a href="#social-realism-drama-3">SOCIAL REALISM / DRAMA</a><a href="#drama-surrealist">DRAMA / SURREALIST</a><a href="#thriller-psychological-2">THRILLER / PSYCHOLOGICAL</a><a href="#fantasy-drama">FANTASY / DRAMA</a><a href="#drama-philosophical-4">DRAMA / PHILOSOPHICAL</a><a href="#drama-family-2">DRAMA / FAMILY</a><a href="#edward-yang-taiwan-taipei-2000">Edward Yang · Taiwan · Taipei · 2000</a><a href="#political-thriller">POLITICAL / THRILLER</a><a href="#crime-thriller-2">CRIME / THRILLER</a><a href="#drama-philosophical-5">DRAMA / PHILOSOPHICAL</a><a href="#political-war">POLITICAL / WAR</a><a href="#film-noir-crime">FILM NOIR / CRIME</a><a href="#documentary-drama">DOCUMENTARY / DRAMA</a><a href="#abbas-kiarostami-iran-tehran-1990">Abbas Kiarostami · Iran · Tehran · 1990</a><a href="#new-wave-drama">NEW WAVE / DRAMA</a><a href="#agn-s-varda-france-paris-1962">Agnès Varda · France · Paris · 1962</a><a href="#martial-arts-romance">MARTIAL ARTS / ROMANCE</a><a href="#drama-existential-3">DRAMA / EXISTENTIAL</a><a href="#sci-fi-fantasy">SCI-FI / FANTASY</a><a href="#western-surrealist-cult">WESTERN / SURREALIST / CULT</a><a href="#thriller-surrealist">THRILLER / SURREALIST</a><a href="#drama-adult-erotic">DRAMA / ADULT / EROTIC</a><a href="#drama-adventure">DRAMA / ADVENTURE</a><a href="#drama-new-wave">DRAMA / NEW WAVE</a><a href="#fran-ois-truffaut-france-paris-1959">François Truffaut · France · Paris · 1959</a><a href="#silent-action-comedy">SILENT / ACTION / COMEDY</a><a href="#drama-social-realism">DRAMA / SOCIAL REALISM</a><a href="#avant-garde-surrealist">AVANT-GARDE / SURREALIST</a><a href="#leos-carax-france-paris-2012">Leos Carax · France · Paris · 2012</a><a href="#political-drama">POLITICAL / DRAMA</a><a href="#adult-erotic-black-comedy">ADULT / EROTIC / BLACK COMEDY</a><a href="#shohei-imamura-japan-osaka-1966">Shohei Imamura · Japan · Osaka · 1966</a><a href="#documentary-social-realism">DOCUMENTARY / SOCIAL REALISM</a><a href="#thriller-horror-2">THRILLER / HORROR</a><a href="#documentary-2">DOCUMENTARY</a><a href="#adult-erotic-drama-3">ADULT / EROTIC / DRAMA</a><a href="#gaspar-no-france-paris-2015">Gaspar Noé · France · Paris · 2015</a><a href="#documentary-silent">DOCUMENTARY / SILENT /</a><a href="#avant-garde-2">AVANT-GARDE</a><a href="#political-drama-2">POLITICAL / DRAMA</a><a href="#istv-n-szab-hungary-berlin-1981">István Szabó · Hungary · Berlin · 1981</a><a href="#avant-garde-biographical">AVANT-GARDE / BIOGRAPHICAL</a><a href="#drama-comedy">DRAMA / COMEDY</a><a href="#federico-fellini-italy-rome-1957">Federico Fellini · Italy · Rome · 1957</a><a href="#fantasy-war">FANTASY / WAR</a><a href="#drama-political-2">DRAMA / POLITICAL</a><a href="#horror-political">HORROR / POLITICAL</a><a href="#documentary-avant-garde">DOCUMENTARY / AVANT-GARDE</a><a href="#drama-psychological">DRAMA / PSYCHOLOGICAL</a><a href="#ingmar-bergman-sweden-stockholm-1973">Ingmar Bergman · Sweden · Stockholm · 1973</a><a href="#drama-romance">DRAMA / ROMANCE</a><a href="#edward-yang-taiwan-taipei-1985">Edward Yang · Taiwan · Taipei · 1985</a><a href="#surrealist-black-comedy">SURREALIST / BLACK COMEDY</a><a href="#black-comedy-political">BLACK COMEDY / POLITICAL</a><a href="#romance-drama-2">ROMANCE / DRAMA</a><a href="#drama-philosophical-6">DRAMA / PHILOSOPHICAL</a><a href="#sci-fi-philosophical-2">SCI-FI / PHILOSOPHICAL</a><a href="#alfred-hitchcock">— Alfred Hitchcock</a></details></nav>
+<main class="layout"><article>
+<section class="hero"><div class="kicker">SOURCE DOCUMENT · PDF · Film &amp; Cinema</div><h1>100 Essential Films</h1><div class="meta">27 reading sections · Original file preserved · Search within this edition</div></section>
+<section class="rr-reader-intro"><div class="kicker">How to use this collection</div><p>Use this edition as a viewing reference. Choose a route or theme that interests you, then follow directors, regions, eras or related works rather than trying to complete every title.</p><p><a href="../100_essential_films.pdf" target="_blank" rel="noopener">Open original PDF ↗</a></p></section>
+<div id="content"><section class="page" id="page-1"><div class="page-label">SOURCE PAGE 1</div><h2 id="100-films-that">100 Films That</h2>
 <p>Demand to Be Seen A to Z across every genre · Action to Zombie · Adult cinema to</p>
 <h2 id="avant-garde">Avant-Garde</h2>
-<p>Directors · Cities · Eras · Controversies · Human Depths This list makes no apologies. It includes films that are beautiful, brutal, explicit, politically radical, spiritually demanding, and formally extreme. Cinema at its most serious is cinema that refuses to look away. 100 Films That Demand to Be Seen · Page 1</p></section>
-<section class="page" id="page-2"><div class="page-label">PAGE 2</div><h2 id="why-this-list">Why This List</h2>
-<p>Cinema&#x27;s greatest achievements share one quality: they are unwilling to make you comfortable. The films in this list — drawn from every inhabited continent, seven decades of sound cinema, and every genre from the Western to the avant-garde essay film — were chosen because they insist on being taken seriously. This list does not segregate adult filmmaking into a shameful corner. Nagisa Oshima&#x27;s Ai No Corrida, Bertolucci&#x27;s Last Tango in Paris, von Trier&#x27;s Nymphomaniac, Catherine Breillat&#x27;s Fat Girl, and Gaspar Noé&#x27;s Love are here because sexuality is one of the primary languages of human experience — and the filmmakers who treat it with the same gravity as mortality, politics, and faith deserve the same critical attention. Explicit cinema is not a genre; it is a choice about what the camera is permitted to witness. The 100 films span 30 genres, 28 countries, and nearly a century of image-making. They include silent masterpieces and digital experiments; Hollywood genre films at their most formally audacious and austere European essays running to nine hours. They are ordered alphabetically by title to resist any implication of ranking — Kubrick and Kalatozov, Bresson and Bong, Varda and Vertov stand as equals. Watch them in whatever order you choose. Watch them more than once. Some of them will require it. 100 Films That Demand to Be Seen · Page 2</p></section>
-<section class="page" id="page-3"><div class="page-label">PAGE 3</div><p>—A—</p>
+<p>Directors · Cities · Eras · Controversies · Human Depths This list makes no apologies. It includes films that are beautiful, brutal, explicit, politically radical, spiritually demanding, and formally extreme. Cinema at its most serious is cinema that refuses to look away.</p>
+<p>100 Films That Demand to Be Seen · Page 1</p></section>
+<section class="page" id="page-2"><div class="page-label">SOURCE PAGE 2</div><h2 id="why-this-list">Why This List</h2>
+<p>Cinema&#x27;s greatest achievements share one quality: they are unwilling to make you comfortable. The films in this list — drawn from every inhabited continent, seven decades of sound cinema, and every genre from the Western to</p>
+<p>the avant-garde essay film — were chosen because they insist on being taken seriously. This list does not segregate adult filmmaking into a shameful corner. Nagisa Oshima&#x27;s Ai No Corrida, Bertolucci&#x27;s Last Tango in Paris, von Trier&#x27;s Nymphomaniac, Catherine Breillat&#x27;s Fat Girl, and Gaspar Noé&#x27;s Love are here because sexuality is one of the primary languages of human experience — and the filmmakers who treat it with the same gravity as mortality, politics, and faith deserve the same critical attention. Explicit cinema is not a genre; it is</p>
+<p>a choice about what the camera is permitted to witness. The 100 films span 30 genres, 28 countries, and nearly a century of image-making. They include silent masterpieces and digital experiments; Hollywood genre films at their most formally audacious and austere European essays running to nine hours. They are ordered alphabetically by title to resist any implication of ranking</p>
+<p>— Kubrick and Kalatozov, Bresson and Bong, Varda and Vertov stand as equals. Watch them in whatever order you choose. Watch them more than once. Some of them will require it.</p>
+<p>100 Films That Demand to Be Seen · Page 2</p></section>
+<section class="page" id="page-3"><div class="page-label">SOURCE PAGE 3</div><p>—A—</p>
 <h2 id="war-psychological">WAR / PSYCHOLOGICAL</h2>
-<h2 id="01-apocalypse-now">01. Apocalypse Now</h2>
-<p>Francis Ford Coppola · USA · Saigon / Philippines · 1979 A U.S. Army captain journeys upriver into Cambodia to assassinate a rogue colonel who has set himself up as a god. Based on Conrad&#x27;s Heart of Darkness, the film dissolves the line between civilisation and savagery.</p>
-<h2 id="why-it-matters">WHY IT MATTERS:</h2>
-<p>One of cinema&#x27;s great documents of moral disintegration — every frame a descent into the primal.</p>
+<ol><li>Apocalypse Now</li></ol>
+<p>Francis Ford Coppola · USA · Saigon / Philippines · 1979 A U.S. Army captain journeys upriver into Cambodia to assassinate a rogue colonel who has set himself up as a god. Based on</p>
+<p>Conrad&#x27;s Heart of Darkness, the film dissolves the line between civilisation and savagery. WHY IT MATTERS: One of cinema&#x27;s great documents of moral disintegration — every frame a descent into the primal.</p>
 <h2 id="adult-erotic">ADULT / EROTIC</h2>
-<p>02. Ai No Corrida (In the Realm of the Senses) Nagisa Oshima · Japan / France · Tokyo · 1976 Based on a true 1936 incident, a former geisha and her employer enter a spiral of obsessive erotic entanglement that ends in annihilation. Unsimulated intimacy is deployed as political provocation against Japan&#x27;s militarist state.</p>
-<h2 id="why-it-matters-2">WHY IT MATTERS:</h2>
-<p>The most serious film ever made with explicit sex — a meditation on desire as the one radical freedom left.</p>
+<ol><li>Ai No Corrida (In the Realm of the Senses)</li></ol>
+<p>Nagisa Oshima · Japan / France · Tokyo · 1976 Based on a true 1936 incident, a former geisha and her employer enter a spiral of obsessive erotic entanglement that ends in annihilation. Unsimulated intimacy is deployed as political provocation against Japan&#x27;s militarist state.</p>
+<p>WHY IT MATTERS: The most serious film ever made with explicit sex — a meditation on desire as the one radical freedom left.</p>
 <h2 id="biographical-philosophical">BIOGRAPHICAL / PHILOSOPHICAL</h2>
-<h2 id="03-andrei-rublev">03. Andrei Rublev</h2>
-<p>Andrei Tarkovsky · USSR · Medieval Russia · 1966 Episodes from the life of the 15th-century icon painter unfold across an epic, near-silent canvas of faith, cruelty, and artistic vocation in medieval Russia.</p>
-<h2 id="why-it-matters-3">WHY IT MATTERS:</h2>
-<p>A cathedral of a film — slow, vast, and spiritually devastating.</p>
+<ol><li>Andrei Rublev</li></ol>
+<p>Andrei Tarkovsky · USSR · Medieval Russia · 1966 Episodes from the life of the 15th-century icon painter unfold across an epic, near-silent canvas of faith, cruelty, and artistic</p>
+<p>vocation in medieval Russia. WHY IT MATTERS: A cathedral of a film — slow, vast, and spiritually devastating.</p>
 <h2 id="crime-drama">CRIME / DRAMA</h2>
-<h2 id="04-amores-perros">04. Amores Perros</h2>
-<p>Alejandro González Iñárritu · Mexico · Mexico City · 2000 Three interconnected stories — a young man escaping poverty through dogfighting, a supermodel disfigured in a crash, and a hitman — collide in Mexico City&#x27;s brutal social mosaic.</p>
-<h2 id="why-it-matters-4">WHY IT MATTERS:</h2>
-<p>Raw, labyrinthine, and impossibly alive — the city itself bleeds. —B— 100 Films That Demand to Be Seen · Page 3</p></section>
-<section class="page" id="page-4"><div class="page-label">PAGE 4</div><h2 id="social-realism-drama">SOCIAL REALISM / DRAMA</h2>
-<h2 id="05-bicycle-thieves">05. Bicycle Thieves</h2>
-<h2 id="vittorio-de-sica-italy-rome-1948">Vittorio De Sica · Italy · Rome · 1948</h2>
-<p>A desperate father and his young son spend a day scouring post-war Rome for the stolen bicycle without which he cannot work. A masterpiece of neo-realist restraint.</p>
-<h2 id="why-it-matters-5">WHY IT MATTERS:</h2>
-<p>Every close-up of the boy&#x27;s face rewrites what cinema is for.</p>
+<ol><li>Amores Perros</li></ol>
+<p>Alejandro González Iñárritu · Mexico · Mexico City · 2000 Three interconnected stories — a young man escaping poverty through dogfighting, a supermodel disfigured in a crash, and a</p>
+<p>hitman — collide in Mexico City&#x27;s brutal social mosaic. WHY IT MATTERS: Raw, labyrinthine, and impossibly alive — the city itself bleeds. —B— 100 Films That Demand to Be Seen · Page 3</p></section>
+<section class="page" id="page-4"><div class="page-label">SOURCE PAGE 4</div><h2 id="social-realism-drama">SOCIAL REALISM / DRAMA</h2>
+<ol><li>Bicycle Thieves</li></ol>
+<p>Vittorio De Sica · Italy · Rome · 1948 A desperate father and his young son spend a day scouring post-war Rome for the stolen bicycle without which he cannot</p>
+<p>work. A masterpiece of neo-realist restraint. WHY IT MATTERS: Every close-up of the boy&#x27;s face rewrites what cinema is for.</p>
 <h2 id="mystery-philosophical">MYSTERY / PHILOSOPHICAL</h2>
-<h2 id="06-blow-up">06. Blow-Up</h2>
-<p>Michelangelo Antonioni · Italy / UK · London · 1966 A fashion photographer in swinging London discovers he may have inadvertently photographed a murder — or perhaps nothing at all. Antonioni turns the act of seeing into pure epistemological vertigo.</p>
-<h2 id="why-it-matters-6">WHY IT MATTERS:</h2>
-<p>A film about the impossibility of knowing anything — including what you&#x27;ve just watched.</p>
+<ol><li>Blow-Up</li></ol>
+<p>Michelangelo Antonioni · Italy / UK · London · 1966 A fashion photographer in swinging London discovers he may have inadvertently photographed a murder — or perhaps</p>
+<p>nothing at all. Antonioni turns the act of seeing into pure epistemological vertigo. WHY IT MATTERS: A film about the impossibility of knowing anything — including what you&#x27;ve just watched.</p>
 <h2 id="lgbtq-adult-erotic">LGBTQ+ / ADULT / EROTIC</h2>
-<p>07. Blue Is the Warmest Colour Abdellatif Kechiche · France · Lille / Paris · 2013 A teenage girl&#x27;s awakening into selfhood, desire, and heartbreak through her consuming love affair with an older art student. Winner of the Palme d&#x27;Or at Cannes.</p>
-<h2 id="why-it-matters-7">WHY IT MATTERS:</h2>
-<p>Three hours of unsimulated emotional and physical intimacy — a portrait of love as a complete education.</p>
+<ol><li>Blue Is the Warmest Colour</li></ol>
+<p>Abdellatif Kechiche · France · Lille / Paris · 2013 A teenage girl&#x27;s awakening into selfhood, desire, and heartbreak through her consuming love affair with an older art student.</p>
+<p>Winner of the Palme d&#x27;Or at Cannes. WHY IT MATTERS: Three hours of unsimulated emotional and physical intimacy — a portrait of love as a complete education.</p>
 <h2 id="romance-lgbtq">ROMANCE / LGBTQ+</h2>
-<h2 id="08-brokeback-mountain">08. Brokeback Mountain</h2>
-<p>Ang Lee · USA · Wyoming / Texas · 2005 Two ranch hands begin a decades-long secret love affair in the Wyoming mountains, unable to reconcile their love with the world they inhabit.</p>
-<h2 id="why-it-matters-8">WHY IT MATTERS:</h2>
-<p>Ang Lee makes landscape into longing — the mountains stand for every emotion these men cannot speak. —C— 100 Films That Demand to Be Seen · Page 4</p></section>
-<section class="page" id="page-5"><div class="page-label">PAGE 5</div><h2 id="drama-film-noir">DRAMA / FILM NOIR</h2>
-<h2 id="09-citizen-kane">09. Citizen Kane</h2>
-<p>Orson Welles · USA · New York / Xanadu · 1941 A reporter investigates the life of a dead media titan through the recollections of those who knew him, finding a portrait of ambition, loneliness, and the illusion of power.</p>
-<h2 id="why-it-matters-9">WHY IT MATTERS:</h2>
-<p>Still the most technically audacious debut in film history — and the saddest story about success ever told.</p>
+<ol><li>Brokeback Mountain</li></ol>
+<p>Ang Lee · USA · Wyoming / Texas · 2005 Two ranch hands begin a decades-long secret love affair in the Wyoming mountains, unable to reconcile their love with the</p>
+<p>world they inhabit. WHY IT MATTERS: Ang Lee makes landscape into longing — the mountains stand for every emotion these men cannot speak.</p>
+<p>—C— 100 Films That Demand to Be Seen · Page 4</p></section>
+<section class="page" id="page-5"><div class="page-label">SOURCE PAGE 5</div><h2 id="drama-film-noir">DRAMA / FILM NOIR</h2>
+<ol><li>Citizen Kane</li></ol>
+<p>Orson Welles · USA · New York / Xanadu · 1941 A reporter investigates the life of a dead media titan through the recollections of those who knew him, finding a portrait of</p>
+<p>ambition, loneliness, and the illusion of power. WHY IT MATTERS: Still the most technically audacious debut in film history — and the saddest story about success ever told.</p>
 <h2 id="thriller-psychological">THRILLER / PSYCHOLOGICAL</h2>
-<h2 id="10-cache-hidden">10. Cache (Hidden)</h2>
-<p>Michael Haneke · France / Austria · Paris · 2005 A prosperous Parisian TV intellectual receives surveillance tapes of his own home, forcing a reckoning with a childhood act of colonial cruelty he has spent decades suppressing.</p>
-<h2 id="why-it-matters-10">WHY IT MATTERS:</h2>
-<p>Haneke weaponises the frame — the screen becomes complicit in the guilt it depicts.</p>
+<ol><li>Cache (Hidden)</li></ol>
+<p>Michael Haneke · France / Austria · Paris · 2005 A prosperous Parisian TV intellectual receives surveillance tapes of his own home, forcing a reckoning with a childhood act of</p>
+<p>colonial cruelty he has spent decades suppressing. WHY IT MATTERS: Haneke weaponises the frame — the screen becomes complicit in the guilt it depicts.</p>
 <h2 id="war-horror">WAR / HORROR</h2>
-<p>11. Come and See Elem Klimov · USSR · Belarus · 1985 A Belarusian boy joins the partisans and witnesses the systematic Nazi extermination of his village — a film so harrowing it seems to physically age the viewer.</p>
-<h2 id="why-it-matters-11">WHY IT MATTERS:</h2>
-<p>The anti-war film that makes all others look soft. Watching it changes your face. —D—</p>
+<ol><li>Come and See</li></ol>
+<p>Elem Klimov · USSR · Belarus · 1985 A Belarusian boy joins the partisans and witnesses the systematic Nazi extermination of his village — a film so harrowing it</p>
+<p>seems to physically age the viewer. WHY IT MATTERS: The anti-war film that makes all others look soft. Watching it changes your face. —D—</p>
 <h2 id="drama-political">DRAMA / POLITICAL</h2>
-<h2 id="12-dogville">12. Dogville</h2>
-<p>Lars von Trier · Denmark · Rocky Mountains (stage) · 2003 A fugitive woman seeks refuge in a bare-stage Colorado town. The townspeople exact an escalating price for their hospitality — a parable of exploitation, charity, and power stripped to its skeleton.</p>
-<h2 id="why-it-matters-12">WHY IT MATTERS:</h2>
-<p>Von Trier removes every visual comfort so the moral horror is inescapable. 100 Films That Demand to Be Seen · Page 5</p></section>
-<section class="page" id="page-6"><div class="page-label">PAGE 6</div><h2 id="musical-tragedy">MUSICAL / TRAGEDY</h2>
-<p>13. Dancer in the Dark Lars von Trier · Denmark · Small-town USA · 2000 A Czech immigrant in 1960s America, going blind, escapes into movie musicals in her mind while reality closes in with terrible finality.</p>
-<h2 id="why-it-matters-13">WHY IT MATTERS:</h2>
-<p>Björk&#x27;s performance and von Trier&#x27;s Dogme aesthetic collide to create a grief machine.</p>
+<ol><li>Dogville</li></ol>
+<p>Lars von Trier · Denmark · Rocky Mountains (stage) · 2003 A fugitive woman seeks refuge in a bare-stage Colorado town. The townspeople exact an escalating price for their hospitality</p>
+<p>— a parable of exploitation, charity, and power stripped to its skeleton. WHY IT MATTERS: Von Trier removes every visual comfort so the moral horror is inescapable. 100 Films That Demand to Be Seen · Page 5</p></section>
+<section class="page" id="page-6"><div class="page-label">SOURCE PAGE 6</div><h2 id="musical-tragedy">MUSICAL / TRAGEDY</h2>
+<ol><li>Dancer in the Dark</li></ol>
+<p>Lars von Trier · Denmark · Small-town USA · 2000 A Czech immigrant in 1960s America, going blind, escapes into movie musicals in her mind while reality closes in with</p>
+<p>terrible finality. WHY IT MATTERS: Björk&#x27;s performance and von Trier&#x27;s Dogme aesthetic collide to create a grief machine.</p>
 <h2 id="psychological-surrealist">PSYCHOLOGICAL / SURREALIST</h2>
-<h2 id="14-dogtooth-kynodontas">14. Dogtooth (Kynodontas)</h2>
-<p>Yorgos Lanthimos · Greece · Athens (suburban compound) · 2009 Three adult children raised in total isolation by their parents, taught a distorted language and fictional rules of the world — until one fissure cracks everything.</p>
-<h2 id="why-it-matters-14">WHY IT MATTERS:</h2>
-<p>A diagram of how ideology is installed in a person — family as totalitarian state. —E—</p>
+<ol><li>Dogtooth (Kynodontas)</li></ol>
+<p>Yorgos Lanthimos · Greece · Athens (suburban compound) · 2009 Three adult children raised in total isolation by their parents, taught a distorted language and fictional rules of the world —</p>
+<p>until one fissure cracks everything. WHY IT MATTERS: A diagram of how ideology is installed in a person — family as totalitarian state. —E—</p>
 <h2 id="adult-erotic-mystery">ADULT / EROTIC / MYSTERY</h2>
-<h2 id="15-eyes-wide-shut">15. Eyes Wide Shut</h2>
+<ol><li>Eyes Wide Shut</li></ol>
 <p>Stanley Kubrick · USA / UK · New York · 1999 A Manhattan doctor&#x27;s one night of sexual wandering — triggered by his wife&#x27;s erotic confession — leads him into a secret society ritual. Kubrick&#x27;s final film is about the erotic life hidden beneath bourgeois respectability.</p>
-<h2 id="why-it-matters-15">WHY IT MATTERS:</h2>
-<p>Kubrick uses sex as a mirror of class and power — the orgy scenes are simultaneously opulent and terrifying.</p>
+<p>WHY IT MATTERS: Kubrick uses sex as a mirror of class and power — the orgy scenes are simultaneously opulent and terrifying.</p>
 <h2 id="sci-fi-romance">SCI-FI / ROMANCE</h2>
-<p>16. Eternal Sunshine of the Spotless Mind Michel Gondry · USA · New York / Montauk · 2004 A man undergoes a procedure to erase his ex-girlfriend from his memory — only to fall in love with her again inside the deletion. Kaufman&#x27;s script is a map of what we can&#x27;t help remembering.</p>
-<h2 id="why-it-matters-16">WHY IT MATTERS:</h2>
-<p>Love reimagined as architecture of the mind — melancholy and exhilarating in equal measure. —F— 100 Films That Demand to Be Seen · Page 6</p></section>
-<section class="page" id="page-7"><div class="page-label">PAGE 7</div><h2 id="drama-fantasy">DRAMA / FANTASY</h2>
-<p>17. Fanny and Alexander</p>
+<ol><li>Eternal Sunshine of the Spotless Mind</li></ol>
+<p>Michel Gondry · USA · New York / Montauk · 2004 A man undergoes a procedure to erase his ex-girlfriend from his memory — only to fall in love with her again inside the</p>
+<p>deletion. Kaufman&#x27;s script is a map of what we can&#x27;t help remembering. WHY IT MATTERS: Love reimagined as architecture of the mind — melancholy and exhilarating in equal measure.</p>
+<p>—F— 100 Films That Demand to Be Seen · Page 6</p></section>
+<section class="page" id="page-7"><div class="page-label">SOURCE PAGE 7</div><h2 id="drama-fantasy">DRAMA / FANTASY</h2>
+<ol><li>Fanny and Alexander</li></ol>
 <h2 id="ingmar-bergman-sweden-uppsala-1982">Ingmar Bergman · Sweden · Uppsala · 1982</h2>
-<p>Bergman&#x27;s farewell epic — a bourgeois family in early 20th-century Sweden seen through a child&#x27;s eyes in which theatre, magic, death, and tyranny are equally real.</p>
-<h2 id="why-it-matters-17">WHY IT MATTERS:</h2>
-<p>The warmest film by cinema&#x27;s great cold master — a summation of a life&#x27;s work in light.</p>
+<p>Bergman&#x27;s farewell epic — a bourgeois family in early 20th-century Sweden seen through a child&#x27;s eyes in which theatre,</p>
+<p>magic, death, and tyranny are equally real. WHY IT MATTERS: The warmest film by cinema&#x27;s great cold master — a summation of a life&#x27;s work in light.</p>
 <h2 id="psychological-black-comedy">PSYCHOLOGICAL / BLACK COMEDY</h2>
-<h2 id="18-fight-club">18. Fight Club</h2>
-<p>David Fincher · USA · Unnamed American city · 1999 An insomniac office worker and a soap salesman build an underground fight network that metastasises into anarchist terror. A diagnosis of late-capitalist masculine rage.</p>
-<h2 id="why-it-matters-18">WHY IT MATTERS:</h2>
-<p>The film seduces you into the ideology it critiques — that is its genius.</p>
+<ol><li>Fight Club</li></ol>
+<p>David Fincher · USA · Unnamed American city · 1999 An insomniac office worker and a soap salesman build an underground fight network that metastasises into anarchist terror. A</p>
+<p>diagnosis of late-capitalist masculine rage. WHY IT MATTERS: The film seduces you into the ideology it critiques — that is its genius.</p>
 <h2 id="thriller-horror">THRILLER / HORROR</h2>
-<h2 id="19-funny-games">19. Funny Games</h2>
-<p>Michael Haneke · Austria · Austrian lake district · 1997 Two polite young men hold a bourgeois family hostage and systematically torture them — periodically breaking the fourth wall to implicate the audience in their own desire for screen violence.</p>
-<h2 id="why-it-matters-19">WHY IT MATTERS:</h2>
-<p>A film that hates you for watching it, and is right. —G—</p>
+<ol><li>Funny Games</li></ol>
+<p>Michael Haneke · Austria · Austrian lake district · 1997 Two polite young men hold a bourgeois family hostage and systematically torture them — periodically breaking the fourth</p>
+<p>wall to implicate the audience in their own desire for screen violence. WHY IT MATTERS: A film that hates you for watching it, and is right. —G—</p>
 <h2 id="animation-war">ANIMATION / WAR</h2>
-<p>20. Grave of the Fireflies Isao Takahata · Japan · Kobe / Osaka · 1988 Two orphaned siblings struggle to survive in Japan during the final months of WWII — an animated film of such emotional honesty it dismantles the very idea of animation as child-friendly.</p>
-<h2 id="why-it-matters-20">WHY IT MATTERS:</h2>
-<p>Roger Ebert called it one of the greatest war films ever made. He was correct. 100 Films That Demand to Be Seen · Page 7</p></section>
-<section class="page" id="page-8"><div class="page-label">PAGE 8</div><h2 id="drama-existential">DRAMA / EXISTENTIAL</h2>
-<h2 id="21-goodbye-dragon-inn">21. Goodbye Dragon Inn</h2>
-<p>Tsai Ming-liang · Taiwan · Taipei · 2003 The last night of a crumbling Taipei cinema, nearly empty, screening King Hu&#x27;s 1966 epic. Tsai makes the ghosts of film history sit in the audience with us.</p>
-<h2 id="why-it-matters-21">WHY IT MATTERS:</h2>
-<p>The most beautiful elegy to cinema ever made — almost entirely silent. —T—</p>
+<ol><li>Grave of the Fireflies</li></ol>
+<p>Isao Takahata · Japan · Kobe / Osaka · 1988 Two orphaned siblings struggle to survive in Japan during the final months of WWII — an animated film of such emotional</p>
+<p>honesty it dismantles the very idea of animation as child-friendly. WHY IT MATTERS: Roger Ebert called it one of the greatest war films ever made. He was correct. 100 Films That Demand to Be Seen · Page 7</p></section>
+<section class="page" id="page-8"><div class="page-label">SOURCE PAGE 8</div><h2 id="drama-existential">DRAMA / EXISTENTIAL</h2>
+<ol><li>Goodbye Dragon Inn</li></ol>
+<p>Tsai Ming-liang · Taiwan · Taipei · 2003 The last night of a crumbling Taipei cinema, nearly empty, screening King Hu&#x27;s 1966 epic. Tsai makes the ghosts of film</p>
+<p>history sit in the audience with us. WHY IT MATTERS: The most beautiful elegy to cinema ever made — almost entirely silent. —T—</p>
 <h2 id="war-drama">WAR / DRAMA</h2>
-<p>22. The Human Condition (trilogy)</p>
+<ol><li>The Human Condition (trilogy)</li></ol>
 <h2 id="masaki-kobayashi-japan-manchuria-1959-61">Masaki Kobayashi · Japan · Manchuria · 1959–61</h2>
-<p>Nearly ten hours following a Japanese pacifist through the horrors of WWII-era Manchuria — forced labour, front-line combat, and Soviet captivity. The definitive humanist anti-war statement.</p>
-<h2 id="why-it-matters-22">WHY IT MATTERS:</h2>
-<p>A monument of moral seriousness — cinema at the scale of the novel. —H—</p>
+<p>Nearly ten hours following a Japanese pacifist through the horrors of WWII-era Manchuria — forced labour, front-line</p>
+<p>combat, and Soviet captivity. The definitive humanist anti-war statement. WHY IT MATTERS: A monument of moral seriousness — cinema at the scale of the novel. —H—</p>
 <h2 id="new-wave-romance">NEW WAVE / ROMANCE</h2>
-<h2 id="23-hiroshima-mon-amour">23. Hiroshima Mon Amour</h2>
-<p>Alain Resnais · France / Japan · Hiroshima · 1959 A French actress and a Japanese architect conduct a 24-hour love affair in post-atomic Hiroshima, their bodies carrying the trauma of the war. Marguerite Duras wrote the script.</p>
-<h2 id="why-it-matters-23">WHY IT MATTERS:</h2>
-<p>Memory and forgetting as political and erotic acts — the founding text of the French New Wave. —I— 100 Films That Demand to Be Seen · Page 8</p></section>
-<section class="page" id="page-9"><div class="page-label">PAGE 9</div><h2 id="drama-philosophical">DRAMA / PHILOSOPHICAL</h2>
-<h2 id="24-ikiru-to-live">24. Ikiru (To Live)</h2>
+<ol><li>Hiroshima Mon Amour</li></ol>
+<p>Alain Resnais · France / Japan · Hiroshima · 1959 A French actress and a Japanese architect conduct a 24-hour love affair in post-atomic Hiroshima, their bodies carrying the</p>
+<p>trauma of the war. Marguerite Duras wrote the script. WHY IT MATTERS: Memory and forgetting as political and erotic acts — the founding text of the French New Wave.</p>
+<p>—I— 100 Films That Demand to Be Seen · Page 8</p></section>
+<section class="page" id="page-9"><div class="page-label">SOURCE PAGE 9</div><h2 id="drama-philosophical">DRAMA / PHILOSOPHICAL</h2>
+<ol><li>Ikiru (To Live)</li></ol>
 <h2 id="akira-kurosawa-japan-tokyo-1952">Akira Kurosawa · Japan · Tokyo · 1952</h2>
-<p>A Tokyo bureaucrat, diagnosed with terminal cancer, attempts to find meaning in the last months of his life. Kurosawa&#x27;s most intimate and devastating film.</p>
-<h2 id="why-it-matters-24">WHY IT MATTERS:</h2>
-<p>The question &#x27;what does it mean to live?&#x27; has never been asked more gently or more urgently.</p>
+<p>A Tokyo bureaucrat, diagnosed with terminal cancer, attempts to find meaning in the last months of his life. Kurosawa&#x27;s most</p>
+<p>intimate and devastating film. WHY IT MATTERS: The question &#x27;what does it mean to live?&#x27; has never been asked more gently or more urgently.</p>
 <h2 id="romance-drama">ROMANCE / DRAMA</h2>
-<p>25. In the Mood for Love Wong Kar-wai · Hong Kong · Hong Kong (1962) · 2000 Two neighbours in 1960s Hong Kong discover their spouses are having an affair and fall into a yearning that they are too honourable to act upon. The entire film is the space between them.</p>
-<h2 id="why-it-matters-25">WHY IT MATTERS:</h2>
-<p>Desire as pure cinema — every slow-motion staircase a universe. —J—</p>
+<ol><li>In the Mood for Love</li></ol>
+<p>Wong Kar-wai · Hong Kong · Hong Kong (1962) · 2000 Two neighbours in 1960s Hong Kong discover their spouses are having an affair and fall into a yearning that they are too</p>
+<p>honourable to act upon. The entire film is the space between them. WHY IT MATTERS: Desire as pure cinema — every slow-motion staircase a universe. —J—</p>
 <h2 id="new-wave-romance-2">NEW WAVE / ROMANCE</h2>
-<p>26. Jules and Jim François Truffaut · France · Paris / Germany · 1962 Two friends — French and Austrian — share a mercurial, free-spirited woman across decades and two world wars. The joy and the tragedy are inseparable.</p>
-<h2 id="why-it-matters-26">WHY IT MATTERS:</h2>
-<p>Truffaut makes freedom look both glorious and fatal at the same time.</p>
+<ol><li>Jules and Jim</li></ol>
+<p>François Truffaut · France · Paris / Germany · 1962 Two friends — French and Austrian — share a mercurial, free-spirited woman across decades and two world wars. The joy</p>
+<p>and the tragedy are inseparable. WHY IT MATTERS: Truffaut makes freedom look both glorious and fatal at the same time.</p>
 <h2 id="drama-feminist">DRAMA / FEMINIST</h2>
-<p>27. Jeanne Dielman, 23 Quai du Commerce, 1080 Bruxelles</p>
+<ol><li>Jeanne Dielman, 23 Quai du Commerce, 1080 Bruxelles</li></ol>
 <h2 id="chantal-akerman-belgium-brussels-1975">Chantal Akerman · Belgium · Brussels · 1975</h2>
-<p>Over three and a half hours we watch a widowed mother perform domestic tasks with clockwork precision — until the routine cracks. The film uses boredom as a political weapon.</p>
-<h2 id="why-it-matters-27">WHY IT MATTERS:</h2>
-<p>Named the greatest film of all time by Sight &amp; Sound 2022 — it earns that with complete deliberateness. —K— 100 Films That Demand to Be Seen · Page 9</p></section>
-<section class="page" id="page-10"><div class="page-label">PAGE 10</div><h2 id="social-realism-drama-2">SOCIAL REALISM / DRAMA</h2>
-<h2 id="28-kes">28. Kes</h2>
-<p>Ken Loach · UK · Barnsley, Yorkshire · 1969 A neglected mining-town boy trains a kestrel — the one sovereign thing in his life — while the world systematically denies him any future. Devastating working-class poetry.</p>
-<h2 id="why-it-matters-28">WHY IT MATTERS:</h2>
-<p>A film that genuinely loves its subject — which makes what happens unbearable.</p>
+<p>Over three and a half hours we watch a widowed mother perform domestic tasks with clockwork precision — until the routine</p>
+<p>cracks. The film uses boredom as a political weapon. WHY IT MATTERS: Named the greatest film of all time by Sight &amp; Sound 2022 — it earns that with complete deliberateness.</p>
+<p>—K— 100 Films That Demand to Be Seen · Page 9</p></section>
+<section class="page" id="page-10"><div class="page-label">SOURCE PAGE 10</div><h2 id="social-realism-drama-2">SOCIAL REALISM / DRAMA</h2>
+<ol><li>Kes</li></ol>
+<p>Ken Loach · UK · Barnsley, Yorkshire · 1969 A neglected mining-town boy trains a kestrel — the one sovereign thing in his life — while the world systematically denies</p>
+<p>him any future. Devastating working-class poetry. WHY IT MATTERS: A film that genuinely loves its subject — which makes what happens unbearable.</p>
 <h2 id="psychological-horror">PSYCHOLOGICAL / HORROR</h2>
-<p>29. Killing of a Sacred Deer Yorgos Lanthimos · Greece / UK · Cincinnati · 2017 A cardiac surgeon&#x27;s family begins to inexplicably deteriorate after he befriends a teenage boy connected to a past medical failure. Greek tragedy reborn in American suburbia.</p>
-<h2 id="why-it-matters-29">WHY IT MATTERS:</h2>
-<p>Lanthimos uses flat affect and Euripidean logic to make dread entirely formal. —L—</p>
+<ol><li>Killing of a Sacred Deer</li></ol>
+<p>Yorgos Lanthimos · Greece / UK · Cincinnati · 2017 A cardiac surgeon&#x27;s family begins to inexplicably deteriorate after he befriends a teenage boy connected to a past medical</p>
+<p>failure. Greek tragedy reborn in American suburbia. WHY IT MATTERS: Lanthimos uses flat affect and Euripidean logic to make dread entirely formal. —L—</p>
 <h2 id="adult-erotic-drama">ADULT / EROTIC / DRAMA</h2>
-<p>30. Last Tango in Paris Bernardo Bertolucci · France / Italy · Paris · 1972 A grieving American and a young Parisian woman conduct an anonymous, rule-bound erotic relationship in an empty apartment — no names, no past, only the body as negotiation of grief.</p>
-<h2 id="why-it-matters-30">WHY IT MATTERS:</h2>
-<p>Brando&#x27;s improvised monologues on loss remain some of the most courageous acting ever filmed.</p>
+<ol><li>Last Tango in Paris</li></ol>
+<p>Bernardo Bertolucci · France / Italy · Paris · 1972 A grieving American and a young Parisian woman conduct an anonymous, rule-bound erotic relationship in an empty</p>
+<p>apartment — no names, no past, only the body as negotiation of grief. WHY IT MATTERS: Brando&#x27;s improvised monologues on loss remain some of the most courageous acting ever filmed.</p>
 <h2 id="social-realism-surrealist">SOCIAL REALISM / SURREALIST</h2>
-<h2 id="31-los-olvidados">31. Los Olvidados</h2>
-<h2 id="luis-bu-uel-mexico-mexico-city-1950">Luis Buñuel · Mexico · Mexico City · 1950</h2>
-<p>Street children in Mexico City&#x27;s slums destroy each other through cycles of poverty, violence, and institutional abandonment. Buñuel shoots documentary realism and nightmare in the same frame.</p>
-<h2 id="why-it-matters-31">WHY IT MATTERS:</h2>
-<p>The original film about systemic child poverty — still unsurpassed in its angry clarity. 100 Films That Demand to Be Seen · Page 10</p></section>
-<section class="page" id="page-11"><div class="page-label">PAGE 11</div><h2 id="mystery-drama">MYSTERY / DRAMA</h2>
-<h2 id="32-l-avventura">32. L&#x27;Avventura</h2>
-<p>Michelangelo Antonioni · Italy · Sicily / Rome · 1960 A woman disappears during a cruise among islands and is simply never found. Her lover and best friend drift into each other&#x27;s arms. Antonioni makes absence the protagonist.</p>
-<h2 id="why-it-matters-32">WHY IT MATTERS:</h2>
-<p>The mystery is never solved because the point is that we move on — the most honest film about grief and infidelity. —M—</p>
+<ol><li>Los Olvidados</li></ol>
+<p>Luis Buñuel · Mexico · Mexico City · 1950 Street children in Mexico City&#x27;s slums destroy each other through cycles of poverty, violence, and institutional abandonment.</p>
+<p>Buñuel shoots documentary realism and nightmare in the same frame. WHY IT MATTERS: The original film about systemic child poverty — still unsurpassed in its angry clarity. 100 Films That Demand to Be Seen · Page 10</p></section>
+<section class="page" id="page-11"><div class="page-label">SOURCE PAGE 11</div><h2 id="mystery-drama">MYSTERY / DRAMA</h2>
+<ol><li>L&#x27;Avventura</li></ol>
+<p>Michelangelo Antonioni · Italy · Sicily / Rome · 1960 A woman disappears during a cruise among islands and is simply never found. Her lover and best friend drift into each other&#x27;s</p>
+<p>arms. Antonioni makes absence the protagonist. WHY IT MATTERS: The mystery is never solved because the point is that we move on — the most honest film about grief and infidelity.</p>
+<p>—M—</p>
 <h2 id="crime-thriller">CRIME / THRILLER</h2>
-<h2 id="33-m">33. M</h2>
+<ol><li>M</li></ol>
 <h2 id="fritz-lang-germany-berlin-1931">Fritz Lang · Germany · Berlin · 1931</h2>
-<p>A child murderer terrorising Berlin is hunted simultaneously by police and the criminal underworld. Lang invents the serial-killer procedural and asks who has the right to judge.</p>
-<h2 id="why-it-matters-33">WHY IT MATTERS:</h2>
-<p>Peter Lorre&#x27;s performance in the kangaroo-court finale is the most disturbing thing in pre-war cinema.</p>
+<p>A child murderer terrorising Berlin is hunted simultaneously by police and the criminal underworld. Lang invents the</p>
+<p>serial-killer procedural and asks who has the right to judge. WHY IT MATTERS: Peter Lorre&#x27;s performance in the kangaroo-court finale is the most disturbing thing in pre-war cinema.</p>
 <h2 id="surrealist-mystery">SURREALIST / MYSTERY</h2>
-<h2 id="34-mulholland-drive">34. Mulholland Drive</h2>
-<p>David Lynch · USA · Los Angeles · 2001 An amnesiac woman and a naïve actress spiral through dreamlike Los Angeles in a film that devours itself at the two-hour mark and reveals the dream to be a dying woman&#x27;s wish-fulfillment.</p>
-<h2 id="why-it-matters-34">WHY IT MATTERS:</h2>
-<p>The definitive film about Hollywood — and the definitive film about how the mind lies to itself.</p>
+<ol><li>Mulholland Drive</li></ol>
+<p>David Lynch · USA · Los Angeles · 2001 An amnesiac woman and a naïve actress spiral through dreamlike Los Angeles in a film that devours itself at the two-hour</p>
+<p>mark and reveals the dream to be a dying woman&#x27;s wish-fulfillment. WHY IT MATTERS: The definitive film about Hollywood — and the definitive film about how the mind lies to itself.</p>
 <h2 id="drama-lgbtq">DRAMA / LGBTQ+</h2>
-<h2 id="35-moonlight">35. Moonlight</h2>
-<p>Barry Jenkins · USA · Miami (Liberty City) · 2016 A young Black man&#x27;s life in three chapters — boyhood, adolescence, adulthood — shaped by poverty, a crack-addicted mother, and a buried love. Jenkins films tenderness as if it were endangered.</p>
-<h2 id="why-it-matters-35">WHY IT MATTERS:</h2>
-<p>The most lyrical depiction of Black queer interiority in American cinema. —N— 100 Films That Demand to Be Seen · Page 11</p></section>
-<section class="page" id="page-12"><div class="page-label">PAGE 12</div><h2 id="adult-erotic-drama-2">ADULT / EROTIC / DRAMA</h2>
-<p>36. Nymphomaniac (Vol. I &amp; II) Lars von Trier · Denmark · Copenhagen / various · 2013 A self-declared nymphomaniac recounts her erotic life to the man who found her beaten in an alley — a four-hour Dickensian confession that treats sexuality with the same moral weight as religion.</p>
-<h2 id="why-it-matters-36">WHY IT MATTERS:</h2>
-<p>Von Trier&#x27;s most ambitious film — a philosophical novel in which sex is the language of self-knowledge.</p>
+<ol><li>Moonlight</li></ol>
+<p>Barry Jenkins · USA · Miami (Liberty City) · 2016 A young Black man&#x27;s life in three chapters — boyhood, adolescence, adulthood — shaped by poverty, a crack-addicted</p>
+<p>mother, and a buried love. Jenkins films tenderness as if it were endangered. WHY IT MATTERS: The most lyrical depiction of Black queer interiority in American cinema. —N— 100 Films That Demand to Be Seen · Page 11</p></section>
+<section class="page" id="page-12"><div class="page-label">SOURCE PAGE 12</div><h2 id="adult-erotic-drama-2">ADULT / EROTIC / DRAMA</h2>
+<ol><li>Nymphomaniac (Vol. I &amp; II)</li></ol>
+<p>Lars von Trier · Denmark · Copenhagen / various · 2013 A self-declared nymphomaniac recounts her erotic life to the man who found her beaten in an alley — a four-hour Dickensian</p>
+<p>confession that treats sexuality with the same moral weight as religion. WHY IT MATTERS: Von Trier&#x27;s most ambitious film — a philosophical novel in which sex is the language of self-knowledge.</p>
 <h2 id="musical-political">MUSICAL / POLITICAL</h2>
-<h2 id="37-nashville">37. Nashville</h2>
-<p>Robert Altman · USA · Nashville, Tennessee · 1975 Twenty-four characters orbit a political rally and a country-music festival in America&#x27;s bicentennial year. Altman creates a portrait of a nation in which celebrity and democracy have fused.</p>
-<h2 id="why-it-matters-37">WHY IT MATTERS:</h2>
-<p>The great American film — vast, funny, sad, and prophetic. —O—</p>
+<ol><li>Nashville</li></ol>
+<p>Robert Altman · USA · Nashville, Tennessee · 1975 Twenty-four characters orbit a political rally and a country-music festival in America&#x27;s bicentennial year. Altman creates a</p>
+<p>portrait of a nation in which celebrity and democracy have fused. WHY IT MATTERS: The great American film — vast, funny, sad, and prophetic. —O—</p>
 <h2 id="thriller-mystery">THRILLER / MYSTERY</h2>
-<h2 id="38-oldboy">38. Oldboy</h2>
-<p>Park Chan-wook · South Korea · Seoul · 2003 A man imprisoned for fifteen years without explanation is released and given five days to discover why. The answer destroys every assumption the film has built — Sophocles in a Seoul alleyway.</p>
-<h2 id="why-it-matters-38">WHY IT MATTERS:</h2>
-<p>The twist doesn&#x27;t just shock — it retroactively poisons every frame that precedes it.</p>
+<ol><li>Oldboy</li></ol>
+<p>Park Chan-wook · South Korea · Seoul · 2003 A man imprisoned for fifteen years without explanation is released and given five days to discover why. The answer destroys</p>
+<p>every assumption the film has built — Sophocles in a Seoul alleyway. WHY IT MATTERS: The twist doesn&#x27;t just shock — it retroactively poisons every frame that precedes it.</p>
 <h2 id="drama-philosophical-2">DRAMA / PHILOSOPHICAL</h2>
-<h2 id="39-ordet-the-word">39. Ordet (The Word)</h2>
-<h2 id="carl-theodor-dreyer-denmark-jutland-1955">Carl Theodor Dreyer · Denmark · Jutland · 1955</h2>
-<p>On a Jutland farm, religious faith manifests as literal resurrection. Dreyer films a miracle with the same camera distance and patience he gives to daily chores.</p>
-<h2 id="why-it-matters-39">WHY IT MATTERS:</h2>
-<p>The final scene is the most quietly radical act in the history of cinema. —P— 100 Films That Demand to Be Seen · Page 12</p></section>
-<section class="page" id="page-13"><div class="page-label">PAGE 13</div><h2 id="black-comedy-thriller">BLACK COMEDY / THRILLER</h2>
-<h2 id="40-parasite">40. Parasite</h2>
-<p>Bong Joon-ho · South Korea · Seoul · 2019 A poor family insinuate themselves into a wealthy household as tutors and drivers — until the basement reveals what the class war actually looks like underground.</p>
-<h2 id="why-it-matters-40">WHY IT MATTERS:</h2>
-<p>Bong Joon-ho makes a genre film that is also a Marxist diagram — and you can&#x27;t see the join.</p>
+<ol><li>Ordet (The Word)</li></ol>
+<p>Carl Theodor Dreyer · Denmark · Jutland · 1955 On a Jutland farm, religious faith manifests as literal resurrection. Dreyer films a miracle with the same camera distance and</p>
+<p>patience he gives to daily chores. WHY IT MATTERS: The final scene is the most quietly radical act in the history of cinema. —P— 100 Films That Demand to Be Seen · Page 12</p></section>
+<section class="page" id="page-13"><div class="page-label">SOURCE PAGE 13</div><h2 id="black-comedy-thriller">BLACK COMEDY / THRILLER</h2>
+<ol><li>Parasite</li></ol>
+<p>Bong Joon-ho · South Korea · Seoul · 2019 A poor family insinuate themselves into a wealthy household as tutors and drivers — until the basement reveals what the class</p>
+<p>war actually looks like underground. WHY IT MATTERS: Bong Joon-ho makes a genre film that is also a Marxist diagram — and you can&#x27;t see the join.</p>
 <h2 id="psychological-avant-garde">PSYCHOLOGICAL / AVANT-GARDE</h2>
-<h2 id="41-persona">41. Persona</h2>
-<p>Ingmar Bergman · Sweden · Remote island · 1966 A famous actress suddenly stops speaking. Her nurse accompanies her to a seaside cottage. Their identities begin to dissolve into each other. Bergman makes cinema interrogate itself.</p>
-<h2 id="why-it-matters-41">WHY IT MATTERS:</h2>
-<p>The film asks what it means to be a self — and doesn&#x27;t care if that question destroys the film to answer it.</p>
+<ol><li>Persona</li></ol>
+<p>Ingmar Bergman · Sweden · Remote island · 1966 A famous actress suddenly stops speaking. Her nurse accompanies her to a seaside cottage. Their identities begin to dissolve</p>
+<p>into each other. Bergman makes cinema interrogate itself. WHY IT MATTERS: The film asks what it means to be a self — and doesn&#x27;t care if that question destroys the film to answer it.</p>
 <h2 id="horror-thriller">HORROR / THRILLER</h2>
-<h2 id="42-psycho">42. Psycho</h2>
-<p>Alfred Hitchcock · USA · Phoenix / Fairvale, California · 1960 A secretary on the run with stolen money stops at a roadside motel run by a nervous young man and his domineering mother. Hitchcock kills his star in reel one and rebuilds cinema&#x27;s contract with the audience.</p>
-<h2 id="why-it-matters-42">WHY IT MATTERS:</h2>
-<p>Still the most formally aggressive film ever made by a major Hollywood studio. —R—</p>
+<ol><li>Psycho</li></ol>
+<p>Alfred Hitchcock · USA · Phoenix / Fairvale, California · 1960 A secretary on the run with stolen money stops at a roadside motel run by a nervous young man and his domineering mother.</p>
+<p>Hitchcock kills his star in reel one and rebuilds cinema&#x27;s contract with the audience. WHY IT MATTERS: Still the most formally aggressive film ever made by a major Hollywood studio. —R—</p>
 <h2 id="mystery-drama-2">MYSTERY / DRAMA</h2>
-<h2 id="43-rashomon">43. Rashomon</h2>
-<h2 id="akira-kurosawa-japan-feudal-kyoto-1950">Akira Kurosawa · Japan · Feudal Kyoto · 1950</h2>
-<p>Four witnesses give irreconcilable accounts of a samurai&#x27;s murder and his wife&#x27;s rape. Kurosawa gave cinema a word — the Rashomon effect — for the impossibility of objective truth.</p>
-<h2 id="why-it-matters-43">WHY IT MATTERS:</h2>
-<p>A film built entirely from the architecture of unreliable narration. 100 Films That Demand to Be Seen · Page 13</p></section>
-<section class="page" id="page-14"><div class="page-label">PAGE 14</div><h2 id="war-social-realism">WAR / SOCIAL REALISM</h2>
-<h2 id="44-rome-open-city">44. Rome, Open City</h2>
+<ol><li>Rashomon</li></ol>
+<p>Akira Kurosawa · Japan · Feudal Kyoto · 1950 Four witnesses give irreconcilable accounts of a samurai&#x27;s murder and his wife&#x27;s rape. Kurosawa gave cinema a word — the</p>
+<p>Rashomon effect — for the impossibility of objective truth. WHY IT MATTERS: A film built entirely from the architecture of unreliable narration. 100 Films That Demand to Be Seen · Page 13</p></section>
+<section class="page" id="page-14"><div class="page-label">SOURCE PAGE 14</div><h2 id="war-social-realism">WAR / SOCIAL REALISM</h2>
+<ol><li>Rome, Open City</li></ol>
 <h2 id="roberto-rossellini-italy-rome-1945">Roberto Rossellini · Italy · Rome · 1945</h2>
-<p>Shot in secret on Rome&#x27;s streets during the final Nazi occupation, this document of resistance and betrayal launched Italian neo-realism. Real bombed streets, non-professional actors, raw grief.</p>
-<h2 id="why-it-matters-44">WHY IT MATTERS:</h2>
-<p>A film made under occupation about resistance — the most important birth announcement in film history.</p>
+<p>Shot in secret on Rome&#x27;s streets during the final Nazi occupation, this document of resistance and betrayal launched Italian</p>
+<p>neo-realism. Real bombed streets, non-professional actors, raw grief. WHY IT MATTERS: A film made under occupation about resistance — the most important birth announcement in film history.</p>
 <h2 id="war-drama-2">WAR / DRAMA</h2>
-<h2 id="45-ran">45. Ran</h2>
-<h2 id="akira-kurosawa-japan-feudal-japan-1985">Akira Kurosawa · Japan · Feudal Japan · 1985</h2>
-<p>Kurosawa&#x27;s King Lear — an ageing warlord divides his kingdom among three sons with catastrophic results. The battle sequences remain the most visually stunning in world cinema.</p>
-<h2 id="why-it-matters-45">WHY IT MATTERS:</h2>
-<p>Kurosawa at 75, painting with armies. The scale of grief matches the scale of the compositions. —S—</p>
+<ol><li>Ran</li></ol>
+<p>Akira Kurosawa · Japan · Feudal Japan · 1985 Kurosawa&#x27;s King Lear — an ageing warlord divides his kingdom among three sons with catastrophic results. The battle</p>
+<p>sequences remain the most visually stunning in world cinema. WHY IT MATTERS: Kurosawa at 75, painting with armies. The scale of grief matches the scale of the compositions.</p>
+<p>—S—</p>
 <h2 id="sci-fi-philosophical">SCI-FI / PHILOSOPHICAL</h2>
-<h2 id="46-stalker">46. Stalker</h2>
-<p>Andrei Tarkovsky · USSR · Industrial wasteland / The Zone · 1979 A guide leads a writer and a professor into a forbidden post-apocalyptic zone where a room is said to grant one&#x27;s deepest wish. Almost nothing happens. Everything happens.</p>
-<h2 id="why-it-matters-46">WHY IT MATTERS:</h2>
-<p>Cinema as religious experience — Tarkovsky requires surrender.</p>
+<ol><li>Stalker</li></ol>
+<p>Andrei Tarkovsky · USSR · Industrial wasteland / The Zone · 1979 A guide leads a writer and a professor into a forbidden post-apocalyptic zone where a room is said to grant one&#x27;s deepest wish.</p>
+<p>Almost nothing happens. Everything happens. WHY IT MATTERS: Cinema as religious experience — Tarkovsky requires surrender.</p>
 <h2 id="film-noir-drama">FILM NOIR / DRAMA</h2>
-<h2 id="47-sunset-boulevard">47. Sunset Boulevard</h2>
-<p>Billy Wilder · USA · Hollywood, Los Angeles · 1950 A fading silent-film star and a cynical screenwriter trap each other in mutual delusion in her crumbling mansion. Hollywood eating itself, narrated by a corpse.</p>
-<h2 id="why-it-matters-47">WHY IT MATTERS:</h2>
-<p>The most savage film ever made about the industry that made it. 100 Films That Demand to Be Seen · Page 14</p></section>
-<section class="page" id="page-15"><div class="page-label">PAGE 15</div><h2 id="documentary">DOCUMENTARY</h2>
-<h2 id="48-shoah">48. Shoah</h2>
-<p>Claude Lanzmann · France · Poland / multiple sites · 1985 Nine and a half hours. No archival footage — only testimony. Survivors, bystanders, and perpetrators of the Holocaust speak at the sites where it happened. An act of cinema as an act of witness.</p>
-<h2 id="why-it-matters-48">WHY IT MATTERS:</h2>
-<p>The ethical extreme of documentary filmmaking — what testimony costs both speaker and listener.</p>
+<ol><li>Sunset Boulevard</li></ol>
+<p>Billy Wilder · USA · Hollywood, Los Angeles · 1950 A fading silent-film star and a cynical screenwriter trap each other in mutual delusion in her crumbling mansion. Hollywood</p>
+<p>eating itself, narrated by a corpse. WHY IT MATTERS: The most savage film ever made about the industry that made it. 100 Films That Demand to Be Seen · Page 14</p></section>
+<section class="page" id="page-15"><div class="page-label">SOURCE PAGE 15</div><h2 id="documentary">DOCUMENTARY</h2>
+<ol><li>Shoah</li></ol>
+<p>Claude Lanzmann · France · Poland / multiple sites · 1985 Nine and a half hours. No archival footage — only testimony. Survivors, bystanders, and perpetrators of the Holocaust speak</p>
+<p>at the sites where it happened. An act of cinema as an act of witness. WHY IT MATTERS: The ethical extreme of documentary filmmaking — what testimony costs both speaker and listener.</p>
 <h2 id="drama-fantasy-2">DRAMA / FANTASY</h2>
-<p>49. The Spirit of the Beehive Víctor Erice · Spain · Castilian village, 1940 · 1973 A six-year-old girl in Franco&#x27;s Spain becomes obsessed with Frankenstein after a cinema screening, entering a private mythology that lets her survive historical and domestic silence.</p>
-<h2 id="why-it-matters-49">WHY IT MATTERS:</h2>
-<p>The greatest film about childhood — and about what art does to a mind that needs it to survive.</p>
+<ol><li>The Spirit of the Beehive</li></ol>
+<p>Víctor Erice · Spain · Castilian village, 1940 · 1973 A six-year-old girl in Franco&#x27;s Spain becomes obsessed with Frankenstein after a cinema screening, entering a private</p>
+<p>mythology that lets her survive historical and domestic silence. WHY IT MATTERS: The greatest film about childhood — and about what art does to a mind that needs it to survive.</p>
 <h2 id="drama-existential-2">DRAMA / EXISTENTIAL</h2>
-<h2 id="50-s-t-ntang">50. Sátántangó</h2>
-<p>Béla Tarr · Hungary · Collapsing Hungarian collective · 1994 Over seven and a half hours, a community on a decaying collective farm awaits the return of a charismatic swindler in a loop of mud, rain, and false hope. Shot in long, unbroken takes.</p>
-<h2 id="why-it-matters-50">WHY IT MATTERS:</h2>
-<p>Watching it is a different relationship to time — cinema as duration itself.</p>
+<ol><li>Sátántangó</li></ol>
+<p>Béla Tarr · Hungary · Collapsing Hungarian collective · 1994 Over seven and a half hours, a community on a decaying collective farm awaits the return of a charismatic swindler in a loop</p>
+<p>of mud, rain, and false hope. Shot in long, unbroken takes. WHY IT MATTERS: Watching it is a different relationship to time — cinema as duration itself.</p>
 <h2 id="drama-family">DRAMA / FAMILY</h2>
-<h2 id="51-tokyo-story">51. Tokyo Story</h2>
-<p>Yasujiro Ozu · Japan · Tokyo / Onomichi · 1953 An elderly couple visit their grown children in Tokyo and find only indifference. Their daughter-in-law, a widow, is the only one who shows them kindness. Ozu&#x27;s most heartbreaking film.</p>
-<h2 id="why-it-matters-51">WHY IT MATTERS:</h2>
-<p>The most perfectly constructed sad film in existence — every cut is a small goodbye.</p>
+<ol><li>Tokyo Story</li></ol>
+<p>Yasujiro Ozu · Japan · Tokyo / Onomichi · 1953 An elderly couple visit their grown children in Tokyo and find only indifference. Their daughter-in-law, a widow, is the only</p>
+<p>one who shows them kindness. Ozu&#x27;s most heartbreaking film. WHY IT MATTERS: The most perfectly constructed sad film in existence — every cut is a small goodbye.</p>
 <h2 id="psychological-crime">PSYCHOLOGICAL / CRIME</h2>
-<h2 id="52-taxi-driver">52. Taxi Driver</h2>
-<p>Martin Scorsese · USA · New York · 1976 An insomniac veteran navigates New York&#x27;s nighttime underworld, his alienation curdling into vigilante fantasy. De Niro and Scorsese create a portrait of masculine isolation that has never been equalled.</p>
-<h2 id="why-it-matters-52">WHY IT MATTERS:</h2>
-<p>New York City as a mirror of a mind that wants the world washed clean. 100 Films That Demand to Be Seen · Page 15</p></section>
-<section class="page" id="page-16"><div class="page-label">PAGE 16</div><h2 id="existential-drama">EXISTENTIAL / DRAMA</h2>
-<h2 id="53-the-turin-horse">53. The Turin Horse</h2>
-<p>Béla Tarr · Hungary · Desolate Hungarian plain · 2011 What happened to the horse Nietzsche embraced weeping in Turin in 1889? Six days in a farmhouse with a father, daughter, and horse as the world outside dims and ceases. Tarr&#x27;s last film.</p>
-<h2 id="why-it-matters-53">WHY IT MATTERS:</h2>
-<p>The most austere film about the end of everything — almost unbearably beautiful.</p>
+<ol><li>Taxi Driver</li></ol>
+<p>Martin Scorsese · USA · New York · 1976 An insomniac veteran navigates New York&#x27;s nighttime underworld, his alienation curdling into vigilante fantasy. De Niro and</p>
+<p>Scorsese create a portrait of masculine isolation that has never been equalled. WHY IT MATTERS: New York City as a mirror of a mind that wants the world washed clean. 100 Films That Demand to Be Seen · Page 15</p></section>
+<section class="page" id="page-16"><div class="page-label">SOURCE PAGE 16</div><h2 id="existential-drama">EXISTENTIAL / DRAMA</h2>
+<ol><li>The Turin Horse</li></ol>
+<p>Béla Tarr · Hungary · Desolate Hungarian plain · 2011 What happened to the horse Nietzsche embraced weeping in Turin in 1889? Six days in a farmhouse with a father, daughter,</p>
+<p>and horse as the world outside dims and ceases. Tarr&#x27;s last film. WHY IT MATTERS: The most austere film about the end of everything — almost unbearably beautiful.</p>
 <h2 id="drama-philosophical-3">DRAMA / PHILOSOPHICAL</h2>
-<p>54. The Tree of Life Terrence Malick · USA · Waco, Texas / cosmos · 2011 A Texas boy in the 1950s, growing up between a gentle mother and an authoritarian father, as the film opens outward to creation itself. Malick asks where grace is in nature and in families.</p>
-<h2 id="why-it-matters-54">WHY IT MATTERS:</h2>
-<p>A genuinely spiritual film — it makes the question of existence feel physical. —U—</p>
+<ol><li>The Tree of Life</li></ol>
+<p>Terrence Malick · USA · Waco, Texas / cosmos · 2011 A Texas boy in the 1950s, growing up between a gentle mother and an authoritarian father, as the film opens outward to</p>
+<p>creation itself. Malick asks where grace is in nature and in families. WHY IT MATTERS: A genuinely spiritual film — it makes the question of existence feel physical. —U—</p>
 <h2 id="sci-fi-horror">SCI-FI / HORROR</h2>
-<p>55. Under the Skin Jonathan Glazer · UK · Glasgow · 2013 An alien inhabiting Scarlett Johansson&#x27;s body drives through Glasgow luring men into an inky void — until an encounter with genuine human deformity triggers something like empathy. Shot partly with hidden cameras.</p>
-<h2 id="why-it-matters-55">WHY IT MATTERS:</h2>
-<p>The most alienating and beautiful body-horror film — skin itself becomes a philosophical problem.</p>
+<ol><li>Under the Skin</li></ol>
+<p>Jonathan Glazer · UK · Glasgow · 2013 An alien inhabiting Scarlett Johansson&#x27;s body drives through Glasgow luring men into an inky void — until an encounter with</p>
+<p>genuine human deformity triggers something like empathy. Shot partly with hidden cameras. WHY IT MATTERS: The most alienating and beautiful body-horror film — skin itself becomes a philosophical problem.</p>
 <h2 id="social-realism-drama-3">SOCIAL REALISM / DRAMA</h2>
-<p>56. Umberto D.</p>
-<h2 id="vittorio-de-sica-italy-rome-1952">Vittorio De Sica · Italy · Rome · 1952</h2>
-<p>An impoverished pensioner and his dog face eviction in post-war Rome. De Sica makes the man&#x27;s dignity and the dog&#x27;s loyalty the most political subjects imaginable.</p>
-<h2 id="why-it-matters-56">WHY IT MATTERS:</h2>
-<p>The scene at the gate — you will not recover. —V— 100 Films That Demand to Be Seen · Page 16</p></section>
-<section class="page" id="page-17"><div class="page-label">PAGE 17</div><h2 id="drama-surrealist">DRAMA / SURREALIST</h2>
-<h2 id="57-viridiana">57. Viridiana</h2>
-<p>Luis Buñuel · Spain / Mexico · Rural Spain · 1961 A novice nun visits her uncle and is drawn into a spiral of religious hypocrisy, sexual obsession, and class brutality that culminates in a Buñuelian Last Supper with beggars. Banned in Spain immediately.</p>
-<h2 id="why-it-matters-57">WHY IT MATTERS:</h2>
-<p>Buñuel&#x27;s most savage assault on Catholic moral authority — exquisitely controlled rage.</p>
+<ol><li>Umberto D.</li></ol>
+<p>Vittorio De Sica · Italy · Rome · 1952 An impoverished pensioner and his dog face eviction in post-war Rome. De Sica makes the man&#x27;s dignity and the dog&#x27;s loyalty</p>
+<p>the most political subjects imaginable. WHY IT MATTERS: The scene at the gate — you will not recover. —V— 100 Films That Demand to Be Seen · Page 16</p></section>
+<section class="page" id="page-17"><div class="page-label">SOURCE PAGE 17</div><h2 id="drama-surrealist">DRAMA / SURREALIST</h2>
+<ol><li>Viridiana</li></ol>
+<p>Luis Buñuel · Spain / Mexico · Rural Spain · 1961 A novice nun visits her uncle and is drawn into a spiral of religious hypocrisy, sexual obsession, and class brutality that</p>
+<p>culminates in a Buñuelian Last Supper with beggars. Banned in Spain immediately. WHY IT MATTERS: Buñuel&#x27;s most savage assault on Catholic moral authority — exquisitely controlled rage.</p>
 <h2 id="thriller-psychological-2">THRILLER / PSYCHOLOGICAL</h2>
-<h2 id="58-vertigo">58. Vertigo</h2>
-<p>Alfred Hitchcock · USA · San Francisco · 1958 A retired detective hired to follow a woman becomes obsessively entangled in a mystery that implicates his own desire and creates a philosophical trap from which neither character can escape.</p>
-<h2 id="why-it-matters-58">WHY IT MATTERS:</h2>
-<p>Hitchcock&#x27;s masterpiece — and the definitive film about male desire as construction and destruction. —W—</p>
+<ol><li>Vertigo</li></ol>
+<p>Alfred Hitchcock · USA · San Francisco · 1958 A retired detective hired to follow a woman becomes obsessively entangled in a mystery that implicates his own desire and</p>
+<p>creates a philosophical trap from which neither character can escape. WHY IT MATTERS: Hitchcock&#x27;s masterpiece — and the definitive film about male desire as construction and destruction.</p>
+<p>—W—</p>
 <h2 id="fantasy-drama">FANTASY / DRAMA</h2>
-<p>59. Wings of Desire Wim Wenders · Germany · Berlin (divided) · 1987 An angel watching over divided Berlin falls in love with a trapeze artist and chooses mortality. Wenders shoots the city in black-and-white for the immortal, colour for the human.</p>
-<h2 id="why-it-matters-59">WHY IT MATTERS:</h2>
-<p>The most tender film about the value of being alive — made in the most divided city in the world.</p>
+<ol><li>Wings of Desire</li></ol>
+<p>Wim Wenders · Germany · Berlin (divided) · 1987 An angel watching over divided Berlin falls in love with a trapeze artist and chooses mortality. Wenders shoots the city in</p>
+<p>black-and-white for the immortal, colour for the human. WHY IT MATTERS: The most tender film about the value of being alive — made in the most divided city in the world.</p>
 <h2 id="drama-philosophical-4">DRAMA / PHILOSOPHICAL</h2>
-<h2 id="60-wild-strawberries">60. Wild Strawberries</h2>
-<p>Ingmar Bergman · Sweden · Stockholm / Lund · 1957 An elderly professor driving to receive an honorary degree revisits — in memory and dream — the emotional failures of his life. Bergman makes regret into a landscape.</p>
-<h2 id="why-it-matters-60">WHY IT MATTERS:</h2>
-<p>The most humane of Bergman&#x27;s films — forgiveness that comes almost too late. —Y— 100 Films That Demand to Be Seen · Page 17</p></section>
-<section class="page" id="page-18"><div class="page-label">PAGE 18</div><h2 id="drama-family-2">DRAMA / FAMILY</h2>
-<p>61. Yi Yi (A One and a Two)</p>
+<ol><li>Wild Strawberries</li></ol>
+<p>Ingmar Bergman · Sweden · Stockholm / Lund · 1957 An elderly professor driving to receive an honorary degree revisits — in memory and dream — the emotional failures of his</p>
+<p>life. Bergman makes regret into a landscape. WHY IT MATTERS: The most humane of Bergman&#x27;s films — forgiveness that comes almost too late. —Y— 100 Films That Demand to Be Seen · Page 17</p></section>
+<section class="page" id="page-18"><div class="page-label">SOURCE PAGE 18</div><h2 id="drama-family-2">DRAMA / FAMILY</h2>
+<ol><li>Yi Yi (A One and a Two)</li></ol>
 <h2 id="edward-yang-taiwan-taipei-2000">Edward Yang · Taiwan · Taipei · 2000</h2>
-<p>A Taipei family — father, mother, teenage daughter, young son — live three hours of ordinary crisis simultaneously. Yang shows each generation&#x27;s confusion without hierarchy or resolution.</p>
-<h2 id="why-it-matters-61">WHY IT MATTERS:</h2>
-<p>The greatest film about middle-class urban life — comprehensive, compassionate, and exact. —Z—</p>
+<p>A Taipei family — father, mother, teenage daughter, young son — live three hours of ordinary crisis simultaneously. Yang</p>
+<p>shows each generation&#x27;s confusion without hierarchy or resolution. WHY IT MATTERS: The greatest film about middle-class urban life — comprehensive, compassionate, and exact. —Z—</p>
 <h2 id="political-thriller">POLITICAL / THRILLER</h2>
-<h2 id="62-z">62. Z</h2>
-<p>Costa-Gavras · France / Algeria · Unnamed (Greece) · 1969 The assassination of a left-wing politician by a right-wing junta, reconstructed in precise procedural detail — a film that treats political murder as a system, not an aberration.</p>
-<h2 id="why-it-matters-62">WHY IT MATTERS:</h2>
-<p>Urgent, furious, and formally flawless — the template for all political thrillers.</p>
+<ol><li>Z</li></ol>
+<p>Costa-Gavras · France / Algeria · Unnamed (Greece) · 1969 The assassination of a left-wing politician by a right-wing junta, reconstructed in precise procedural detail — a film that treats</p>
+<p>political murder as a system, not an aberration. WHY IT MATTERS: Urgent, furious, and formally flawless — the template for all political thrillers.</p>
 <h2 id="crime-thriller-2">CRIME / THRILLER</h2>
-<h2 id="63-zodiac">63. Zodiac</h2>
-<p>David Fincher · USA · San Francisco Bay Area · 2007 The decades-long obsession of a newspaper cartoonist with the Zodiac killer — a film about the compulsion to know and the possibility that some things cannot be known.</p>
-<h2 id="why-it-matters-63">WHY IT MATTERS:</h2>
-<p>Fincher makes proceduralism into an existential condition — the cold case as the human condition.</p>
+<ol><li>Zodiac</li></ol>
+<p>David Fincher · USA · San Francisco Bay Area · 2007 The decades-long obsession of a newspaper cartoonist with the Zodiac killer — a film about the compulsion to know and the</p>
+<p>possibility that some things cannot be known. WHY IT MATTERS: Fincher makes proceduralism into an existential condition — the cold case as the human condition.</p>
 <h2 id="drama-philosophical-5">DRAMA / PHILOSOPHICAL</h2>
-<h2 id="64-au-hasard-balthazar">64. Au Hasard Balthazar</h2>
-<h2 id="robert-bresson-france-rural-france-1966">Robert Bresson · France · Rural France · 1966</h2>
-<p>A donkey passes through the hands of various owners — kind and cruel — in a French village. Bresson uses the animal&#x27;s passive suffering as a mirror of human sin and grace.</p>
-<h2 id="why-it-matters-64">WHY IT MATTERS:</h2>
-<p>Jean-Luc Godard said all of cinema was in this film. He was right. 100 Films That Demand to Be Seen · Page 18</p></section>
-<section class="page" id="page-19"><div class="page-label">PAGE 19</div><h2 id="political-war">POLITICAL / WAR</h2>
-<p>65. The Battle of Algiers Gillo Pontecorvo · Italy / Algeria · Algiers · 1966 Shot on location with a non-professional cast, this reconstruction of the Algerian independence struggle is so documentary in texture that it was believed to be archival footage.</p>
-<h2 id="why-it-matters-65">WHY IT MATTERS:</h2>
-<p>The Pentagon screened it as a manual for counterinsurgency. That is both its highest praise and deepest condemnation.</p>
+<ol><li>Au Hasard Balthazar</li></ol>
+<p>Robert Bresson · France · Rural France · 1966 A donkey passes through the hands of various owners — kind and cruel — in a French village. Bresson uses the animal&#x27;s</p>
+<p>passive suffering as a mirror of human sin and grace. WHY IT MATTERS: Jean-Luc Godard said all of cinema was in this film. He was right. 100 Films That Demand to Be Seen · Page 18</p></section>
+<section class="page" id="page-19"><div class="page-label">SOURCE PAGE 19</div><h2 id="political-war">POLITICAL / WAR</h2>
+<ol><li>The Battle of Algiers</li></ol>
+<p>Gillo Pontecorvo · Italy / Algeria · Algiers · 1966 Shot on location with a non-professional cast, this reconstruction of the Algerian independence struggle is so documentary in</p>
+<p>texture that it was believed to be archival footage. WHY IT MATTERS: The Pentagon screened it as a manual for counterinsurgency. That is both its highest praise and deepest condemnation.</p>
 <h2 id="film-noir-crime">FILM NOIR / CRIME</h2>
-<h2 id="66-chinatown">66. Chinatown</h2>
-<p>Roman Polanski · USA · Los Angeles · 1974 A private detective in 1930s LA uncovers a water scandal whose moral depths outmatch anything he has survived before. Robert Towne&#x27;s screenplay is the great American tragedy in genre form.</p>
-<h2 id="why-it-matters-66">WHY IT MATTERS:</h2>
-<p>The ending is the most hopeless in American cinema — and the most honest.</p>
+<ol><li>Chinatown</li></ol>
+<p>Roman Polanski · USA · Los Angeles · 1974 A private detective in 1930s LA uncovers a water scandal whose moral depths outmatch anything he has survived before.</p>
+<p>Robert Towne&#x27;s screenplay is the great American tragedy in genre form. WHY IT MATTERS: The ending is the most hopeless in American cinema — and the most honest.</p>
 <h2 id="documentary-drama">DOCUMENTARY / DRAMA</h2>
-<h2 id="67-close-up">67. Close-Up</h2>
+<ol><li>Close-Up</li></ol>
 <h2 id="abbas-kiarostami-iran-tehran-1990">Abbas Kiarostami · Iran · Tehran · 1990</h2>
-<p>A real con man impersonated Iranian director Mohsen Makhmalbaf to enter a family&#x27;s home. Kiarostami reconstructs the case with the real participants — and ends by having the real Makhmalbaf appear.</p>
-<h2 id="why-it-matters-67">WHY IT MATTERS:</h2>
-<p>The most radical blurring of fiction and documentary ever achieved.</p>
+<p>A real con man impersonated Iranian director Mohsen Makhmalbaf to enter a family&#x27;s home. Kiarostami reconstructs the case</p>
+<p>with the real participants — and ends by having the real Makhmalbaf appear. WHY IT MATTERS: The most radical blurring of fiction and documentary ever achieved.</p>
 <h2 id="new-wave-drama">NEW WAVE / DRAMA</h2>
-<p>68. Cleo from 5 to 7</p>
+<ol><li>Cleo from 5 to 7</li></ol>
 <h2 id="agn-s-varda-france-paris-1962">Agnès Varda · France · Paris · 1962</h2>
-<p>Two hours in real time following a pop singer through Paris as she awaits cancer test results. Varda makes a woman existing in public space into a manifesto.</p>
-<h2 id="why-it-matters-68">WHY IT MATTERS:</h2>
-<p>The female gaze invented — Varda watches the world watching a woman.</p>
+<p>Two hours in real time following a pop singer through Paris as she awaits cancer test results. Varda makes a woman existing in</p>
+<p>public space into a manifesto. WHY IT MATTERS: The female gaze invented — Varda watches the world watching a woman.</p>
 <h2 id="martial-arts-romance">MARTIAL ARTS / ROMANCE</h2>
-<h2 id="69-crouching-tiger-hidden-dragon">69. Crouching Tiger, Hidden Dragon</h2>
-<p>Ang Lee · China / Taiwan / USA · Qing Dynasty China · 2000 Two women — one trapped by duty, one by desire — navigate a world of swordplay and Taoist philosophy. Ang Lee makes the fight sequences into forms of emotional expression.</p>
-<h2 id="why-it-matters-69">WHY IT MATTERS:</h2>
-<p>Martial arts cinema as pure lyricism — every leap a metaphor for freedom. 100 Films That Demand to Be Seen · Page 19</p></section>
-<section class="page" id="page-20"><div class="page-label">PAGE 20</div><h2 id="drama-existential-3">DRAMA / EXISTENTIAL</h2>
-<h2 id="70-damnation-k-rhozat">70. Damnation (Kárhozat)</h2>
-<p>Béla Tarr · Hungary · Unnamed industrial town · 1988 A man in a perpetually raining post-industrial wasteland circles obsessively around a bar singer in a near-abstract film of moral squalor and stunning visual grandeur.</p>
-<h2 id="why-it-matters-70">WHY IT MATTERS:</h2>
-<p>Tarr&#x27;s first purely Tarrian film — where the rain becomes the language of futility.</p>
+<ol><li>Crouching Tiger, Hidden Dragon</li></ol>
+<p>Ang Lee · China / Taiwan / USA · Qing Dynasty China · 2000 Two women — one trapped by duty, one by desire — navigate a world of swordplay and Taoist philosophy. Ang Lee makes</p>
+<p>the fight sequences into forms of emotional expression. WHY IT MATTERS: Martial arts cinema as pure lyricism — every leap a metaphor for freedom. 100 Films That Demand to Be Seen · Page 19</p></section>
+<section class="page" id="page-20"><div class="page-label">SOURCE PAGE 20</div><h2 id="drama-existential-3">DRAMA / EXISTENTIAL</h2>
+<ol><li>Damnation (Kárhozat)</li></ol>
+<p>Béla Tarr · Hungary · Unnamed industrial town · 1988 A man in a perpetually raining post-industrial wasteland circles obsessively around a bar singer in a near-abstract film of</p>
+<p>moral squalor and stunning visual grandeur. WHY IT MATTERS: Tarr&#x27;s first purely Tarrian film — where the rain becomes the language of futility.</p>
 <h2 id="sci-fi-fantasy">SCI-FI / FANTASY</h2>
-<h2 id="71-dune-1984">71. Dune (1984)</h2>
-<p>David Lynch · USA · Planet Arrakis / Caladan · 1984 Lynch&#x27;s failed attempt to adapt Herbert&#x27;s novel is one of the most ambitious disasters in Hollywood history — visionary in design, deranged in execution, and utterly unlike anything else.</p>
-<h2 id="why-it-matters-71">WHY IT MATTERS:</h2>
-<p>A film that fell apart in public and remains fascinating for every crack in the facade.</p>
+<ol><li>Dune (1984)</li></ol>
+<p>David Lynch · USA · Planet Arrakis / Caladan · 1984 Lynch&#x27;s failed attempt to adapt Herbert&#x27;s novel is one of the most ambitious disasters in Hollywood history — visionary in</p>
+<p>design, deranged in execution, and utterly unlike anything else. WHY IT MATTERS: A film that fell apart in public and remains fascinating for every crack in the facade.</p>
 <h2 id="western-surrealist-cult">WESTERN / SURREALIST / CULT</h2>
-<h2 id="72-el-topo">72. El Topo</h2>
-<p>Alejandro Jodorowsky · Mexico · Desert / nowhere · 1970 A black-clad gunman and his naked son traverse a surrealist desert killing four master gunfighters — a psychedelic deconstruction of the Western that invents the midnight movie.</p>
-<h2 id="why-it-matters-72">WHY IT MATTERS:</h2>
-<p>The film that created the concept of the cult midnight screening — pure transgressive mythology.</p>
+<ol><li>El Topo</li></ol>
+<p>Alejandro Jodorowsky · Mexico · Desert / nowhere · 1970 A black-clad gunman and his naked son traverse a surrealist desert killing four master gunfighters — a psychedelic</p>
+<p>deconstruction of the Western that invents the midnight movie. WHY IT MATTERS: The film that created the concept of the cult midnight screening — pure transgressive mythology.</p>
 <h2 id="thriller-surrealist">THRILLER / SURREALIST</h2>
-<h2 id="73-europa-zentropa">73. Europa (Zentropa)</h2>
-<p>Lars von Trier · Denmark · Post-war Germany · 1991 An American arrives in post-war Germany to work on the railways and is hypnotised — literally — into its moral collapse. Von Trier films in rear-projection noir expressionism.</p>
-<h2 id="why-it-matters-73">WHY IT MATTERS:</h2>
-<p>A fever dream about the seduction of fascism — technically unlike anything else in cinema.</p>
+<ol><li>Europa (Zentropa)</li></ol>
+<p>Lars von Trier · Denmark · Post-war Germany · 1991 An American arrives in post-war Germany to work on the railways and is hypnotised — literally — into its moral collapse.</p>
+<p>Von Trier films in rear-projection noir expressionism. WHY IT MATTERS: A fever dream about the seduction of fascism — technically unlike anything else in cinema.</p>
 <h2 id="drama-adult-erotic">DRAMA / ADULT / EROTIC</h2>
-<p>74. Fat Girl (À ma soeur!) Catherine Breillat · France · Normandy coast · 2001 Two sisters on a family holiday — the beautiful Elena and the observant Anaïs — as Elena is seduced by a young Italian. Breillat examines desire, body image, and female experience without sentimentality.</p>
-<h2 id="why-it-matters-74">WHY IT MATTERS:</h2>
-<p>Breillat&#x27;s final scene is the most divisive in French cinema — and the most honest about what violence and intimacy share. 100 Films That Demand to Be Seen · Page 20</p></section>
-<section class="page" id="page-21"><div class="page-label">PAGE 21</div><h2 id="drama-adventure">DRAMA / ADVENTURE</h2>
-<h2 id="75-fitzcarraldo">75. Fitzcarraldo</h2>
-<p>Werner Herzog · Germany / Peru · Peruvian Amazon · 1982 An eccentric visionary attempts to haul a steamship over a mountain in the Amazon to fund an opera house. Herzog actually did it — no special effects. The documentary of the making is equally great.</p>
-<h2 id="why-it-matters-75">WHY IT MATTERS:</h2>
-<p>Herzog makes irrationality the most rational force on screen — madness as the only serious response to existence.</p>
+<ol><li>Fat Girl (À ma soeur!)</li></ol>
+<p>Catherine Breillat · France · Normandy coast · 2001 Two sisters on a family holiday — the beautiful Elena and the observant Anaïs — as Elena is seduced by a young Italian.</p>
+<p>Breillat examines desire, body image, and female experience without sentimentality. WHY IT MATTERS: Breillat&#x27;s final scene is the most divisive in French cinema — and the most honest about what violence and intimacy share.</p>
+<p>100 Films That Demand to Be Seen · Page 20</p></section>
+<section class="page" id="page-21"><div class="page-label">SOURCE PAGE 21</div><h2 id="drama-adventure">DRAMA / ADVENTURE</h2>
+<ol><li>Fitzcarraldo</li></ol>
+<p>Werner Herzog · Germany / Peru · Peruvian Amazon · 1982 An eccentric visionary attempts to haul a steamship over a mountain in the Amazon to fund an opera house. Herzog actually</p>
+<p>did it — no special effects. The documentary of the making is equally great. WHY IT MATTERS: Herzog makes irrationality the most rational force on screen — madness as the only serious response to existence.</p>
 <h2 id="drama-new-wave">DRAMA / NEW WAVE</h2>
-<h2 id="76-four-hundred-blows">76. Four Hundred Blows</h2>
+<ol><li>Four Hundred Blows</li></ol>
 <h2 id="fran-ois-truffaut-france-paris-1959">François Truffaut · France · Paris · 1959</h2>
-<p>Truffaut&#x27;s autobiographical debut: a misunderstood boy ricochets between indifferent parents, an indifferent school, and a reform institution. The final freeze-frame is cinema&#x27;s greatest full stop.</p>
-<h2 id="why-it-matters-76">WHY IT MATTERS:</h2>
-<p>The film that launched the French New Wave — and the most tender depiction of a difficult childhood.</p>
+<p>Truffaut&#x27;s autobiographical debut: a misunderstood boy ricochets between indifferent parents, an indifferent school, and a</p>
+<p>reform institution. The final freeze-frame is cinema&#x27;s greatest full stop. WHY IT MATTERS: The film that launched the French New Wave — and the most tender depiction of a difficult childhood.</p>
 <h2 id="silent-action-comedy">SILENT / ACTION / COMEDY</h2>
-<h2 id="77-the-general">77. The General</h2>
-<p>Buster Keaton · USA · Civil War Georgia · 1926 A Confederate railroad engineer chases Union spies who have stolen his locomotive. Keaton performs every stunt himself and constructs action sequences of mathematical perfection.</p>
-<h2 id="why-it-matters-77">WHY IT MATTERS:</h2>
-<p>The greatest action comedy ever made — and proof that physical comedy is a philosophical act.</p>
+<ol><li>The General</li></ol>
+<p>Buster Keaton · USA · Civil War Georgia · 1926 A Confederate railroad engineer chases Union spies who have stolen his locomotive. Keaton performs every stunt himself and</p>
+<p>constructs action sequences of mathematical perfection. WHY IT MATTERS: The greatest action comedy ever made — and proof that physical comedy is a philosophical act.</p>
 <h2 id="drama-social-realism">DRAMA / SOCIAL REALISM</h2>
-<h2 id="78-george-washington">78. George Washington</h2>
-<p>David Gordon Green · USA · Rust Belt North Carolina · 2000 Children in a decaying Southern factory town circle around a boy who cannot be touched on the head and believes he has a destiny. One drowning accident reshapes everything.</p>
-<h2 id="why-it-matters-78">WHY IT MATTERS:</h2>
-<p>Terrence Malick&#x27;s cinema reimagined by a teenager — extraordinary for a debut feature.</p>
+<ol><li>George Washington</li></ol>
+<p>David Gordon Green · USA · Rust Belt North Carolina · 2000 Children in a decaying Southern factory town circle around a boy who cannot be touched on the head and believes he has a</p>
+<p>destiny. One drowning accident reshapes everything. WHY IT MATTERS: Terrence Malick&#x27;s cinema reimagined by a teenager — extraordinary for a debut feature.</p>
 <h2 id="avant-garde-surrealist">AVANT-GARDE / SURREALIST</h2>
-<h2 id="79-holy-motors">79. Holy Motors</h2>
+<ol><li>Holy Motors</li></ol>
 <h2 id="leos-carax-france-paris-2012">Leos Carax · France · Paris · 2012</h2>
-<p>A man in a white limousine performs a series of inexplicable &#x27;appointments&#x27; across Paris — becoming a beggar, a motion-capture performer, a murderer, a father — in an elegy to cinema itself.</p>
-<h2 id="why-it-matters-79">WHY IT MATTERS:</h2>
-<p>The most joyful and desolate film about what it means to perform a self. 100 Films That Demand to Be Seen · Page 21</p></section>
-<section class="page" id="page-22"><div class="page-label">PAGE 22</div><h2 id="political-drama">POLITICAL / DRAMA</h2>
-<h2 id="80-i-am-cuba-soy-cuba">80. I Am Cuba (Soy Cuba)</h2>
-<p>Mikhail Kalatozov · USSR / Cuba · Havana / rural Cuba · 1964 Four stories of pre-revolutionary Cuba — a dancer, a farmer, a student martyr, a guerrilla — filmed by Kalatozov and cinematographer Sergei Urusevsky with camera moves that defy physics.</p>
-<h2 id="why-it-matters-80">WHY IT MATTERS:</h2>
-<p>The most visually audacious film ever made — a single take descends from a rooftop pool to a street below.</p>
+<p>A man in a white limousine performs a series of inexplicable &#x27;appointments&#x27; across Paris — becoming a beggar, a</p>
+<p>motion-capture performer, a murderer, a father — in an elegy to cinema itself. WHY IT MATTERS: The most joyful and desolate film about what it means to perform a self. 100 Films That Demand to Be Seen · Page 21</p></section>
+<section class="page" id="page-22"><div class="page-label">SOURCE PAGE 22</div><h2 id="political-drama">POLITICAL / DRAMA</h2>
+<ol><li>I Am Cuba (Soy Cuba)</li></ol>
+<p>Mikhail Kalatozov · USSR / Cuba · Havana / rural Cuba · 1964 Four stories of pre-revolutionary Cuba — a dancer, a farmer, a student martyr, a guerrilla — filmed by Kalatozov and</p>
+<p>cinematographer Sergei Urusevsky with camera moves that defy physics. WHY IT MATTERS: The most visually audacious film ever made — a single take descends from a rooftop pool to a street below.</p>
 <h2 id="adult-erotic-black-comedy">ADULT / EROTIC / BLACK COMEDY</h2>
-<p>81. Immamura&#x27;s The Pornographers</p>
+<ol><li>Immamura&#x27;s The Pornographers</li></ol>
 <h2 id="shohei-imamura-japan-osaka-1966">Shohei Imamura · Japan · Osaka · 1966</h2>
-<p>A small-scale pornographic filmmaker in Osaka navigates a morally complex domestic life — his lover believes her dead husband has reincarnated as a carp. Imamura treats sexuality and animality as equals.</p>
-<h2 id="why-it-matters-81">WHY IT MATTERS:</h2>
-<p>Imamura&#x27;s thesis: humans are animals, and that is not an insult. Cinema has rarely been this alive.</p>
+<p>A small-scale pornographic filmmaker in Osaka navigates a morally complex domestic life — his lover believes her dead</p>
+<p>husband has reincarnated as a carp. Imamura treats sexuality and animality as equals. WHY IT MATTERS: Imamura&#x27;s thesis: humans are animals, and that is not an insult. Cinema has rarely been this alive.</p>
 <h2 id="documentary-social-realism">DOCUMENTARY / SOCIAL REALISM</h2>
-<p>82. In Vanda&#x27;s Room Pedro Costa · Portugal · Lisbon (Fontainhas slum) · 2000 Filmed over two years in a Lisbon slum being demolished, Costa follows Vanda as she and her neighbours use drugs in a room. Slow cinema as the most ethical form of attention.</p>
-<h2 id="why-it-matters-82">WHY IT MATTERS:</h2>
-<p>Costa refuses to look away — the film&#x27;s patience is its politics.</p>
+<ol><li>In Vanda&#x27;s Room</li></ol>
+<p>Pedro Costa · Portugal · Lisbon (Fontainhas slum) · 2000 Filmed over two years in a Lisbon slum being demolished, Costa follows Vanda as she and her neighbours use drugs in a</p>
+<p>room. Slow cinema as the most ethical form of attention. WHY IT MATTERS: Costa refuses to look away — the film&#x27;s patience is its politics.</p>
 <h2 id="thriller-horror-2">THRILLER / HORROR</h2>
-<h2 id="83-jaws">83. Jaws</h2>
-<p>Steven Spielberg · USA · Amity Island (Martha&#x27;s Vineyard) · 1975 A great white shark terrorises a New England resort town. Spielberg turns mechanical failure into a masterclass — the shark barely works, so he builds dread from water and music.</p>
-<h2 id="why-it-matters-83">WHY IT MATTERS:</h2>
-<p>The film that invented the summer blockbuster — and paradoxically remains subtler than everything it spawned.</p>
+<ol><li>Jaws</li></ol>
+<p>Steven Spielberg · USA · Amity Island (Martha&#x27;s Vineyard) · 1975 A great white shark terrorises a New England resort town. Spielberg turns mechanical failure into a masterclass — the shark</p>
+<p>barely works, so he builds dread from water and music. WHY IT MATTERS: The film that invented the summer blockbuster — and paradoxically remains subtler than everything it spawned.</p>
 <h2 id="documentary-2">DOCUMENTARY</h2>
-<p>84. Land of Silence and Darkness Werner Herzog · Germany · Munich / Bavaria · 1971 A deaf-blind woman, Fini Straubinger, advocates for others like her. Herzog follows without pity or sentimentality — a film about the absolute isolation of consciousness.</p>
-<h2 id="why-it-matters-84">WHY IT MATTERS:</h2>
-<p>The most devastating documentary about human loneliness — made with complete, clear-eyed love. 100 Films That Demand to Be Seen · Page 22</p></section>
-<section class="page" id="page-23"><div class="page-label">PAGE 23</div><h2 id="adult-erotic-drama-3">ADULT / EROTIC / DRAMA</h2>
-<h2 id="85-love-2015">85. Love (2015)</h2>
+<ol><li>Land of Silence and Darkness</li></ol>
+<p>Werner Herzog · Germany · Munich / Bavaria · 1971 A deaf-blind woman, Fini Straubinger, advocates for others like her. Herzog follows without pity or sentimentality — a film</p>
+<p>about the absolute isolation of consciousness. WHY IT MATTERS: The most devastating documentary about human loneliness — made with complete, clear-eyed love.</p>
+<p>100 Films That Demand to Be Seen · Page 22</p></section>
+<section class="page" id="page-23"><div class="page-label">SOURCE PAGE 23</div><h2 id="adult-erotic-drama-3">ADULT / EROTIC / DRAMA</h2>
+<ol><li>Love (2015)</li></ol>
 <h2 id="gaspar-no-france-paris-2015">Gaspar Noé · France · Paris · 2015</h2>
-<p>An American film student in Paris recalls his relationship with a French girl — shot entirely in 3D with unsimulated sex as the primary language of intimacy, regret, and loss.</p>
-<h2 id="why-it-matters-85">WHY IT MATTERS:</h2>
-<p>Noé&#x27;s most gentle film — explicit cinema used not for provocation but for grief.</p>
+<p>An American film student in Paris recalls his relationship with a French girl — shot entirely in 3D with unsimulated sex as the</p>
+<p>primary language of intimacy, regret, and loss. WHY IT MATTERS: Noé&#x27;s most gentle film — explicit cinema used not for provocation but for grief.</p>
 <h2 id="documentary-silent">DOCUMENTARY / SILENT /</h2>
 <h2 id="avant-garde-2">AVANT-GARDE</h2>
-<p>86. Man with a Movie Camera Dziga Vertov · USSR · Moscow / Odessa / Kiev · 1929 A day in the life of Soviet cities filmed with every experimental technique Vertov could devise — split screen, slow motion, reverse, freeze frame — a manifesto for what the camera can see that the eye cannot.</p>
-<h2 id="why-it-matters-86">WHY IT MATTERS:</h2>
-<p>One hundred years old and it still looks like the future.</p>
+<ol><li>Man with a Movie Camera</li></ol>
+<p>Dziga Vertov · USSR · Moscow / Odessa / Kiev · 1929 A day in the life of Soviet cities filmed with every experimental technique Vertov could devise — split screen, slow motion,</p>
+<p>reverse, freeze frame — a manifesto for what the camera can see that the eye cannot. WHY IT MATTERS: One hundred years old and it still looks like the future.</p>
 <h2 id="political-drama-2">POLITICAL / DRAMA</h2>
-<h2 id="87-mephisto">87. Mephisto</h2>
+<ol><li>Mephisto</li></ol>
 <h2 id="istv-n-szab-hungary-berlin-1981">István Szabó · Hungary · Berlin · 1981</h2>
-<p>An actor in Weimar Germany who collaborates with the Nazis to preserve his career and his art — a portrait of complicity as a series of small, rational decisions.</p>
-<h2 id="why-it-matters-87">WHY IT MATTERS:</h2>
-<p>The most uncomfortable film about the bargain every artist makes with power.</p>
+<p>An actor in Weimar Germany who collaborates with the Nazis to preserve his career and his art — a portrait of complicity as a</p>
+<p>series of small, rational decisions. WHY IT MATTERS: The most uncomfortable film about the bargain every artist makes with power.</p>
 <h2 id="avant-garde-biographical">AVANT-GARDE / BIOGRAPHICAL</h2>
-<h2 id="88-mirror-zerkalo">88. Mirror (Zerkalo)</h2>
-<p>Andrei Tarkovsky · USSR · Russian countryside / Moscow · 1975 Non-linear fragments of Tarkovsky&#x27;s memory, his mother&#x27;s wartime life, and newsreel history — arranged as a meditation on time, guilt, and the Russian soul.</p>
-<h2 id="why-it-matters-88">WHY IT MATTERS:</h2>
-<p>Tarkovsky at his most personal and least explicable — the memory film that all memory films aspire to.</p>
+<ol><li>Mirror (Zerkalo)</li></ol>
+<p>Andrei Tarkovsky · USSR · Russian countryside / Moscow · 1975 Non-linear fragments of Tarkovsky&#x27;s memory, his mother&#x27;s wartime life, and newsreel history — arranged as a meditation on</p>
+<p>time, guilt, and the Russian soul. WHY IT MATTERS: Tarkovsky at his most personal and least explicable — the memory film that all memory films aspire to.</p>
 <h2 id="drama-comedy">DRAMA / COMEDY</h2>
-<p>89. Nights of Cabiria</p>
+<ol><li>Nights of Cabiria</li></ol>
 <h2 id="federico-fellini-italy-rome-1957">Federico Fellini · Italy · Rome · 1957</h2>
-<p>A small-framed prostitute on the outskirts of Rome is deceived and humiliated again and again — and keeps returning to life with inexplicable, radical joy. Giulietta Masina is a secular saint.</p>
-<h2 id="why-it-matters-89">WHY IT MATTERS:</h2>
-<p>The most life-affirming film ever made — which means it first has to break your heart completely. 100 Films That Demand to Be Seen · Page 23</p></section>
-<section class="page" id="page-24"><div class="page-label">PAGE 24</div><h2 id="fantasy-war">FANTASY / WAR</h2>
-<p>90. Pan&#x27;s Labyrinth Guillermo del Toro · Spain / Mexico · Post-war Francoist Spain · 2006 A girl retreats into a faun&#x27;s labyrinth and a series of darkly beautiful tasks while her stepfather — a Francoist captain — conducts a counterinsurgency campaign above ground.</p>
-<h2 id="why-it-matters-90">WHY IT MATTERS:</h2>
-<p>Del Toro makes fascism and fantasy the same darkness — the monster in each world wears the same face.</p>
+<p>A small-framed prostitute on the outskirts of Rome is deceived and humiliated again and again — and keeps returning to life</p>
+<p>with inexplicable, radical joy. Giulietta Masina is a secular saint. WHY IT MATTERS: The most life-affirming film ever made — which means it first has to break your heart completely.</p>
+<p>100 Films That Demand to Be Seen · Page 23</p></section>
+<section class="page" id="page-24"><div class="page-label">SOURCE PAGE 24</div><h2 id="fantasy-war">FANTASY / WAR</h2>
+<ol><li>Pan&#x27;s Labyrinth</li></ol>
+<p>Guillermo del Toro · Spain / Mexico · Post-war Francoist Spain · 2006 A girl retreats into a faun&#x27;s labyrinth and a series of darkly beautiful tasks while her stepfather — a Francoist captain —</p>
+<p>conducts a counterinsurgency campaign above ground. WHY IT MATTERS: Del Toro makes fascism and fantasy the same darkness — the monster in each world wears the same face.</p>
 <h2 id="drama-political-2">DRAMA / POLITICAL</h2>
-<h2 id="91-platform-zhantai">91. Platform (Zhantai)</h2>
-<p>Jia Zhangke · China · Fenyang, Shanxi province · 2000 A performing arts troupe in a small Chinese coal town between 1979 and 1990 — the entire arc of China&#x27;s opening up filmed in the everyday detail of people trying to find meaning in historical acceleration.</p>
-<h2 id="why-it-matters-91">WHY IT MATTERS:</h2>
-<p>Jia makes the macro-history of China into the texture of one town&#x27;s boredom and longing.</p>
+<ol><li>Platform (Zhantai)</li></ol>
+<p>Jia Zhangke · China · Fenyang, Shanxi province · 2000 A performing arts troupe in a small Chinese coal town between 1979 and 1990 — the entire arc of China&#x27;s opening up filmed</p>
+<p>in the everyday detail of people trying to find meaning in historical acceleration. WHY IT MATTERS: Jia makes the macro-history of China into the texture of one town&#x27;s boredom and longing.</p>
 <h2 id="horror-political">HORROR / POLITICAL</h2>
-<p>92. Salo, or the 120 Days of Sodom Pier Paolo Pasolini · Italy · Northern Italy, 1944 · 1975 Pasolini translates the Marquis de Sade&#x27;s novel into 1944 Fascist Italy — a group of powerful men subject teenagers to escalating degradation. A film about power, not pornography.</p>
-<h2 id="why-it-matters-92">WHY IT MATTERS:</h2>
-<p>The most unbearable film ever made — and the most precise metaphor for fascism&#x27;s relationship to the body.</p>
+<ol><li>Salo, or the 120 Days of Sodom</li></ol>
+<p>Pier Paolo Pasolini · Italy · Northern Italy, 1944 · 1975 Pasolini translates the Marquis de Sade&#x27;s novel into 1944 Fascist Italy — a group of powerful men subject teenagers to</p>
+<p>escalating degradation. A film about power, not pornography. WHY IT MATTERS: The most unbearable film ever made — and the most precise metaphor for fascism&#x27;s relationship to the body.</p>
 <h2 id="documentary-avant-garde">DOCUMENTARY / AVANT-GARDE</h2>
-<h2 id="93-sans-soleil">93. Sans Soleil</h2>
-<p>Chris Marker · France · Tokyo / Guinea-Bissau / Cape Verde · 1983 Letters from a fictional cameraman, read aloud, meditate on memory, time, Japanese popular culture, decolonisation, and the nature of images. The most searching essay film in cinema.</p>
-<h2 id="why-it-matters-93">WHY IT MATTERS:</h2>
-<p>Marker asks: can images remember? Can memory be filmed? He never stops asking.</p>
+<ol><li>Sans Soleil</li></ol>
+<p>Chris Marker · France · Tokyo / Guinea-Bissau / Cape Verde · 1983 Letters from a fictional cameraman, read aloud, meditate on memory, time, Japanese popular culture, decolonisation, and the</p>
+<p>nature of images. The most searching essay film in cinema. WHY IT MATTERS: Marker asks: can images remember? Can memory be filmed? He never stops asking.</p>
 <h2 id="drama-psychological">DRAMA / PSYCHOLOGICAL</h2>
-<p>94. Scenes from a Marriage</p>
+<ol><li>Scenes from a Marriage</li></ol>
 <h2 id="ingmar-bergman-sweden-stockholm-1973">Ingmar Bergman · Sweden · Stockholm · 1973</h2>
-<p>Originally a six-episode television series, condensed to three hours: the disintegration and eventual honest friendship of a marriage. Bergman strips psychology down to exposed wire.</p>
-<h2 id="why-it-matters-94">WHY IT MATTERS:</h2>
-<p>No film has gone further inside the architecture of a long relationship — or been more honest about what we do to each other. 100 Films That Demand to Be Seen · Page 24</p></section>
-<section class="page" id="page-25"><div class="page-label">PAGE 25</div><h2 id="drama-romance">DRAMA / ROMANCE</h2>
-<h2 id="95-taipei-story-qingmei-zhuma">95. Taipei Story (Qingmei Zhuma)</h2>
+<p>Originally a six-episode television series, condensed to three hours: the disintegration and eventual honest friendship of a</p>
+<p>marriage. Bergman strips psychology down to exposed wire. WHY IT MATTERS: No film has gone further inside the architecture of a long relationship — or been more honest about what we do to each other.</p>
+<p>100 Films That Demand to Be Seen · Page 24</p></section>
+<section class="page" id="page-25"><div class="page-label">SOURCE PAGE 25</div><h2 id="drama-romance">DRAMA / ROMANCE</h2>
+<ol><li>Taipei Story (Qingmei Zhuma)</li></ol>
 <h2 id="edward-yang-taiwan-taipei-1985">Edward Yang · Taiwan · Taipei · 1985</h2>
-<p>A couple in modernising Taipei — she pushing forward, he clinging to baseball dreams — come apart as the city they grew up in dissolves around them. Yang diagnoses a generation&#x27;s paralysis.</p>
-<h2 id="why-it-matters-95">WHY IT MATTERS:</h2>
-<p>Urban alienation as tragedy — the city changes and the people can&#x27;t.</p>
+<p>A couple in modernising Taipei — she pushing forward, he clinging to baseball dreams — come apart as the city they grew up</p>
+<p>in dissolves around them. Yang diagnoses a generation&#x27;s paralysis. WHY IT MATTERS: Urban alienation as tragedy — the city changes and the people can&#x27;t.</p>
 <h2 id="surrealist-black-comedy">SURREALIST / BLACK COMEDY</h2>
-<p>96. The Discreet Charm of the Bourgeoisie Luis Buñuel · France · Paris (bourgeois interiors) · 1972 Six upper-class friends attempt repeatedly to have dinner together and are perpetually interrupted by dreams within dreams, terrorists, and an army. Buñuel&#x27;s most elegant and funny structural joke.</p>
-<h2 id="why-it-matters-96">WHY IT MATTERS:</h2>
-<p>Buñuel dismantles class society by simply refusing to let it eat.</p>
+<ol><li>The Discreet Charm of the Bourgeoisie</li></ol>
+<p>Luis Buñuel · France · Paris (bourgeois interiors) · 1972 Six upper-class friends attempt repeatedly to have dinner together and are perpetually interrupted by dreams within dreams,</p>
+<p>terrorists, and an army. Buñuel&#x27;s most elegant and funny structural joke. WHY IT MATTERS: Buñuel dismantles class society by simply refusing to let it eat.</p>
 <h2 id="black-comedy-political">BLACK COMEDY / POLITICAL</h2>
-<p>97. The Firemen&#x27;s Ball Miloš Forman · Czechoslovakia · Czech small town · 1967 A small-town fire brigade&#x27;s retirement ball descends into comic catastrophe — prizes disappear, the beauty contest humiliates its participants, and a fire breaks out. The Czechoslovak authorities understood the allegory immediately.</p>
-<h2 id="why-it-matters-97">WHY IT MATTERS:</h2>
-<p>The film that got Forman exiled — a masterpiece of political comedy that hides its politics in slapstick.</p>
+<ol><li>The Firemen&#x27;s Ball</li></ol>
+<p>Miloš Forman · Czechoslovakia · Czech small town · 1967 A small-town fire brigade&#x27;s retirement ball descends into comic catastrophe — prizes disappear, the beauty contest humiliates its participants, and a fire breaks out. The Czechoslovak authorities understood the allegory immediately.</p>
+<p>WHY IT MATTERS: The film that got Forman exiled — a masterpiece of political comedy that hides its politics in slapstick.</p>
 <h2 id="romance-drama-2">ROMANCE / DRAMA</h2>
-<h2 id="98-the-piano">98. The Piano</h2>
-<p>Jane Campion · New Zealand / Australia · New Zealand coast · 1993 A mute Scottish woman sent to colonial New Zealand communicates through her piano and is sold into desire by the man who buys it — a gothic feminist romance of radical beauty.</p>
-<h2 id="why-it-matters-98">WHY IT MATTERS:</h2>
-<p>Campion makes silence, desire, and piano keys the same thing.</p>
+<ol><li>The Piano</li></ol>
+<p>Jane Campion · New Zealand / Australia · New Zealand coast · 1993 A mute Scottish woman sent to colonial New Zealand communicates through her piano and is sold into desire by the man who</p>
+<p>buys it — a gothic feminist romance of radical beauty. WHY IT MATTERS: Campion makes silence, desire, and piano keys the same thing.</p>
 <h2 id="drama-philosophical-6">DRAMA / PHILOSOPHICAL</h2>
-<h2 id="99-the-seventh-seal">99. The Seventh Seal</h2>
-<h2 id="ingmar-bergman-sweden-medieval-sweden-1957">Ingmar Bergman · Sweden · Medieval Sweden · 1957</h2>
-<p>A crusader knight returning from the Holy Land plays chess with Death while plague ravages the land. Bergman&#x27;s great existentialist pageant — God is silent, and meaning must be made by hand.</p>
-<h2 id="why-it-matters-99">WHY IT MATTERS:</h2>
-<p>The most famous philosophical image in cinema history — and the most earned. 100 Films That Demand to Be Seen · Page 25</p></section>
-<section class="page" id="page-26"><div class="page-label">PAGE 26</div><p>—2—</p>
+<ol><li>The Seventh Seal</li></ol>
+<p>Ingmar Bergman · Sweden · Medieval Sweden · 1957 A crusader knight returning from the Holy Land plays chess with Death while plague ravages the land. Bergman&#x27;s great</p>
+<p>existentialist pageant — God is silent, and meaning must be made by hand. WHY IT MATTERS: The most famous philosophical image in cinema history — and the most earned. 100 Films That Demand to Be Seen · Page 25</p></section>
+<section class="page" id="page-26"><div class="page-label">SOURCE PAGE 26</div><p>—2—</p>
 <h2 id="sci-fi-philosophical-2">SCI-FI / PHILOSOPHICAL</h2>
-<h2 id="100-2001-a-space-odyssey">100. 2001: A Space Odyssey</h2>
+<ol><li>2001: A Space Odyssey</li></ol>
 <p>Stanley Kubrick · USA / UK · Space / Jupiter / prehistoric Earth · 1968 From ape-bone to Jupiter and beyond — Kubrick&#x27;s wordless, overwhelming meditation on human evolution, artificial intelligence, and the incomprehensibility of the cosmos. HAL 9000 is the most human character in the film.</p>
-<h2 id="why-it-matters-100">WHY IT MATTERS:</h2>
-<p>Cinema&#x27;s greatest act of ambition — it asks what we are and refuses to answer in language. 100 Films That Demand to Be Seen · Page 26</p></section>
-<section class="page" id="page-27"><div class="page-label">PAGE 27</div><p>“The cinema is not a slice of life but a piece of cake.” — Alfred Hitchcock 100 Films That Demand to Be Seen · Page 27</p></section></div><div class="footer">Reading edition generated from <a href="../100_essential_films.pdf">100_essential_films.pdf</a>. The original file is preserved unchanged.</div></article></div>
+<p>WHY IT MATTERS: Cinema&#x27;s greatest act of ambition — it asks what we are and refuses to answer in language. 100 Films That Demand to Be Seen · Page 26</p></section>
+<section class="page" id="page-27"><div class="page-label">SOURCE PAGE 27</div><p>“The cinema is not a slice of life but a piece of cake.”</p>
+<h2 id="alfred-hitchcock">— Alfred Hitchcock</h2>
+<p>100 Films That Demand to Be Seen · Page 27</p></section></div>
+<footer class="footer">Converted from <a href="../100_essential_films.pdf">100_essential_films.pdf</a>. Extraction method: pdftotext. The original file is retained for images, complex layouts and visual details.</footer>
+</article></main>
 <script>
-const q=document.getElementById('search'), pages=[...document.querySelectorAll('.page')];
-q.addEventListener('input',()=>{const term=q.value.trim().toLowerCase();pages.forEach(p=>{p.hidden=!!term&&!p.innerText.toLowerCase().includes(term)})});
+(function(){const q=document.getElementById('search');if(!q)return;const pages=[...document.querySelectorAll('.page')];q.addEventListener('input',()=>{const term=q.value.trim().toLowerCase();pages.forEach(p=>{p.hidden=!!term&&!p.innerText.toLowerCase().includes(term)})});})();
 </script></body></html>

@@ -1,63 +1,63 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Accessible HTML reading edition of manga recommendations.">
-<title>manga recommendations — Reading Edition</title>
+<meta name="description" content="Reading edition of manga recommendations. Original source preserved.">
+<title>manga recommendations — The Reading Room</title>
+
+<script src="../assets/reading-room.js?v=4" defer></script>
 <style>
-:root{color-scheme:light;--bg:#f5f3ee;--paper:#fffefa;--ink:#252923;--muted:#687168;--line:#e2e0d8;--accent:#356b68;--soft:#eaf0ed}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.75 system-ui,-apple-system,Segoe UI,sans-serif}
-header{background:var(--paper);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
-.top{max-width:1180px;margin:auto;padding:12px 22px;display:flex;align-items:center;gap:14px}.brand{font-size:12px;font-weight:750;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);white-space:nowrap}
-.search{flex:1;min-width:120px;border:1px solid var(--line);border-radius:8px;padding:9px 12px;font:inherit;font-size:14px;background:var(--bg);color:var(--ink)}
-button,.link{border:1px solid var(--line);border-radius:8px;padding:8px 11px;background:var(--paper);color:var(--ink);font:inherit;font-size:13px;text-decoration:none;cursor:pointer}
-button:hover,.link:hover{border-color:var(--accent)}.layout{max-width:1180px;margin:30px auto;padding:0 22px;display:grid;grid-template-columns:230px minmax(0,1fr);gap:30px}
-.toc{position:sticky;top:82px;align-self:start;max-height:calc(100vh - 110px);overflow:auto;padding:16px;background:var(--paper);border:1px solid var(--line);border-radius:12px}
-.toc-title,.page-label{font-size:10px;font-weight:750;letter-spacing:.14em;color:var(--muted)}.toc a{display:block;color:var(--muted);font-size:13px;text-decoration:none;padding:5px 0;border-bottom:1px solid var(--line)}.toc a:hover{color:var(--accent)}
-article{min-width:0}.hero{padding:26px 30px;background:var(--paper);border:1px solid var(--line);border-radius:14px;margin-bottom:18px}
-.kicker{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);font-weight:750}.hero h1{font-size:clamp(26px,4vw,40px);line-height:1.2;letter-spacing:-.03em;margin:9px 0 8px}.meta{font-size:13px;color:var(--muted)}
-.page{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:28px 34px;margin:14px 0;overflow-wrap:anywhere}
-.page-label{margin-bottom:12px}h2{font-size:22px;line-height:1.3;margin:24px 0 10px;scroll-margin-top:90px}p{margin:0 0 14px}p:last-child{margin-bottom:0}
-.table-wrap{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:14px}td{border:1px solid var(--line);padding:8px;vertical-align:top}
-.empty{color:var(--muted);padding:18px;text-align:center}.footer{color:var(--muted);font-size:12px;padding:18px 4px}
-@media(max-width:760px){.top{padding:10px 14px;gap:8px;flex-wrap:wrap}.brand{width:100%}.search{order:2;flex-basis:100%}.layout{display:block;margin:16px auto;padding:0 12px}.toc{position:static;max-height:220px;margin-bottom:14px}.hero{padding:20px}.page{padding:20px 18px}body{font-size:15px}}
-@media(prefers-color-scheme:dark){:root{color-scheme:dark;--bg:#151816;--paper:#1d211e;--ink:#e8ece6;--muted:#a0aaa1;--line:#343b35;--accent:#8bc5b5;--soft:#27332e}.search{background:#151816}}
-</style><link rel="stylesheet" href="../assets/reading-room.css"></head><body class="rr-page rr-reader rr--manga">
-<nav class="rr-contextbar"><a href="../index.html">← THE READING ROOM</a><span><em>Anime &amp; Manga</em> · Illustrated stories, manga indexes and comics reading guides</span></nav>
-<header><div class="top"><a class="brand" href="index.html" style="text-decoration:none">THE READING ARCHIVE</a>
-<input id="search" class="search" type="search" placeholder="Search within this document…" aria-label="Search within this document">
-<a class="link" href="../manga_recommendations.pdf" target="_blank" rel="noopener">Original PDF ↗</a></div></header>
-<div class="layout"><nav class="toc"><div class="toc-title">ON THIS PAGE</div><a href="#complete-manga-recommendations">■ Complete Manga Recommendations</a><a href="#beginner-picks-romance-mystery-feel-good">■ Beginner Picks — Romance &amp; Mystery (Feel-Good)</a><a href="#title-genre-rating-why-read-it">Title Genre Rating Why Read It</a><a href="#bold-romantic-comedy">■ Bold Romantic Comedy</a><a href="#title-genre-rating-why-read-it-2">Title Genre Rating Why Read It</a><a href="#suggestive-cheeky-comedy">■ Suggestive / Cheeky Comedy</a><a href="#title-genre-rating-why-read-it-3">Title Genre Rating Why Read It</a><a href="#title-genre-rating-why-read-it-4">Title Genre Rating Why Read It</a><a href="#mature-josei-romance">■ Mature Josei Romance</a><a href="#title-genre-rating-why-read-it-5">Title Genre Rating Why Read It</a><a href="#steamy-seinen-romance-adult-drama">■ Steamy Seinen Romance &amp; Adult Drama</a><a href="#title-genre-rating-why-read-it-6">Title Genre Rating Why Read It</a><a href="#circumstances">Circumstances)</a><a href="#title-genre-rating-why-read-it-7">Title Genre Rating Why Read It</a><a href="#bold-adult-drama-more-romance">■ Bold Adult Drama &amp; More Romance</a><a href="#title-genre-rating-why-read-it-8">Title Genre Rating Why Read It</a><a href="#atmospheric-sensual-romance">■ Atmospheric Sensual Romance</a><a href="#title-genre-rating-why-read-it-9">Title Genre Rating Why Read It</a><a href="#elegant-seductive-storytelling">■ Elegant &amp; Seductive Storytelling</a><a href="#title-genre-rating-why-read-it-10">Title Genre Rating Why Read It</a></nav><article><section class="hero"><div class="kicker">HTML READING EDITION · PDF</div><h1>manga recommendations</h1><div class="meta">Converted from the original source · Text may require review against the original document</div></section>
-<div id="content"><section class="page" id="page-1"><div class="page-label">PAGE 1</div><h2 id="complete-manga-recommendations">■ Complete Manga Recommendations</h2>
+.rr-reader-intro{margin:12px 0 14px;padding:13px 15px;border:1px solid var(--rr-line);border-left:3px solid var(--rr-accent);border-radius:9px;background:var(--rr-panel)}
+.rr-reader-intro .kicker{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--rr-accent-strong);font-weight:750}
+.rr-reader-intro p{margin:5px 0 0!important;color:var(--rr-muted);font-size:12px!important;line-height:1.6!important}
+body.rr-reader .page{min-height:0}
+body.rr-reader .page h2,body.rr-reader .page h3{scroll-margin-top:78px}
+body.rr-reader .page li{margin:3px 0}
+body.rr-reader .page img.docx-inline-image{display:block;max-width:100%;height:auto;margin:12px auto;border-radius:6px}
+body.rr-reader .page table{min-width:520px}
+body.rr-reader .page th{background:var(--rr-accent-soft);font-weight:700}
+body.rr-reader .page blockquote{margin:12px 0;padding:8px 14px;border-left:3px solid var(--rr-accent);background:var(--rr-panel);color:var(--rr-muted)}
+body.rr-reader .page a{overflow-wrap:anywhere}
+body.rr-reader .page-label{margin-bottom:8px}
+body.rr-reader .toc details summary{cursor:pointer;font-size:11px;font-weight:700;color:var(--rr-ink)}
+body.rr-reader .toc details a:first-of-type{margin-top:8px}
+</style><link rel="stylesheet" href="../assets/reading-room.css?v=4"><script src="../assets/reading-room-context.js?v=4" defer></script><script src="../assets/reading-room.js?v=4" defer></script></head><body class="rr-page rr-reader rr--manga">
+<nav class="toc"><div class="toc-title">ON THIS PAGE</div><a href="#title-genre-rating-why-read-it">Title Genre Rating Why Read It</a><a href="#title-genre-rating-why-read-it-2">Title Genre Rating Why Read It</a><a href="#title-genre-rating-why-read-it-3">Title Genre Rating Why Read It</a><a href="#title-genre-rating-why-read-it-4">Title Genre Rating Why Read It</a><a href="#title-genre-rating-why-read-it-5">Title Genre Rating Why Read It</a><a href="#title-genre-rating-why-read-it-6">Title Genre Rating Why Read It</a><a href="#circumstances">Circumstances)</a><a href="#title-genre-rating-why-read-it-7">Title Genre Rating Why Read It</a><a href="#title-genre-rating-why-read-it-8">Title Genre Rating Why Read It</a><a href="#title-genre-rating-why-read-it-9">Title Genre Rating Why Read It</a><a href="#title-genre-rating-why-read-it-10">Title Genre Rating Why Read It</a></nav>
+<main class="layout"><article>
+<section class="hero"><div class="kicker">SOURCE DOCUMENT · PDF · Anime &amp; Manga</div><h1>manga recommendations</h1><div class="meta">4 reading sections · Original file preserved · Search within this edition</div></section>
+<section class="rr-reader-intro"><div class="kicker">How to use this collection</div><p>Use the contents and section headings to find a route through the medium. Larger lists are references for discovery; shorter guides and curricula offer a more deliberate starting point.</p><p><a href="../manga_recommendations.pdf" target="_blank" rel="noopener">Open original PDF ↗</a></p></section>
+<div id="content"><section class="page" id="page-1"><div class="page-label">SOURCE PAGE 1</div><ul><li>Complete Manga Recommendations</li></ul>
 <p>Curated for Romance &amp; Mystery lovers who enjoy a Feel-Good, Wholesome vibe Ratings: ■■■■■ Masterpiece | ■■■■½ Excellent | ■■■■ Great | ■■■½ Good</p>
-<h2 id="beginner-picks-romance-mystery-feel-good">■ Beginner Picks — Romance &amp; Mystery (Feel-Good)</h2>
+<ul><li>Beginner Picks — Romance &amp; Mystery (Feel-Good)</li></ul>
 <h2 id="title-genre-rating-why-read-it">Title Genre Rating Why Read It</h2>
 <p>Kimi ni Todoke Romance / Slice of Life ■■■■■ Sweet, wholesome, slow-burn romance Detective Conan (Case Closed) Mystery / Romance ■■■■■ Cozy mysteries + slow-burn romance Horimiya Romance / Comedy ■■■■■ Warm hidden-identity romance The Ancient Magus&#x27; Bride Fantasy / Romance ■■■■½ Magical, atmospheric slow-burn My Love Story!! (Ore Monogatari!!) Romance / Comedy ■■■■■ Pure comfort, zero drama</p>
-<h2 id="bold-romantic-comedy">■ Bold Romantic Comedy</h2>
+<ul><li>Bold Romantic Comedy</li></ul>
 <h2 id="title-genre-rating-why-read-it-2">Title Genre Rating Why Read It</h2>
 <p>Yakuza Lover Romance / Drama ■■■■½ Steamy, bold, unapologetically romantic Wolf Girl and Black Prince Romance / Comedy ■■■■ Sharp edgy fake-dating romance Ore Yome Romance ■■■■ Possessive adult romance with great chemistry Love Com (Lovely Complex) Romance / Comedy ■■■■■ Hilarious height-difference romance Faster than a Kiss Romance ■■■■ Student-teacher forbidden romance My Little Monster Romance / Comedy ■■■■ Quirky characters, warm romance Say I Love You Romance / Drama ■■■■ Quiet girl meets popular boy Itazura na Kiss Romance / Comedy ■■■■½ Classic persistent love story Hot Gimmick Romance / Drama ■■■½ Intense, complicated love triangle Dengeki Daisy Mystery / Romance ■■■■■ Hacker mystery + sweet romance</p>
-<h2 id="suggestive-cheeky-comedy">■ Suggestive / Cheeky Comedy</h2>
+<ul><li>Suggestive / Cheeky Comedy</li></ul>
 <h2 id="title-genre-rating-why-read-it-3">Title Genre Rating Why Read It</h2>
 <p>Grand Blue Comedy / Slice of Life ■■■■■ College comedy, bold adult humor Aho Girl Comedy ■■■■ Absurd over-the-top cheeky humor Prison School Comedy / Ecchi ■■■■ Very bold boundary-pushing comedy</p></section>
-<section class="page" id="page-2"><div class="page-label">PAGE 2</div><h2 id="title-genre-rating-why-read-it-4">Title Genre Rating Why Read It</h2>
+<section class="page" id="page-2"><div class="page-label">SOURCE PAGE 2</div><h2 id="title-genre-rating-why-read-it-4">Title Genre Rating Why Read It</h2>
 <p>Shomin Sample Comedy / Romance ■■■½ Harem comedy in elite school Nisekoi Romance / Comedy ■■■■ Fake dating harem comedy The World God Only Knows Comedy / Romance ■■■■½ Gamer conquers real-life romance Yamada-kun and the Seven Witches Romance / Comedy ■■■■ Body-swap witches romance Domestic Girlfriend Romance / Drama ■■■■ Mature complex love triangle Ranma 1/2 Comedy / Action ■■■■■ Classic gender-bending comedy To Love Ru Comedy / Romance ■■■■ Alien girl harem comedy</p>
-<h2 id="mature-josei-romance">■ Mature Josei Romance</h2>
+<ul><li>Mature Josei Romance</li></ul>
 <h2 id="title-genre-rating-why-read-it-5">Title Genre Rating Why Read It</h2>
 <p>Midnight Secretary Romance / Fantasy ■■■■■ Vampire boss elegant slow-burn Butterflies, Flowers Romance / Comedy ■■■■½ Bold office romance, very adult tone Black Bird Romance / Fantasy ■■■■ Demon romance, bold and dramatic Sensual Phrase Romance / Drama ■■■■½ Boldest tone, rock star romance Absolute Boyfriend Romance / Sci-Fi ■■■■ Robot boyfriend emotional drama Crimson Hero Romance / Sports ■■■½ Volleyball girl, mature romance Switch Girl Romance / Comedy ■■■■ Hidden identity comedy romance Hapi Mari (Happy Marriage!?) Romance / Drama ■■■■½ Arranged marriage steamy romance Tramps Like Us (Kimi wa Pet) Romance / Comedy ■■■■½ Career woman keeps a human &#x27;pet&#x27; Love Pistols Romance / Fantasy ■■■½ Mature supernatural romance</p>
-<h2 id="steamy-seinen-romance-adult-drama">■ Steamy Seinen Romance &amp; Adult Drama</h2>
+<ul><li>Steamy Seinen Romance &amp; Adult Drama</li></ul>
 <h2 id="title-genre-rating-why-read-it-6">Title Genre Rating Why Read It</h2>
 <p>Nana Romance / Drama ■■■■■ Raw, emotionally deep adult drama Paradise Kiss Romance / Drama ■■■■■ Stylish, mature, atmospheric Mars Romance / Drama ■■■■■ Intense passion with dark undertones Peach Girl Romance / Drama ■■■■ Dramatic complex love story Goodnight Punpun Drama / Psychological ■■■■■ Heavy emotional adult story Sundome Romance / Ecchi ■■■■ Bold, unusual high school romance Cactus&#x27;s Secret Romance ■■■½ Sweet but mature romance Kare Kano (His and Her Romance / Drama ■■■■■ Deep emotional high school romance</p>
 <h2 id="circumstances">Circumstances)</h2></section>
-<section class="page" id="page-3"><div class="page-label">PAGE 3</div><h2 id="title-genre-rating-why-read-it-7">Title Genre Rating Why Read It</h2>
+<section class="page" id="page-3"><div class="page-label">SOURCE PAGE 3</div><h2 id="title-genre-rating-why-read-it-7">Title Genre Rating Why Read It</h2>
 <p>Antique Bakery Slice of Life / Drama ■■■■½ Elegant, mature character study Fushigi Yugi Fantasy / Romance ■■■■½ Epic fantasy romance drama</p>
-<h2 id="bold-adult-drama-more-romance">■ Bold Adult Drama &amp; More Romance</h2>
+<ul><li>Bold Adult Drama &amp; More Romance</li></ul>
 <h2 id="title-genre-rating-why-read-it-8">Title Genre Rating Why Read It</h2>
 <p>Kamisama Kiss Fantasy / Romance ■■■■½ Shrine maiden god romance Vampire Knight Fantasy / Romance ■■■■ Dark vampire school romance Oresama Teacher Comedy / Romance ■■■■ Bold delinquent teacher comedy Skip Beat! Romance / Drama ■■■■■ Revenge becomes love, superb writing A Devil and Her Love Song Romance / Drama ■■■■ Blunt girl learns to love Ao Haru Ride Romance ■■■■½ Emotionally bold rekindled romance Takane and Hana Romance / Comedy ■■■■½ Age-gap witty banter romance Tsubaki-chou Lonely Planet Romance ■■■■½ Cozy novelist housekeeper romance Hana Yori Dango (Boys Over Flowers) Romance / Drama ■■■■■ Iconic rich boy romance classic Domestic Girlfriend (alt) Romance / Drama ■■■■ Complex forbidden adult relationships</p>
-<h2 id="atmospheric-sensual-romance">■ Atmospheric Sensual Romance</h2>
+<ul><li>Atmospheric Sensual Romance</li></ul>
 <h2 id="title-genre-rating-why-read-it-9">Title Genre Rating Why Read It</h2>
 <p>Ojousama no Untenshu Romance / Historical ■■■■ Lady and driver forbidden romance Ookami-heika no Hanayome Romance / Fantasy ■■■■ Commoner becomes king&#x27;s fake bride The One Romance / Drama ■■■■½ Fashion world intense romance Loveholic Romance / Drama ■■■■ Mature emotional adult romance Red River (Anatolia Story) Romance / Historical ■■■■■ Epic time-travel historical romance Ludwig Revolution Fantasy / Romance ■■■■ Dark fairy tale romantic comedy Ceres: Celestial Legend Fantasy / Romance ■■■■½ Goddess reincarnation romance drama Flower of Life Slice of Life / Comedy ■■■■ Warm mature slice-of-life Basara Adventure / Romance ■■■■■ Epic female warrior romance From Far Away (Kanata Kara) Fantasy / Romance ■■■■½ Isekai romance with great depth</p>
-<h2 id="elegant-seductive-storytelling">■ Elegant &amp; Seductive Storytelling</h2></section>
-<section class="page" id="page-4"><div class="page-label">PAGE 4</div><h2 id="title-genre-rating-why-read-it-10">Title Genre Rating Why Read It</h2>
-<p>Loveless Fantasy / Romance ■■■■ Unique supernatural boy&#x27;s love Angel Sanctuary Fantasy / Drama ■■■■ Dark angel epic romance Bride of the Water God Fantasy / Romance ■■■■½ Beautiful god-human romance The Wallflower Comedy / Romance ■■■■½ Gothic girl reverse-harem comedy Requiem of the Rose King Historical / Drama ■■■■½ Shakespeare-inspired dark drama Versailles no Bara (Rose of Versailles) Historical / Drama ■■■■■ Iconic historical French revolution Black Butler (Kuroshitsuji) Fantasy / Mystery ■■■■■ Victorian demon butler mystery Kaichou wa Maid-sama! Romance / Comedy ■■■■■ Student council president maid cafe The Earl and the Fairy Fantasy / Romance ■■■■ Victorian fairy doctor romance Full Moon wo Sagashite Fantasy / Romance ■■■■½ Emotional music and romance drama Generated based on your love of Romance &amp; Mystery with a Feel-Good, Wholesome vibe ■</p></section></div><div class="footer">Reading edition generated from <a href="../manga_recommendations.pdf">manga_recommendations.pdf</a>. The original file is preserved unchanged.</div></article></div>
+<ul><li>Elegant &amp; Seductive Storytelling</li></ul></section>
+<section class="page" id="page-4"><div class="page-label">SOURCE PAGE 4</div><h2 id="title-genre-rating-why-read-it-10">Title Genre Rating Why Read It</h2>
+<p>Loveless Fantasy / Romance ■■■■ Unique supernatural boy&#x27;s love Angel Sanctuary Fantasy / Drama ■■■■ Dark angel epic romance Bride of the Water God Fantasy / Romance ■■■■½ Beautiful god-human romance The Wallflower Comedy / Romance ■■■■½ Gothic girl reverse-harem comedy Requiem of the Rose King Historical / Drama ■■■■½ Shakespeare-inspired dark drama Versailles no Bara (Rose of Versailles) Historical / Drama ■■■■■ Iconic historical French revolution</p>
+<p>Black Butler (Kuroshitsuji) Fantasy / Mystery ■■■■■ Victorian demon butler mystery Kaichou wa Maid-sama! Romance / Comedy ■■■■■ Student council president maid cafe The Earl and the Fairy Fantasy / Romance ■■■■ Victorian fairy doctor romance Full Moon wo Sagashite Fantasy / Romance ■■■■½ Emotional music and romance drama Generated based on your love of Romance &amp; Mystery with a Feel-Good, Wholesome vibe ■</p></section></div>
+<footer class="footer">Converted from <a href="../manga_recommendations.pdf">manga_recommendations.pdf</a>. Extraction method: pdftotext. The original file is retained for images, complex layouts and visual details.</footer>
+</article></main>
 <script>
-const q=document.getElementById('search'), pages=[...document.querySelectorAll('.page')];
-q.addEventListener('input',()=>{const term=q.value.trim().toLowerCase();pages.forEach(p=>{p.hidden=!!term&&!p.innerText.toLowerCase().includes(term)})});
+(function(){const q=document.getElementById('search');if(!q)return;const pages=[...document.querySelectorAll('.page')];q.addEventListener('input',()=>{const term=q.value.trim().toLowerCase();pages.forEach(p=>{p.hidden=!!term&&!p.innerText.toLowerCase().includes(term)})});})();
 </script></body></html>
