@@ -275,26 +275,44 @@ def alias_page(path,target,note):
 def inject_shared_assets(path):
     text=path.read_text(encoding="utf-8")
     prefix="../" if path.parent.name=="html" else ""
-    text=re.sub(r'<link\b[^>]*reading-room\.css[^>]*>',"",text,flags=re.I)
-    text=re.sub(r'<script\b[^>]*reading-room-(?:context|room)\.js[^>]*>\s*</script>\s*',"",text,flags=re.I)
+    # A few imported app fragments are body-only HTML, not complete documents.
+    # Turn them into valid standalone pages before adding the shared theme.
+    if not re.search(r"<html\\b", text, re.I):
+        styles=re.findall(r"<style\\b[^>]*>[\\s\\S]*?</style>", text, re.I)
+        text=re.sub(r"<style\\b[^>]*>[\\s\\S]*?</style>", "", text, flags=re.I)
+        tags=('<link rel="stylesheet" href="'+prefix+'assets/reading-room.css?v=4">'
+              '<script src="'+prefix+'assets/reading-room-context.js?v=4" defer></script>'
+              '<script src="'+prefix+'assets/reading-room.js?v=4" defer></script>')
+        text='<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'+''.join(styles)+tags+'</head><body class="rr-page rr--mixed">'+text+'</body></html>'
+        path.write_text(text,encoding="utf-8")
+        return
+    text=re.sub(r'<link\\b[^>]*reading-room\\.css[^>]*>',"",text,flags=re.I)
+    text=re.sub(r'<script\\b[^>]*reading-room-(?:context|room)\\.js[^>]*>\\s*</script>\\s*',"",text,flags=re.I)
     tags=('<link rel="stylesheet" href="'+prefix+'assets/reading-room.css?v=4">'
           '<script src="'+prefix+'assets/reading-room-context.js?v=4" defer></script>'
           '<script src="'+prefix+'assets/reading-room.js?v=4" defer></script>')
     if re.search(r'</head>',text,re.I):
         text=re.sub(r'</head>',tags+'</head>',text,count=1,flags=re.I)
+    elif re.search(r'<head\\b[^>]*>',text,re.I):
+        text=re.sub(r'<head\\b[^>]*>',lambda m:m.group(0)+tags,text,count=1,flags=re.I)
     else:
-        text=text.replace('<html','<html').replace('>', '>',1)
+        text=re.sub(r'<html\\b[^>]*>',lambda m:m.group(0)+'<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'+tags+'</head>',text,count=1,flags=re.I)
     def body_repl(m):
         attrs=m.group(1)
-        cm=re.search(r'class=["\']([^"\']*)["\']',attrs,re.I)
+        cm=re.search(r'class=["\\']([^"\\']*)["\\']',attrs,re.I)
         if cm:
             cls=cm.group(1)
             if "rr-page" not in cls: cls += " rr-page"
+            if "rr--" not in cls: cls += " rr--mixed"
             attrs=attrs[:cm.start(1)]+cls+attrs[cm.end(1):]
         else:
             attrs+=' class="rr-page rr--mixed"'
         return '<body'+attrs+'>'
-    text=re.sub(r'<body([^>]*)>',body_repl,text,count=1,flags=re.I)
+    if re.search(r'<body\\b',text,re.I):
+        text=re.sub(r'<body([^>]*)>',body_repl,text,count=1,flags=re.I)
+    else:
+        text=re.sub(r'</head>', '</head><body class="rr-page rr--mixed">', text, count=1, flags=re.I)
+        text=text.replace('</html>','</body></html>')
     path.write_text(text,encoding="utf-8")
 
 def main():
