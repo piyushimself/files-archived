@@ -780,30 +780,24 @@ function buildSensitiveCinemaReader(body,content,toolbar){
 
     // The source uses a category mark between each film title and its
     // country/year metadata. Use it as a boundary for a readable entry.
-    const marked=raw.match(/^\s*(.*?)\s+■\s*(.*?)\s+·\s+((?:18|19|20)\d{2})\s+·\s+([\s\S]+)$/)
-      || raw.match(/^\s*(.*?)\s+■\s*([A-Z]{2,6})\s+([\s\S]+)$/);
+    const marked=raw.match(/^\s*(.*?)\s*■\s*([\s\S]+)$/);
     if(marked){
       const title=cinemaText(marked[1]);
-      let categoryText="",metaText="";
-      if(marked.length===5){
-        categoryText=cinemaText(marked[2]);
-        metaText=categoryText+" · "+marked[3];
-        clean=marked[4];
-      }else{
-        categoryText=cinemaText(marked[2]);
-        const rest=cinemaText(marked[3]);
-        const meta=rest.match(/^(.+?)\s+·\s+((?:18|19|20)\d{2})\s+·\s+([\s\S]+)$/);
-        if(meta){metaText=meta[1]+" · "+meta[2];clean=meta[3];}
-        else clean=rest;
-      }
+      const rest=cinemaText(marked[2]);
+      const meta=rest.match(/^(.+?)\s+·\s+((?:18|19|20)\d{2})\s+·\s+([\s\S]+)$/);
       if(title){
         const h=document.createElement("h3");h.className="rr-sensitive-entry-title";h.textContent=title;card.appendChild(h);
       }
-      if(categoryText){
-        const category=document.createElement("span");category.className="rr-sensitive-kind";category.textContent=categoryText;card.appendChild(category);
-      }
-      if(metaText){
-        const line=document.createElement("p");line.className="rr-sensitive-meta";line.textContent=metaText;card.appendChild(line);
+      if(meta){
+        const category=document.createElement("span");category.className="rr-sensitive-kind";category.textContent=meta[1];card.appendChild(category);
+        const line=document.createElement("p");line.className="rr-sensitive-meta";line.textContent=meta[1]+" · "+meta[2];card.appendChild(line);
+        clean=meta[3];
+      }else{
+        const first=rest.match(/^(\S+)\s+([\s\S]+)$/);
+        if(first){
+          const category=document.createElement("span");category.className="rr-sensitive-kind";category.textContent=first[1];card.appendChild(category);
+          clean=first[2];
+        }else clean=rest;
       }
     }
     const p=document.createElement("p");p.className="rr-sensitive-entry-copy";p.textContent=clean||text;card.appendChild(p);
