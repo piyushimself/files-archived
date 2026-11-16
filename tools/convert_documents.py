@@ -333,14 +333,19 @@ def render_poetry_pdf(extracted):
             poet = poet_match.group(1).strip()
             verse_start = byline_index + 1
 
+        # pdftotext may emit one empty line between every baseline in a poem.
+        # Treat only a wider blank gap (two or more empty lines) as a stanza break.
         stanzas, current_stanza = [], []
+        blank_run = 0
         for line in remaining[verse_start:]:
             if not line:
-                if current_stanza:
-                    stanzas.append(current_stanza)
-                    current_stanza = []
-            else:
-                current_stanza.append(line)
+                blank_run += 1
+                continue
+            if blank_run >= 2 and current_stanza:
+                stanzas.append(current_stanza)
+                current_stanza = []
+            blank_run = 0
+            current_stanza.append(line)
         if current_stanza:
             stanzas.append(current_stanza)
 
