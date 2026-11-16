@@ -80,9 +80,9 @@ jobs:
               if page.name == 'index.html' and page.parent == root:
                   assert 'rr-home-hero' in body, 'Homepage not rebuilt'
               else:
-                  assert 'reading-room.css?v=7' in body, f'Missing shared stylesheet: {page}'
+                  assert 'reading-room.css?v=8' in body, f'Missing shared stylesheet: {page}'
               assert 'class=\"rr-page' in body, f'Missing Reading Room page scope: {page}'
-              assert body.count('reading-room.js?v=7') == 1, f'Duplicate or missing shared script: {page}'
+              assert body.count('reading-room.js?v=8') == 1, f'Duplicate or missing shared script: {page}'
           for item in report['sources']:
               if item['status'] != 'converted':
                   continue
