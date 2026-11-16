@@ -229,7 +229,7 @@ function buildFilmCatalogue(body,content,toolbar){
   }
   groupsByName.forEach((items,name)=>{
     const section=document.createElement("section");section.className="rr-film-group";section.dataset.category=name;
-    const heading=document.createElement("h2");heading.className="rr-film-group-title";heading.textContent=name;const groupAnchor=groups.find(g=>g.title===name&&g.anchor);if(groupAnchor)heading.id=groupAnchor.anchor;section.appendChild(heading);
+    const heading=document.createElement("h2");heading.className="rr-film-group-title";heading.textContent=name;groups.filter(g=>g.title===name&&g.anchor).forEach(g=>{const anchor=document.createElement("span");anchor.id=g.anchor;anchor.className="rr-film-anchor";heading.appendChild(anchor);});section.appendChild(heading);
     const grid=document.createElement("div");grid.className="rr-film-grid";
     items.forEach(record=>{
       const card=document.createElement("article");card.className="rr-film-card";
@@ -280,9 +280,8 @@ function buildFilmCatalogue(body,content,toolbar){
 }
 function buildGenericReader(body,content,toolbar){
   const pages=[...content.querySelectorAll(":scope > .page")],groups=[];
-  const pageSelect=addSelect(toolbar.tools,"rr-reader-filter rr-reader-page-filter","source page",pages.map((page,i)=>{
-    const label=page.querySelector(".page-label");return label?label.textContent.trim():"Source page "+(i+1);
-  }));
+  const pageSelect=addSelect(toolbar.tools,"rr-reader-filter rr-reader-page-filter","source page",pages.map((page,i)=>String(i)));
+  [...pageSelect.options].slice(1).forEach((option,i)=>{const label=pages[i].querySelector(".page-label");option.textContent=label?label.textContent.trim():"Source page "+(i+1);});
   const sectionNames=new Set();
   pages.forEach((page,pageIndex)=>{
     const children=[...page.children],label=children.find(n=>n.classList.contains("page-label"));
@@ -310,7 +309,6 @@ function buildGenericReader(body,content,toolbar){
       }
     });
     page.dataset.rrPage=String(pageIndex);
-    if(!label&&section)page.insertBefore(document.createElement("div"),page.firstChild);
   });
   groups.forEach(section=>{
     const heading=section.querySelector("h2,h3,h4");
