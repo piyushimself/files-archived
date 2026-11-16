@@ -23,7 +23,7 @@ body.rr-reader .page a{overflow-wrap:anywhere}
 body.rr-reader .page-label{margin-bottom:8px}
 body.rr-reader .toc details summary{cursor:pointer;font-size:11px;font-weight:700;color:var(--rr-ink)}
 body.rr-reader .toc details a:first-of-type{margin-top:8px}
-</style><link rel="stylesheet" href="../assets/reading-room.css?v=14"><script src="../assets/reading-room-context.js?v=14" defer></script><script src="../assets/reading-room.js?v=14" defer></script></head><body class="rr-page rr-reader rr--mixed">
+</style><link rel="stylesheet" href="../assets/reading-room.css?v=15"><script src="../assets/reading-room-context.js?v=15" defer></script><script src="../assets/reading-room.js?v=15" defer></script></head><body class="rr-page rr-reader rr--mixed">
 <nav class="toc"><details><summary>ON THIS PAGE · 22 sections</summary><a href="#1-000-google-searches-that-will-rewire-your-world">1,000 Google Searches That Will Rewire Your World</a><a href="#section-1-of-5">SECTION 1 OF 5</a><a href="#north-america">North America&quot;</a><a href="#usa">USA&quot;</a><a href="#americans">Americans&quot;</a><a href="#empire">Empire&quot;</a><a href="#read">Read&quot;</a><a href="#rome">Rome&quot;</a><a href="#france">France&quot;</a><a href="#france-2">France&quot;</a><a href="#america">America&quot;</a><a href="#navajo">Navajo&quot;</a><a href="#world-america">World&quot; America&quot;</a><a href="#order-9066">Order 9066&quot;</a><a href="#west">West&quot;</a><a href="#east">East&quot;</a><a href="#section-2-of-5">SECTION 2 OF 5</a><a href="#section-3-of-5">SECTION 3 OF 5</a><a href="#section-4-of-5">SECTION 4 OF 5</a><a href="#section-5-of-5">SECTION 5 OF 5</a><a href="#the-edges-overlooked-people-places">The Edges — Overlooked People, Places &amp;</a><a href="#googled">Googled</a></details></nav>
 <main class="layout"><article>
 <section class="hero"><div class="kicker">SOURCE DOCUMENT · PDF · Books &amp; Reference</div><h1>The Grand Curiosity Atlas — 1,000 Search Trails</h1><div class="meta">18 reading sections · Original file preserved · Search within this edition</div></section>
@@ -267,7 +267,7 @@ body.rr-reader .toc details a:first-of-type{margin-top:8px}
 <script>
 (function(){
   const q=document.getElementById('search');
-  if(!q)return;
+  if(!q || document.body.classList.contains('rr--poetry'))return;
   const pages=[...document.querySelectorAll('#content .page')];
   q.addEventListener('input',()=>{
     const term=q.value.trim().toLowerCase();

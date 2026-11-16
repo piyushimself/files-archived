@@ -10,11 +10,12 @@
       "extracted_chars": 231312,
       "sections": 83,
       "toc_entries": 887,
+      "poem_count": 0,
       "extraction": "pdftotext",
       "docx_paragraphs": 0,
       "docx_tables": 0,
       "docx_styles": {},
-      "output_bytes": 274858
+      "output_bytes": 274908
     },
     {
       "source": "1000_Google_Searches_Grand_Curiosity_Atlas.pdf",
@@ -24,11 +25,12 @@
       "extracted_chars": 68139,
       "sections": 18,
       "toc_entries": 22,
+      "poem_count": 0,
       "extraction": "pdftotext",
       "docx_paragraphs": 0,
       "docx_tables": 0,
       "docx_styles": {},
-      "output_bytes": 77422
+      "output_bytes": 77472
     },
     {
       "source": "1000_Greatest_Fictional_Books.pdf",
@@ -38,11 +40,12 @@
       "extracted_chars": 276741,
       "sections": 57,
       "toc_entries": 918,
+      "poem_count": 0,
       "extraction": "pdftotext",
       "docx_paragraphs": 0,
       "docx_tables": 0,
       "docx_styles": {},
-      "output_bytes": 277716
+      "output_bytes": 277766
     },
     {
       "source": "1000_Inspirations.pdf",
@@ -52,11 +55,12 @@
       "extracted_chars": 97497,
       "sections": 26,
       "toc_entries": 20,
+      "poem_count": 0,
       "extraction": "pdftotext",
       "docx_paragraphs": 0,
       "docx_tables": 0,
       "docx_styles": {},
-      "output_bytes": 89789
+      "output_bytes": 89839
     },
     {
       "source": "1000_Writing_Prompts.docx",
@@ -66,13 +70,14 @@
       "extracted_chars": 75404,
       "sections": 1,
       "toc_entries": 28,
+      "poem_count": 0,
       "extraction": "python-docx",
       "docx_paragraphs": 928,
       "docx_tables": 0,
       "docx_styles": {
         "Normal": 925
       },
-      "output_bytes": 106321
+      "output_bytes": 106371
     },
     {
       "source": "100_essential_films.pdf",
@@ -82,11 +87,12 @@
       "extracted_chars": 47803,
       "sections": 27,
       "toc_entries": 122,
+      "poem_count": 0,
       "extraction": "pdftotext",
       "docx_paragraphs": 0,
       "docx_tables": 0,
       "docx_styles": {},
-      "output_bytes": 63190
+      "output_bytes": 63240
     },
     {
       "source": "200_Films_Like_Frida.pdf",
@@ -96,11 +102,12 @@
       "extracted_chars": 51119,
       "sections": 23,
       "toc_entries": 213,
+      "poem_count": 0,
       "extraction": "pdftotext",
       "docx_paragraphs": 0,
       "docx_tables": 0,
       "docx_styles": {},
-      "output_bytes": 63134
+      "output_bytes": 63184
     },
     {
       "source": "200_prompts_emotion_wonder_v2.pdf",
@@ -110,11 +117,12 @@
       "extracted_chars": 72010,
       "sections": 37,
       "toc_entries": 271,
+      "poem_count": 0,
       "extraction": "pdftotext",
       "docx_paragraphs": 0,
       "docx_tables": 0,
       "docx_styles": {},
-      "output_bytes": 105051
+      "output_bytes": 105101
     },
     {
       "source": "200_prompts_mind_detox_v2.pdf",
@@ -124,11 +132,12 @@
       "extracted_chars": 64077,
       "sections": 33,
       "toc_entries": 254,
+      "poem_count": 0,
       "extraction": "pdftotext",
       "docx_paragraphs": 0,
       "docx_tables": 0,
       "docx_styles": {},
-      "output_bytes": 96909
+      "output_bytes": 96959
     },
     {
       "source": "200_thinkers_quiet_mind_v2.pdf",
@@ -138,11 +147,12 @@
       "extracted_chars": 100722,
       "sections": 51,
       "toc_entries": 923,
+      "poem_count": 0,
       "extraction": "pdftotext",
       "docx_paragraphs": 0,
       "docx_tables": 0,
       "docx_styles": {},
-      "output_bytes": 145604
+      "output_bytes": 145654
     },
     {
       "source": "300_Films_Filmography.pdf",
@@ -152,11 +162,12 @@
       "extracted_chars": 39109,
       "sections": 24,
       "toc_entries": 392,
+      "poem_count": 0,
       "extraction": "pdftotext",
       "docx_paragraphs": 0,
       "docx_tables": 0,
       "docx_styles": {},
-      "output_bytes": 86489
+      "output_bytes": 86539
     },
     {
       "source": "500_Films_500_Music_Global_Guide.pdf",
@@ -166,11 +177,12 @@
       "extracted_chars": 132932,
       "sections": 66,
       "toc_entries": 329,
+      "poem_count": 0,
       "extraction": "pdftotext",
       "docx_paragraphs": 0,
       "docx_tables": 0,
       "docx_styles": {},
-      "output_bytes": 161493
+      "output_bytes": 161543
     },
     {
       "source": "500_Manga_Movies.pdf",
@@ -180,11 +192,12 @@
       "extracted_chars": 84192,
       "sections": 44,
       "toc_entries": 773,
+      "poem_count": 0,
       "extraction": "pdftotext",
       "docx_paragraphs": 0,
       "docx_tables": 0,
       "docx_styles": {},
-      "output_bytes": 164567
+      "output_bytes": 164617
     },
     {
       "source": "50_e_art_films.pdf",
@@ -194,11 +207,12 @@
       "extracted_chars": 26300,
       "sections": 14,
       "toc_entries": 64,
+      "poem_count": 0,
       "extraction": "pdftotext",
       "docx_paragraphs": 0,
       "docx_tables": 0,
       "docx_styles": {},
-      "output_bytes": 37908
+      "output_bytes": 37958
     },
     {
       "source": "A_Filmmakers_Reading_List.pdf",
@@ -208,11 +222,12 @@
       "extracted_chars": 65054,
       "sections": 24,
       "toc_entries": 388,
+      "poem_count": 0,
       "extraction": "pdftotext",
       "docx_paragraphs": 0,
       "docx_tables": 0,
       "docx_styles": {},
-      "output_bytes": 88549
+      "output_bytes": 88599
     },
     {
       "source": "A_Life_Worth_Living_500_Suggestions.docx",
@@ -222,6 +237,7 @@
       "extracted_chars": 44103,
       "sections": 1,
       "toc_entries": 7,
+      "poem_count": 0,
       "extraction": "python-docx",
       "docx_paragraphs": 572,
       "docx_tables": 0,
@@ -229,7 +245,7 @@
         "Heading 1": 6,
         "Normal": 503
       },
-      "output_bytes": 72072
+      "output_bytes": 72122
     },
     {
       "source": "Aag_Ki_Kavitayen.pdf",
@@ -237,13 +253,14 @@
       "sha256": "1a6bbe5b5c7a3a5e66cc201d8a15520f78ee7cacc609fb1c3dc346146ed2db6f",
       "status": "converted",
       "extracted_chars": 50003,
-      "sections": 111,
-      "toc_entries": 333,
+      "sections": 16,
+      "toc_entries": 100,
+      "poem_count": 100,
       "extraction": "pdftotext",
       "docx_paragraphs": 0,
       "docx_tables": 0,
       "docx_styles": {},
-      "output_bytes": 80991
+      "output_bytes": 186895
     },
     {
       "source": "All_Film_Collections_Combined_compressed.pdf",
@@ -253,11 +270,12 @@
       "extracted_chars": 1867270,
       "sections": 574,
       "toc_entries": 4086,
+      "poem_count": 0,
       "extraction": "pdftotext",
       "docx_paragraphs": 0,
       "docx_tables": 0,
       "docx_styles": {},
-      "output_bytes": 1854001
+      "output_bytes": 1854051
     },
     {
       "source": "asian_books_curriculum.pdf",
@@ -267,11 +285,12 @@
       "extracted_chars": 184858,
       "sections": 31,
       "toc_entries": 81,
+      "poem_count": 0,
       "extraction": "pdftotext",
       "docx_paragraphs": 0,
       "docx_tables": 0,
       "docx_styles": {},
-      "output_bytes": 117176
+      "output_bytes": 117226
     },
     {
       "source": "asian_cinema_curriculum.pdf",
@@ -281,11 +300,12 @@
       "extracted_chars": 100152,
       "sections": 18,
       "toc_entries": 58,
+      "poem_count": 0,
       "extraction": "pdftotext",
       "docx_paragraphs": 0,
       "docx_tables": 0,
       "docx_styles": {},
-      "output_bytes": 71790
+      "output_bytes": 71840
     },
     {
       "source": "Bold_Cinema_Collection.pdf",
@@ -295,11 +315,12 @@
       "extracted_chars": 38542,
       "sections": 16,
       "toc_entries": 22,
+      "poem_count": 0,
       "extraction": "pdftotext",
       "docx_paragraphs": 0,
       "docx_tables": 0,
       "docx_styles": {},
-      "output_bytes": 37657
+      "output_bytes": 37707
     },
     {
       "source": "complete_movie_encyclopedia.pdf",
@@ -309,11 +330,12 @@
       "extracted_chars": 295783,
       "sections": 55,
       "toc_entries": 112,
+      "poem_count": 0,
       "extraction": "pdftotext",
       "docx_paragraphs": 0,
       "docx_tables": 0,
       "docx_styles": {},
-      "output_bytes": 206757
+      "output_bytes": 206807
     },
     {
       "source": "complete_movie_ratings.pdf",
@@ -323,11 +345,12 @@
       "extracted_chars": 65712,
       "sections": 17,
       "toc_entries": 31,
+      "poem_count": 0,
       "extraction": "pdftotext",
       "docx_paragraphs": 0,
       "docx_tables": 0,
       "docx_styles": {},
-      "output_bytes": 45351
+      "output_bytes": 45401
     },
     {
       "source": "complete_movie_ratings_647.pdf",
@@ -337,11 +360,12 @@
       "extracted_chars": 180629,
       "sections": 39,
       "toc_entries": 494,
+      "poem_count": 0,
       "extraction": "pdftotext",
       "docx_paragraphs": 0,
       "docx_tables": 0,
       "docx_styles": {},
-      "output_bytes": 160036
+      "output_bytes": 160086
     },
     {
       "source": "Cybersecurity_Stories_For_Your_Teams.pdf",
@@ -351,11 +375,12 @@
       "extracted_chars": 86876,
       "sections": 32,
       "toc_entries": 236,
+      "poem_count": 0,
       "extraction": "pdftotext",
       "docx_paragraphs": 0,
       "docx_tables": 0,
       "docx_styles": {},
-      "output_bytes": 103025
+      "output_bytes": 103075
     },
     {
       "source": "Cybersecurity_Storytelling_Movies.pdf",
@@ -365,11 +390,12 @@
       "extracted_chars": 69363,
       "sections": 23,
       "toc_entries": 34,
+      "poem_count": 0,
       "extraction": "pdftotext",
       "docx_paragraphs": 0,
       "docx_tables": 0,
       "docx_styles": {},
-      "output_bytes": 64901
+      "output_bytes": 64951
     },
     {
       "source": "definitive_anime_encyclopedia.pdf",
@@ -379,11 +405,12 @@
       "extracted_chars": 177541,
       "sections": 56,
       "toc_entries": 219,
+      "poem_count": 0,
       "extraction": "pdftotext",
       "docx_paragraphs": 0,
       "docx_tables": 0,
       "docx_styles": {},
-      "output_bytes": 193840
+      "output_bytes": 193890
     },
     {
       "source": "Films_That_Open_New_Human_Domains.pdf",
@@ -393,11 +420,12 @@
       "extracted_chars": 75936,
       "sections": 27,
       "toc_entries": 193,
+      "poem_count": 0,
       "extraction": "pdftotext",
       "docx_paragraphs": 0,
       "docx_tables": 0,
       "docx_styles": {},
-      "output_bytes": 89886
+      "output_bytes": 89936
     },
     {
       "source": "Free_Art_Resource_Library.docx",
@@ -407,6 +435,7 @@
       "extracted_chars": 5765,
       "sections": 1,
       "toc_entries": 12,
+      "poem_count": 0,
       "extraction": "python-docx",
       "docx_paragraphs": 50,
       "docx_tables": 0,
@@ -416,7 +445,7 @@
         "Normal": 3,
         "Title": 1
       },
-      "output_bytes": 12278
+      "output_bytes": 12328
     },
     {
       "source": "Global_Kids_Books_Complete_Guide.pdf",
@@ -426,11 +455,12 @@
       "extracted_chars": 53557,
       "sections": 29,
       "toc_entries": 186,
+      "poem_count": 0,
       "extraction": "pdftotext",
       "docx_paragraphs": 0,
       "docx_tables": 0,
       "docx_styles": {},
-      "output_bytes": 59522
+      "output_bytes": 59572
     },
     {
       "source": "library-3.pdf",
@@ -440,11 +470,12 @@
       "extracted_chars": 542897,
       "sections": 84,
       "toc_entries": 630,
+      "poem_count": 0,
       "extraction": "pdftotext",
       "docx_paragraphs": 0,
       "docx_tables": 0,
       "docx_styles": {},
-      "output_bytes": 451044
+      "output_bytes": 451094
     },
     {
       "source": "manga_recommendations.pdf",
@@ -454,11 +485,12 @@
       "extracted_chars": 9890,
       "sections": 4,
       "toc_entries": 11,
+      "poem_count": 0,
       "extraction": "pdftotext",
       "docx_paragraphs": 0,
       "docx_tables": 0,
       "docx_styles": {},
-      "output_bytes": 13676
+      "output_bytes": 13726
     },
     {
       "source": "masters_of_art.pdf",
@@ -468,11 +500,12 @@
       "extracted_chars": 68527,
       "sections": 24,
       "toc_entries": 2,
+      "poem_count": 0,
       "extraction": "pdftotext",
       "docx_paragraphs": 0,
       "docx_tables": 0,
       "docx_styles": {},
-      "output_bytes": 78140
+      "output_bytes": 78190
     },
     {
       "source": "masters_of_e_art_cinema.pdf",
@@ -482,11 +515,12 @@
       "extracted_chars": 21274,
       "sections": 10,
       "toc_entries": 15,
+      "poem_count": 0,
       "extraction": "pdftotext",
       "docx_paragraphs": 0,
       "docx_tables": 0,
       "docx_styles": {},
-      "output_bytes": 29334
+      "output_bytes": 29384
     },
     {
       "source": "meditation_on_death.pdf",
@@ -496,11 +530,12 @@
       "extracted_chars": 72711,
       "sections": 13,
       "toc_entries": 50,
+      "poem_count": 0,
       "extraction": "pdftotext",
       "docx_paragraphs": 0,
       "docx_tables": 0,
       "docx_styles": {},
-      "output_bytes": 53222
+      "output_bytes": 53272
     },
     {
       "source": "memento-mori-course.pdf",
@@ -510,11 +545,12 @@
       "extracted_chars": 20842,
       "sections": 12,
       "toc_entries": 167,
+      "poem_count": 0,
       "extraction": "pdftotext",
       "docx_paragraphs": 0,
       "docx_tables": 0,
       "docx_styles": {},
-      "output_bytes": 34886
+      "output_bytes": 34936
     },
     {
       "source": "Personal_Reference_Film_Books_Art.pdf",
@@ -524,11 +560,12 @@
       "extracted_chars": 38088,
       "sections": 20,
       "toc_entries": 98,
+      "poem_count": 0,
       "extraction": "pdftotext",
       "docx_paragraphs": 0,
       "docx_tables": 0,
       "docx_styles": {},
-      "output_bytes": 45322
+      "output_bytes": 45372
     },
     {
       "source": "Reading_Course_Emotions_Wonder.pdf",
@@ -538,11 +575,12 @@
       "extracted_chars": 28444,
       "sections": 18,
       "toc_entries": 116,
+      "poem_count": 0,
       "extraction": "pdftotext",
       "docx_paragraphs": 0,
       "docx_tables": 0,
       "docx_styles": {},
-      "output_bytes": 44511
+      "output_bytes": 44561
     },
     {
       "source": "sensitive_cinema.pdf",
@@ -552,11 +590,12 @@
       "extracted_chars": 115755,
       "sections": 24,
       "toc_entries": 185,
+      "poem_count": 0,
       "extraction": "pdftotext",
       "docx_paragraphs": 0,
       "docx_tables": 0,
       "docx_styles": {},
-      "output_bytes": 99236
+      "output_bytes": 99286
     },
     {
       "source": "ultimate_anime_guide.pdf",
@@ -566,11 +605,12 @@
       "extracted_chars": 55680,
       "sections": 22,
       "toc_entries": 111,
+      "poem_count": 0,
       "extraction": "pdftotext",
       "docx_paragraphs": 0,
       "docx_tables": 0,
       "docx_styles": {},
-      "output_bytes": 68822
+      "output_bytes": 68872
     },
     {
       "source": "World_Stories_3YearOld_Guide.pdf",
@@ -580,11 +620,12 @@
       "extracted_chars": 17439,
       "sections": 16,
       "toc_entries": 47,
+      "poem_count": 0,
       "extraction": "pdftotext",
       "docx_paragraphs": 0,
       "docx_tables": 0,
       "docx_styles": {},
-      "output_bytes": 24149
+      "output_bytes": 24199
     },
     {
       "source": "2000_Inspirations (1).pdf",
@@ -594,11 +635,12 @@
       "extracted_chars": 79896,
       "sections": 22,
       "toc_entries": 5,
+      "poem_count": 0,
       "extraction": "pdftotext",
       "docx_paragraphs": 0,
       "docx_tables": 0,
       "docx_styles": {},
-      "output_bytes": 74641
+      "output_bytes": 74691
     },
     {
       "source": "All_Film_Collections_Combined_compressed (1).pdf",
@@ -616,11 +658,12 @@
       "extracted_chars": 270455,
       "sections": 37,
       "toc_entries": 139,
+      "poem_count": 0,
       "extraction": "pdftotext",
       "docx_paragraphs": 0,
       "docx_tables": 0,
       "docx_styles": {},
-      "output_bytes": 164815
+      "output_bytes": 164865
     },
     {
       "source": "Global_Kids_Reading_Guide_FINAL (1).pdf",
@@ -630,11 +673,12 @@
       "extracted_chars": 64786,
       "sections": 27,
       "toc_entries": 212,
+      "poem_count": 0,
       "extraction": "pdftotext",
       "docx_paragraphs": 0,
       "docx_tables": 0,
       "docx_styles": {},
-      "output_bytes": 67318
+      "output_bytes": 67368
     },
     {
       "source": "Three_Year_Old_Reading_Guide (1).pdf",
@@ -644,11 +688,12 @@
       "extracted_chars": 26076,
       "sections": 15,
       "toc_entries": 57,
+      "poem_count": 0,
       "extraction": "pdftotext",
       "docx_paragraphs": 0,
       "docx_tables": 0,
       "docx_styles": {},
-      "output_bytes": 30457
+      "output_bytes": 30507
     }
   ]
 }
