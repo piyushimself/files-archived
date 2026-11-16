@@ -208,7 +208,7 @@ async function testCompleteFilmCollection(){
   await new Promise(resolve=>setTimeout(resolve,0));
   const d=dom.window.document;
   assert.ok(d.body.classList.contains("rr-cinema-app"),"Film collection must use its isolated design scope");
-  assert.ok(raw.includes("reading-room.css?v=16"),"Film collection must request the current shared stylesheet");
+  assert.ok(raw.includes("reading-room.css?v=17"),"Film collection must request the current shared stylesheet");
   assert.ok(d.querySelectorAll(".mc").length>=20,"Film catalogue should render its records");
   assert.ok(d.querySelector("#searchInput")&&d.querySelector("#countrySel")&&d.querySelector("#genreSel"),"Core catalogue filters must remain available");
   assert.ok(d.querySelector("#progressWrap")&&d.querySelector("#wfWatched")&&d.querySelector("#importFile"),"Watch tracking controls must remain available");
