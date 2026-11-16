@@ -76,6 +76,8 @@ jobs:
                   assert 'rr-home-hero' in body, 'Homepage not rebuilt'
               else:
                   assert 'reading-room.css?v=4' in body, f'Missing shared stylesheet: {page}'
+              assert 'class=\"rr-page' in body, f'Missing Reading Room page scope: {page}'
+              assert body.count('reading-room.js?v=4') == 1, f'Duplicate or missing shared script: {page}'
           print(f'PASS: {len(sources)} source documents; {report["reader_count"]} reading editions; {len(list((root/"collections").glob("*.html")))} subject pages; {len(html_pages)} HTML files checked.')
           print('Extraction statuses:', {s: sum(1 for x in report['sources'] if x['status']==s) for s in sorted({x['status'] for x in report['sources']})})
           PY
@@ -92,3 +94,26 @@ jobs:
           else
             echo "No generated changes."
           fi
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - name: Assemble the verified Reading Room
+        run: |
+          mkdir -p _site/html _site/collections _site/assets
+          cp ./*.html _site/
+          cp -R assets/. _site/assets/
+          cp -R html/. _site/html/
+          cp -R collections/. _site/collections/
+          touch _site/.nojekyll
+
+      - name: Upload verified Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - name: Deploy the verified Reading Room
+        id: deployment
+        uses: actions/deploy-pages@v4

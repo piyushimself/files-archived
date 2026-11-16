@@ -286,7 +286,7 @@ def inject_shared_assets(path):
         path.write_text(text,encoding="utf-8")
         return
     text=re.sub(r'<link\b[^>]*reading-room\.css[^>]*>',"",text,flags=re.I)
-    text=re.sub(r'<script\b[^>]*reading-room-(?:context|room)\.js[^>]*>\s*</script>\s*',"",text,flags=re.I)
+    text=re.sub(r'<script\b[^>]*reading-room(?:-[a-z-]+)?\.js[^>]*>\s*</script>\s*',"",text,flags=re.I)
     tags=('<link rel="stylesheet" href="'+prefix+'assets/reading-room.css?v=4">'
           '<script src="'+prefix+'assets/reading-room-context.js?v=4" defer></script>'
           '<script src="'+prefix+'assets/reading-room.js?v=4" defer></script>')

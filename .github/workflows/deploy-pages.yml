@@ -1,16 +1,6 @@
-name: Deploy public HTML library
+name: Deploy public HTML library (manual fallback)
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'index.html'
-      - '*.html'
-      - 'html/**'
-      - 'collections/**'
-      - 'assets/**'
-      - '.github/workflows/deploy-pages.yml'
-      - '.github/workflows/convert-documents.yml'
   workflow_dispatch:
 
 permissions:
