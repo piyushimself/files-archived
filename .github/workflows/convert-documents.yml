@@ -19,6 +19,23 @@ on:
       - 'collections/**'
       - 'assets/**'
       - '.github/workflows/convert-documents.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - '**/*.pdf'
+      - '**/*.docx'
+      - 'tools/convert_documents.py'
+      - 'tools/build_site.py'
+      - 'tools/audit_site.py'
+      - 'tools/repair_visible_escapes.py'
+      - 'tools/bump_asset_versions.py'
+      - 'tools/test_reading_room.cjs'
+      - 'README.md'
+      - '*.html'
+      - 'html/**'
+      - 'collections/**'
+      - 'assets/**'
+      - '.github/workflows/convert-documents.yml'
 
 permissions:
   contents: write
@@ -132,6 +149,7 @@ jobs:
           PY
 
       - name: Commit rebuilt site
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           if [[ -n "$(git status --porcelain)" ]]; then
             git config user.name "github-actions[bot]"
@@ -145,11 +163,13 @@ jobs:
           fi
 
       - name: Configure GitHub Pages
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: actions/configure-pages@v5
         with:
           enablement: true
 
       - name: Assemble the verified Reading Room
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           mkdir -p _site/html _site/collections _site/assets
           cp ./*.html _site/
@@ -159,10 +179,12 @@ jobs:
           touch _site/.nojekyll
 
       - name: Upload verified Pages artifact
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: actions/upload-pages-artifact@v3
         with:
           path: _site
 
       - name: Deploy the verified Reading Room
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         id: deployment
         uses: actions/deploy-pages@v4
