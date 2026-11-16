@@ -144,11 +144,11 @@ def looks_like_heading(line):
         return False
     # Film lists frequently begin with a bare number (for example,
     # "74 Shoah"). These are catalogue records, not section headings.
-    if re.match(r"^\\s*\\d{1,3}[.)]?\\s+", value):
+    if re.match(r"^\s*\d{1,3}[.)]?\s+", value):
         return False
     # A one-word parenthetical continuation such as "Senses)" can be the
     # wrapped end of a film title, not a navigational heading.
-    if re.fullmatch(r"[A-Za-zÀ-ÖØ-öø-ÿ'’()-]+\\)", value):
+    if re.fullmatch(r"[A-Za-zÀ-ÖØ-öø-ÿ'’()-]+\)", value):
         return False
     if BULLET_RE.match(value) or value.endswith((".", ",", ";", ":", "?", "!")):
         return False
