@@ -89,13 +89,13 @@ async function testPoliticalComics() {
   dom.window.close();
 }
 async function testCurricula() {
-  for (const file of ["life-fiction-curriculum.html", "living-curriculum-2026.html"]) {
+  for (const [file, term] of [["life-fiction-curriculum.html", "Panchatantra"], ["living-curriculum-2026.html", "Gilgamesh"]]) {
     const dom = await boot(file);
     const d = dom.window.document;
     assert.ok(d.querySelector(".rr-curriculum-tools"), file + " book finder missing");
     assert.ok(d.querySelectorAll(".rr-curriculum-tools select").length >= 2, file + " should filter available origin/period data");
     const input = d.querySelector(".rr-curriculum-tools input");
-    setValue(input, "Gilgamesh");
+    setValue(input, term);
     assert.ok(visibleCount(".book-card,.books-list > .book", d) >= 1, file + " search should find available book records");
     dom.window.close();
   }
