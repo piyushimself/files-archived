@@ -169,7 +169,7 @@ async function testStructuredCinemaReaders(){
     if(item.kind==="sensitive-cinema"){
       assert.ok(![...d.querySelectorAll(".toc a")].some(a=>/WHAT IT TEACHES/i.test(a.textContent)),"Repeated lesson labels must not pollute the Sensitive Cinema contents");
       assert.ok(d.querySelectorAll(".rr-sensitive-lesson-label").length>=10,"Sensitive Cinema should retain reflective lesson labels");
-      assert.ok(d.querySelectorAll(".rr-source-columns .rr-source-column").length>=10,"Sensitive Cinema should preserve its two-column source reading order");
+      assert.ok(Number(d.body.dataset.sensitiveSourceColumns)>=10,"Sensitive Cinema should preserve its two-column source reading order");
       assert.ok(d.querySelectorAll(".rr-sensitive-entry-title").length>=50,"Sensitive Cinema should expose individual film titles as headings");
     }else{
       if(item.kind==="movie-ratings"){
