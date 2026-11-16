@@ -328,7 +328,42 @@ def category_info(title):
     return ("Books & Reference", "mixed", "Use the contents and headings to navigate the source. Follow one theme or section at a time; the original PDF or DOCX remains available for layout-dependent material.")
 
 
-def make_reader(source, title, kind, sections, toc, extraction_method, source_hash):
+def document_summary(title, extracted, fallback):
+    """Create a short, source-led description rather than a filename-only catalogue label."""
+    raw = (extracted or "").replace("\x00", " ").replace("\f", "\n")
+    raw = re.sub(r"(?m)^\s*(?:page\s+)?\d{1,4}\s*$", "", raw, flags=re.I)
+    raw = re.sub(r"(?m)^\s*[-–—|·•]+\s*$", "", raw)
+    blocks = [re.sub(r"\s+", " ", part).strip() for part in re.split(r"\n\s*\n+", raw)]
+    title_key = re.sub(r"[^a-z0-9]+", "", title.lower())
+    candidates = []
+    for block in blocks:
+        if len(block) < 55:
+            continue
+        key = re.sub(r"[^a-z0-9]+", "", block.lower())
+        if title_key and (key.startswith(title_key) or title_key in key[:len(title_key)+24]):
+            block = re.sub(re.escape(title), "", block, flags=re.I).strip(" :-–—|")
+        if len(block) < 55:
+            continue
+        if re.match(r"^(contents|table of contents|index|copyright|all rights reserved)\b", block, re.I):
+            continue
+        candidates.append(block)
+        if len(candidates) == 2:
+            break
+    if not candidates:
+        for line in raw.splitlines():
+            line = re.sub(r"\s+", " ", line).strip()
+            if len(line) >= 70 and not re.match(r"^(contents|table of contents|page \d+)\b", line, re.I):
+                candidates.append(line)
+                if len(candidates) == 2:
+                    break
+    summary = " ".join(candidates) or fallback
+    summary = re.sub(r"\s+", " ", summary).strip()
+    if len(summary) > 290:
+        summary = summary[:287].rsplit(" ", 1)[0].rstrip(" ,;:-") + "…"
+    return summary
+
+
+def make_reader(source, title, kind, sections, toc, extraction_method, source_hash, summary):
     safe_title = escape(title)
     category, theme, guidance = category_info(title)
     source_rel = "../" + source.relative_to(ROOT).as_posix()
@@ -346,9 +381,9 @@ def make_reader(source, title, kind, sections, toc, extraction_method, source_ha
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="Reading edition of """ + safe_title + """. Original source preserved.">
 <title>""" + safe_title + """ — The Reading Room</title>
-<link rel="stylesheet" href="../assets/reading-room.css?v=4">
-<script src="../assets/reading-room-context.js?v=4" defer></script>
-<script src="../assets/reading-room.js?v=4" defer></script>
+<link rel="stylesheet" href="../assets/reading-room.css?v=5">
+<script src="../assets/reading-room-context.js?v=5" defer></script>
+<script src="../assets/reading-room.js?v=5" defer></script>
 <style>
 .rr-reader-intro{margin:12px 0 14px;padding:13px 15px;border:1px solid var(--rr-line);border-left:3px solid var(--rr-accent);border-radius:9px;background:var(--rr-panel)}
 .rr-reader-intro .kicker{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--rr-accent-strong);font-weight:750}
@@ -373,7 +408,7 @@ body.rr-reader .toc details a:first-of-type{margin-top:8px}
 """ + toc_block + """
 <main class=\"""" + layout_class + """\"><article>
 <section class="hero"><div class="kicker">SOURCE DOCUMENT · """ + kind + """ · """ + escape(category) + """</div><h1>""" + safe_title + """</h1><div class="meta">""" + str(len(sections)) + """ reading sections · Original file preserved · Search within this edition</div></section>
-<section class="rr-reader-intro"><div class="kicker">How to use this collection</div><p>""" + escape(guidance) + """</p><p><a href=""" + '"' + escape(source_rel) + '"' + """ target="_blank" rel="noopener">Open original """ + kind + """ ↗</a></p></section>
+<section class="rr-reader-intro"><div class="kicker">About this collection</div><p class="rr-reader-summary">""" + escape(summary) + """</p><p class="rr-reader-guidance"><strong>Suggested approach:</strong> """ + escape(guidance) + """</p><p><a href=""" + '"' + escape(source_rel) + '"' + """ target="_blank" rel="noopener">Open original """ + kind + """ ↗</a></p></section>
 <div class="rr-reader-tools"><label for="search">FIND IN THIS DOCUMENT</label><input id="search" type="search" placeholder="Search words, names or sections…" aria-label="Search within this document"></div>
 <div id="content">""" + body + """</div>
 <footer class="footer">Converted from <a href=""" + '"' + escape(source_rel) + '"' + """>""" + escape(source.name) + """</a>. Extraction method: """ + escape(extraction_method) + """. The original file is retained for images, complex layouts and visual details.</footer>
@@ -409,7 +444,7 @@ body.rr-reader .toc details a:first-of-type{margin-top:8px}
 def canonical_duplicate_alias(path, canonical):
     rel = "../" + canonical.relative_to(ROOT).as_posix()
     title = display_title(path)
-    return """<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Duplicate source edition — """ + escape(title) + """</title><link rel="stylesheet" href="../assets/reading-room.css?v=4"><script src="../assets/reading-room-context.js?v=4" defer></script><script src="../assets/reading-room.js?v=4" defer></script></head><body class="rr-page rr-reader rr--cinema"><main class="layout"><article><section class="hero"><div class="kicker">DUPLICATE SOURCE DOCUMENT</div><h1>""" + escape(title) + """</h1><p>This source document is byte-identical to another file in the archive. To avoid two competing copies of the same reading experience, this link opens the single maintained edition.</p><p><a class="link" href=""" + '"' + escape(rel) + '"' + """>Open the canonical reading edition ↗</a></p></section></article></main></body></html>"""
+    return """<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Duplicate source edition — """ + escape(title) + """</title><link rel="stylesheet" href="../assets/reading-room.css?v=5"><script src="../assets/reading-room-context.js?v=5" defer></script><script src="../assets/reading-room.js?v=5" defer></script></head><body class="rr-page rr-reader rr--cinema"><main class="layout"><article><section class="hero"><div class="kicker">DUPLICATE SOURCE DOCUMENT</div><h1>""" + escape(title) + """</h1><p>This source document is byte-identical to another file in the archive. To avoid two competing copies of the same reading experience, this link opens the single maintained edition.</p><p><a class="link" href=""" + '"' + escape(rel) + '"' + """>Open the canonical reading edition ↗</a></p></section></article></main></body></html>"""
 
 
 def build_archive_index(catalogue):
@@ -419,14 +454,35 @@ def build_archive_index(catalogue):
     cards = []
     for category, entries in sorted(categories.items()):
         for row in entries:
-            cards.append('<a class="rr-resource-card" href="' + escape(row["reader"]) + '" data-search="' + escape((row["title"] + " " + row["source"] + " " + row["category"]).lower(), quote=True) + '"><span class="rr-resource-kind">' + escape(category) + ' · ' + escape(row["kind"]) + '</span><strong>' + escape(row["title"]) + '</strong><p>' + str(row["sections"]) + ' reading sections · Original: ' + escape(row["source"]) + '</p><span class="rr-open">Read this edition ↗</span></a>')
-    filters = "".join('<button type="button" class="rr-archive-chip" data-cat="' + escape(category, quote=True) + '">' + escape(category) + ' <i>' + str(len(entries)) + '</i></button>' for category, entries in sorted(categories.items()))
-    html = """<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Source-document reading editions — The Reading Room</title><link rel="stylesheet" href="../assets/reading-room.css?v=4"><script src="../assets/reading-room-context.js?v=4" defer></script><script src="../assets/reading-room.js?v=4" defer></script><style>
-.rr-archive{max-width:1120px;margin:auto;padding:20px 18px 50px}.rr-archive-hero{padding:20px 0;border-bottom:1px solid var(--rr-line)}.rr-archive-hero h1{font-size:30px!important;margin:6px 0}.rr-archive-hero p{max-width:760px;color:var(--rr-muted);font-size:14px!important}.rr-archive-tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:12px 0}.rr-archive-tools input{flex:1 1 240px;max-width:480px}.rr-archive-filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}.rr-archive-chip{border:1px solid var(--rr-line);border-radius:18px;padding:5px 9px;background:var(--rr-panel);color:var(--rr-muted);font-size:11px!important;cursor:pointer}.rr-archive-chip.active{background:var(--rr-accent-strong);color:white}.rr-archive-chip i{font-style:normal;opacity:.8}.rr-archive-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.rr-archive-count{color:var(--rr-muted);font-size:11px;margin-left:auto}@media(max-width:760px){.rr-archive{padding:14px 12px 35px}.rr-archive-grid{grid-template-columns:1fr}.rr-archive-tools input{max-width:none}}
-</style></head><body class="rr-page rr--mixed"><main class="rr-archive"><section class="rr-archive-hero"><div class="rr-eyebrow">THE READING ROOM · SOURCE DOCUMENTS</div><h1>Read the original collection, in a cleaner format.</h1><p>These editions come from the PDFs and DOCX files in the repository. They are organised by subject and include a link to the original document. Search by title or source filename, or choose a subject below. Check the original where images, page design or tables carry important meaning.</p></section><div class="rr-archive-tools"><input id="archive-search" type="search" placeholder="Search titles, subjects or source filenames…" aria-label="Search reading editions"><span class="rr-archive-count" id="archive-count"></span></div><div class="rr-archive-filters"><button class="rr-archive-chip active" type="button" data-cat="all">All subjects</button>""" + filters + """</div><div class="rr-archive-grid" id="archive-grid">""" + "".join(cards) + """</div><p id="archive-empty" hidden>No matching editions. Try a wider search or choose all subjects.</p><footer class="rr-site-footer"><a href="../index.html">← Return to the Reading Room</a></footer></main><script>
-(function(){const q=document.getElementById('archive-search'),cards=[...document.querySelectorAll('.rr-resource-card')],chips=[...document.querySelectorAll('.rr-archive-chip')],count=document.getElementById('archive-count'),empty=document.getElementById('archive-empty');let cat='all';function update(){const term=q.value.trim().toLowerCase();let n=0;cards.forEach(c=>{const ok=(cat==='all'||c.querySelector('.rr-resource-kind').textContent.startsWith(cat))&&(!term||c.dataset.search.includes(term));c.hidden=!ok;if(ok)n++;});count.textContent=n+' of '+cards.length+' editions';empty.hidden=n>0;}chips.forEach(b=>b.addEventListener('click',()=>{cat=b.dataset.cat;chips.forEach(x=>x.classList.toggle('active',x===b));update();}));q.addEventListener('input',update);update();})();
-</script></body></html>"""
+            description = row.get("description") or "Open the reading edition to explore the source document, its sections and its original file."
+            search_text = " ".join((row["title"], row["source"], row["category"], description)).lower()
+            cards.append(
+                '<a class="rr-resource-card" href="' + escape(row["reader"]) + '" data-category="' + escape(category, quote=True) +
+                '" data-search="' + escape(search_text, quote=True) + '">' +
+                '<span class="rr-resource-kind">' + escape(category) + '</span>' +
+                '<strong>' + escape(row["title"]) + '</strong>' +
+                '<p>' + escape(description) + '</p>' +
+                '<span class="rr-resource-meta">' + escape(row["kind"]) + ' · ' + str(row["sections"]) + ' sections · ' + escape(row["source"]) + '</span>' +
+                '<span class="rr-open">Read this edition ↗</span></a>'
+            )
+    options = '<option value="all">All subjects</option>' + "".join(
+        '<option value="' + escape(category, quote=True) + '">' + escape(category) + ' (' + str(len(entries)) + ')</option>'
+        for category, entries in sorted(categories.items())
+    )
+    html = """<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Source-led reading editions for the Reading Room's books, films, art, writing, learning and reflection collections."><title>Document library — The Reading Room</title><link rel="stylesheet" href="../assets/reading-room.css?v=5"><script src="../assets/reading-room-context.js?v=5" defer></script><script src="../assets/reading-room.js?v=5" defer></script></head><body class="rr-page rr--mixed"><main class="rr-archive">
+<section class="rr-archive-hero"><div class="rr-eyebrow">THE READING ROOM · DOCUMENT LIBRARY</div><h1>Read beyond the title.</h1>
+<p>These editions are built from the original PDFs and Word documents in this library. Each page keeps the source text searchable, gives you a navigable reading view and links back to the untouched original. The descriptions below are drawn from the document itself wherever an opening passage provides useful context.</p>
+<p class="rr-archive-context">Browse by subject when you want a particular kind of material, or search for a person, theme, title or phrase. Open a reading edition to see its contents and work through one section at a time.</p></section>
+<div class="rr-archive-tools"><input id="archive-search" type="search" placeholder="Search titles, themes, people or source text…" aria-label="Search document library">
+<select id="archive-category" class="rr-archive-filter-select" aria-label="Filter by subject">""" + options + """</select>
+<span class="rr-archive-count" id="archive-count"></span></div>
+<div class="rr-archive-grid" id="archive-grid">""" + "".join(cards) + """</div>
+<p id="archive-empty" hidden>No matching editions. Try a broader phrase or choose all subjects.</p>
+<div class="rr-archive-note">A note on fidelity: extracted text is easier to search and read, but it may not reproduce the original page design, illustrations, columns or complex tables. The original PDF or DOCX remains the authoritative visual copy.</div>
+<footer class="rr-site-footer"><a href="../index.html">← Return to the Reading Room</a></footer></main>
+<script>(function(){const q=document.getElementById('archive-search'),select=document.getElementById('archive-category'),cards=[...document.querySelectorAll('.rr-resource-card')],count=document.getElementById('archive-count'),empty=document.getElementById('archive-empty');function update(){const term=q.value.trim().toLowerCase(),cat=select.value;let n=0;cards.forEach(c=>{const ok=(cat==='all'||c.dataset.category===cat)&&(!term||c.dataset.search.includes(term));c.hidden=!ok;if(ok)n++;});count.textContent=n+' of '+cards.length+' editions';empty.hidden=n>0;}q.addEventListener('input',update);select.addEventListener('change',update);update();})();</script></body></html>"""
     (OUT / "index.html").write_text(html, encoding="utf-8")
+
 
 
 def main():
@@ -443,7 +499,7 @@ def main():
             canonical_source, canonical_reader = hashes[digest]
             output.write_text(canonical_duplicate_alias(source, canonical_reader), encoding="utf-8")
             category, _, _ = category_info(title)
-            catalogue.append({"title": title, "source": source.name, "reader": output.name, "kind": kind, "sections": 0, "category": category})
+            catalogue.append({"title": title, "source": source.name, "reader": output.name, "kind": kind, "sections": 0, "category": category, "description": "This source is a duplicate of " + canonical_source + ". Open the maintained edition to read the complete collection."})
             report.append({"source": source.name, "output": "html/" + output.name, "sha256": digest, "status": "duplicate-alias", "canonical_source": canonical_source, "extracted_chars": 0})
             print("Duplicate:", source.name, "->", canonical_source)
             continue
@@ -461,10 +517,12 @@ def main():
                 extracted = " ".join((b[1].get("text", "") if b[0] == "paragraph" else " ".join(" ".join(row) for row in b[1])) for b in blocks)
             if not sections:
                 sections = ['<section class="page"><p>No readable text was extracted. Please open the original source document.</p></section>']
-            html = make_reader(source, title, kind, sections, toc, extraction_method, digest)
+            category, _, guidance = category_info(title)
+            summary = document_summary(title, extracted, guidance)
+            html = make_reader(source, title, kind, sections, toc, extraction_method, digest, summary)
             output.write_text(html, encoding="utf-8")
             category, _, _ = category_info(title)
-            catalogue.append({"title": title, "source": source.name, "reader": output.name, "kind": kind, "sections": len(sections), "category": category})
+            catalogue.append({"title": title, "source": source.name, "reader": output.name, "kind": kind, "sections": len(sections), "category": category, "description": summary})
             report.append({"source": source.name, "output": "html/" + output.name, "sha256": digest, "status": "converted" if len(extracted.strip()) > 150 else "low-text-review", "extracted_chars": len(extracted), "sections": len(sections), "toc_entries": len(toc), "extraction": extraction_method, "docx_paragraphs": paragraph_count, "docx_tables": table_count, "docx_styles": {name: sum(1 for b in blocks if b[0] == "paragraph" and b[1]["style"] == name) for name in sorted({b[1]["style"] for b in blocks if b[0] == "paragraph"})} if source.suffix.lower() == ".docx" else {}, "output_bytes": output.stat().st_size})
             print("Converted:", source.name, "->", output.name, "(" + str(len(sections)) + " sections)")
         except Exception as exc:
