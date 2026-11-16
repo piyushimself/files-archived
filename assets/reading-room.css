@@ -370,3 +370,64 @@ body.rr-reader .toc details summary{
   body.rr-reader .toc details[open]{max-height:210px}
   body.rr-reader .toc details summary{position:static}
 }
+
+
+/* READING ROOM · READER LAYOUT FIX V7
+   Generated reader pages place .toc before (not inside) .layout.
+   Therefore .layout must be a single-column reading container. */
+body.rr-reader .layout{
+  display:block!important;
+  width:min(100% - 36px,1180px)!important;
+  max-width:1180px!important;
+  margin:18px auto 48px!important;
+  padding:0!important;
+  box-sizing:border-box!important;
+}
+body.rr-reader .layout > article{
+  display:block!important;
+  width:100%!important;
+  max-width:900px!important;
+  min-width:0!important;
+  margin:0 auto!important;
+  padding:0!important;
+  box-sizing:border-box!important;
+}
+body.rr-reader .layout > article > :is(.hero,.rr-reader-intro,.rr-reader-tools,#content,.footer){
+  width:100%!important;
+  max-width:100%!important;
+}
+body.rr-reader .layout #content{
+  display:block!important;
+  width:100%!important;
+  min-width:0!important;
+}
+body.rr-reader .layout .page{
+  display:block!important;
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  margin:13px 0!important;
+  box-sizing:border-box!important;
+}
+body.rr-reader .layout .page :is(p,li,blockquote){
+  max-width:78ch;
+}
+@media(max-width:760px){
+  body.rr-reader .layout{
+    display:block!important;
+    width:100%!important;
+    max-width:100%!important;
+    margin:11px auto 32px!important;
+    padding:0 12px!important;
+  }
+  body.rr-reader .layout > article{
+    width:100%!important;
+    max-width:100%!important;
+    margin:0!important;
+  }
+  body.rr-reader .layout .page{
+    width:100%!important;
+    max-width:100%!important;
+    margin:10px 0!important;
+  }
+}
