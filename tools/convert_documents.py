@@ -390,6 +390,55 @@ def render_poetry_pdf(extracted):
         )
     return rendered, toc, poem_count
 
+
+def render_sensitive_pdf_columns(extracted):
+    """Keep the two editorial columns of Sensitive Cinema separate.
+
+    pdftotext -layout preserves the horizontal gap between the two columns.
+    The generic renderer used to collapse that gap to one space, interleaving
+    titles, metadata and descriptions from unrelated films.
+    """
+    rendered, toc, used = [], [], set()
+    for page_number, raw in enumerate(extracted.replace("\\r\\n", "\\n").replace("\\r", "\\n").split("\\f"), 1):
+        lines = raw.splitlines()
+        gap_positions = []
+        for line in lines:
+            match = re.search(r"\\s{3,}", line)
+            if match and line[:match.start()].strip() and line[match.end():].strip():
+                gap_positions.append(match.start())
+
+        # Only use the column path when the page has a repeated, convincing
+        # gutter. Cover pages and single-column notes keep the normal renderer.
+        if len(gap_positions) < 6:
+            section = render_pdf_page(raw, page_number, toc, used)
+            if section:
+                rendered.append(section)
+            continue
+
+        boundary = sorted(gap_positions)[len(gap_positions) // 2]
+        columns = [[], []]
+        for line in lines:
+            match = re.search(r"\\s{3,}", line)
+            if match and line[:match.start()].strip() and line[match.end():].strip():
+                columns[0].append(line[:match.start()].rstrip())
+                columns[1].append(line[match.end():].strip())
+            elif line.strip():
+                indent = len(line) - len(line.lstrip())
+                columns[1 if indent >= boundary else 0].append(line.strip())
+
+        contents = []
+        for column_lines in columns:
+            column_html = render_pdf_page("\\n".join(column_lines), page_number, toc, used)
+            if column_html:
+                inner = re.sub(r"^<section class=\\"page\\" id=\\"page-\\d+\\"><div class=\\"page-label\\">SOURCE PAGE \\d+</div>", "", column_html)
+                inner = re.sub(r"</section>$", "", inner)
+                if inner.strip():
+                    contents.append('<div class="rr-source-column">' + inner + '</div>')
+        if contents:
+            rendered.append('<section class="page rr-source-columns" id="page-' + str(page_number) + '">' + "".join(contents) + '</section>')
+    return rendered, toc
+
+
 def render_pdf_blocks(text):
     pages = text.replace("\r\n", "\n").replace("\r", "\n").split("\f")
     rendered, toc, used = [], [], set()
@@ -725,6 +774,9 @@ def main():
                 extracted, extraction_method = extract_pdf(source)
                 if title.strip().lower() == "aag ki kavitayen":
                     sections, toc, poem_count = render_poetry_pdf(extracted)
+                elif title.strip().lower() == "sensitive cinema":
+                    sections, toc = render_sensitive_pdf_columns(extracted)
+                    poem_count = 0
                 else:
                     sections, toc = render_pdf_blocks(extracted)
                     poem_count = 0
