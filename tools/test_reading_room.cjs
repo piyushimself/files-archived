@@ -158,6 +158,44 @@ async function testVisibleEscapes(){
   dom.window.close();
 }
 
+
+async function testCompleteFilmCollection(){
+  const file=path.join(ROOT,"film_collection_v8.html");
+  const raw=fs.readFileSync(file,"utf8");
+  const dom=new JSDOM(raw,{
+    url:"https://piyushimself.github.io/files/film_collection_v8.html",
+    runScripts:"dangerously",
+    pretendToBeVisual:true,
+    beforeParse(window){
+      window.scrollTo=()=>{};
+      window.HTMLElement.prototype.scrollIntoView=function(){};
+    }
+  });
+  await new Promise(resolve=>setTimeout(resolve,0));
+  const d=dom.window.document;
+  assert.ok(d.body.classList.contains("rr-cinema-app"),"Film collection must use its isolated design scope");
+  assert.ok(d.querySelector(".rr-site-header"),"Global Reading Room header should remain present");
+  assert.ok(d.querySelectorAll(".mc").length>=20,"Film catalogue should render its records");
+  assert.ok(d.querySelector("#searchInput")&&d.querySelector("#countrySel")&&d.querySelector("#genreSel"),"Core catalogue filters must remain available");
+  assert.ok(d.querySelector("#progressWrap")&&d.querySelector("#wfWatched")&&d.querySelector("#importFile"),"Watch tracking controls must remain available");
+  const grid=d.querySelector("#grid");
+  assert.ok(grid.querySelector(".tier-sep"),"Rating tier separators should be present");
+  const original=d.querySelectorAll(".mc").length;
+  const search=d.querySelector("#searchInput");
+  setValue(search,"The Godfather");
+  const matching=[...d.querySelectorAll(".mc")].filter(card=>!card.hidden);
+  assert.ok(matching.length>=1&&matching.length<original,"Instant film search should narrow the visible results");
+  assert.ok(matching.some(card=>card.textContent.includes("The Godfather")),"Search should keep the expected title visible");
+  setValue(d.querySelector("#countrySel"),"USA","change");
+  assert.ok([...d.querySelectorAll(".mc")].filter(card=>!card.hidden).length>=1,"Country filtering should continue to work");
+  dom.window.close();
+
+  const css=fs.readFileSync(path.join(ROOT,"assets/reading-room.css"),"utf8");
+  assert.match(css,/body\.rr-page\s*\{[^}]*--text:var\(--rr-ink\)/s,"Theme compatibility variables must resolve on the page body");
+  assert.match(css,/body\.rr-page\.rr-cinema-app \.tier-sep\s*\{[^}]*grid-column:1\s*\/\s*-1/s,"Tier headings must span the whole film grid");
+  assert.match(css,/body\.rr-page\.rr-cinema-app \.mc-title\s*\{[^}]*color:var\(--rr-ink\)!important/s,"Film title contrast must follow the selected theme");
+}
+
 (async () => {
   await testFilmCatalogue();
   await testOrderedFilmCatalogues();
@@ -166,6 +204,7 @@ async function testVisibleEscapes(){
   await testPoliticalComics();
   await testCurricula();
   await testLearningAndArt();
+  await testCompleteFilmCollection();
   await testVisibleEscapes();
   await testPoetryReader();
   console.log("PASS: 8 Reading Room runtime smoke-test groups.");
