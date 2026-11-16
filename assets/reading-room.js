@@ -632,7 +632,7 @@ function cinemaBuildFilmReader(body,content,toolbar,kind){
   const addContext=(text)=>{
     const value=cinemaText(text);
     if(!value||/^Page\s+\d+\s*[·|]/i.test(value)||/^(?:The Complete Movie Encyclopedia|Complete Movie Ratings:|Page \d+\s*[·|])/i.test(value))return;
-    const p=document.createElement("p");p.className="rr-cinema-context";p.textContent=value;
+    const p=document.createElement("p");p.className="rr-cinema-context";p.dataset.category=current.name;p.dataset.search=value.toLocaleLowerCase();p.textContent=value;
     (current||ensureGroup("Collection notes","")).notes.appendChild(p);
   };
   const addEntry=(entry)=>{
@@ -710,14 +710,18 @@ function cinemaBuildFilmReader(body,content,toolbar,kind){
   const originalOrder=new Map(allCards.map((card,i)=>[card,i]));
   const update=()=>{
     const q=toolbar.input.value.trim().toLocaleLowerCase(),category=categorySelect.value,year=yearSelect.value,minimum=Number(scoreSelect.value)||0;
-    let visible=0;
+    let visible=0,visibleNotes=0;
     allCards.forEach(card=>{
       const score=Number(card.dataset.imdb)||0;
       const show=(!q||card.dataset.search.includes(q))&&(category==="all"||card.dataset.category===category)&&(year==="all"||card.dataset.year===year)&&(!minimum||score>=minimum);
       card.hidden=!show;if(show)visible++;
     });
+    wrapper.querySelectorAll(".rr-cinema-context").forEach(note=>{
+      const show=(!q||note.dataset.search.includes(q))&&(category==="all"||note.dataset.category===category);
+      note.hidden=!show;if(show)visibleNotes++;
+    });
     groups.forEach(group=>{
-      group.section.hidden=!group.section.querySelector(".rr-cinema-entry:not([hidden])")&&!group.notes.children.length;
+      group.section.hidden=!group.section.querySelector(".rr-cinema-entry:not([hidden])")&&!group.notes.querySelector(".rr-cinema-context:not([hidden])");
       const cards=[...group.grid.children];
       if(sortSelect.value!=="original"){
         cards.sort((a,b)=>{
@@ -728,7 +732,7 @@ function cinemaBuildFilmReader(body,content,toolbar,kind){
         }).forEach(card=>group.grid.appendChild(card));
       }
     });
-    empty.hidden=visible>0;
+    empty.hidden=visible>0||visibleNotes>0;
     toolbar.result.textContent=visible.toLocaleString()+" film listings";
   };
   [toolbar.input,categorySelect,yearSelect,scoreSelect,sortSelect].forEach(control=>control.addEventListener(control===toolbar.input?"input":"change",update));
