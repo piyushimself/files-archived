@@ -639,8 +639,9 @@ function cinemaBuildFilmReader(body,content,toolbar,kind){
   const addContext=(text)=>{
     const value=cinemaText(text);
     if(!value||/^Page\s+\d+\s*[·|]/i.test(value)||/^(?:The Complete Movie Encyclopedia|Complete Movie Ratings:|Page \d+\s*[·|])/i.test(value))return;
-    const p=document.createElement("p");p.className="rr-cinema-context";p.dataset.category=current.name;p.dataset.search=value.toLocaleLowerCase();p.textContent=value;
-    (current||ensureGroup("Collection notes","")).notes.appendChild(p);
+    const group=current||ensureGroup("Collection notes","");
+    const p=document.createElement("p");p.className="rr-cinema-context";p.dataset.category=group.name;p.dataset.search=value.toLocaleLowerCase();p.textContent=value;
+    group.notes.appendChild(p);
   };
   const addEntry=(entry)=>{
     if(!entry)return;
