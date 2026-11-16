@@ -41,7 +41,7 @@ jobs:
           cp ./*.html _site/
           cp -R assets/. _site/assets/
           cp -R html/. _site/html/
-          cp -R collections/. _site/collections/
+          if [ -d collections ]; then cp -R collections/. _site/collections/; fi
           touch _site/.nojekyll
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
