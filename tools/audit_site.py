@@ -122,7 +122,7 @@ def main():
             "title": " ".join(parser.title_text).strip(),
             "family": family,
             "bytes": len(raw.encode("utf-8")),
-            "h1": parser.h1_count,
+            "h1": len(re.findall(r"<h1\\b", raw, re.I)),
             "headings": len(parser.headings),
             "inputs": sum(1 for x in parser.inputs if x["tag"] == "input"),
             "selects": sum(1 for x in parser.inputs if x["tag"] == "select"),
@@ -132,7 +132,7 @@ def main():
             "duplicate_ids": duplicate_ids,
             "local_link_issues": local_issues[:30],
         }
-        if parser.h1_count == 0:
+        if row["h1"] == 0:
             hard_errors.append(page.relative_to(ROOT).as_posix() + ": missing h1")
         # Keep duplicate IDs visible as warnings: interactive legacy pages may
         # reuse hidden panel templates, so only fail on proven structural issues.
