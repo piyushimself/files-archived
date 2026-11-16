@@ -79,76 +79,270 @@ function initHubFilters(){
   });
 }
 
+function addSelect(host, className, label, values){
+  const select=document.createElement("select");
+  select.className=className;
+  select.setAttribute("aria-label",label);
+  const all=document.createElement("option");all.value="all";all.textContent="All "+label.toLowerCase();select.appendChild(all);
+  [...values].filter(Boolean).sort((a,b)=>a.localeCompare(b)).forEach(value=>{
+    const option=document.createElement("option");option.value=value;option.textContent=value;select.appendChild(option);
+  });
+  host.appendChild(select);return select;
+}
+function readerToolbar(body){
+  const tools=body.querySelector(".rr-reader-tools");
+  if(!tools)return null;
+  tools.querySelectorAll(".rr-reader-filter,.rr-reader-results,.rr-reader-clear").forEach(node=>node.remove());
+  const input=tools.querySelector('input[type="search"],#search');
+  if(!input)return null;
+  input.placeholder="Search titles, people, places or ideas…";
+  const result=document.createElement("span");result.className="rr-reader-results";result.setAttribute("aria-live","polite");
+  const clear=document.createElement("button");clear.type="button";clear.className="rr-reader-clear";clear.textContent="Clear";
+  clear.addEventListener("click",()=>{input.value="";tools.querySelectorAll("select").forEach(s=>s.value="all");input.dispatchEvent(new Event("input",{bubbles:true}));});
+  tools.appendChild(result);tools.appendChild(clear);
+  return {tools,input,result,clear};
+}
+function parseFilmMeta(value){
+  const text=(value||"").trim();
+  const match=text.match(/^(.+?)\s*[·•]\s*([^·•]+?)\s*[·•]\s*((?:18|19|20)\d{2})$/);
+  if(!match)return null;
+  return {director:match[1].trim(),country:match[2].trim(),year:match[3]};
+}
+function quoteFromText(text){
+  const match=(text||"").match(/["“]([^"”]+)["”]/);
+  return match?match[1].trim():"";
+}
+function isFilmCategory(text){
+  const value=(text||"").replace(/[■▪◆]+/g,"").trim();
+  const alpha=value.replace(/[^A-Za-z]/g,"");
+  if(value.length<4||value.length>68||alpha.length<4)return false;
+  if(/title|tagline|director|country|year|filmography|300 films/i.test(value))return false;
+  return alpha===alpha.toUpperCase() && value.split(/\s+/).length<=9;
+}
+function splitFilmParagraph(text){
+  const value=(text||"").replace(/\s+/g," ").trim();
+  if(!value)return [];
+  return value.split(/(?<=["”'])\s+(?=\d{1,3}[.)]?\s+[A-ZÀ-ÖØ-Þ])/u).map(v=>v.trim()).filter(Boolean);
+}
+function buildFilmCatalogue(body,content,toolbar){
+  const records=[],intro=[],groups=[];
+  let category="Filmography",current=null;
+  const startRecord=(number,title,page,id)=>{
+    current={number:number||"",title:(title||"").trim(),director:"",country:"",year:"",tagline:"",notes:[],category:category,page:page+1,anchor:id||"",metaAnchors:[]};
+    if(!current.title)current.title="Untitled film entry";
+    records.push(current);return current;
+  };
+  const addNote=(value)=>{
+    const text=(value||"").replace(/\s+/g," ").trim();
+    if(!text)return;
+    if(!current){intro.push(text);return;}
+    const meta=parseFilmMeta(text);
+    if(meta){current.director=meta.director;current.country=meta.country;current.year=meta.year;return;}
+    const quote=quoteFromText(text);
+    if(quote){current.tagline= current.tagline ? current.tagline+" "+quote : quote;return;}
+    if(text.length>1)current.notes.push(text);
+  };
+  content.querySelectorAll(":scope > .page").forEach((page,pageIndex)=>{
+    [...page.children].forEach(node=>{
+      if(node.classList.contains("page-label"))return;
+      const text=(node.textContent||"").replace(/\s+/g," ").trim();
+      if(!text)return;
+      if(/^H[1-3]$/.test(node.tagName)){
+        const numbered=text.match(/^(\d{1,3})[.)]?\s+(.+)$/);
+        if(numbered){
+          startRecord(numbered[1],numbered[2],pageIndex,node.id);
+          return;
+        }
+        const meta=parseFilmMeta(text);
+        if(meta){
+          if(!current)current=startRecord("", "Film entry",pageIndex,"");
+          current.director=meta.director;current.country=meta.country;current.year=meta.year;
+          if(node.id)current.metaAnchors.push(node.id);
+          return;
+        }
+        if(isFilmCategory(text)){
+          category=text.replace(/[■▪◆]+/g,"").trim();
+          groups.push({title:category,anchor:node.id||""});
+          return;
+        }
+        if(current)addNote(text);else intro.push(text);
+        return;
+      }
+      if(node.tagName==="UL"||node.tagName==="OL"){
+        [...node.children].forEach(li=>{
+          const label=(li.textContent||"").replace(/\s+/g," ").trim();
+          if(isFilmCategory(label)){category=label.replace(/[■▪◆]+/g,"").trim();groups.push({title:category,anchor:li.id||""});}
+          else addNote(label);
+        });
+        return;
+      }
+      if(node.tagName==="P"||node.tagName==="BLOCKQUOTE"||node.tagName==="LI"){
+        const parts=splitFilmParagraph(text);
+        parts.forEach(part=>{
+          const numbered=part.match(/^(\d{1,3})[.)]?\s+([\s\S]+)$/);
+          if(numbered){
+            const bodyText=numbered[2].trim();
+            const quoteIndex=bodyText.search(/["“]/);
+            const visibleTitle=quoteIndex>=0?bodyText.slice(0,quoteIndex).trim():bodyText;
+            startRecord(numbered[1],visibleTitle,pageIndex,"");
+            const q=quoteFromText(bodyText);if(q)current.tagline=q;
+            const meta=parseFilmMeta(bodyText);
+            if(meta){current.director=meta.director;current.country=meta.country;current.year=meta.year;}
+            if(quoteIndex>=0){
+              const tail=bodyText.slice(quoteIndex).replace(/["“][\s\S]*?["”]/,"").trim();
+              if(tail)addNote(tail);
+            }
+          }else addNote(part);
+        });
+        return;
+      }
+      if(current)addNote(text);else intro.push(text);
+    });
+  });
+  if(records.length<12)return false;
+  const groupsByName=new Map();
+  records.forEach(record=>{
+    const key=record.category||"Filmography";
+    if(!groupsByName.has(key))groupsByName.set(key,[]);
+    groupsByName.get(key).push(record);
+  });
+  const countryValues=new Set(records.map(r=>r.country));
+  const directorValues=new Set(records.map(r=>r.director));
+  const yearValues=new Set(records.map(r=>r.year));
+  const categoryValues=new Set(records.map(r=>r.category));
+  const filterHost=toolbar.tools;
+  const categorySelect=addSelect(filterHost,"rr-reader-filter rr-film-category","category",categoryValues);
+  const countrySelect=addSelect(filterHost,"rr-reader-filter rr-film-country","country",countryValues);
+  const directorSelect=addSelect(filterHost,"rr-reader-filter rr-film-director","director",directorValues);
+  const yearSelect=addSelect(filterHost,"rr-reader-filter rr-film-year","year",yearValues);
+  const wrapper=document.createElement("div");wrapper.className="rr-filmography";
+  if(intro.length){
+    const introBox=document.createElement("section");introBox.className="rr-filmography-intro";
+    const introTitle=document.createElement("h2");introTitle.textContent="About this selection";introBox.appendChild(introTitle);
+    const p=document.createElement("p");p.textContent=intro.join(" ");introBox.appendChild(p);wrapper.appendChild(introBox);
+  }
+  groupsByName.forEach((items,name)=>{
+    const section=document.createElement("section");section.className="rr-film-group";section.dataset.category=name;
+    const heading=document.createElement("h2");heading.className="rr-film-group-title";heading.textContent=name;section.appendChild(heading);
+    const grid=document.createElement("div");grid.className="rr-film-grid";
+    items.forEach(record=>{
+      const card=document.createElement("article");card.className="rr-film-card";
+      card.dataset.category=record.category;card.dataset.country=record.country;card.dataset.director=record.director;card.dataset.year=record.year;
+      if(record.anchor)card.id=record.anchor;
+      record.metaAnchors.forEach(id=>{const anchor=document.createElement("span");anchor.id=id;anchor.className="rr-film-anchor";card.appendChild(anchor);});
+      const top=document.createElement("div");top.className="rr-film-card-top";
+      const index=document.createElement("span");index.className="rr-film-index";index.textContent=record.number?"FILM "+record.number:"FILM";top.appendChild(index);
+      const source=document.createElement("span");source.className="rr-film-source";source.textContent="Source page "+record.page;top.appendChild(source);card.appendChild(top);
+      const title=document.createElement("h3");title.className="rr-film-title";title.textContent=record.title;card.appendChild(title);
+      const meta=document.createElement("dl");meta.className="rr-film-meta";
+      [["Director",record.director],["Country",record.country],["Year",record.year]].forEach(pair=>{
+        if(!pair[1])return;
+        const wrap=document.createElement("div"),dt=document.createElement("dt"),dd=document.createElement("dd");
+        dt.textContent=pair[0];dd.textContent=pair[1];wrap.appendChild(dt);wrap.appendChild(dd);meta.appendChild(wrap);
+      });
+      if(meta.children.length)card.appendChild(meta);
+      if(record.tagline){const quote=document.createElement("p");quote.className="rr-film-tagline";quote.textContent="“"+record.tagline+"”";card.appendChild(quote);}
+      if(record.notes.length){
+        const notes=document.createElement("p");notes.className="rr-film-notes";notes.textContent=record.notes.join(" ");card.appendChild(notes);
+      }
+      card.dataset.search=[record.number,record.title,record.director,record.country,record.year,record.tagline,record.notes.join(" "),record.category].join(" ").toLocaleLowerCase();
+      grid.appendChild(card);
+    });
+    section.appendChild(grid);wrapper.appendChild(section);
+  });
+  content.replaceChildren(wrapper);
+  toolbar.input.id="rr-film-search";
+  const count=records.length;
+  const update=()=>{
+    const query=toolbar.input.value.trim().toLocaleLowerCase();
+    let visible=0;
+    wrapper.querySelectorAll(".rr-film-card").forEach(card=>{
+      const show=(!query||card.dataset.search.includes(query))&&
+        (categorySelect.value==="all"||card.dataset.category===categorySelect.value)&&
+        (countrySelect.value==="all"||card.dataset.country===countrySelect.value)&&
+        (directorSelect.value==="all"||card.dataset.director===directorSelect.value)&&
+        (yearSelect.value==="all"||card.dataset.year===yearSelect.value);
+      card.hidden=!show;if(show)visible++;
+    });
+    wrapper.querySelectorAll(".rr-film-group").forEach(section=>{section.hidden=!section.querySelector(".rr-film-card:not([hidden])");});
+    toolbar.result.textContent=visible+" of "+count+" film entries";
+  };
+  [toolbar.input,categorySelect,countrySelect,directorSelect,yearSelect].forEach(control=>control.addEventListener(control===toolbar.input?"input":"change",update));
+  update();
+  body.classList.add("rr-film-catalogue");
+  return true;
+}
+function buildGenericReader(body,content,toolbar){
+  const pages=[...content.querySelectorAll(":scope > .page")],groups=[];
+  const pageSelect=addSelect(toolbar.tools,"rr-reader-filter rr-reader-page-filter","source page",pages.map((page,i)=>{
+    const label=page.querySelector(".page-label");return label?label.textContent.trim():"Source page "+(i+1);
+  }));
+  const sectionNames=new Set();
+  pages.forEach((page,pageIndex)=>{
+    const children=[...page.children],label=children.find(n=>n.classList.contains("page-label"));
+    let section=null,sectionNo=0;
+    const startSection=(title)=>{
+      section=document.createElement("section");section.className="rr-reading-section";
+      section.dataset.page=String(pageIndex);
+      section.dataset.title=title;
+      sectionNo++;
+      const heading=document.createElement("div");heading.className="rr-reading-section-heading";
+      const labelNode=document.createElement("span");labelNode.className="rr-reading-section-kicker";labelNode.textContent="SECTION "+sectionNo;
+      heading.appendChild(labelNode);section.appendChild(heading);
+      if(title)sectionNames.add(title);
+      groups.push(section);page.appendChild(section);
+      return section;
+    };
+    children.forEach(node=>{
+      if(node===label)return;
+      if(/^H[1-3]$/.test(node.tagName)){
+        section=startSection((node.textContent||"").trim());
+        section.appendChild(node);
+      }else{
+        if(!section)section=startSection("Opening notes");
+        section.appendChild(node);
+      }
+    });
+    page.dataset.rrPage=String(pageIndex);
+    if(!label&&section)page.insertBefore(document.createElement("div"),page.firstChild);
+  });
+  groups.forEach(section=>{
+    const heading=section.querySelector("h2,h3,h4");
+    const head=section.querySelector(".rr-reading-section-heading");
+    if(heading&&head)head.appendChild(heading);
+    section.dataset.search=section.textContent.toLocaleLowerCase();
+  });
+  const sectionSelect=addSelect(toolbar.tools,"rr-reader-filter rr-reader-section-filter","section",sectionNames);
+  const empty=document.createElement("div");empty.className="rr-reader-empty";empty.textContent="No matching sections. Try another search or clear the filters.";content.appendChild(empty);
+  const update=()=>{
+    const query=toolbar.input.value.trim().toLocaleLowerCase();
+    let visible=0;
+    groups.forEach(section=>{
+      const pageMatch=pageSelect.value==="all"||pageSelect.value===section.dataset.page;
+      const sectionMatch=sectionSelect.value==="all"||sectionSelect.value===section.dataset.title;
+      const searchMatch=!query||section.dataset.search.includes(query);
+      const show=pageMatch&&sectionMatch&&searchMatch;section.hidden=!show;if(show)visible++;
+    });
+    pages.forEach((page,index)=>{page.hidden=!groups.some(section=>section.dataset.page===String(index)&&!section.hidden);});
+    empty.hidden=visible>0;
+    toolbar.result.textContent=visible+" of "+groups.length+" sections";
+  };
+  toolbar.input.addEventListener("input",update);pageSelect.addEventListener("change",update);sectionSelect.addEventListener("change",update);update();
+}
 function initReaderControls(){
   document.querySelectorAll("body.rr-reader").forEach(body=>{
-    const input=body.querySelector('.rr-reader-tools input[type="search"], #search');
-    const content=body.querySelector("#content");
-    if(!input||!content||input.dataset.rrReaderWired==="1")return;
-    input.dataset.rrReaderWired="1";
-    const tools=input.closest(".rr-reader-tools");
-    const pageSelect=document.createElement("select");
-    pageSelect.className="rr-reader-page-filter";
-    pageSelect.setAttribute("aria-label","Filter by source page");
-    pageSelect.innerHTML='<option value="all">All source pages</option>';
-    const sectionSelect=document.createElement("select");
-    sectionSelect.className="rr-reader-section-filter";
-    sectionSelect.setAttribute("aria-label","Filter by section");
-    sectionSelect.innerHTML='<option value="all">All sections</option>';
-    const result=document.createElement("span");
-    result.className="rr-reader-results";
-    result.setAttribute("aria-live","polite");
-    if(tools){tools.appendChild(pageSelect);tools.appendChild(sectionSelect);tools.appendChild(result);}
-    const empty=document.createElement("div");
-    empty.className="rr-reader-empty";
-    empty.textContent="No matching sections. Try a different search or clear the filters.";
-    content.appendChild(empty);
-    const pages=[...content.querySelectorAll(":scope > .page")];
-    const groups=[];
-    let groupId=0;
-    pages.forEach((page,pageIndex)=>{
-      const label=page.querySelector(".page-label");
-      const pageName=label?label.textContent.trim():"Source page "+(pageIndex+1);
-      const opt=document.createElement("option");opt.value=String(pageIndex);opt.textContent=pageName;pageSelect.appendChild(opt);
-      let current=null;
-      [...page.children].forEach(node=>{
-        if(node.classList.contains("page-label"))return;
-        if(/^H[23]$/.test(node.tagName)){
-          current={id:String(groupId++),page:pageIndex,title:node.textContent.trim(),nodes:[],text:""};
-          groups.push(current);
-          const so=document.createElement("option");so.value=current.id;so.textContent=current.title.slice(0,100);sectionSelect.appendChild(so);
-        }
-        if(!current){
-          current={id:String(groupId++),page:pageIndex,title:pageName+" · Introduction",nodes:[],text:""};
-          groups.push(current);
-        }
-        current.nodes.push(node);
-        current.text+=(node.textContent||"")+" ";
-      });
-      page.dataset.rrPage=String(pageIndex);
-    });
-    function update(){
-      const query=input.value.trim().toLocaleLowerCase();
-      const selectedPage=pageSelect.value,selectedSection=sectionSelect.value;
-      let visible=0;
-      groups.forEach(group=>{
-        const pageMatch=selectedPage==="all"||selectedPage===String(group.page);
-        const sectionMatch=selectedSection==="all"||selectedSection===group.id;
-        const searchMatch=!query||group.text.toLocaleLowerCase().includes(query);
-        const show=pageMatch&&sectionMatch&&searchMatch;
-        group.nodes.forEach(node=>node.hidden=!show);
-        if(show)visible++;
-      });
-      pages.forEach((page,index)=>{
-        const show=groups.some(group=>group.page===index&&group.nodes.some(node=>!node.hidden));
-        page.hidden=!show;
-      });
-      empty.style.display=visible?"none":"block";
-      result.textContent=visible+" sections shown · "+groups.length+" total";
-    }
-    input.addEventListener("input",update);
-    pageSelect.addEventListener("change",()=>{sectionSelect.value="all";update();});
-    sectionSelect.addEventListener("change",update);
-    update();
+    const content=body.querySelector("#content"),toolbar=readerToolbar(body);
+    if(!content||!toolbar||body.dataset.rrReaderEnhanced==="1")return;
+    body.dataset.rrReaderEnhanced="1";
+    const title=(body.querySelector(".hero h1")||body.querySelector("h1")||{}).textContent||"";
+    const headings=[...content.querySelectorAll("h2,h3")];
+    const filmMetaCount=headings.filter(h=>parseFilmMeta(h.textContent)).length;
+    const numberedCount=headings.filter(h=>/^\s*\d{1,3}[.)]?\s+/.test(h.textContent)).length;
+    const textNumberCount=((content.innerText||"").match(/(?:^|\s)\d{1,3}[.)]?\s+[A-ZÀ-ÖØ-Þ]/g)||[]).length;
+    const filmLike=/film|cinema|movie/i.test(title);
+    const isFilmCatalogue=filmLike&&(filmMetaCount>=8||numberedCount>=18||(/filmography/i.test(title)&&textNumberCount>=12));
+    if(isFilmCatalogue&&buildFilmCatalogue(body,content,toolbar))return;
+    buildGenericReader(body,content,toolbar);
   });
 }
 
