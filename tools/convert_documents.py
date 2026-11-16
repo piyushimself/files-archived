@@ -481,6 +481,7 @@ def category_info(title):
 SUMMARY_OVERRIDES = {
     "films that open new human domains": "A guided film and documentary collection organised around domains of human experience — childhood, care, illness, family, solitude, war, creativity and more. Each selection pairs a film with the human perspective it can help a viewer understand, making this a route for reflective watching rather than a ranked watchlist.",
     "aag ki kavitayen": "A 100-poem Hindi collection in a revolutionary and humanist tradition, with poems on resistance, dignity, labour, hope, identity and love. Each poem is presented as its own piece, with the source title, poet attribution, verse lineation and stanza breaks preserved.",
+    "aag ki kavitayen": "A 100-poem Hindi collection in a revolutionary and humanist tradition, with poems on resistance, dignity, labour, hope, identity and love. Each poem is presented as its own piece, with the source title, poet attribution, verse lineation and stanza breaks preserved.",
     "the definitive anime encyclopedia": "A broad anime viewing reference covering 100 essential films and 100 essential series across genres and eras. Use it to plan a first watchlist or trace how styles, studios and creators changed from early television to contemporary work.",
     "manga recommendations": "A compact manga shortlist for readers drawn to romance, mystery and feel-good storytelling, with a simple rating key to help compare recommendations. Treat it as a welcoming starting shelf rather than a comprehensive canon.",
     "ultimate anime guide": "A time-aware guide to essential anime films and series, organised around genre and viewing commitment. It helps readers choose a manageable route through a large medium rather than browse an undifferentiated catalogue.",
@@ -559,6 +560,7 @@ def make_reader(source, title, kind, sections, toc, extraction_method, source_ha
     body = "\n".join(sections)
     if len(body) < 100:
         body = '<section class="page"><p>No readable text could be extracted. Please open the original source document for the complete material.</p></section>'
+    edition_meta = (str(len(toc)) + " poems · Original sequence preserved · Search by poet or section") if theme == "poetry" else (str(len(sections)) + " reading sections · Original file preserved · Search within this edition")
     return """<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="Reading edition of """ + safe_title + """. Original source preserved.">
@@ -589,7 +591,7 @@ body.rr-reader .toc details a:first-of-type{margin-top:8px}
 </style></head><body class="rr-page rr-reader rr--""" + theme + """">
 """ + toc_block + """
 <main class=\"""" + layout_class + """\"><article>
-<section class="hero"><div class="kicker">SOURCE DOCUMENT · """ + kind + """ · """ + escape(category) + """</div><h1>""" + safe_title + """</h1><div class="meta">""" + str(len(sections)) + """ reading sections · Original file preserved · Search within this edition</div></section>
+<section class="hero"><div class="kicker">SOURCE DOCUMENT · """ + kind + """ · """ + escape(category) + """</div><h1>""" + safe_title + """</h1><div class="meta">""" + edition_meta + """</div></section>
 <section class="rr-reader-intro"><div class="kicker">About this collection</div><p class="rr-reader-summary">""" + escape(summary) + """</p><p class="rr-reader-guidance"><strong>Suggested approach:</strong> """ + escape(guidance) + """</p><p><a href=""" + '"' + escape(source_rel) + '"' + """ target="_blank" rel="noopener">Open original """ + kind + """ ↗</a></p></section>
 <div class="rr-reader-tools"><label for="search">FIND IN THIS DOCUMENT</label><input id="search" type="search" placeholder="Search words, names or sections…" aria-label="Search within this document"></div>
 <div id="content">""" + body + """</div>

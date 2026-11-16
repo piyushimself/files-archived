@@ -67,6 +67,33 @@ class Inspector(HTMLParser):
         if self.in_title:
             self.title_text.append(data)
 
+
+class VisibleEscapeInspector(HTMLParser):
+    """Count escaped control sequences in visible text, excluding scripts and code."""
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.protected = []
+        self.count = 0
+        self.snippets = []
+
+    def handle_starttag(self, tag, attrs):
+        if tag.lower() in ("script", "style", "pre", "code", "textarea"):
+            self.protected.append(tag.lower())
+
+    def handle_endtag(self, tag):
+        tag = tag.lower()
+        if tag in self.protected:
+            index = len(self.protected) - 1 - self.protected[::-1].index(tag)
+            self.protected = self.protected[:index]
+
+    def handle_data(self, data):
+        if self.protected:
+            return
+        for match in re.finditer(r"\\[nrt]", data):
+            self.count += 1
+            if len(self.snippets) < 5:
+                self.snippets.append(data[max(0, match.start()-55):min(len(data), match.end()+55)].strip())
+
 def page_family(inspector, path):
     classes = inspector.body_classes
     if "rr-home" in classes:
@@ -112,6 +139,8 @@ def main():
         parser = Inspector()
         raw = page.read_text(encoding="utf-8", errors="replace")
         parser.feed(raw)
+        escape_parser = VisibleEscapeInspector()
+        escape_parser.feed(raw)
         version_css = re.findall(r"reading-room\.css\?v=(\d+)", raw)
         version_js = re.findall(r"reading-room\.js\?v=(\d+)", raw)
         duplicate_ids = sorted(k for k, n in parser.ids.items() if n > 1)
@@ -131,14 +160,18 @@ def main():
             "asset_versions": {"css": sorted(set(version_css)), "js": sorted(set(version_js))},
             "duplicate_ids": duplicate_ids,
             "local_link_issues": local_issues[:30],
+            "visible_escape_count": escape_parser.count,
+            "visible_escape_snippets": escape_parser.snippets,
         }
         if row["h1"] == 0:
             hard_errors.append(page.relative_to(ROOT).as_posix() + ": missing h1")
+        if row["visible_escape_count"]:
+            hard_errors.append(page.relative_to(ROOT).as_posix() + ": visible escaped control sequences: " + str(row["visible_escape_count"]))
         # Keep duplicate IDs visible as warnings: interactive legacy pages may
         # reuse hidden panel templates, so only fail on proven structural issues.
         if "rr-page" in parser.body_classes:
-            if version_css != ["14"] or version_js != ["14"]:
-                hard_errors.append(page.relative_to(ROOT).as_posix() + ": shared v11 assets not applied exactly once")
+            if version_css != ["15"] or version_js != ["15"]:
+                hard_errors.append(page.relative_to(ROOT).as_posix() + ": shared v15 assets not applied exactly once")
         if family == "source-reading-edition":
             if 'id="search"' not in raw or "rr-reader-summary" not in raw:
                 hard_errors.append(page.relative_to(ROOT).as_posix() + ": missing reader search or source context")
@@ -150,6 +183,8 @@ def main():
         "pages_with_local_link_issues": sum(1 for row in rows if row["local_link_issues"]),
         "local_link_issue_count": sum(len(row["local_link_issues"]) for row in rows),
         "hard_error_count": len(hard_errors),
+        "visible_escape_page_count": sum(1 for row in rows if row["visible_escape_count"]),
+        "visible_escape_count": sum(row["visible_escape_count"] for row in rows),
         "duplicate_id_page_count": sum(1 for row in rows if row["duplicate_ids"]),
         "duplicate_id_count": sum(len(row["duplicate_ids"]) for row in rows),
         "hard_errors": hard_errors,
@@ -161,12 +196,13 @@ def main():
     print("Page families:", summary["families"])
     print("Local-link warnings:", summary["local_link_issue_count"], "across", summary["pages_with_local_link_issues"], "pages")
     print("Duplicate-ID warnings:", summary["duplicate_id_count"], "across", summary["duplicate_id_page_count"], "pages")
+    print("Visible escaped sequences:", summary["visible_escape_count"], "across", summary["visible_escape_page_count"], "pages")
     if hard_errors:
         print("HARD ERRORS:")
         for issue in hard_errors:
             print(" -", issue)
         raise SystemExit(1)
-    print("PASS: all pages have an H1 and current shared assets; duplicate IDs and local-link issues are included for review.")
+    print("PASS: all pages have an H1, current assets, no visible escaped control sequences, no broken local links and no hard structural errors.")
 
 if __name__ == "__main__":
     main()

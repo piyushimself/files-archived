@@ -126,6 +126,37 @@ async function testLearningAndArt() {
   }
 }
 
+
+async function testPoetryReader(){
+  const dom=await boot("html/Aag_Ki_Kavitayen.html");
+  const d=dom.window.document;
+  const poems=d.querySelectorAll(".poem-card");
+  assert.ok(d.body.classList.contains("rr--poetry"),"Aag Ki Kavitayen should use a poetry-specific page type");
+  assert.ok(poems.length>=80,"Poetry renderer should preserve the poem collection; got "+poems.length);
+  assert.ok(d.querySelector(".poetry-line"),"Poem verse should be represented as individual lines");
+  assert.ok(d.querySelector(".poet-byline"),"Poet attribution should be retained when present");
+  assert.ok(d.querySelector(".rr-poetry-poet-filter")&&d.querySelector(".rr-poetry-volume-filter"),"Poetry filters missing");
+  assert.ok(d.body.textContent.includes("Sabse Khatarnak"),"First poem title missing");
+  assert.ok(d.body.textContent.includes("Zinda Rehna"),"Second poem title missing");
+  assert.ok(!d.body.textContent.includes("\\n"),"Literal backslash-n must not appear in rendered poetry text");
+  setValue(d.querySelector("#search"),"Sabse Khatarnak");
+  assert.equal(visibleCount(".poem-card",d),1,"Poetry search should isolate the selected poem");
+  dom.window.close();
+}
+async function testVisibleEscapes(){
+  const dom=await boot("The_Curators_Library.html");
+  const d=dom.window.document;
+  const walker=d.createTreeWalker(d.body,dom.window.NodeFilter.SHOW_TEXT);
+  const forbidden=[];
+  while(walker.nextNode()){
+    const parent=walker.currentNode.parentElement;
+    if(parent&&parent.closest("script,style,pre,code,textarea"))continue;
+    if(/\\[nrt]/.test(walker.currentNode.nodeValue||""))forbidden.push(walker.currentNode.nodeValue);
+  }
+  assert.deepEqual(forbidden,[],"Visible escaped control sequences remain in The Curator's Library");
+  dom.window.close();
+}
+
 (async () => {
   await testFilmCatalogue();
   await testOrderedFilmCatalogues();
@@ -134,6 +165,8 @@ async function testLearningAndArt() {
   await testPoliticalComics();
   await testCurricula();
   await testLearningAndArt();
+  await testVisibleEscapes();
+  await testPoetryReader();
   console.log("PASS: 8 Reading Room runtime smoke-test groups.");
 })().catch(error => {
   console.error(error);

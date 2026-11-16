@@ -10,6 +10,7 @@ on:
       - 'tools/convert_documents.py'
       - 'tools/build_site.py'
       - 'tools/audit_site.py'
+      - 'tools/repair_visible_escapes.py'
       - 'tools/test_reading_room.cjs'
       - 'README.md'
       - '*.html'
@@ -47,7 +48,7 @@ jobs:
 
       - name: Validate Python build scripts
         run: |
-          python -m py_compile tools/convert_documents.py tools/build_site.py tools/audit_site.py
+          python -m py_compile tools/convert_documents.py tools/build_site.py tools/audit_site.py tools/repair_visible_escapes.py
           node --check assets/reading-room.js
           node --check tools/test_reading_room.cjs
           rm -rf tools/__pycache__
@@ -60,6 +61,9 @@ jobs:
 
       - name: Build the themed multi-page Reading Room
         run: python tools/build_site.py
+
+      - name: Repair visible escaped line breaks across every HTML page
+        run: python tools/repair_visible_escapes.py
 
       - name: Audit every HTML page
         run: python tools/audit_site.py
@@ -92,9 +96,9 @@ jobs:
               if page.name == 'index.html' and page.parent == root:
                   assert 'rr-home-hero' in body, 'Homepage not rebuilt'
               else:
-                  assert 'reading-room.css?v=14' in body, f'Missing shared stylesheet: {page}'
+                  assert 'reading-room.css?v=15' in body, f'Missing shared stylesheet: {page}'
               assert 'class=\"rr-page' in body, f'Missing Reading Room page scope: {page}'
-              assert body.count('reading-room.js?v=14') == 1, f'Duplicate or missing shared script: {page}'
+              assert body.count('reading-room.js?v=15') == 1, f'Duplicate or missing shared script: {page}'
           for item in report['sources']:
               if item['status'] != 'converted':
                   continue
@@ -119,7 +123,7 @@ jobs:
           if [[ -n "$(git status --porcelain)" ]]; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add -- '*.html' 'html/' 'collections/' 'assets/' 'tools/convert_documents.py' 'tools/build_site.py' 'tools/audit_site.py' 'tools/test_reading_room.cjs' '.github/workflows/convert-documents.yml' 'README.md'
+            git add -- '*.html' 'html/' 'collections/' 'assets/' 'tools/convert_documents.py' 'tools/build_site.py' 'tools/audit_site.py' 'tools/test_reading_room.cjs' 'tools/repair_visible_escapes.py' '.github/workflows/convert-documents.yml' 'README.md'
             git commit -m "Rebuild Reading Room from all source documents"
             git pull --rebase origin main
             git push origin main
