@@ -137,7 +137,7 @@ def main():
         # Keep duplicate IDs visible as warnings: interactive legacy pages may
         # reuse hidden panel templates, so only fail on proven structural issues.
         if "rr-page" in parser.body_classes:
-            if version_css != ["12"] or version_js != ["12"]:
+            if version_css != ["13"] or version_js != ["13"]:
                 hard_errors.append(page.relative_to(ROOT).as_posix() + ": shared v11 assets not applied exactly once")
         if family == "source-reading-edition":
             if 'id="search"' not in raw or "rr-reader-summary" not in raw:
