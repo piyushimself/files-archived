@@ -134,6 +134,7 @@ async function testPoetryReader(){
   assert.ok(d.body.classList.contains("rr--poetry"),"Aag Ki Kavitayen should use a poetry-specific page type");
   assert.ok(poems.length>=80,"Poetry renderer should preserve the poem collection; got "+poems.length);
   assert.ok(d.querySelector(".poetry-line"),"Poem verse should be represented as individual lines");
+  assert.ok(d.querySelectorAll(".poetry-stanza").length < d.querySelectorAll(".poetry-line").length / 2,"Blank line spacing must not turn every verse line into a separate stanza");
   assert.ok(d.querySelector(".poet-byline"),"Poet attribution should be retained when present");
   assert.ok(d.querySelector(".rr-poetry-poet-filter")&&d.querySelector(".rr-poetry-volume-filter"),"Poetry filters missing");
   assert.ok(d.body.textContent.includes("Sabse Khatarnak"),"First poem title missing");
