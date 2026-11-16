@@ -169,13 +169,13 @@ def classify_resource(name):
     # Specific collections first: filename meaning takes precedence over broad keywords.
     if "four arcs" in value:
         return ("Music & Cross-Media","A multi-medium journey through films, books, albums, manga and poetry","music albums listening records poems films books")
-    if "curator" in value:
+    if "curator" in value or all(term in value for term in ("film", "book", "art")):
         return ("Cross-Media Discovery","A unified catalogue spanning films, anime, books, poetry and art","film anime books poetry art mixed media")
     if "film" in value and "music" in value:
         return ("Music & Cross-Media","A combined guide to cinema and its musical worlds","film cinema music soundtracks albums directors")
     if "asian cinema" in value or "cinematic" in value or "film" in value or "movie" in value or "animated films" in value or "sensual mood" in value:
         return ("Film & Cinema","Filmographies, world cinema curricula and searchable viewing collections","film cinema movies animation directors countries decades")
-    if any(term in value for term in ("human development","life fiction","living curriculum","political comics","anime manga values","education","homeschool","home school","schooling","curriculum","learning","child development")):
+    if any(term in value for term in ("human development","life fiction","living curriculum","political comics","anime manga values","education","homeschool","home school","schooling","curriculum","learning","child development","kids","children","three year","3yearold","world stories")):
         return ("Home Learning & Education","Structured curricula, educational resources and guided learning pathways","education homeschooling home learning curriculum stages lessons children")
     if any(term in value for term in ("blackout poetry","poetry","poem","kavita","kavitayen")):
         return ("Poetry & Writing","Poetry collections, lessons and creative language practice","poetry poems kavita kavitayen writing literature")
@@ -189,7 +189,7 @@ def classify_resource(name):
         return ("Anime & Manga","Illustrated stories, manga indexes and comics reading guides","manga anime comics manhwa graphic novels")
     if any(term in value for term in ("art","watercol","collage","bob ross","creative")):
         return ("Art & Creative Practice","Art resources, painting guides and hands-on creative exercises","art drawing painting collage watercolor creative")
-    if any(term in value for term in ("prompt","inspiration","thinker","meditation","memento","life worth","emotion","wonder","mind","values")):
+    if any(term in value for term in ("prompt","inspiration","thinker","meditation","memento","life worth","emotion","wonder","mind","values","fictional books")):
         return ("Ideas & Reflection","Prompts, philosophy and resources for thoughtful living","prompts inspiration philosophy reflection thinkers")
     if any(term in value for term in ("security","cyber","crypto","trading","pine")):
         return ("Technology & Security","Cybersecurity, technical learning and market tools","technology security cybersecurity crypto trading")
