@@ -333,6 +333,157 @@ function buildGenericReader(body,content,toolbar){
   };
   toolbar.input.addEventListener("input",update);pageSelect.addEventListener("change",update);sectionSelect.addEventListener("change",update);update();
 }
+function parseFilmYearCountry(value){
+  const match=(value||"").trim().match(/^((?:18|19|20)\d{2})\s*[·•]\s*(.+?)(?:\s+About:\s*([\s\S]*))?$/);
+  return match?{year:match[1],country:match[2].trim(),tail:(match[3]||"").trim()}:null;
+}
+function parseFilmFullCredit(value){
+  const match=(value||"").trim().match(/^(.+?)\s*[·•]\s*([^·•]+?)\s*[·•]\s*([^·•]+?)\s*[·•]\s*((?:18|19|20)\d{2})(?:\s+(.*))?$/);
+  return match?{director:match[1].trim(),country:match[2].trim(),location:match[3].trim(),year:match[4],tail:(match[5]||"").trim()}:null;
+}
+function buildOrderedFilmCatalogue(body,content,toolbar){
+  const listCount=content.querySelectorAll(":scope > .page ol li").length;
+  if(listCount<12)return false;
+  const records=[],intro=[],groupAnchors=[];
+  let category="Filmography",current=null,serial=0;
+  const newRecord=(title,page,id)=>{
+    serial++;
+    current={number:String(serial),title:(title||"").trim()||"Untitled film entry",director:"",country:"",location:"",year:"",tagline:"",notes:[],category:category,page:page+1,anchor:id||"",metaAnchors:[]};
+    records.push(current);return current;
+  };
+  const addMeta=(meta)=>{
+    if(!current)return false;
+    if(meta.director)current.director=meta.director;
+    if(meta.country)current.country=meta.country;
+    if(meta.location)current.location=meta.location;
+    if(meta.year)current.year=meta.year;
+    if(meta.tail){const q=quoteFromText(meta.tail);if(q)current.tagline=q;const residue=meta.tail.replace(/["“][\s\S]*?["”]/,"").trim();if(residue)current.notes.push(residue);}
+    return true;
+  };
+  const addText=(value)=>{
+    const text=(value||"").replace(/\s+/g," ").trim();if(!text)return;
+    if(!current){intro.push(text);return;}
+    const full=parseFilmFullCredit(text);
+    if(full){addMeta(full);return;}
+    const meta=parseFilmMeta(text);
+    if(meta){addMeta(meta);return;}
+    const yearCountry=parseFilmYearCountry(text);
+    if(yearCountry){
+      current.year=yearCountry.year;current.country=yearCountry.country;
+      if(yearCountry.tail)current.notes.push("About: "+yearCountry.tail);
+      return;
+    }
+    const quote=quoteFromText(text);
+    if(quote){current.tagline=current.tagline?current.tagline+" "+quote:quote;return;}
+    current.notes.push(text);
+  };
+  const setCategory=(value,id)=>{
+    const label=(value||"").replace(/[■▪◆]+/g,"").trim();
+    if(!label)return;
+    category=label;
+    if(id)groupAnchors.push({title:label,anchor:id});
+  };
+  content.querySelectorAll(":scope > .page").forEach((page,pageIndex)=>{
+    [...page.children].forEach(node=>{
+      if(node.classList.contains("page-label"))return;
+      const text=(node.textContent||"").replace(/\s+/g," ").trim();if(!text)return;
+      if(/^H[1-3]$/.test(node.tagName)){
+        if(isFilmCategory(text)){setCategory(text,node.id);return;}
+        const full=parseFilmFullCredit(text);
+        if(full){addMeta(full);if(node.id&&current)current.metaAnchors.push(node.id);return;}
+        const meta=parseFilmMeta(text);
+        if(meta){addMeta(meta);if(node.id&&current)current.metaAnchors.push(node.id);return;}
+        const yearCountry=parseFilmYearCountry(text);
+        if(yearCountry){addMeta(yearCountry);if(node.id&&current)current.metaAnchors.push(node.id);return;}
+        if(node.id){if(current)current.metaAnchors.push(node.id);else intro.push("##ANCHOR##"+node.id);}
+        if(current)addText(text);else intro.push(text);
+        return;
+      }
+      if(node.tagName==="OL"){
+        [...node.children].forEach(li=>{
+          const title=(li.textContent||"").replace(/\s+/g," ").trim().replace(/^\d{1,3}[.)]?\s+/,"");
+          if(title)newRecord(title,pageIndex,li.id||"");
+        });
+        return;
+      }
+      if(node.tagName==="UL"){
+        [...node.children].forEach(li=>{
+          const label=(li.textContent||"").replace(/\s+/g," ").trim();
+          if(label && label.length<70 && !/[.!?]$/.test(label)){setCategory(label,li.id||"");}
+          else addText(label);
+        });
+        return;
+      }
+      if(node.tagName==="P"||node.tagName==="BLOCKQUOTE"||node.tagName==="LI")addText(text);
+      else addText(text);
+    });
+  });
+  if(records.length<12)return false;
+  const groupsByName=new Map();
+  records.forEach(record=>{
+    const key=record.category||"Filmography";
+    if(!groupsByName.has(key))groupsByName.set(key,[]);
+    groupsByName.get(key).push(record);
+  });
+  const values=(field)=>new Set(records.map(r=>r[field]).filter(Boolean));
+  const categorySelect=addSelect(toolbar.tools,"rr-reader-filter rr-film-category","category",values("category"));
+  const countrySelect=addSelect(toolbar.tools,"rr-reader-filter rr-film-country","country",values("country"));
+  const directorSelect=values("director").size?addSelect(toolbar.tools,"rr-reader-filter rr-film-director","director",values("director")):null;
+  const yearSelect=addSelect(toolbar.tools,"rr-reader-filter rr-film-year","year",values("year"));
+  const wrapper=document.createElement("div");wrapper.className="rr-filmography rr-filmography-list";
+  if(intro.length){
+    const box=document.createElement("section");box.className="rr-filmography-intro";
+    const heading=document.createElement("h2");heading.textContent="About this selection";box.appendChild(heading);
+    intro.filter(v=>v.startsWith("##ANCHOR##")).forEach(v=>{const a=document.createElement("span");a.id=v.slice(10);a.className="rr-film-anchor";box.appendChild(a);});
+    const p=document.createElement("p");p.textContent=intro.filter(v=>!v.startsWith("##ANCHOR##")).join(" ");box.appendChild(p);wrapper.appendChild(box);
+  }
+  groupsByName.forEach((items,name)=>{
+    const section=document.createElement("section");section.className="rr-film-group";section.dataset.category=name;
+    const heading=document.createElement("h2");heading.className="rr-film-group-title";heading.textContent=name;
+    groupAnchors.filter(g=>g.title===name).forEach(g=>{const a=document.createElement("span");a.id=g.anchor;a.className="rr-film-anchor";heading.appendChild(a);});
+    section.appendChild(heading);
+    const grid=document.createElement("div");grid.className="rr-film-grid";
+    items.forEach(record=>{
+      const card=document.createElement("article");card.className="rr-film-card";
+      card.dataset.category=record.category;card.dataset.country=record.country;card.dataset.director=record.director;card.dataset.year=record.year;
+      if(record.anchor)card.id=record.anchor;
+      record.metaAnchors.forEach(id=>{const a=document.createElement("span");a.id=id;a.className="rr-film-anchor";card.appendChild(a);});
+      const top=document.createElement("div");top.className="rr-film-card-top";
+      const n=document.createElement("span");n.className="rr-film-index";n.textContent="FILM "+record.number;top.appendChild(n);
+      const source=document.createElement("span");source.className="rr-film-source";source.textContent="Source page "+record.page;top.appendChild(source);card.appendChild(top);
+      const title=document.createElement("h3");title.className="rr-film-title";title.textContent=record.title;card.appendChild(title);
+      const meta=document.createElement("dl");meta.className="rr-film-meta";
+      [["Director",record.director],["Country",record.country],["Year",record.year],["Setting",record.location]].forEach(pair=>{
+        if(!pair[1])return;
+        const wrap=document.createElement("div"),dt=document.createElement("dt"),dd=document.createElement("dd");
+        dt.textContent=pair[0];dd.textContent=pair[1];wrap.appendChild(dt);wrap.appendChild(dd);meta.appendChild(wrap);
+      });
+      if(meta.children.length)card.appendChild(meta);
+      if(record.tagline){const q=document.createElement("p");q.className="rr-film-tagline";q.textContent="“"+record.tagline+"”";card.appendChild(q);}
+      if(record.notes.length){const p=document.createElement("p");p.className="rr-film-notes";p.textContent=record.notes.join(" ");card.appendChild(p);}
+      card.dataset.search=[record.title,record.director,record.country,record.year,record.location,record.tagline,record.notes.join(" "),record.category].join(" ").toLocaleLowerCase();
+      grid.appendChild(card);
+    });
+    section.appendChild(grid);wrapper.appendChild(section);
+  });
+  content.replaceChildren(wrapper);
+  const update=()=>{
+    const q=toolbar.input.value.trim().toLocaleLowerCase();let visible=0;
+    wrapper.querySelectorAll(".rr-film-card").forEach(card=>{
+      const show=(!q||card.dataset.search.includes(q))&&
+        (categorySelect.value==="all"||card.dataset.category===categorySelect.value)&&
+        (countrySelect.value==="all"||card.dataset.country===countrySelect.value)&&
+        (!directorSelect||directorSelect.value==="all"||card.dataset.director===directorSelect.value)&&
+        (yearSelect.value==="all"||card.dataset.year===yearSelect.value);
+      card.hidden=!show;if(show)visible++;
+    });
+    wrapper.querySelectorAll(".rr-film-group").forEach(section=>{section.hidden=!section.querySelector(".rr-film-card:not([hidden])");});
+    toolbar.result.textContent=visible+" of "+records.length+" films";
+  };
+  [toolbar.input,categorySelect,countrySelect,yearSelect].concat(directorSelect?[directorSelect]:[]).forEach(control=>control.addEventListener(control===toolbar.input?"input":"change",update));
+  update();body.classList.add("rr-film-catalogue");return true;
+}
+
 function initReaderControls(){
   document.querySelectorAll("body.rr-reader").forEach(body=>{
     const content=body.querySelector("#content"),toolbar=readerToolbar(body);
@@ -345,9 +496,98 @@ function initReaderControls(){
     const textNumberCount=((content.innerText||"").match(/(?:^|\s)\d{1,3}[.)]?\s+[A-ZÀ-ÖØ-Þ]/g)||[]).length;
     const filmLike=/film|cinema|movie/i.test(title);
     const isFilmCatalogue=filmLike&&(filmMetaCount>=8||numberedCount>=18||(/filmography/i.test(title)&&textNumberCount>=12));
+    const orderedFilmCount=content.querySelectorAll(":scope > .page ol li").length;
+    if(filmLike&&orderedFilmCount>=12&&buildOrderedFilmCatalogue(body,content,toolbar))return;
     if(isFilmCatalogue&&buildFilmCatalogue(body,content,toolbar))return;
     buildGenericReader(body,content,toolbar);
   });
+}
+
+function initLearningCurriculum(){
+  const body=document.querySelector("body.rr--learning");
+  if(!body||body.dataset.rrLearningEnhanced==="1")return;
+  const entries=[...body.querySelectorAll(".entry")];
+  if(entries.length<20)return;
+  body.dataset.rrLearningEnhanced="1";
+  const toolbar=document.createElement("section");toolbar.className="rr-learning-toolbar";
+  const search=document.createElement("input");search.type="search";search.placeholder="Search works, creators, themes or lessons…";search.setAttribute("aria-label","Search curriculum entries");
+  const mediumValues=new Set(),phaseValues=new Set(),tagValues=new Set();
+  const metaFor=(entry)=>entry.querySelector(".entry-meta")?.textContent.trim()||"";
+  const titleFor=(entry)=>entry.querySelector(".entry-title")?.textContent.trim()||"";
+  const lessonFor=(entry)=>entry.querySelector(".entry-lesson")?.textContent.trim()||"";
+  const phaseFor=(entry)=>{
+    const phase=entry.closest(".phase");const h=phase?.querySelector(".phase-title h2");
+    return h?h.textContent.trim():"Curriculum";
+  };
+  const mediumFor=(entry)=>{
+    const column=entry.closest(".entry")?.parentElement;
+    return column?.querySelector(".col-title")?.textContent.trim()||"";
+  };
+  entries.forEach(entry=>{
+    const medium=mediumFor(entry),phase=phaseFor(entry);
+    if(medium)mediumValues.add(medium);if(phase)phaseValues.add(phase);
+    entry.querySelectorAll(".tag").forEach(t=>{if(t.textContent.trim())tagValues.add(t.textContent.trim());});
+  });
+  const mediumSelect=addSelect(toolbar,"rr-learning-filter","medium",mediumValues);
+  const phaseSelect=addSelect(toolbar,"rr-learning-filter","phase",phaseValues);
+  const topicSelect=addSelect(toolbar,"rr-learning-filter","theme",tagValues);
+  const count=document.createElement("span");count.className="rr-learning-count";count.setAttribute("aria-live","polite");
+  const clear=document.createElement("button");clear.type="button";clear.className="rr-learning-clear";clear.textContent="Clear";
+  toolbar.appendChild(search);toolbar.appendChild(mediumSelect);toolbar.appendChild(phaseSelect);toolbar.appendChild(topicSelect);toolbar.appendChild(count);toolbar.appendChild(clear);
+  const nav=body.querySelector(".phase-nav");
+  if(nav)nav.insertAdjacentElement("afterend",toolbar);
+  else {const first=body.querySelector(".phase");if(first)first.insertAdjacentElement("beforebegin",toolbar);else body.insertBefore(toolbar,body.firstChild);}
+  const empty=document.createElement("p");empty.className="rr-learning-empty";empty.textContent="No curriculum entries match these filters.";
+  toolbar.insertAdjacentElement("afterend",empty);
+  const update=()=>{
+    const q=search.value.trim().toLocaleLowerCase();let visible=0;
+    entries.forEach(entry=>{
+      const medium=mediumFor(entry),phase=phaseFor(entry);
+      const tags=[...entry.querySelectorAll(".tag")].map(t=>t.textContent.trim());
+      const text=[titleFor(entry),metaFor(entry),lessonFor(entry),tags.join(" "),phase,medium].join(" ").toLocaleLowerCase();
+      const show=(!q||text.includes(q))&&(mediumSelect.value==="all"||mediumSelect.value===medium)&&
+        (phaseSelect.value==="all"||phaseSelect.value===phase)&&(topicSelect.value==="all"||tags.includes(topicSelect.value));
+      entry.hidden=!show;if(show)visible++;
+    });
+    body.querySelectorAll(".phase").forEach(phase=>{
+      const phaseEntries=[...phase.querySelectorAll(".entry")];
+      phase.hidden=phaseEntries.length>0&&!phaseEntries.some(entry=>!entry.hidden);
+    });
+    count.textContent=visible+" of "+entries.length+" works";empty.hidden=visible>0;
+  };
+  [search,mediumSelect,phaseSelect,topicSelect].forEach(control=>control.addEventListener(control===search?"input":"change",update));
+  clear.addEventListener("click",()=>{search.value="";[mediumSelect,phaseSelect,topicSelect].forEach(s=>s.value="all");update();});
+  update();body.classList.add("rr-learning-enhanced");
+}
+function initArtResourceSearch(){
+  const body=document.querySelector("body.rr--art");
+  if(!body||body.dataset.rrArtSearch==="1")return;
+  const sections=[...body.querySelectorAll(".section[data-section]")];
+  const cards=[...body.querySelectorAll(".section[data-section] .card")];
+  const tabs=[...body.querySelectorAll(".ftab")];
+  if(!cards.length||!tabs.length)return;
+  body.dataset.rrArtSearch="1";
+  const host=tabs[0].parentElement;
+  const toolbar=document.createElement("div");toolbar.className="rr-art-search";
+  const input=document.createElement("input");input.type="search";input.placeholder="Search tools, artists, mediums or skills…";input.setAttribute("aria-label","Search art resources");
+  const count=document.createElement("span");count.className="rr-art-count";count.setAttribute("aria-live","polite");
+  toolbar.appendChild(input);toolbar.appendChild(count);
+  host.parentNode.insertBefore(toolbar,host);
+  const update=()=>{
+    const q=input.value.trim().toLocaleLowerCase();
+    const active=body.querySelector(".ftab.active");
+    const filter=active?active.dataset.filter:"all";let visible=0;
+    cards.forEach(card=>{
+      const tags=(card.dataset.tags||"").split(/\s+/);
+      const category=filter==="all"||tags.includes(filter);
+      const match=!q||(card.textContent||"").toLocaleLowerCase().includes(q);
+      const show=category&&match;card.style.display=show?"":"none";if(show)visible++;
+    });
+    sections.forEach(section=>{section.classList.toggle("hidden",!section.querySelector(".card:not([style*='display: none'])"));});
+    count.textContent=visible+" of "+cards.length+" resources";
+  };
+  tabs.forEach(tab=>tab.addEventListener("click",()=>requestAnimationFrame(update)));
+  input.addEventListener("input",update);update();
 }
 
 function start(){
@@ -357,6 +597,8 @@ function start(){
   addContext(key,meta);
   initHubFilters();
   initReaderControls();
+  initLearningCurriculum();
+  initArtResourceSearch();
 }
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",start);else start();
 })();
