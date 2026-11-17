@@ -751,7 +751,7 @@ function cinemaBuildFilmReader(body,content,toolbar,kind){
 function buildSensitiveCinemaReader(body,content,toolbar){
   body.dataset.sensitiveSourceColumns=String(content.querySelectorAll(".rr-source-column").length);
   const wrapper=document.createElement("div");wrapper.className="rr-sensitive-catalogue";
-  const groups=[];let current=null,currentFilm=null,lessonMode=false;
+  const groups=[];let current=null,currentFilm=null,lessonMode=false,pendingTitle="";
   const ensure=(name,id)=>{
     const group={name:name,id:id||"",section:document.createElement("section"),entries:[]};
     group.section.className="rr-sensitive-group";group.section.dataset.category=name;
@@ -789,7 +789,7 @@ function buildSensitiveCinemaReader(body,content,toolbar){
   const startFilm=(title,kind)=>{
     flushFilm();
     currentFilm={title:cinemaText(title),kind:cinemaText(kind),meta:"",description:[],lesson:[],ratings:[]};
-    lessonMode=false;
+    pendingTitle="";lessonMode=false;
   };
   const addFilmText=(value)=>{
     const text=cinemaText(value);
@@ -798,11 +798,32 @@ function buildSensitiveCinemaReader(body,content,toolbar){
     const clean=text.replace(/\s*★\s*\d(?:\.\d)?/g,"").trim();
     if(currentFilm){
       currentFilm.ratings.push(...ratings);
+      if(clean&&currentFilm.meta){
+        const boundaries=[...clean.matchAll(/[.!?]\s+(?=[A-Z“])/g)];
+        if(boundaries.length){
+          const boundary=boundaries[boundaries.length-1];
+          const splitAt=boundary.index+boundary[0].length;
+          const candidate=clean.slice(splitAt).trim();
+          const words=candidate.split(/\s+/);
+          const smallWords=new Set(["a","an","and","as","at","by","de","del","for","in","la","of","on","the","to","van","von","with"]);
+          const titleCase=words.length>=2&&words.length<=9&&words.every((word,index)=>smallWords.has(word.toLowerCase())||/^[A-Z0-9]/.test(word));
+          if(titleCase&&!/[.!?]$/.test(candidate)){
+            const prior=clean.slice(0,splitAt).trim();
+            if(prior){if(lessonMode)currentFilm.lesson.push(prior);else currentFilm.description.push(prior);}
+            pendingTitle=candidate;
+            return;
+          }
+        }
+      }
       if(clean){
         if(lessonMode)currentFilm.lesson.push(clean);
         else currentFilm.description.push(clean);
       }
-    }else addContext(clean);
+    }else if(clean){
+      const words=clean.split(/\s+/);
+      if(words.length>=2&&words.length<=9&&words.every((word,index)=>["a","an","and","as","at","by","de","del","for","in","la","of","on","the","to","van","von","with"].includes(word.toLowerCase())||/^[A-Z0-9]/.test(word)))pendingTitle=clean;
+      else addContext(clean);
+    }
   };
   const splitFilmMarkers=(raw)=>{
     const text=String(raw||"").replace(/\s+/g," ").trim();
@@ -847,8 +868,16 @@ function buildSensitiveCinemaReader(body,content,toolbar){
           lessonMode=true;return;
         }
         const meta=text.match(/^(.+?)\s+·\s+((?:18|19|20)\d{2})\s+·\s+([\s\S]+)$/);
-        if(meta&&currentFilm){
-          currentFilm.meta=text;
+        if(meta){
+          if(currentFilm&&currentFilm.meta){
+            flushFilm();
+            currentFilm={title:pendingTitle||"Untitled film",kind:"",meta:"",description:[],lesson:[],ratings:[]};
+            pendingTitle="";
+          }else if(!currentFilm){
+            currentFilm={title:pendingTitle||"Untitled film",kind:"",meta:"",description:[],lesson:[],ratings:[]};
+            pendingTitle="";
+          }
+          if(currentFilm)currentFilm.meta=text;
           return;
         }
         if(/^(?:SENSITIVE CINEMA|A CURATED GUIDE TO FILMS THAT MOVE YOU)$/i.test(text))return;
