@@ -159,6 +159,10 @@ def looks_like_heading(line):
     value = line.strip()
     if not 3 <= len(value) <= 88:
         return False
+    # "Crunch" is the wrapped tail of "Big Crunch" in the source atlas,
+    # not a standalone section heading.
+    if value.casefold() == "crunch":
+        return False
     # PDF text extraction often turns repeated table column labels and
     # rating rows into title-case/all-caps lines. They are data, not sections.
     normalized = re.sub(r"[^a-z0-9]+", " ", value.casefold()).strip()
@@ -489,6 +493,33 @@ def render_sensitive_pdf_columns(extracted):
         if contents:
             rendered.append('<section class="page rr-source-columns" id="page-' + str(page_number) + '">' + "".join(contents) + '</section>')
     return rendered, toc
+
+MASTERS_OF_ART_NAMES = (
+    "Leonardo da Vinci", "Michelangelo Buonarroti", "Rembrandt van Rijn",
+    "Vincent van Gogh", "Pablo Picasso", "Frida Kahlo", "Claude Monet",
+    "Salvador Dali", "Katsushika Hokusai", "Georgia O'Keeffe", "Caravaggio",
+    "Henri Matisse", "Edvard Munch", "Johannes Vermeer", "Francisco Goya",
+    "Artemisia Gentileschi", "Mark Rothko", "Hieronymus Bosch", "Paul Cezanne",
+    "Yayoi Kusama", "Ansel Adams", "Banksy", "Winslow Homer", "Egon Schiele",
+    "Jean-Michel Basquiat",
+)
+
+def prepare_masters_of_art_headings(extracted):
+    """Separate numbered artist profiles that PDF extraction concatenates to metadata."""
+    text = extracted
+    for artist in sorted(MASTERS_OF_ART_NAMES, key=len, reverse=True):
+        pattern = re.compile(
+            r"(?m)^(\s*)(\d{2})" + re.escape(artist)
+            + r"(?:\s+([A-Z][A-Z /&-]{2,}))?(?=\s|$)"
+        )
+        def split(match):
+            number, name, period = match.group(2), artist, match.group(3)
+            heading = number + " · " + name
+            if period:
+                heading += " — " + period.title()
+            return "\n" + heading + "\n"
+        text = pattern.sub(split, text)
+    return text
 
 def render_pdf_blocks(text):
     pages = text.replace("\r\n", "\n").replace("\r", "\n").split("\f")
@@ -834,6 +865,10 @@ def main():
                     sections, toc, poem_count = render_poetry_pdf(extracted)
                 elif title.strip().lower() == "sensitive cinema":
                     sections, toc = render_sensitive_pdf_columns(extracted)
+                    poem_count = 0
+                elif title.strip().lower() == "masters of art":
+                    extracted = prepare_masters_of_art_headings(extracted)
+                    sections, toc = render_pdf_blocks(extracted)
                     poem_count = 0
                 else:
                     sections, toc = render_pdf_blocks(extracted)
