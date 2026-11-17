@@ -786,15 +786,47 @@ function buildSensitiveCinemaReader(body,content,toolbar){
     }
     current.section.appendChild(card);current.entries.push(card);
   };
-  const startFilm=(raw)=>{
-    const marked=String(raw||"").match(/^\s*(.*?)\s*■\s*([\s\S]+)$/);
-    if(!marked)return false;
+  const startFilm=(title,kind)=>{
     flushFilm();
-    const rest=cinemaText(marked[2]);
-    const kind=rest.split(/\s+/)[0]||"";
-    currentFilm={title:cinemaText(marked[1]),kind:kind,meta:"",description:[],lesson:[],ratings:[]};
+    currentFilm={title:cinemaText(title),kind:cinemaText(kind),meta:"",description:[],lesson:[],ratings:[]};
     lessonMode=false;
-    return true;
+  };
+  const addFilmText=(value)=>{
+    const text=cinemaText(value);
+    if(!text)return;
+    const ratings=[...text.matchAll(/★\s*(\d(?:\.\d)?)/g)].map(m=>m[1]);
+    const clean=text.replace(/\s*★\s*\d(?:\.\d)?/g,"").trim();
+    if(currentFilm){
+      currentFilm.ratings.push(...ratings);
+      if(clean){
+        if(lessonMode)currentFilm.lesson.push(clean);
+        else currentFilm.description.push(clean);
+      }
+    }else addContext(clean);
+  };
+  const splitFilmMarkers=(raw)=>{
+    const text=cinemaText(raw);
+    const markers=[...text.matchAll(/■\s*([A-Z]{2,})\b/g)];
+    if(!markers.length){addFilmText(text);return;}
+    let cursor=0;
+    markers.forEach(marker=>{
+      const before=text.slice(cursor,marker.index).trim();
+      const withoutRatings=before.replace(/\s*★\s*\d(?:\.\d)?/g,"").trim();
+      let titleStart=-1;
+      const boundaries=[...withoutRatings.matchAll(/[.!?]\s+(?=[A-Z“])/g)];
+      if(boundaries.length)titleStart=boundaries[boundaries.length-1].index+boundaries[boundaries.length-1][0].length;
+      else if(currentFilm){
+        const words=withoutRatings.split(/\s+/);
+        if(words.length>8)titleStart=words.slice(0,-8).join(" ").length+1;
+      }
+      const prior=titleStart>=0?withoutRatings.slice(0,titleStart).trim():(!currentFilm?"": "");
+      const title=titleStart>=0?withoutRatings.slice(titleStart).trim():withoutRatings;
+      if(prior)addFilmText(prior);
+      if(title)startFilm(title,marker[1]);
+      cursor=marker.index+marker[0].length;
+    });
+    const tail=text.slice(cursor).trim();
+    if(tail)addFilmText(tail);
   };
   const addContext=(value)=>{
     const text=cinemaText(value);
@@ -830,16 +862,7 @@ function buildSensitiveCinemaReader(body,content,toolbar){
         return;
       }
       if(node.tagName==="P"){
-        if(startFilm(rawText))return;
-        const ratings=[...text.matchAll(/★\s*(\d(?:\.\d)?)/g)].map(m=>m[1]);
-        const clean=text.replace(/\s*★\s*\d(?:\.\d)?/g,"").trim();
-        if(currentFilm){
-          currentFilm.ratings.push(...ratings);
-          if(clean){
-            if(lessonMode)currentFilm.lesson.push(clean);
-            else currentFilm.description.push(clean);
-          }
-        }else addContext(clean);
+        splitFilmMarkers(rawText);
         return;
       }
       if(node.tagName==="UL"||node.tagName==="OL"){
