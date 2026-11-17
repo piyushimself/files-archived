@@ -521,7 +521,7 @@ function cinemaGroupHeading(kind,value){
     if(/^(?:CINEMA CURATED FILMS|TABLE OF CONTENTS|LIST [123]|100 WORLD CINEMA MASTERPIECES|100 SENSUAL & MOOD CINEMA)$/i.test(t))return false;
     return t.length<=42&&u===t&&/^[A-Z0-9 /&'’().—-]+$/.test(t);
   }
-  if(kind==="movie-encyclopedia"){
+  if(kind==="movie-encyclopedia"||kind==="movie-ratings-647"){
     return /^(?:100 ESSENTIAL FILMS|EROTIC ART CINEMA|ANIME MOVIES|MASTERS:\s*.+|SESSION STATISTICS)$/i.test(t);
   }
   if(kind==="movie-ratings"){
@@ -547,7 +547,7 @@ function cinemaParseEntry(segment,kind){
   let ym=null;
   for(const candidate of yearMatches){
     const afterCandidate=body.slice(candidate.index+4);
-    const scoreOk=kind==="movie-ratings"?/\d\.\d\/10\s+\d{1,3}%/.test(afterCandidate.slice(0,100)):kind==="movie-encyclopedia"?/\d\.\d\s+\d{1,3}%/.test(afterCandidate.slice(0,100)):/\d\.\d/.test(afterCandidate.slice(0,65));
+    const scoreOk=kind==="movie-ratings"?/\d\.\d\/10\s+\d{1,3}%/.test(afterCandidate.slice(0,100)):(kind==="movie-encyclopedia"||kind==="movie-ratings-647")?/\d\.\d\s+\d{1,3}%/.test(afterCandidate.slice(0,100)):/\d\.\d/.test(afterCandidate.slice(0,65));
     if(scoreOk)ym=candidate;
   }
   if(!ym)ym=yearMatches[0];
@@ -858,7 +858,7 @@ function initReaderControls(){
     body.dataset.rrReaderEnhanced="1";
     const kind=body.dataset.readerKind||"";
     if(kind==="sensitive-cinema"){buildSensitiveCinemaReader(body,content,toolbar);return;}
-    if(kind==="cinema-900"||kind==="movie-encyclopedia"||kind==="movie-ratings"){
+    if(kind==="cinema-900"||kind==="movie-encyclopedia"||kind==="movie-ratings"||kind==="movie-ratings-647"){
       cinemaBuildFilmReader(body,content,toolbar,kind);return;
     }
     const title=(body.querySelector(".hero h1")||body.querySelector("h1")||{}).textContent||"";
