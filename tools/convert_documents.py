@@ -163,7 +163,7 @@ def looks_like_heading(line):
     # not a standalone section heading.
     if value.casefold() == "crunch":
         return False
-    if re.match(r"^Artist \\d{2} · ", value):
+    if re.match(r"^Artist \d{2} · ", value):
         return True
     # PDF text extraction often turns repeated table column labels and
     # rating rows into title-case/all-caps lines. They are data, not sections.
