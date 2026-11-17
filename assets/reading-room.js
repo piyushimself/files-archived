@@ -891,6 +891,19 @@ function buildSensitiveCinemaReader(body,content,toolbar){
         return;
       }
       if(node.tagName==="P"){
+        const meta=text.match(/^(.+?)\s+·\s+((?:18|19|20)\d{2})\s+·\s+([\s\S]+)$/);
+        if(meta){
+          if(currentFilm&&currentFilm.meta){
+            flushFilm();
+            currentFilm={title:pendingTitle||"Untitled film",kind:"",meta:"",description:[],lesson:[],ratings:[]};
+            pendingTitle="";lessonMode=false;
+          }else if(!currentFilm){
+            currentFilm={title:pendingTitle||"Untitled film",kind:"",meta:"",description:[],lesson:[],ratings:[]};
+            pendingTitle="";lessonMode=false;
+          }
+          if(currentFilm)currentFilm.meta=text;
+          return;
+        }
         splitFilmMarkers(rawText);
         return;
       }
