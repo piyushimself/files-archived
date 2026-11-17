@@ -5,7 +5,7 @@ import re
 
 ROOT = Path(__file__).resolve().parents[1]
 ASSETS = ("reading-room.css", "reading-room.js", "reading-room-context.js")
-VERSION = "17"
+VERSION = "18"
 
 def main():
     files = sorted(p for p in ROOT.rglob("*.html") if ".git" not in p.parts and "node_modules" not in p.parts)
