@@ -126,6 +126,16 @@ def display_title(path):
         "asian cinema curriculum": "Asian Cinema Curriculum",
         "masters of e art cinema": "Masters of Art Cinema",
         "300 films filmography": "300 Films — A Global Filmography",
+        "library 3": "Personal Film & Art Library — A Cross-Media Reference",
+        "manga recommendations": "Complete Manga Recommendations — Romance & Mystery",
+        "masters of art": "Masters of Art — Lives, Works & Habits of 25 Artists",
+        "ultimate anime guide": "The Ultimate Anime Guide — Essential Movies & Series",
+        "asian books curriculum": "Asian Literature — A Sequential Reading Curriculum",
+        "1000 inspirations": "The Grand Curiosity Atlas — 1,000 Inspirations",
+        "2000 inspirations": "2,000 Inspirations — A Creative & Intellectual Compendium",
+        "200 prompts emotion wonder v2": "200 Writing Prompts for Emotion & Wonder",
+        "200 prompts mind detox v2": "Mind Detox — 200 Writing Prompts",
+        "200 thinkers quiet mind v2": "200 Thinkers for a Quieter Mind",
     }
     return special.get(name.lower(), name)
 
