@@ -251,6 +251,18 @@ def render_pdf_page(raw, page_number, toc, used):
         list_kind, list_items = None, []
 
     for line in lines:
+        # In the 2,000 Inspirations PDF, two-column extraction can place the
+        # wrapped word "Crunch" after a list item containing "Big ... 74.".
+        # Reattach it to the phrase rather than rendering a stray paragraph.
+        if line.casefold() == "crunch":
+            repaired = False
+            for index in range(len(list_items) - 1, -1, -1):
+                if re.search(r"\bBig\s+\d{1,3}\.", list_items[index]):
+                    list_items[index] = re.sub(r"\bBig(?=\s+\d{1,3}\.)", "Big Crunch", list_items[index], count=1)
+                    repaired = True
+                    break
+            if repaired:
+                continue
         is_bullet = bool(BULLET_RE.match(line))
         if looks_like_heading(line):
             flush_paragraph()
@@ -522,11 +534,6 @@ def prepare_masters_of_art_headings(extracted):
             return "\n" + heading + "\n"
         text = pattern.sub(split, text)
     return text
-
-def prepare_2000_inspirations_text(extracted):
-    """Rejoin the PDF-wrapped tail of the phrase 'Big Crunch' on its source line."""
-    return re.sub(r"(?im)(\bBig)\s+(Crunch\b)", r"\1 \2", extracted)
-
 
 def render_pdf_blocks(text):
     pages = text.replace("\r\n", "\n").replace("\r", "\n").split("\f")
@@ -872,10 +879,6 @@ def main():
                     sections, toc, poem_count = render_poetry_pdf(extracted)
                 elif title.strip().lower() == "sensitive cinema":
                     sections, toc = render_sensitive_pdf_columns(extracted)
-                    poem_count = 0
-                elif title.strip().lower().startswith("2,000 inspirations"):
-                    extracted = prepare_2000_inspirations_text(extracted)
-                    sections, toc = render_pdf_blocks(extracted)
                     poem_count = 0
                 elif title.strip().lower().startswith("masters of art"):
                     extracted = prepare_masters_of_art_headings(extracted)
