@@ -240,6 +240,23 @@ async function testEditorialTitles(){
   }
 }
 
+async function testEditorialContentsExcludeTableNoise(){
+  const cases=[
+    ["html/manga_recommendations.html",["Title Genre Rating Why Read It"]],
+    ["html/complete_movie_ratings.html",["FILM TITLE DIRECTOR YEAR GENRE IMDB RT %","Tokyo Story Yasujiro Ozu","— Roger Ebert"]],
+    ["html/masters_of_art.html",["— Henry Ward Beecher"]]
+  ];
+  for(const [file,forbidden] of cases){
+    const html=fs.readFileSync(path.join(ROOT,file),"utf8");
+    const dom=new JSDOM(html);
+    const labels=[...dom.window.document.querySelectorAll(".toc a")].map(a=>a.textContent.trim().toLowerCase());
+    for(const phrase of forbidden){
+      assert.ok(!labels.some(label=>label.includes(phrase.toLowerCase())),file+" should not expose table labels or attributions in its contents: "+phrase);
+    }
+    dom.window.close();
+  }
+}
+
 async function testManhwaFilterApp(){
   const file=path.join(ROOT,"manhwa_300_filter_app.html");
   const raw=fs.readFileSync(file,"utf8");
@@ -312,6 +329,7 @@ async function testCompleteFilmCollection(){
   await testCompleteFilmCollection();
   await testManhwaFilterApp();
   await testEditorialTitles();
+  await testEditorialContentsExcludeTableNoise();
   await testRemainingEditorialTitles();
   await testVisibleEscapes();
   await testPoetryReader();
