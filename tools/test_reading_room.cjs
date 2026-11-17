@@ -202,6 +202,23 @@ async function testVisibleEscapes(){
 
 
 
+
+async function testRemainingEditorialTitles(){
+  const expected=[
+    ["html/Global_Kids_Reading_Guide_FINAL (1).html","Global Kids Reading Guide — A Cross-Cultural Library"],
+    ["html/Personal_Reference_Film_Books_Art.html","Personal Reference — Film, Books & Art"],
+    ["html/Reading_Course_Emotions_Wonder.html","Emotions & Wonder — A Sequential Reading Course"],
+    ["html/masters_of_e_art_cinema.html","Masters of Erotic Art Cinema"]
+  ];
+  for(const [file,title] of expected){
+    const html=fs.readFileSync(path.join(ROOT,file),"utf8");
+    const dom=new JSDOM(html);
+    assert.equal(dom.window.document.querySelector("h1")?.textContent.trim(),title,file+" should use its polished editorial title");
+    assert.ok(dom.window.document.querySelector(".rr-reader-intro"),file+" should include a reader's guide");
+    dom.window.close();
+  }
+}
+
 async function testEditorialTitles(){
   const expected=[
     ["html/library-3.html","Personal Film & Art Library — A Cross-Media Reference"],
@@ -295,9 +312,10 @@ async function testCompleteFilmCollection(){
   await testCompleteFilmCollection();
   await testManhwaFilterApp();
   await testEditorialTitles();
+  await testRemainingEditorialTitles();
   await testVisibleEscapes();
   await testPoetryReader();
-  console.log("PASS: 9 Reading Room runtime smoke-test groups.");
+  console.log("PASS: all Reading Room runtime smoke-test groups.");
 })().catch(error => {
   console.error(error);
   process.exitCode = 1;
