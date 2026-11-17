@@ -163,6 +163,8 @@ def looks_like_heading(line):
     # not a standalone section heading.
     if value.casefold() == "crunch":
         return False
+    if re.match(r"^Artist \\d{2} · ", value):
+        return True
     # PDF text extraction often turns repeated table column labels and
     # rating rows into title-case/all-caps lines. They are data, not sections.
     normalized = re.sub(r"[^a-z0-9]+", " ", value.casefold()).strip()
@@ -514,7 +516,7 @@ def prepare_masters_of_art_headings(extracted):
         )
         def split(match):
             number, name, period = match.group(2), artist, match.group(3)
-            heading = number + " · " + name
+            heading = "Artist " + number + " · " + name
             if period:
                 heading += " — " + period.title()
             return "\n" + heading + "\n"
@@ -866,7 +868,7 @@ def main():
                 elif title.strip().lower() == "sensitive cinema":
                     sections, toc = render_sensitive_pdf_columns(extracted)
                     poem_count = 0
-                elif title.strip().lower() == "masters of art":
+                elif title.strip().lower().startswith("masters of art"):
                     extracted = prepare_masters_of_art_headings(extracted)
                     sections, toc = render_pdf_blocks(extracted)
                     poem_count = 0
