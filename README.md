@@ -9,8 +9,8 @@ A public, searchable reading portal for the repository's original HTML projects 
 | Existing root-level HTML projects | 35 |
 | PDF source documents | 43 |
 | DOCX source documents | 3 |
-| Supporting files (README, Python script, two workflows, TXT, Pine Script) | 6 |
-| **Original files and supporting tools** | **87** |
+| Supporting files (README, six tools, two workflows, TXT, Pine Script) | 11 |
+| **Original files and supporting tools** | **92** |
 | Public portal homepage | 1 |
 | HTML reading editions generated from PDF and DOCX sources | 46 |
 | HTML reading archive index | 1 |
@@ -110,6 +110,11 @@ The table below lists the original project files and supporting automation files
 | [taboo-comics.html](<taboo-comics.html>) | HTML | HTML catalogue or index of comics dealing with taboo or transgressive themes; access and content warnings may be appropriate. |
 | [the-loom-tracker.html](<the-loom-tracker.html>) | HTML | Interactive tracker or personal organization tool; exact tracking subject should be confirmed from the page. |
 | [tools/convert_documents.py](<tools/convert_documents.py>) | PY | Python script that extracts text from PDFs and DOCX files and generates responsive, searchable HTML reading pages. |
+| [tools/audit_site.py](<tools/audit_site.py>) | PY | Static quality gate for every published HTML page, checking titles, headings, IDs, image alternatives, local paths, and JavaScript syntax. |
+| [tools/build_site.py](<tools/build_site.py>) | PY | Builds the themed multi-page library and its shared navigation, catalogue, and reader assets. |
+| [tools/bump_asset_versions.py](<tools/bump_asset_versions.py>) | PY | Refreshes shared asset version references across HTML pages after library-wide changes. |
+| [tools/repair_visible_escapes.py](<tools/repair_visible_escapes.py>) | PY | Repairs visible escaped newline and tab sequences in generated and source HTML. |
+| [tools/test_reading_room.cjs](<tools/test_reading_room.cjs>) | JS | DOM regression suite for catalogue search, filters, reader structure, source coverage, and interactive controls. |
 | [top500_adult_manga.html](<top500_adult_manga.html>) | HTML | HTML catalogue of 500 adult manga titles; intended for mature audiences. |
 | [top500_manga.html](<top500_manga.html>) | HTML | HTML catalogue of 500 manga titles. |
 | [typewriter.html](<typewriter.html>) | HTML | Minimal browser-based typewriter or writing interface. |
