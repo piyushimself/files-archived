@@ -145,6 +145,15 @@ jobs:
           assert 'data-poet=' in poetry and 'poetry-stanza' in poetry, 'Poet attribution or stanza structure is missing'
           filmography = (root/'html/300_Films_Filmography.html').read_text(encoding='utf-8')
           assert 'rr-reader-tools' in filmography and 'id="search"' in filmography
+          assert '<title>300 Films — A Global Filmography — The Reading Room</title>' in filmography
+          assert 'A Global Filmography' in filmography and 'AGLOBALFILMOGRAPHY' not in filmography
+          assert 'Film title and tagline · Director · Country · Year' in filmography
+          bold_cinema = (root/'html/Bold_Cinema_Collection.html').read_text(encoding='utf-8')
+          assert '<h2 id="being-1988">Being (1988)</h2>' in bold_cinema, 'Leading source punctuation should not leak into film headings'
+          asian_reader = (root/'html/asian_cinema_curriculum.html').read_text(encoding='utf-8')
+          assert '<title>Asian Cinema Curriculum — The Reading Room</title>' in asian_reader
+          masters_reader = (root/'html/masters_of_e_art_cinema.html').read_text(encoding='utf-8')
+          assert '<title>Masters of Art Cinema — The Reading Room</title>' in masters_reader
           assert 'buildFilmCatalogue' in (root/'assets/reading-room.js').read_text(encoding='utf-8')
           print(f'PASS: {len(sources)} sources; {report["reader_count"]} reading editions; {len(list((root/"collections").glob("*.html")))} subject pages; {len(html_pages)} HTML files audited.')
           print('Extraction statuses:', {s: sum(1 for x in report['sources'] if x['status']==s) for s in sorted({x['status'] for x in report['sources']})})
