@@ -751,9 +751,9 @@ function cinemaBuildFilmReader(body,content,toolbar,kind){
 function buildSensitiveCinemaReader(body,content,toolbar){
   body.dataset.sensitiveSourceColumns=String(content.querySelectorAll(".rr-source-column").length);
   const wrapper=document.createElement("div");wrapper.className="rr-sensitive-catalogue";
-  const groups=[];let current=null,lessonMode=false;
+  const groups=[];let current=null,currentFilm=null,lessonMode=false;
   const ensure=(name,id)=>{
-    const group={name:name, id:id||"",section:document.createElement("section"),entries:[]};
+    const group={name:name,id:id||"",section:document.createElement("section"),entries:[]};
     group.section.className="rr-sensitive-group";group.section.dataset.category=name;
     if(group.id)group.section.id=group.id;
     const h=document.createElement("h2");h.className="rr-sensitive-group-title";h.textContent=name;group.section.appendChild(h);
@@ -763,47 +763,43 @@ function buildSensitiveCinemaReader(body,content,toolbar){
     if(!current)ensure("Film notes","");
     const h=document.createElement("h3");h.className="rr-sensitive-subheading";h.textContent=text;if(id)h.id=id;current.section.appendChild(h);
   };
-  const addParagraph=(value)=>{
-    const raw=String(value||"");
-    let text=cinemaText(raw);
-    text=text.replace(/\s*(?:The Complete Movie Encyclopedia|Complete Movie Ratings:)[\s\S]*?Page\s+\d+\s*$/i,"").trim();
-    text=text.replace(/\s+Page\s+\d+\s*[·|][\s\S]*$/i,"").trim();
-    if(!text)return;
-    const ratingMatches=[...text.matchAll(/★\s*(\d(?:\.\d)?)/g)].map(m=>m[1]);
-    let clean=text.replace(/\s*★\s*\d(?:\.\d)?/g,"").trim();
-    const card=document.createElement("article");card.className="rr-sensitive-entry"+(lessonMode?" is-lesson":"");
-    card.dataset.search=text.toLocaleLowerCase();card.dataset.category=current?current.name:"Film notes";
-    if(ratingMatches.length){
+  const flushFilm=()=>{
+    if(!currentFilm)return;
+    const film=currentFilm;currentFilm=null;
+    if(!current)ensure("Film notes","");
+    const card=document.createElement("article");card.className="rr-sensitive-entry";
+    card.dataset.category=current.name;
+    const search=[film.title,film.kind,film.meta,...film.description,...film.lesson,...film.ratings].join(" ").toLocaleLowerCase();
+    card.dataset.search=search;
+    const title=document.createElement("h3");title.className="rr-sensitive-entry-title";title.textContent=film.title||"Untitled film";card.appendChild(title);
+    if(film.kind){const kind=document.createElement("span");kind.className="rr-sensitive-kind";kind.textContent=film.kind;card.appendChild(kind);}
+    if(film.meta){const meta=document.createElement("p");meta.className="rr-sensitive-meta";meta.textContent=film.meta;card.appendChild(meta);}
+    if(film.ratings.length){
       const ratings=document.createElement("div");ratings.className="rr-sensitive-ratings";
-      ratingMatches.forEach(value=>{const badge=document.createElement("span");badge.textContent="IMDb "+value;ratings.appendChild(badge);});
+      film.ratings.forEach(value=>{const badge=document.createElement("span");badge.textContent="IMDb "+value;ratings.appendChild(badge);});
       card.appendChild(ratings);
     }
-
-    // The source uses a category mark between each film title and its
-    // country/year metadata. Use it as a boundary for a readable entry.
-    const marked=raw.match(/^\s*(.*?)\s*■\s*([\s\S]+)$/);
-    if(marked){
-      const title=cinemaText(marked[1]);
-      const rest=cinemaText(marked[2]);
-      const meta=rest.match(/^(.+?)\s+·\s+((?:18|19|20)\d{2})\s+·\s+([\s\S]+)$/);
-      if(title){
-        const h=document.createElement("h3");h.className="rr-sensitive-entry-title";h.textContent=title;card.appendChild(h);
-      }
-      if(meta){
-        const category=document.createElement("span");category.className="rr-sensitive-kind";category.textContent=meta[1];card.appendChild(category);
-        const line=document.createElement("p");line.className="rr-sensitive-meta";line.textContent=meta[1]+" · "+meta[2];card.appendChild(line);
-        clean=meta[3];
-      }else{
-        const first=rest.match(/^(\S+)\s+([\s\S]+)$/);
-        if(first){
-          const category=document.createElement("span");category.className="rr-sensitive-kind";category.textContent=first[1];card.appendChild(category);
-          clean=first[2];
-        }else clean=rest;
-      }
+    film.description.filter(Boolean).forEach(value=>{const p=document.createElement("p");p.className="rr-sensitive-entry-copy";p.textContent=value;card.appendChild(p);});
+    if(film.lesson.length){
+      const label=document.createElement("div");label.className="rr-sensitive-lesson-label";label.textContent="What it teaches";card.appendChild(label);
+      film.lesson.filter(Boolean).forEach(value=>{const p=document.createElement("p");p.className="rr-sensitive-lesson-copy";p.textContent=value;card.appendChild(p);});
     }
-    const p=document.createElement("p");p.className="rr-sensitive-entry-copy";p.textContent=clean||text;card.appendChild(p);
-    if(current){current.section.appendChild(card);current.entries.push(card);}else{ensure("Film notes","").section.appendChild(card);}
-    if(!/■|·|(?:18|19|20)\d{2}/.test(text))lessonMode=false;
+    current.section.appendChild(card);current.entries.push(card);
+  };
+  const startFilm=(raw)=>{
+    const marked=String(raw||"").match(/^\s*(.*?)\s*■\s*([\s\S]+)$/);
+    if(!marked)return false;
+    flushFilm();
+    const rest=cinemaText(marked[2]);
+    const kind=rest.split(/\s+/)[0]||"";
+    currentFilm={title:cinemaText(marked[1]),kind:kind,meta:"",description:[],lesson:[],ratings:[]};
+    lessonMode=false;
+    return true;
+  };
+  const addContext=(value)=>{
+    const text=cinemaText(value);
+    if(!text||!current)return;
+    const p=document.createElement("p");p.className="rr-sensitive-context";p.textContent=text;current.section.appendChild(p);
   };
   content.querySelectorAll(":scope > .page").forEach(page=>{
     const pageNodes=[...page.children].flatMap(node=>
@@ -812,25 +808,50 @@ function buildSensitiveCinemaReader(body,content,toolbar){
     pageNodes.forEach(node=>{
       if(node.classList.contains("page-label"))return;
       const rawText=node.textContent||"";
-      const text=cinemaText(rawText);if(!text)return;
+      const text=cinemaText(rawText);
+      if(!text)return;
       if(/^H[1-3]$/.test(node.tagName)){
-        const upper=text.toUpperCase();
-        if(/WHAT IT TEACHES/.test(upper)){
-          if(!current)ensure("Film notes","");
-          const label=document.createElement("div");label.className="rr-sensitive-lesson-label";label.textContent="What it teaches";current.section.appendChild(label);lessonMode=true;return;
+        if(/WHAT IT TEACHES/i.test(text)){
+          lessonMode=true;return;
+        }
+        const meta=text.match(/^(.+?)\s+·\s+((?:18|19|20)\d{2})\s+·\s+([\s\S]+)$/);
+        if(meta&&currentFilm){
+          currentFilm.meta=text;
+          return;
         }
         if(/^(?:SENSITIVE CINEMA|A CURATED GUIDE TO FILMS THAT MOVE YOU)$/i.test(text))return;
-        if(text===upper&&text.length<70){
-          ensure(text,node.id||"");return;
+        if(text===text.toUpperCase()&&text.length<70){
+          flushFilm();ensure(text,node.id||"");return;
         }
-        if(current)addSubheading(text,node.id||"");
+        if(currentFilm){
+          if(lessonMode)currentFilm.lesson.push(text);
+          else currentFilm.description.push(text);
+        }else if(current)addSubheading(text,node.id||"");
         return;
       }
-      if(node.tagName==="P"){addParagraph(rawText);return;}
-      if(node.tagName==="UL"||node.tagName==="OL"){[...node.children].forEach(li=>addParagraph(li.textContent||""));return;}
-      addParagraph(rawText);
+      if(node.tagName==="P"){
+        if(startFilm(rawText))return;
+        const ratings=[...text.matchAll(/★\s*(\d(?:\.\d)?)/g)].map(m=>m[1]);
+        const clean=text.replace(/\s*★\s*\d(?:\.\d)?/g,"").trim();
+        if(currentFilm){
+          currentFilm.ratings.push(...ratings);
+          if(clean){
+            if(lessonMode)currentFilm.lesson.push(clean);
+            else currentFilm.description.push(clean);
+          }
+        }else addContext(clean);
+        return;
+      }
+      if(node.tagName==="UL"||node.tagName==="OL"){
+        [...node.children].forEach(li=>addContext(li.textContent||""));return;
+      }
+      if(currentFilm){
+        if(lessonMode)currentFilm.lesson.push(text);
+        else currentFilm.description.push(text);
+      }else addContext(text);
     });
   });
+  flushFilm();
   if(!groups.length)ensure("Sensitive cinema","");
   const categories=[...new Set(groups.map(g=>g.name))];
   const categorySelect=addSelect(toolbar.tools,"rr-reader-filter rr-sensitive-category","category",categories);
@@ -843,13 +864,12 @@ function buildSensitiveCinemaReader(body,content,toolbar){
     const q=toolbar.input.value.trim().toLocaleLowerCase(),cat=categorySelect.value;let visible=0;
     allCards.forEach(card=>{const show=(!q||card.dataset.search.includes(q))&&(cat==="all"||card.dataset.category===cat);card.hidden=!show;if(show)visible++;});
     groups.forEach(group=>{group.section.hidden=!group.section.querySelector(".rr-sensitive-entry:not([hidden])");});
-    empty.hidden=visible>0;toolbar.result.textContent=visible.toLocaleString()+" reading notes";
+    empty.hidden=visible>0;toolbar.result.textContent=visible.toLocaleString()+" films";
   };
   [toolbar.input,categorySelect].forEach(control=>control.addEventListener(control===toolbar.input?"input":"change",update));
   content.replaceChildren(wrapper);body.classList.add("rr-sensitive-structured");update();
   return true;
 }
-
 function initReaderControls(){
   document.querySelectorAll("body.rr-reader").forEach(body=>{
     if(body.dataset.rrReaderEnhanced==="1")return;
