@@ -1430,3 +1430,5 @@ body.rr-sensitive-structured .rr-sensitive-kind{display:inline-block;margin:0 0 
 body.rr-sensitive-structured .rr-sensitive-entry-copy{margin:0!important;font-size:14px!important;line-height:1.68!important;color:var(--rr-ink)!important}
 body.rr-sensitive-structured .rr-sensitive-entry.is-lesson{border-left:3px solid var(--rr-accent-strong);background:var(--rr-panel)}
 @media(max-width:760px){body.rr-reader .rr-source-columns{grid-template-columns:1fr;gap:12px}}
+
+body.rr-sensitive-structured .rr-sensitive-source-note{color:var(--rr-muted)!important;font-size:12px!important;font-style:italic!important;line-height:1.6!important}
