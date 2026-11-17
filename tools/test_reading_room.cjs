@@ -240,6 +240,23 @@ async function testEditorialTitles(){
   }
 }
 
+async function testMastersOfArtProfilesAreNavigable(){
+  const html=fs.readFileSync(path.join(ROOT,"html/masters_of_art.html"),"utf8");
+  const dom=new JSDOM(html);
+  const labels=[...dom.window.document.querySelectorAll(".toc a")].map(a=>a.textContent.trim());
+  for(const name of ["Leonardo da Vinci","Michelangelo Buonarroti","Rembrandt van Rijn","Vincent van Gogh","Pablo Picasso","Frida Kahlo","Claude Monet","Jean-Michel Basquiat"]){
+    assert.ok(labels.some(label=>label.includes(name)),"Masters of Art contents should include artist profile: "+name);
+  }
+  assert.ok(labels.length>=20,"Masters of Art should expose most of its 25 artist profiles; found "+labels.length);
+  dom.window.close();
+
+  const atlas=fs.readFileSync(path.join(ROOT,"html/2000_Inspirations (1).html"),"utf8");
+  const atlasDom=new JSDOM(atlas);
+  const atlasLabels=[...atlasDom.window.document.querySelectorAll(".toc a")].map(a=>a.textContent.trim());
+  assert.ok(!atlasLabels.some(label=>label==="Crunch"),"Wrapped tail of Big Crunch must not become a section heading");
+  atlasDom.window.close();
+}
+
 async function testEditorialContentsExcludeTableNoise(){
   const cases=[
     ["html/manga_recommendations.html",["Title Genre Rating Why Read It"]],
@@ -330,6 +347,7 @@ async function testCompleteFilmCollection(){
   await testManhwaFilterApp();
   await testEditorialTitles();
   await testEditorialContentsExcludeTableNoise();
+  await testMastersOfArtProfilesAreNavigable();
   await testRemainingEditorialTitles();
   await testVisibleEscapes();
   await testPoetryReader();
