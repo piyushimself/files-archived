@@ -150,6 +150,7 @@ async function testStructuredCinemaReaders(){
     {file:"html/cinema_900 (1).html",kind:"cinema-900",selector:".rr-cinema-entry",minimum:400,term:"Grave of the Fireflies",group:".rr-cinema-group",filter:".rr-cinema-category"},
     {file:"html/complete_movie_encyclopedia.html",kind:"movie-encyclopedia",selector:".rr-cinema-entry",minimum:350,term:"2001: A Space Odyssey",group:".rr-cinema-group",filter:".rr-cinema-category"},
     {file:"html/complete_movie_ratings.html",kind:"movie-ratings",selector:".rr-cinema-entry",minimum:200,term:"Shoah",group:".rr-cinema-group",groupMinimum:1,filter:".rr-cinema-category"},
+    {file:"html/complete_movie_ratings_647.html",kind:"movie-ratings-647",selector:".rr-cinema-entry",minimum:600,term:"Shoah",group:".rr-cinema-group",groupMinimum:4,filter:".rr-cinema-category"},
     {file:"html/sensitive_cinema.html",kind:"sensitive-cinema",selector:".rr-sensitive-entry",minimum:200,term:"Grave of the Fireflies",group:".rr-sensitive-group",filter:".rr-sensitive-category"}
   ];
   for(const item of cases){
