@@ -254,6 +254,8 @@ async function testMastersOfArtProfilesAreNavigable(){
   const atlasDom=new JSDOM(atlas);
   const atlasLabels=[...atlasDom.window.document.querySelectorAll(".toc a")].map(a=>a.textContent.trim());
   assert.ok(!atlasLabels.some(label=>label==="Crunch"),"Wrapped tail of Big Crunch must not become a section heading");
+  assert.ok([...atlasDom.window.document.querySelectorAll("li")].some(li=>/Big Crunch/.test(li.textContent)), "Wrapped Big Crunch phrase must remain intact in its original list item");
+  assert.ok(![...atlasDom.window.document.querySelectorAll("p")].some(p=>p.textContent.trim()==="Crunch"), "Wrapped Crunch tail must not be stranded as a paragraph");
   atlasDom.window.close();
 }
 
