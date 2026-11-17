@@ -779,10 +779,16 @@ function buildSensitiveCinemaReader(body,content,toolbar){
       film.ratings.forEach(value=>{const badge=document.createElement("span");badge.textContent="IMDb "+value;ratings.appendChild(badge);});
       card.appendChild(ratings);
     }
-    film.description.filter(Boolean).forEach(value=>{const p=document.createElement("p");p.className="rr-sensitive-entry-copy";p.textContent=value;card.appendChild(p);});
-    if(film.lesson.length){
-      const label=document.createElement("div");label.className="rr-sensitive-lesson-label";label.textContent="What it teaches";card.appendChild(label);
+    if(film.description.filter(Boolean).length){
+      film.description.filter(Boolean).forEach(value=>{const p=document.createElement("p");p.className="rr-sensitive-entry-copy";p.textContent=value;card.appendChild(p);});
+    }else{
+      const note=document.createElement("p");note.className="rr-sensitive-source-note";note.textContent="No separate description was captured in the extracted text. Open the original PDF for the complete source note.";card.appendChild(note);
+    }
+    const label=document.createElement("div");label.className="rr-sensitive-lesson-label";label.textContent="What it teaches";card.appendChild(label);
+    if(film.lesson.filter(Boolean).length){
       film.lesson.filter(Boolean).forEach(value=>{const p=document.createElement("p");p.className="rr-sensitive-lesson-copy";p.textContent=value;card.appendChild(p);});
+    }else{
+      const note=document.createElement("p");note.className="rr-sensitive-source-note";note.textContent="No separate reflection text was captured in the extracted text. Consult the original PDF for this film's note.";card.appendChild(note);
     }
     current.section.appendChild(card);current.entries.push(card);
   };
