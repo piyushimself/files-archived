@@ -165,7 +165,7 @@ def looks_like_heading(line):
     table_headers = {
         "title genre rating why read it",
         "film title director year genre imdb rt",
-        "film title director year genre imdb rt",
+        "film title director year source imdb rt",
         "rank film title director year source imdb rt",
         "film director year imdb rt",
         "film title director country year",
@@ -173,12 +173,12 @@ def looks_like_heading(line):
     if normalized in table_headers:
         return False
     # Film-rating rows contain a release year and both rating scales.
-    if (re.search(r"\\b(?:18|19|20)\\d{2}\\b", value)
-            and re.search(r"\\b\\d(?:\\.\\d)?/10\\b", value)
-            and re.search(r"\\b\\d{1,3}%\\b", value)):
+    if (re.search(r"\b(?:18|19|20)\d{2}\b", value)
+            and re.search(r"\b\d(?:\.\d)?/10\b", value)
+            and re.search(r"\b\d{1,3}%", value)):
         return False
     # Attribution lines are not navigational sections.
-    if re.match(r"^[—–-]\\s*[A-Z][\\w'’.-]+(?:\\s+[A-Z][\\w'’.-]+){1,4}$", value):
+    if re.match(r"^[—–-]\s*[A-Z][\w'’.-]+(?:\s+[A-Z][\w'’.-]+){1,4}$", value):
         return False
     # Film lists frequently begin with a bare number (for example,
     # "74 Shoah"). These are catalogue records, not section headings.
