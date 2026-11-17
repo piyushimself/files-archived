@@ -200,6 +200,26 @@ async function testVisibleEscapes(){
 }
 
 
+
+async function testManhwaFilterApp(){
+  const file=path.join(ROOT,"manhwa_300_filter_app.html");
+  const raw=fs.readFileSync(file,"utf8");
+  const dom=new JSDOM(raw,{
+    url:"https://piyushimself.github.io/files/manhwa_300_filter_app.html",
+    runScripts:"dangerously",
+    pretendToBeVisual:true
+  });
+  const d=dom.window.document;
+  assert.equal(d.title,"300 Adult Het Romance Manhwa — The Reading Room","Manhwa filter app needs a useful browser title");
+  assert.ok(d.querySelector('meta[name="description"]'),"Manhwa filter app needs a search description");
+  assert.equal(d.querySelectorAll(".card").length,300,"Manhwa filter app must render all 300 source entries");
+  assert.match(d.querySelector("#statsText").textContent,/300 of 300 titles shown/,"Manhwa count must agree with its dataset");
+  setValue(d.querySelector("#searchInput"),"Midnight CEO");
+  assert.equal(d.querySelectorAll(".card").length,1,"Manhwa search should isolate Midnight CEO");
+  assert.match(d.querySelector("#statsText").textContent,/1 of 300 titles shown/,"Manhwa search count should reflect the full dataset");
+  dom.window.close();
+}
+
 async function testCompleteFilmCollection(){
   const file=path.join(ROOT,"film_collection_v8.html");
   const raw=fs.readFileSync(file,"utf8");
@@ -251,6 +271,7 @@ async function testCompleteFilmCollection(){
   await testCurricula();
   await testLearningAndArt();
   await testCompleteFilmCollection();
+  await testManhwaFilterApp();
   await testVisibleEscapes();
   await testPoetryReader();
   console.log("PASS: 9 Reading Room runtime smoke-test groups.");
