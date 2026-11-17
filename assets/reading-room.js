@@ -872,7 +872,7 @@ function buildSensitiveCinemaReader(body,content,toolbar){
           if(currentFilm&&currentFilm.meta){
             flushFilm();
             currentFilm={title:pendingTitle||"Untitled film",kind:"",meta:"",description:[],lesson:[],ratings:[]};
-            pendingTitle="";
+            pendingTitle="";lessonMode=false;lessonMode=false;
           }else if(!currentFilm){
             currentFilm={title:pendingTitle||"Untitled film",kind:"",meta:"",description:[],lesson:[],ratings:[]};
             pendingTitle="";
