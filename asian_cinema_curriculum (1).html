@@ -463,6 +463,37 @@
     .curriculum-arc { display: none; }
     h1 { font-size: 2rem; }
   }
+
+  /* Reading Room compatibility: keep this legacy curriculum legible in both themes. */
+  body.rr-page { background:var(--rr-bg)!important; color:var(--rr-ink)!important; }
+  body.rr-page .controls-wrap { background:var(--rr-panel)!important; border-color:var(--rr-line)!important; }
+  body.rr-page .filter-label,
+  body.rr-page .stats-bar,
+  body.rr-page .curriculum-number,
+  body.rr-page .curriculum-arc,
+  body.rr-page .phase-desc,
+  body.rr-page .film-meta,
+  body.rr-page .film-num,
+  body.rr-page .film-feel { color:var(--rr-muted)!important; }
+  body.rr-page .main { background:var(--rr-bg)!important; color:var(--rr-ink)!important; }
+  body.rr-page .curriculum-header { border-color:var(--rr-line)!important; }
+  body.rr-page .curriculum-title,
+  body.rr-page .film-title { color:var(--rr-ink)!important; }
+  body.rr-page .films-grid { background:var(--rr-line)!important; border-color:var(--rr-line)!important; }
+  body.rr-page .film-card,
+  body.rr-page .search-box,
+  body.rr-page .pill { background:var(--rr-surface)!important; color:var(--rr-ink)!important; border-color:var(--rr-line)!important; }
+  body.rr-page .film-why { color:var(--rr-ink)!important; }
+  body.rr-page .film-card:hover { background:var(--rr-panel)!important; }
+  body.rr-page .film-card.watched { background:var(--rr-accent-soft)!important; }
+  body.rr-page .pill.active { background:var(--rr-accent)!important; color:#fff!important; border-color:var(--rr-accent)!important; }
+  body.rr-page .curriculum-header :is(h2,h3) { color:var(--rr-ink)!important; }
+  @media(max-width:700px) {
+    body.rr-page .main { padding:20px 14px 36px!important; }
+    body.rr-page .curriculum-header { align-items:flex-start!important; flex-wrap:wrap!important; gap:8px!important; }
+    body.rr-page .films-grid { grid-template-columns:minmax(0,1fr)!important; }
+  }
+
 </style>
 
 <link rel="stylesheet" href="assets/reading-room.css?v=18"><script src="assets/reading-room-context.js?v=18" defer></script><script src="assets/reading-room.js?v=18" defer></script></head>
