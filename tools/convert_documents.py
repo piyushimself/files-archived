@@ -525,7 +525,7 @@ def prepare_masters_of_art_headings(extracted):
 
 def prepare_2000_inspirations_text(extracted):
     """Rejoin the PDF-wrapped tail of the phrase 'Big Crunch' on its source line."""
-    return re.sub(r"(?im)(\bBig)[ \t]*\n[ \t]*(Crunch\b)", r"\1 \2", extracted)
+    return re.sub(r"(?im)(\bBig)\s+(Crunch\b)", r"\1 \2", extracted)
 
 
 def render_pdf_blocks(text):
