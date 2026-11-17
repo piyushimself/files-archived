@@ -523,6 +523,11 @@ def prepare_masters_of_art_headings(extracted):
         text = pattern.sub(split, text)
     return text
 
+def prepare_2000_inspirations_text(extracted):
+    """Rejoin the PDF-wrapped tail of the phrase 'Big Crunch' on its source line."""
+    return re.sub(r"(?im)(\bBig)[ \t]*\n[ \t]*(Crunch\b)", r"\1 \2", extracted)
+
+
 def render_pdf_blocks(text):
     pages = text.replace("\r\n", "\n").replace("\r", "\n").split("\f")
     rendered, toc, used = [], [], set()
@@ -867,6 +872,10 @@ def main():
                     sections, toc, poem_count = render_poetry_pdf(extracted)
                 elif title.strip().lower() == "sensitive cinema":
                     sections, toc = render_sensitive_pdf_columns(extracted)
+                    poem_count = 0
+                elif title.strip().lower().startswith("2,000 inspirations"):
+                    extracted = prepare_2000_inspirations_text(extracted)
+                    sections, toc = render_pdf_blocks(extracted)
                     poem_count = 0
                 elif title.strip().lower().startswith("masters of art"):
                     extracted = prepare_masters_of_art_headings(extracted)
