@@ -123,6 +123,9 @@ def display_title(path):
         "200 films like frida": "200 Films Like Frida",
         "100 essential films": "100 Essential Films",
         "50 e art films": "50 Bold, Intimate & Thought-Provoking Art Films",
+        "asian cinema curriculum": "Asian Cinema Curriculum",
+        "masters of e art cinema": "Masters of Art Cinema",
+        "300 films filmography": "300 Films — A Global Filmography",
     }
     return special.get(name.lower(), name)
 
@@ -213,6 +216,11 @@ def render_pdf_page(raw, page_number, toc, used):
             flush_list()
             heading = re.sub(r"^(?:#{1,4}\s+)", "", line).strip()
             heading = re.sub(r"^[•▪◦‣●○■□]\s*", "", heading)
+            heading = re.sub(r"^[.·]\s+", "", heading)
+            if heading.casefold() == "aglobalfilmography":
+                heading = "A Global Filmography"
+            elif heading.casefold() == "title & tagline director country · year":
+                heading = "Film title and tagline · Director · Country · Year"
             anchor_base = slug(heading)
             anchor, suffix = anchor_base, 2
             while anchor in used:
@@ -705,10 +713,10 @@ body.rr-reader .toc details a:first-of-type{margin-top:8px}
 """ + toc_block + """
 <main class=\"""" + layout_class + """\"><article>
 <section class="hero"><div class="kicker">SOURCE DOCUMENT · """ + kind + """ · """ + escape(category) + """</div><h1>""" + safe_title + """</h1><div class="meta">""" + edition_meta + """</div></section>
-<section class="rr-reader-intro"><div class="kicker">""" + intro_kicker + """</div><p class="rr-reader-summary">""" + escape(summary) + """</p><p class="rr-reader-guidance"><strong>How to use this edition:</strong> """ + escape(guidance) + """</p><p><a href=\"""" + '"' + escape(source_rel) + '"' + """ target="_blank" rel="noopener">Open original """ + kind + """ ↗</a></p></section>
+<section class="rr-reader-intro"><div class="kicker">""" + intro_kicker + """</div><p class="rr-reader-summary">""" + escape(summary) + """</p><p class="rr-reader-guidance"><strong>How to use this edition:</strong> """ + escape(guidance) + """</p><p><a href=\"""" + escape(source_rel, quote=True) + """\" target="_blank" rel="noopener">Open original """ + kind + """ ↗</a></p></section>
 <div class="rr-reader-tools"><label for="search">""" + search_label + """</label><input id="search" type="search" placeholder="Search titles, directors, years, themes or ratings…" aria-label="Search this collection"></div>
 <div id="content">""" + body + """</div>
-<footer class="footer">Converted from <a href=\"""" + '"' + escape(source_rel) + '"' + """">""" + escape(source.name) + """</a>. Extraction method: """ + escape(extraction_method) + """. The original file is retained for images, complex layouts and visual details.</footer>
+<footer class="footer">Converted from <a href=\"""" + escape(source_rel, quote=True) + """\">""" + escape(source.name) + """</a>. Extraction method: """ + escape(extraction_method) + """. The original file is retained for images, complex layouts and visual details.</footer>
 </article></main></body></html>"""
 
 
@@ -717,7 +725,7 @@ body.rr-reader .toc details a:first-of-type{margin-top:8px}
 def canonical_duplicate_alias(path, canonical):
     rel = "../" + canonical.relative_to(ROOT).as_posix()
     title = display_title(path)
-    return """<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Duplicate source edition — """ + escape(title) + """</title><link rel="stylesheet" href="../assets/reading-room.css?v=17"><script src="../assets/reading-room-context.js?v=17" defer></script><script src="../assets/reading-room.js?v=17" defer></script></head><body class="rr-page rr-reader rr--cinema"><main class="layout"><article><section class="hero"><div class="kicker">DUPLICATE SOURCE DOCUMENT</div><h1>""" + escape(title) + """</h1><p>This source document is byte-identical to another file in the archive. To avoid two competing copies of the same reading experience, this link opens the single maintained edition.</p><p><a class="link" href=""" + '"' + escape(rel) + '"' + """>Open the canonical reading edition ↗</a></p></section></article></main></body></html>"""
+    return """<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Duplicate source edition — """ + escape(title) + """</title><link rel="stylesheet" href="../assets/reading-room.css?v=17"><script src="../assets/reading-room-context.js?v=17" defer></script><script src="../assets/reading-room.js?v=17" defer></script></head><body class="rr-page rr-reader rr--cinema"><main class="layout"><article><section class="hero"><div class="kicker">DUPLICATE SOURCE DOCUMENT</div><h1>""" + escape(title) + """</h1><p>This source document is byte-identical to another file in the archive. To avoid two competing copies of the same reading experience, this link opens the single maintained edition.</p><p><a class="link" href="""" + escape(rel, quote=True) + """">Open the canonical reading edition ↗</a></p></section></article></main></body></html>"""
 
 
 def build_archive_index(catalogue):
