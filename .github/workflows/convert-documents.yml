@@ -143,6 +143,9 @@ jobs:
           assert poetry.count('class="poetry-line"') >= 100, 'Poetry verse lineation is missing or incomplete'
           assert 'Sabse Khatarnak' in poetry and 'Open original PDF' in poetry, 'Poetry title or original source link is missing'
           assert 'data-poet=' in poetry and 'poetry-stanza' in poetry, 'Poet attribution or stanza structure is missing'
+          ratings_647 = (root/'html/complete_movie_ratings_647.html').read_text(encoding='utf-8')
+          assert 'data-reader-kind="movie-ratings-647"' in ratings_647
+          assert '647 unique films' in ratings_647
           filmography = (root/'html/300_Films_Filmography.html').read_text(encoding='utf-8')
           assert 'rr-reader-tools' in filmography and 'id="search"' in filmography
           assert '<title>300 Films — A Global Filmography — The Reading Room</title>' in filmography
