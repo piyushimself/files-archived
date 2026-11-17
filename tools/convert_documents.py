@@ -631,7 +631,7 @@ CINEMA_READER_OVERRIDES = {
         "summary": "A reference work bringing together essential cinema, erotic art films, anime and director-led genre collections. Entries combine IMDb and Rotten Tomatoes scores, editorial descriptions and source-era notes on where to watch in India.",
         "guidance": "Use the collection sections to explore by theme or filmmaker. IMDb is an audience score; Rotten Tomatoes is the share of positive critic reviews. Streaming notes in this source are dated 2025 and should be treated as historical pointers, not live availability."
     },
-    "complete movie ratings 647": {
+    "complete movie ratings — 647 films": {
         "kind": "movie-ratings-647",
         "title": "Complete Movie Ratings — 647 Films",
         "meta": "647 unique films · IMDb audience scores · Rotten Tomatoes critic scores",
