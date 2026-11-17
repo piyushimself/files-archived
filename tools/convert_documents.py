@@ -136,6 +136,10 @@ def display_title(path):
         "200 prompts emotion wonder v2": "200 Writing Prompts for Emotion & Wonder",
         "200 prompts mind detox v2": "Mind Detox — 200 Writing Prompts",
         "200 thinkers quiet mind v2": "200 Thinkers for a Quieter Mind",
+        "global kids reading guide final": "Global Kids Reading Guide — A Cross-Cultural Library",
+        "personal reference film books art": "Personal Reference — Film, Books & Art",
+        "reading course emotions wonder": "Emotions & Wonder — A Sequential Reading Course",
+        "masters of e art cinema": "Masters of Erotic Art Cinema",
     }
     return special.get(name.lower(), name)
 
