@@ -174,7 +174,9 @@ async function testStructuredCinemaReaders(){
       assert.ok(d.querySelectorAll(".rr-sensitive-entry-title").length>=50,"Sensitive Cinema should expose individual film titles as headings");
       const sensitiveCards=[...d.querySelectorAll(".rr-sensitive-entry")];
       assert.equal(sensitiveCards.length,d.querySelectorAll(".rr-sensitive-entry-title").length,"Each Sensitive Cinema film should be one complete card, not separate title/metadata/lesson fragments");
-      assert.ok(sensitiveCards.filter(card=>card.querySelector(".rr-sensitive-meta")&&card.querySelector(".rr-sensitive-entry-copy")).length>=200,"Sensitive Cinema should keep film metadata and description together with the title");
+      const sensitiveCompleteCards=sensitiveCards.filter(card=>card.querySelector(".rr-sensitive-meta")&&card.querySelector(".rr-sensitive-entry-copy")).length;
+      console.log("Sensitive Cinema structure:",{cards:sensitiveCards.length,complete:sensitiveCompleteCards,withMeta:sensitiveCards.filter(card=>card.querySelector(".rr-sensitive-meta")).length,withDescription:sensitiveCards.filter(card=>card.querySelector(".rr-sensitive-entry-copy")).length,withLessons:sensitiveCards.filter(card=>card.querySelector(".rr-sensitive-lesson-copy")).length});
+      assert.ok(sensitiveCompleteCards>=200,"Sensitive Cinema should keep film metadata and description together with the title; complete cards: "+sensitiveCompleteCards);
       assert.ok(sensitiveCards.filter(card=>card.querySelector(".rr-sensitive-lesson-label")&&card.querySelector(".rr-sensitive-lesson-copy")).length>=10,"Reflective lessons should remain inside their corresponding film cards");
     }else{
       if(item.kind==="movie-ratings"){
