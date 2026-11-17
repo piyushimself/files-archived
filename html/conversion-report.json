@@ -39,13 +39,13 @@
       "status": "converted",
       "extracted_chars": 276741,
       "sections": 57,
-      "toc_entries": 917,
+      "toc_entries": 916,
       "poem_count": 0,
       "extraction": "pdftotext",
       "docx_paragraphs": 0,
       "docx_tables": 0,
       "docx_styles": {},
-      "output_bytes": 276702
+      "output_bytes": 276638
     },
     {
       "source": "1000_Inspirations.pdf",
@@ -86,13 +86,13 @@
       "status": "converted",
       "extracted_chars": 47803,
       "sections": 27,
-      "toc_entries": 121,
+      "toc_entries": 120,
       "poem_count": 0,
       "extraction": "pdftotext",
       "docx_paragraphs": 0,
       "docx_tables": 0,
       "docx_styles": {},
-      "output_bytes": 62170
+      "output_bytes": 62080
     },
     {
       "source": "200_Films_Like_Frida.pdf",
@@ -221,13 +221,13 @@
       "status": "converted",
       "extracted_chars": 65054,
       "sections": 24,
-      "toc_entries": 387,
+      "toc_entries": 383,
       "poem_count": 0,
       "extraction": "pdftotext",
       "docx_paragraphs": 0,
       "docx_tables": 0,
       "docx_styles": {},
-      "output_bytes": 87460
+      "output_bytes": 87099
     },
     {
       "source": "A_Life_Worth_Living_500_Suggestions.docx",
@@ -269,13 +269,13 @@
       "status": "converted",
       "extracted_chars": 1867270,
       "sections": 574,
-      "toc_entries": 3523,
+      "toc_entries": 3478,
       "poem_count": 0,
       "extraction": "pdftotext",
       "docx_paragraphs": 0,
       "docx_tables": 0,
       "docx_styles": {},
-      "output_bytes": 1781635
+      "output_bytes": 1776126
     },
     {
       "source": "asian_books_curriculum.pdf",
@@ -284,13 +284,13 @@
       "status": "converted",
       "extracted_chars": 184858,
       "sections": 31,
-      "toc_entries": 79,
+      "toc_entries": 78,
       "poem_count": 0,
       "extraction": "pdftotext",
       "docx_paragraphs": 0,
       "docx_tables": 0,
       "docx_styles": {},
-      "output_bytes": 116053
+      "output_bytes": 115959
     },
     {
       "source": "asian_cinema_curriculum.pdf",
@@ -299,13 +299,13 @@
       "status": "converted",
       "extracted_chars": 100152,
       "sections": 18,
-      "toc_entries": 55,
+      "toc_entries": 54,
       "poem_count": 0,
       "extraction": "pdftotext",
       "docx_paragraphs": 0,
       "docx_tables": 0,
       "docx_styles": {},
-      "output_bytes": 70443
+      "output_bytes": 70356
     },
     {
       "source": "Bold_Cinema_Collection.pdf",
@@ -329,13 +329,13 @@
       "status": "converted",
       "extracted_chars": 295783,
       "sections": 55,
-      "toc_entries": 107,
+      "toc_entries": 106,
       "poem_count": 0,
       "extraction": "pdftotext",
       "docx_paragraphs": 0,
       "docx_tables": 0,
       "docx_styles": {},
-      "output_bytes": 205597
+      "output_bytes": 205522
     },
     {
       "source": "complete_movie_ratings.pdf",
@@ -344,13 +344,13 @@
       "status": "converted",
       "extracted_chars": 65712,
       "sections": 17,
-      "toc_entries": 25,
+      "toc_entries": 14,
       "poem_count": 0,
       "extraction": "pdftotext",
       "docx_paragraphs": 0,
       "docx_tables": 0,
       "docx_styles": {},
-      "output_bytes": 44035
+      "output_bytes": 42323
     },
     {
       "source": "complete_movie_ratings_647.pdf",
@@ -359,13 +359,13 @@
       "status": "converted",
       "extracted_chars": 180629,
       "sections": 39,
-      "toc_entries": 156,
+      "toc_entries": 130,
       "poem_count": 0,
       "extraction": "pdftotext",
       "docx_paragraphs": 0,
       "docx_tables": 0,
       "docx_styles": {},
-      "output_bytes": 105959
+      "output_bytes": 102856
     },
     {
       "source": "Cybersecurity_Stories_For_Your_Teams.pdf",
@@ -484,13 +484,13 @@
       "status": "converted",
       "extracted_chars": 9890,
       "sections": 4,
-      "toc_entries": 10,
+      "toc_entries": 0,
       "poem_count": 0,
       "extraction": "pdftotext",
       "docx_paragraphs": 0,
       "docx_tables": 0,
       "docx_styles": {},
-      "output_bytes": 12757
+      "output_bytes": 11455
     },
     {
       "source": "masters_of_art.pdf",
@@ -499,13 +499,13 @@
       "status": "converted",
       "extracted_chars": 68527,
       "sections": 24,
-      "toc_entries": 2,
+      "toc_entries": 1,
       "poem_count": 0,
       "extraction": "pdftotext",
       "docx_paragraphs": 0,
       "docx_tables": 0,
       "docx_styles": {},
-      "output_bytes": 77451
+      "output_bytes": 77355
     },
     {
       "source": "masters_of_e_art_cinema.pdf",
@@ -544,13 +544,13 @@
       "status": "converted",
       "extracted_chars": 20842,
       "sections": 12,
-      "toc_entries": 162,
+      "toc_entries": 158,
       "poem_count": 0,
       "extraction": "pdftotext",
       "docx_paragraphs": 0,
       "docx_tables": 0,
       "docx_styles": {},
-      "output_bytes": 33582
+      "output_bytes": 33197
     },
     {
       "source": "Personal_Reference_Film_Books_Art.pdf",
