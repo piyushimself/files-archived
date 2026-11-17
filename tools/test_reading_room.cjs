@@ -315,7 +315,7 @@ async function testCompleteFilmCollection(){
   await testRemainingEditorialTitles();
   await testVisibleEscapes();
   await testPoetryReader();
-  console.log("PASS: 9 Reading Room runtime smoke-test groups.");
+  console.log("PASS: all Reading Room runtime smoke-test groups.");
 })().catch(error => {
   console.error(error);
   process.exitCode = 1;
