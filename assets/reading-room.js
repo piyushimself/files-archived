@@ -805,7 +805,7 @@ function buildSensitiveCinemaReader(body,content,toolbar){
     }else addContext(clean);
   };
   const splitFilmMarkers=(raw)=>{
-    const text=cinemaText(raw);
+    const text=String(raw||"").replace(/\s+/g," ").trim();
     const markers=[...text.matchAll(/■\s*([A-Z]{2,})\b/g)];
     if(!markers.length){addFilmText(text);return;}
     let cursor=0;
