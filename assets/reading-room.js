@@ -791,6 +791,23 @@ function buildSensitiveCinemaReader(body,content,toolbar){
     currentFilm={title:cinemaText(title),kind:cinemaText(kind),meta:"",description:[],lesson:[],ratings:[]};
     pendingTitle="";lessonMode=false;
   };
+  const extractTitleSuffix=(value)=>{
+    const clean=cinemaText(value).replace(/\s*★\s*\d(?:\.\d)?/g,"").trim();
+    const words=clean.split(/\s+/).filter(Boolean);
+    const smallWords=new Set(["a","an","and","as","at","by","de","del","for","from","in","la","of","on","or","the","to","van","von","with","who"]);
+    for(let size=Math.min(9,words.length);size>=2;size--){
+      const candidate=words.slice(-size).join(" ");
+      const valid=words.slice(-size).every(word=>{
+        const bare=word.replace(/^[("'“]+|[),.?!:;]+$/g,"");
+        return smallWords.has(bare.toLowerCase())||/^[A-Z0-9]/.test(bare);
+      });
+      if(valid){
+        const index=clean.lastIndexOf(candidate);
+        return {before:clean.slice(0,index).trim(),title:candidate};
+      }
+    }
+    return null;
+  };
   const addFilmText=(value)=>{
     const text=cinemaText(value);
     if(!text)return;
@@ -800,19 +817,19 @@ function buildSensitiveCinemaReader(body,content,toolbar){
       currentFilm.ratings.push(...ratings);
       if(clean&&currentFilm.meta){
         const boundaries=[...clean.matchAll(/[.!?]\s+(?=[A-Z“])/g)];
+        let split=null;
         if(boundaries.length){
           const boundary=boundaries[boundaries.length-1];
           const splitAt=boundary.index+boundary[0].length;
           const candidate=clean.slice(splitAt).trim();
-          const words=candidate.split(/\s+/);
-          const smallWords=new Set(["a","an","and","as","at","by","de","del","for","in","la","of","on","the","to","van","von","with"]);
-          const titleCase=words.length>=2&&words.length<=9&&words.every((word,index)=>smallWords.has(word.toLowerCase())||/^[A-Z0-9]/.test(word));
-          if(titleCase&&!/[.!?]$/.test(candidate)){
-            const prior=clean.slice(0,splitAt).trim();
-            if(prior){if(lessonMode)currentFilm.lesson.push(prior);else currentFilm.description.push(prior);}
-            pendingTitle=candidate;
-            return;
-          }
+          const suffix=extractTitleSuffix(candidate);
+          if(suffix&&!/[.!?]$/.test(candidate))split={before:clean.slice(0,splitAt).trim()+" "+suffix.before,title:suffix.title};
+        }
+        if(!split)split=extractTitleSuffix(clean);
+        if(split&&split.title){
+          if(split.before){if(lessonMode)currentFilm.lesson.push(split.before);else currentFilm.description.push(split.before);}
+          pendingTitle=split.title;
+          return;
         }
       }
       if(clean){
@@ -835,13 +852,18 @@ function buildSensitiveCinemaReader(body,content,toolbar){
       const withoutRatings=before.replace(/\s*★\s*\d(?:\.\d)?/g,"").trim();
       let titleStart=-1;
       const boundaries=[...withoutRatings.matchAll(/[.!?]\s+(?=[A-Z“])/g)];
-      if(boundaries.length)titleStart=boundaries[boundaries.length-1].index+boundaries[boundaries.length-1][0].length;
-      else if(currentFilm){
-        const words=withoutRatings.split(/\s+/);
-        if(words.length>8)titleStart=words.slice(0,-8).join(" ").length+1;
+      if(boundaries.length){
+        const boundary=boundaries[boundaries.length-1];
+        const splitAt=boundary.index+boundary[0].length;
+        const suffix=extractTitleSuffix(withoutRatings.slice(splitAt));
+        if(suffix)titleStart=splitAt+withoutRatings.slice(splitAt).lastIndexOf(suffix.title);
       }
-      const prior=titleStart>=0?withoutRatings.slice(0,titleStart).trim():(!currentFilm?"": "");
-      const title=titleStart>=0?withoutRatings.slice(titleStart).trim():withoutRatings;
+      if(titleStart<0&&currentFilm){
+        const suffix=extractTitleSuffix(withoutRatings);
+        if(suffix)titleStart=withoutRatings.lastIndexOf(suffix.title);
+      }
+      const prior=titleStart>=0?withoutRatings.slice(0,titleStart).trim():(!currentFilm?"":withoutRatings);
+      const title=titleStart>=0?withoutRatings.slice(titleStart).trim():(currentFilm?"Untitled film":withoutRatings);
       if(prior)addFilmText(prior);
       if(title)startFilm(title,marker[1]);
       cursor=marker.index+marker[0].length;
