@@ -201,6 +201,28 @@ async function testVisibleEscapes(){
 
 
 
+
+async function testEditorialTitles(){
+  const expected=[
+    ["html/library-3.html","Personal Film & Art Library — A Cross-Media Reference"],
+    ["html/manga_recommendations.html","Complete Manga Recommendations — Romance & Mystery"],
+    ["html/masters_of_art.html","Masters of Art — Lives, Works & Habits of 25 Artists"],
+    ["html/ultimate_anime_guide.html","The Ultimate Anime Guide — Essential Movies & Series"],
+    ["html/asian_books_curriculum.html","Asian Literature — A Sequential Reading Curriculum"],
+    ["html/1000_Inspirations.html","The Grand Curiosity Atlas — 1,000 Inspirations"],
+    ["html/200_prompts_emotion_wonder_v2.html","200 Writing Prompts for Emotion & Wonder"],
+    ["html/200_prompts_mind_detox_v2.html","Mind Detox — 200 Writing Prompts"],
+    ["html/200_thinkers_quiet_mind_v2.html","200 Thinkers for a Quieter Mind"]
+  ];
+  for(const [file,title] of expected){
+    const html=fs.readFileSync(path.join(ROOT,file),"utf8");
+    const dom=new JSDOM(html);
+    assert.equal(dom.window.document.querySelector("h1")?.textContent.trim(),title,file+" should use its editorial document title");
+    assert.ok(dom.window.document.querySelector(".rr-reader-intro"),file+" should retain a contextual reader introduction");
+    dom.window.close();
+  }
+}
+
 async function testManhwaFilterApp(){
   const file=path.join(ROOT,"manhwa_300_filter_app.html");
   const raw=fs.readFileSync(file,"utf8");
@@ -272,6 +294,7 @@ async function testCompleteFilmCollection(){
   await testLearningAndArt();
   await testCompleteFilmCollection();
   await testManhwaFilterApp();
+  await testEditorialTitles();
   await testVisibleEscapes();
   await testPoetryReader();
   console.log("PASS: 9 Reading Room runtime smoke-test groups.");
