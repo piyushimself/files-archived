@@ -808,14 +808,14 @@ function buildSensitiveCinemaReader(body,content,toolbar){
     }
     return null;
   };
-  const addFilmText=(value)=>{
+  const addFilmText=(value,splitTrailingTitle=true)=>{
     const text=cinemaText(value);
     if(!text)return;
     const ratings=[...text.matchAll(/★\s*(\d(?:\.\d)?)/g)].map(m=>m[1]);
     const clean=text.replace(/\s*★\s*\d(?:\.\d)?/g,"").trim();
     if(currentFilm){
       currentFilm.ratings.push(...ratings);
-      if(clean&&currentFilm.meta){
+      if(clean&&currentFilm.meta&&splitTrailingTitle){
         const boundaries=[...clean.matchAll(/[.!?]\s+(?=[A-Z“])/g)];
         let split=null;
         if(boundaries.length){
@@ -864,7 +864,7 @@ function buildSensitiveCinemaReader(body,content,toolbar){
       }
       const prior=titleStart>=0?withoutRatings.slice(0,titleStart).trim():(!currentFilm?"":withoutRatings);
       const title=titleStart>=0?withoutRatings.slice(titleStart).trim():(currentFilm?"Untitled film":withoutRatings);
-      if(prior)addFilmText(prior);
+      if(prior)addFilmText(prior,false);
       if(title)startFilm(title,marker[1]);
       cursor=marker.index+marker[0].length;
     });
