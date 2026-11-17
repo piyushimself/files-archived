@@ -713,7 +713,7 @@ body.rr-reader .toc details a:first-of-type{margin-top:8px}
 """ + toc_block + """
 <main class=\"""" + layout_class + """\"><article>
 <section class="hero"><div class="kicker">SOURCE DOCUMENT · """ + kind + """ · """ + escape(category) + """</div><h1>""" + safe_title + """</h1><div class="meta">""" + edition_meta + """</div></section>
-<section class="rr-reader-intro"><div class="kicker">""" + intro_kicker + """</div><p class="rr-reader-summary">""" + escape(summary) + """</p><p class="rr-reader-guidance"><strong>How to use this edition:</strong> """ + escape(guidance) + '</p><p><a href="' + escape(source_rel, quote=True) + '" target="_blank" rel="noopener">Open original ' + kind + ' ↗</a></p></section>
+<section class="rr-reader-intro"><div class="kicker">""" + intro_kicker + """</div><p class="rr-reader-summary">""" + escape(summary) + """</p><p class="rr-reader-guidance"><strong>How to use this edition:</strong> """ + escape(guidance) + """</p><p><a href=\"""" + escape(source_rel, quote=True) + """\" target="_blank" rel="noopener">Open original """ + kind + """ ↗</a></p></section>
 <div class="rr-reader-tools"><label for="search">""" + search_label + """</label><input id="search" type="search" placeholder="Search titles, directors, years, themes or ratings…" aria-label="Search this collection"></div>
 <div id="content">""" + body + """</div>
 <footer class="footer">Converted from <a href=\"""" + escape(source_rel, quote=True) + """\">""" + escape(source.name) + """</a>. Extraction method: """ + escape(extraction_method) + """. The original file is retained for images, complex layouts and visual details.</footer>
