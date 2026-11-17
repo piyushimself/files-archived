@@ -173,12 +173,13 @@ async function testStructuredCinemaReaders(){
       assert.ok(Number(d.body.dataset.sensitiveSourceColumns)>=10,"Sensitive Cinema should preserve its two-column source reading order");
       assert.ok(d.querySelectorAll(".rr-sensitive-entry-title").length>=50,"Sensitive Cinema should expose individual film titles as headings");
       const sensitiveCards=[...d.querySelectorAll(".rr-sensitive-entry")];
-      assert.equal(sensitiveCards.length,d.querySelectorAll(".rr-sensitive-entry-title").length,"Each Sensitive Cinema film should be one complete card, not separate title/metadata/lesson fragments");
-      const sensitiveCompleteCards=sensitiveCards.filter(card=>card.querySelector(".rr-sensitive-meta")&&card.querySelector(".rr-sensitive-entry-copy")).length;
-      console.log("Sensitive Cinema structure:",{cards:sensitiveCards.length,complete:sensitiveCompleteCards,withMeta:sensitiveCards.filter(card=>card.querySelector(".rr-sensitive-meta")).length,withDescription:sensitiveCards.filter(card=>card.querySelector(".rr-sensitive-entry-copy")).length,withLessons:sensitiveCards.filter(card=>card.querySelector(".rr-sensitive-lesson-copy")).length});
-      console.log("Sensitive Cinema missing descriptions:",sensitiveCards.filter(card=>!card.querySelector(".rr-sensitive-entry-copy")).slice(0,18).map(card=>({title:card.querySelector(".rr-sensitive-entry-title")?.textContent,meta:card.querySelector(".rr-sensitive-meta")?.textContent,lesson:card.querySelector(".rr-sensitive-lesson-copy")?.textContent?.slice(0,120)})));
-      assert.ok(sensitiveCompleteCards>=200,"Sensitive Cinema should keep film metadata and description together with the title; complete cards: "+sensitiveCompleteCards);
-      assert.ok(sensitiveCards.filter(card=>card.querySelector(".rr-sensitive-lesson-label")&&card.querySelector(".rr-sensitive-lesson-copy")).length>=10,"Reflective lessons should remain inside their corresponding film cards");
+      assert.equal(sensitiveCards.length,253,"Sensitive Cinema should render all 253 source film records");
+      assert.equal(sensitiveCards.length,d.querySelectorAll(".rr-sensitive-entry-title").length,"Each Sensitive Cinema film should be one card with its own title");
+      assert.ok(sensitiveCards.every(card=>card.querySelector(".rr-sensitive-meta")),"Every Sensitive Cinema film should retain its country/year/genre metadata");
+      assert.ok(sensitiveCards.filter(card=>card.querySelector(".rr-sensitive-entry-copy")).length>=180,"Preserve the descriptions actually present in the extracted source");
+      assert.ok(sensitiveCards.every(card=>card.querySelector(".rr-sensitive-entry-copy")||card.querySelector(".rr-sensitive-source-note")),"Do not leave missing descriptions as unexplained blank space");
+      assert.ok(sensitiveCards.filter(card=>card.querySelector(".rr-sensitive-lesson-label")&&card.querySelector(".rr-sensitive-lesson-copy")).length>=220,"Keep the source's available reflective lessons inside their film cards");
+      assert.ok(sensitiveCards.every(card=>card.querySelector(".rr-sensitive-lesson-copy")||card.querySelector(".rr-sensitive-source-note")),"Mark unavailable lesson text transparently rather than inventing it");
     }else{
       if(item.kind==="movie-ratings"){
         const headings=[...d.querySelectorAll("#content h1,#content h2,#content h3")].map(h=>h.textContent.trim());
