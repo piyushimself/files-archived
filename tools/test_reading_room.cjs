@@ -172,6 +172,10 @@ async function testStructuredCinemaReaders(){
       assert.ok(d.querySelectorAll(".rr-sensitive-lesson-label").length>=10,"Sensitive Cinema should retain reflective lesson labels");
       assert.ok(Number(d.body.dataset.sensitiveSourceColumns)>=10,"Sensitive Cinema should preserve its two-column source reading order");
       assert.ok(d.querySelectorAll(".rr-sensitive-entry-title").length>=50,"Sensitive Cinema should expose individual film titles as headings");
+      const sensitiveCards=[...d.querySelectorAll(".rr-sensitive-entry")];
+      assert.equal(sensitiveCards.length,d.querySelectorAll(".rr-sensitive-entry-title").length,"Each Sensitive Cinema film should be one complete card, not separate title/metadata/lesson fragments");
+      assert.ok(sensitiveCards.filter(card=>card.querySelector(".rr-sensitive-meta")&&card.querySelector(".rr-sensitive-entry-copy")).length>=200,"Sensitive Cinema should keep film metadata and description together with the title");
+      assert.ok(sensitiveCards.filter(card=>card.querySelector(".rr-sensitive-lesson-label")&&card.querySelector(".rr-sensitive-lesson-copy")).length>=10,"Reflective lessons should remain inside their corresponding film cards");
     }else{
       if(item.kind==="movie-ratings"){
         const headings=[...d.querySelectorAll("#content h1,#content h2,#content h3")].map(h=>h.textContent.trim());
