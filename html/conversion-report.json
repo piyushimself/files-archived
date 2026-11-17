@@ -497,15 +497,15 @@
       "output": "html/masters_of_art.html",
       "sha256": "e2101d92d9c948ddd1395dfe249a9229cb515b774366e510c40499f6b99eac12",
       "status": "converted",
-      "extracted_chars": 68527,
-      "sections": 24,
-      "toc_entries": 1,
+      "extracted_chars": 66725,
+      "sections": 22,
+      "toc_entries": 26,
       "poem_count": 0,
       "extraction": "pdftotext",
       "docx_paragraphs": 0,
       "docx_tables": 0,
       "docx_styles": {},
-      "output_bytes": 77355
+      "output_bytes": 81809
     },
     {
       "source": "masters_of_e_art_cinema.pdf",
@@ -634,13 +634,13 @@
       "status": "converted",
       "extracted_chars": 79896,
       "sections": 22,
-      "toc_entries": 3,
+      "toc_entries": 2,
       "poem_count": 0,
       "extraction": "pdftotext",
       "docx_paragraphs": 0,
       "docx_tables": 0,
       "docx_styles": {},
-      "output_bytes": 73631
+      "output_bytes": 73589
     },
     {
       "source": "All_Film_Collections_Combined_compressed (1).pdf",
